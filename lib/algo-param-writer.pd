@@ -1,0 +1,12 @@
+#N canvas 763 443 600 313 12;
+#X obj 75 131 unpack f f;
+#X obj 464 27 inlet;
+#X obj 75 53 r player-\$3-algo-\$2-param-\$1;
+#X text 280 82 \$1: parameter index \; \$2: algorithm index \; \$3:
+player ID number \;;
+#X obj 75 195 tabwrite player-\$3-algo-\$2-params;
+#X obj 75 107 pack f \$1;
+#X connect 0 0 4 0;
+#X connect 0 1 4 1;
+#X connect 2 0 5 0;
+#X connect 5 0 0 0;

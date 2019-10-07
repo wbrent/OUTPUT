@@ -1,0 +1,100 @@
+#N canvas 1201 536 456 195 12;
+#X declare -path ./lib;
+#N canvas 996 142 709 325 init 0;
+#X obj 373 218 declare -path ./lib;
+#X text 220 84 param-interface-init needs to incorporate playerID/algoID
+into send/receive name to avoid crosstalk;
+#X obj 30 52 t b b b b;
+#X obj 30 186 s lb4;
+#X obj 120 96 s lb1;
+#X obj 90 126 s lb2;
+#X obj 60 156 s lb3;
+#X obj 30 28 r net-connect-init;
+#X obj 174 160 r lb1;
+#X msg 174 184 \; netprep-init bang \;;
+#X text 140 250 This initializes all of the netprep parameter names
+to have -set appended, f 27;
+#X connect 2 0 3 0;
+#X connect 2 1 6 0;
+#X connect 2 2 5 0;
+#X connect 2 3 4 0;
+#X connect 7 0 2 0;
+#X connect 8 0 9 0;
+#X restore 46 37 pd init;
+#N canvas 1000 45 782 537 netsend 0;
+#X obj 156 208 r netsend-data-hub;
+#X msg 139 165 disconnect;
+#X obj 94 272 netsend;
+#X obj 225 259 unpack f s;
+#X obj 225 283 s;
+#X obj 303 103 cnv 15 114 54 empty netsend-connected-canvas empty 20
+12 0 14 -258053 -262144 0;
+#X obj 306 139 tgl 15 0 empty empty connect 17 7 0 10 -262144 -1 -1
+0 1;
+#X obj 94 296 select 0 1;
+#X msg 94 412 \; netsend-connected-canvas color -1.67117e+07 0 0 \;
+;
+#X symbolatom 306 116 15 0 0 0 - - -;
+#X msg 94 130 connect \$1 57120;
+#X obj 94 99 symbol;
+#X msg 394 56 symbol 127.0.0.1;
+#X obj 94 65 select 1 0;
+#X msg 144 339 \; netsend-connected-canvas color -65281 0 0 \; net-connect-init
+bang \;;
+#X obj 394 32 loadbang;
+#X obj 11 364 loadbang;
+#X connect 0 0 2 0;
+#X connect 1 0 2 0;
+#X connect 2 0 7 0;
+#X connect 2 1 3 0;
+#X connect 3 0 4 0;
+#X connect 3 1 4 1;
+#X connect 6 0 13 0;
+#X connect 7 0 8 0;
+#X connect 7 1 14 0;
+#X connect 9 0 11 1;
+#X connect 10 0 2 0;
+#X connect 11 0 10 0;
+#X connect 12 0 9 0;
+#X connect 13 0 11 0;
+#X connect 13 1 1 0;
+#X connect 15 0 12 0;
+#X connect 16 0 8 0;
+#X coords 0 -1 1 1 120 60 2 300 100;
+#X restore 46 67 pd netsend;
+#X obj 196 67 client-control-interface 0;
+#X obj 196 91 client-control-interface 1;
+#N canvas 803 560 995 489 MIDI 0;
+#X obj 73 42 fadermap player-0-gain 102 1 40 60 player-0-gain-set 0
+;
+#X obj 73 162 fadermap player-0-tempo 105 1 1 19 player-0-tempo-set
+1;
+#X obj 553 42 fadermap player-0-dry 106 1 0 100 player-0-dry-set 1
+;
+#X obj 553 72 fadermap player-0-wet 107 1 0 100 player-0-wet-set 1
+;
+#X obj 553 102 fadermap player-0-rvb-liveness 108 1 0 100 player-0-rvb-liveness-set
+1;
+#X obj 553 142 fadermap player-0-rvb-damping 109 1 0 100 player-0-rvb-damping-set
+1;
+#X obj 553 262 fadermap player-1-dry 106 2 0 100 player-1-dry-set 1
+;
+#X obj 553 292 fadermap player-1-wet 107 2 0 100 player-1-wet-set 1
+;
+#X obj 553 322 fadermap player-1-rvb-liveness 108 2 0 100 player-1-rvb-liveness-set
+1;
+#X obj 553 362 fadermap player-1-rvb-damping 109 2 0 100 player-1-rvb-damping-set
+1;
+#X obj 73 82 fadermap player-0-bitDepth 103 1 1 31 player-0-bitDepth-set
+1;
+#X obj 73 122 fadermap player-0-blockSize 104 1 2 254 player-0-blockSize-set
+1;
+#X obj 73 262 fadermap player-1-gain 102 2 40 60 player-1-gain-set
+0;
+#X obj 73 292 fadermap player-1-bitDepth 103 2 1 31 player-1-bitDepth-set
+1;
+#X obj 73 342 fadermap player-1-blockSize 104 2 2 254 player-1-blockSize-set
+1;
+#X obj 73 382 fadermap player-1-tempo 105 2 1 19 player-1-tempo-set
+1;
+#X restore 46 137 pd MIDI;
