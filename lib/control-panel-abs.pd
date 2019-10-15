@@ -1,16 +1,16 @@
 #N canvas 571 166 863 445 10;
 #X obj 68 124 hsl 128 15 0 1 0 0 player-\$1-spat-pos player-\$1-spat-pos-set
-player-\$1-spat-pos 4 8 0 10 -262144 -1 -1 1500 1;
+player-\$1-spat-pos 4 8 0 10 -262144 -1 -1 0 1;
 #X obj 68 84 hsl 128 15 40 100 0 0 player-\$1-gain player-\$1-gain-set
-player-\$1-gain 4 8 0 10 -262144 -1 -1 10400 1;
+player-\$1-gain 4 8 0 10 -262144 -1 -1 0 1;
 #X floatatom 206 84 5 0 0 1 dB player-#1-gain -;
 #X obj 68 144 hsl 128 15 0.01 1 0 0 player-\$1-spat-width player-\$1-spat-width-set
-player-\$1-spat-width 4 8 0 10 -262144 -1 -1 3079 1;
+player-\$1-spat-width 4 8 0 10 -262144 -1 -1 0 1;
 #X obj 439 51 f \$1;
-#X obj 206 144 hradio 15 1 0 5 player-\$1-algo-select player-\$1-algo-select-set
+#X obj 206 124 hradio 15 1 0 5 player-\$1-algo-select player-\$1-algo-select-set
 algo-select 0 -8 0 10 -262144 -1 -1 0;
 #X obj 65 338 pack f \$1;
-#X floatatom 206 164 5 1 32 1 bitDepth player-#1-bitDepth-set player-#1-bitDepth
+#X floatatom 206 144 5 1 32 1 bitDepth player-#1-bitDepth-set player-#1-bitDepth
 ;
 #X obj 65 194 bng 15 250 50 0 empty empty waveform 17 7 0 10 -262144
 -1 -1;
@@ -31,7 +31,7 @@ player-#1-rvb-liveness;
 #X floatatom 236 244 7 2 16384 0 blockSize player-#1-blockSize-set
 player-#1-blockSize;
 #X obj 65 174 tgl 15 0 player-\$1-clock player-\$1-clock-set clock
-17 7 0 10 -262144 -1 -1 1 1;
+17 7 0 10 -262144 -1 -1 0 1;
 #X msg 65 363 \; pd-player-\$2-plot vis \$1 \;;
 #X msg 180 327 \; pd-\$2-algo-block vis \$1 \;;
 #X msg 661 100 \; player-\$1-bitDepth-set 24 \; player-\$1-dry-set
@@ -46,6 +46,12 @@ control tempo only., f 26;
 3000 \; player-\$1-rvb-damping-set 20 \; player-\$1-spat-width-set
 0.25 \; player-\$1-spat-pos-set 0.5 \; player-\$1-clock-set 0 \; player-\$1-algo-select-set
 0 \; player-\$1-blockSize-set 4096 \; player-\$1-tempo-set 120 \;;
+#X floatatom 566 381 12 0 200 0 time-idx player-#1-set-time-idx-set
+player-#1-set-time-idx;
+#X obj 186 174 hradio 15 1 0 6 player-\$1-tempo-sync player-\$1-tempo-sync-set
+tempoSync 16 8 0 10 -262144 -1 -1 4;
+#X obj 186 194 hradio 15 1 0 6 player-\$1-time-sync player-\$1-time-sync-set
+timeSync 16 8 0 10 -262144 -1 -1 0;
 #X connect 4 0 24 0;
 #X connect 6 0 20 0;
 #X connect 8 0 9 0;

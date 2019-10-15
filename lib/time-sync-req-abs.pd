@@ -1,0 +1,17 @@
+#N canvas 269 83 692 307 12;
+#X obj 122 48 r player-\$1-time-sync;
+#X obj 122 72 == \$2;
+#X obj 122 96 select 1;
+#X obj 122 170 f;
+#X obj 171 134 r player-\$2-time-idx;
+#X text 380 37 \$1: sync requestor's player ID \; \$2: this player
+ID \;;
+#X obj 59 137 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 122 195 s player-\$1-set-time-idx;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 2 0 6 0;
+#X connect 3 0 7 0;
+#X connect 4 0 3 1;

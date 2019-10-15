@@ -4,7 +4,7 @@
 #X obj 50 50 algo-param-interface-client 0 0;
 #X coords 0 -1 1 1 650 160 2 50 50;
 #X restore 472 15 pd algo-param-interfaces-subpatch-\$1;
-#N canvas 408 318 967 502 netpreps 0;
+#N canvas 1006 264 761 540 netpreps 1;
 #N canvas 134 106 186 317 player-\$1-algo-netpreps 0;
 #N canvas 1367 156 407 413 algo-0 0;
 #X obj 98 48 netprep player-\$1-algo-0-param-0;
@@ -80,6 +80,8 @@
 #X obj 57 373 netprep-withSet player-\$1-tempo;
 #X obj 57 343 netprep-withSet player-\$1-blockSize;
 #X obj 57 403 netprep-withSet player-\$1-clock;
+#X obj 57 433 netprep-withSet player-\$1-tempo-sync;
+#X obj 56 464 netprep-withSet player-\$1-time-sync;
 #X restore 62 196 pd netpreps;
 #N canvas 342 266 640 564 algo-cache-stuff 0;
 #X obj 270 172 i;

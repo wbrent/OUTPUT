@@ -1,0 +1,18 @@
+#N canvas 557 387 738 377 12;
+#X obj 122 72 == \$2;
+#X obj 122 96 select 1;
+#X obj 122 170 f;
+#X text 380 37 \$1: sync requestor's player ID \; \$2: this player
+ID \;;
+#X obj 122 48 r player-\$1-tempo-sync;
+#X obj 171 134 r player-\$2-tempo;
+#X obj 122 194 pack f \$1;
+#X obj 122 250 s client-netsend-data-hub;
+#X msg 122 226 send \$1 player-\$2-tempo-set;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 2 0 6 0;
+#X connect 4 0 0 0;
+#X connect 5 0 2 1;
+#X connect 6 0 8 0;
+#X connect 8 0 7 0;
