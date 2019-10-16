@@ -64,37 +64,37 @@ bang \;;
 #X restore 46 67 pd netsend;
 #X obj 196 67 client-control-interface 0;
 #X obj 196 91 client-control-interface 1;
-#N canvas 803 560 995 489 MIDI 0;
-#X obj 73 42 fadermap player-0-gain 102 1 40 60 player-0-gain-set 0
+#N canvas 132 487 995 489 MIDI 0;
+#X obj 73 71 fadermap player-0-gain 102 1 40 60 player-0-gain-set 0
 ;
-#X obj 73 162 fadermap player-0-tempo 105 1 1 19 player-0-tempo-set
-1;
-#X obj 553 42 fadermap player-0-dry 106 1 0 100 player-0-dry-set 1
+#X obj 553 71 fadermap player-0-dry 106 1 0 100 player-0-dry-set 1
 ;
-#X obj 553 72 fadermap player-0-wet 107 1 0 100 player-0-wet-set 1
+#X obj 553 101 fadermap player-0-wet 107 1 0 100 player-0-wet-set 1
 ;
-#X obj 553 102 fadermap player-0-rvb-liveness 108 1 0 100 player-0-rvb-liveness-set
+#X obj 553 131 fadermap player-0-rvb-liveness 108 1 0 100 player-0-rvb-liveness-set
 1;
-#X obj 553 142 fadermap player-0-rvb-damping 109 1 0 100 player-0-rvb-damping-set
+#X obj 553 171 fadermap player-0-rvb-damping 109 1 0 100 player-0-rvb-damping-set
 1;
-#X obj 553 262 fadermap player-1-dry 106 2 0 100 player-1-dry-set 1
-;
-#X obj 553 292 fadermap player-1-wet 107 2 0 100 player-1-wet-set 1
-;
-#X obj 553 322 fadermap player-1-rvb-liveness 108 2 0 100 player-1-rvb-liveness-set
+#X obj 73 141 fadermap player-0-bitDepth 104 1 1 31 player-0-bitDepth-set
 1;
-#X obj 553 362 fadermap player-1-rvb-damping 109 2 0 100 player-1-rvb-damping-set
-1;
-#X obj 73 82 fadermap player-0-bitDepth 103 1 1 31 player-0-bitDepth-set
-1;
-#X obj 73 122 fadermap player-0-blockSize 104 1 2 254 player-0-blockSize-set
-1;
-#X obj 73 262 fadermap player-1-gain 102 2 40 60 player-1-gain-set
+#X obj 73 101 fadermap player-0-bitDepth 103 1 0 1 player-0-spat-pos-set
 0;
-#X obj 73 292 fadermap player-1-bitDepth 103 2 1 31 player-1-bitDepth-set
+#X obj 73 191 fadermap player-0-tempo 105 1 1 239 player-0-tempo-set
 1;
-#X obj 73 342 fadermap player-1-blockSize 104 2 2 254 player-1-blockSize-set
+#X obj 73 261 fadermap player-1-gain 102 2 40 60 player-1-gain-set
+0;
+#X obj 73 291 fadermap player-1-bitDepth 103 2 0 1 player-1-spat-pos-set
+0;
+#X obj 73 331 fadermap player-1-bitDepth 104 2 1 31 player-1-bitDepth-set
 1;
-#X obj 73 382 fadermap player-1-tempo 105 2 1 19 player-1-tempo-set
+#X obj 73 381 fadermap player-1-tempo 105 2 1 239 player-1-tempo-set
 1;
+#X obj 553 361 fadermap player-1-rvb-damping 109 2 0 100 player-1-rvb-damping-set
+1;
+#X obj 553 321 fadermap player-1-rvb-liveness 108 2 0 100 player-1-rvb-liveness-set
+1;
+#X obj 553 291 fadermap player-1-wet 107 2 0 100 player-1-wet-set 1
+;
+#X obj 553 261 fadermap player-1-dry 106 2 0 100 player-1-dry-set 1
+;
 #X restore 46 137 pd MIDI;

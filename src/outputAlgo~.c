@@ -32,6 +32,9 @@ getting double wrap-bangs
 #define ALGOFOURPARAMS 5
 #define MAXALGOPARAMS 10
 #define NUMALGOS 5
+#define BASETEMPO 60
+#define MAXTEMPO 240
+#define MAXBITDEPTH 32
 
 static t_class *outputAlgo_tilde_class;
 
@@ -48,6 +51,8 @@ typedef struct _outputAlgo_tilde
     unsigned char x_debug;
 
     unsigned int x_t;
+    unsigned int x_tBlockStart;
+    unsigned int x_tBlockEnd;
     double x_mu;
     double x_incr;
     double x_sampIdx;
@@ -56,6 +61,7 @@ typedef struct _outputAlgo_tilde
     unsigned int x_params[MAXALGOPARAMS];
     t_sample *x_signalBuffer;
     t_outlet *x_outletTime;
+    t_outlet *x_outletMu;
     t_outlet *x_outletWrapBang;
     
 } outputAlgo_tilde;
@@ -104,27 +110,27 @@ static void outputAlgo_tilde_print(outputAlgo_tilde *x)
 
 static void outputAlgo_tilde_bitDepth(outputAlgo_tilde *x, t_floatarg b)
 {
-	// keep bounded within 1 and 32
+	// keep bounded within 1 and MAXBITDEPTH
 	b = (b<1)?1:b;
-	b = (b>32)?32:b;
+	b = (b>MAXBITDEPTH)?MAXBITDEPTH:b;
 	x->x_bitDepth = b;
  	x->x_quantSteps = pow(2, x->x_bitDepth);
 }
 
 static void outputAlgo_tilde_tempo(outputAlgo_tilde *x, t_floatarg t)
 {	
-	// keep bounded within 1 and 240
+	// keep bounded within 1 and MAXTEMPO
 	t = (t<1.0)?1.0:t;
-	t = (t>240.0)?240.0:t;
+	t = (t>MAXTEMPO)?MAXTEMPO:t;
 	x->x_tempo = t;
 	
-	// calculate the interpolation increment (tempo factor) relative to 60BPM
-	x->x_incr = (x->x_tempo/(double)60.0);
+	// calculate the interpolation increment (tempo factor) relative to BASETEMPO BPM
+	x->x_incr = (x->x_tempo/(double)BASETEMPO);
 }
 
 static void outputAlgo_tilde_getTimeIndex(outputAlgo_tilde *x)
 {
-	outlet_float(x->x_outletTime, x->x_t);
+	outlet_float(x->x_outletTime, x->x_tBlockEnd);
 }
 
 static void outputAlgo_tilde_setTimeIndex(outputAlgo_tilde *x, t_floatarg t)
@@ -133,6 +139,27 @@ static void outputAlgo_tilde_setTimeIndex(outputAlgo_tilde *x, t_floatarg t)
 	t = (t<0)?0:t;
 	t = (t>UINT_MAX)?UINT_MAX:t;
 	x->x_t = t;
+}
+
+static void outputAlgo_tilde_getInterpMu(outputAlgo_tilde *x)
+{
+	float mu;
+	
+	// probably due to rounding error, posting sampIdx and its floor shows a different integer in the case that sampIdx = 44.0, for example.
+	mu = x->x_sampIdx - floor(x->x_sampIdx);
+	// ensure that this wraps at 1.0 no matter what	
+	// strangely, have to do this in float precision. doesn't work as expected in double precision
+	mu = (mu>=1.0f)?0.0f:mu;
+	
+	outlet_float(x->x_outletMu, mu);
+}
+
+static void outputAlgo_tilde_setInterpMu(outputAlgo_tilde *x, t_floatarg m)
+{
+	// keep bounded within 0 and 1
+	m = (m<0)?0:m;
+	m = (m>1.0f)?1.0f:m;
+	x->x_sampIdx = m;
 }
 
 static void outputAlgo_tilde_interpSwitch(outputAlgo_tilde *x, t_floatarg i)
@@ -186,6 +213,7 @@ static void *outputAlgo_tilde_new(t_symbol *s, int argc, t_atom *argv)
 	
 	outlet_new(&x->x_obj, &s_signal);
     x->x_outletTime = outlet_new(&x->x_obj, &s_float);
+    x->x_outletMu = outlet_new(&x->x_obj, &s_float);
     x->x_outletWrapBang = outlet_new(&x->x_obj, &s_bang);
 
 	// store the pointer to the symbol containing the object name. Can access it for error and post functions via s->s_name
@@ -202,6 +230,8 @@ static void *outputAlgo_tilde_new(t_symbol *s, int argc, t_atom *argv)
 	x->x_debug = 0;
 	
 	x->x_t = 0;
+	x->x_tBlockStart = 0;
+	x->x_tBlockEnd = 0;
 	x->x_mu = 0.0f;
 	x->x_incr = 0.0f;
 	x->x_sampIdx = 0.0f;
@@ -228,7 +258,7 @@ static void *outputAlgo_tilde_new(t_symbol *s, int argc, t_atom *argv)
 static t_int *outputAlgo_tilde_perform(t_int *w)
 {
     unsigned int i, j, n, m, hop;
-    unsigned int tBlockStart, p0, p1, p2, p3, p4, p5, p6, p7, p8, p9;
+    unsigned int p0, p1, p2, p3, p4, p5, p6, p7, p8, p9;
 	
     outputAlgo_tilde *x = (outputAlgo_tilde *)(w[1]);
     t_sample *out = (t_float *)(w[2]);
@@ -238,7 +268,7 @@ static t_int *outputAlgo_tilde_perform(t_int *w)
 	m = round(n*x->x_incr);
 	
 	// note the current time index at the start of the block
-	tBlockStart = x->x_t;
+	x->x_tBlockStart = x->x_t;
 	
 	// grab the params from the array before the for loop, since those won't change within a block anyway
 	p0 = x->x_params[0];
@@ -259,7 +289,7 @@ static t_int *outputAlgo_tilde_perform(t_int *w)
 		if(x->x_debug)
 		{
 			post("**** NEWBLOCK ****");
-			post("tBlockStart: %u, m: %i, incr: %f", tBlockStart, m, x->x_incr);
+			post("tBlockStart: %u, m: %i, incr: %f", x->x_tBlockStart, m, x->x_incr);
 			post("0: [%0.6f], tMinusOne: %lu", x->x_signalBuffer[0], x->x_t-1);
 			// don't decrement debug until end of perform routine
 		}
@@ -268,9 +298,9 @@ static t_int *outputAlgo_tilde_perform(t_int *w)
 		for(i=1; i<m+EXTRAPOINTS; i++)
 		{
 			t_sample thisSampleFloat;
-			unsigned int thisSample;
+			unsigned long int thisSample;
 				
-			// perform the algorithm in unsigned int precision. Bitwise operators MUST BE used in UINT precision. we store the result in higher precision - unsigned long long int
+			// perform the algorithm in unsigned int precision. Bitwise operators MUST BE used in UINT precision. we store the result in higher precision - unsigned long int
 			switch(x->x_algoChoice)
 			{
 				case 0:
@@ -349,7 +379,8 @@ static t_int *outputAlgo_tilde_perform(t_int *w)
 
 		// store the final sample of the algo signal block to index 0 of the signal buffer for next time. since we generated extra samples past the m samples we actually want to hear, we need to rewind the time index. the time index for next block should be m samples past the time index from the start of this block. remember to wrap at UINT_MAX as our maximum time index.
 		x->x_signalBuffer[0] = x->x_signalBuffer[hop];
-		x->x_t = (tBlockStart+hop) % UINT_MAX;
+		x->x_t = (x->x_tBlockStart+hop) % UINT_MAX;
+		x->x_tBlockEnd = x->x_t;
 
 		if(x->x_debug)
 		{
@@ -367,7 +398,7 @@ static t_int *outputAlgo_tilde_perform(t_int *w)
 
 		// bang if the next time point has wrapped, indicating pattern reset
 		// this can double-trigger if the wrap point happens to align in a certain way relative to block size. would have to add a flag variable to the object dataspace to prevent this
-		if(x->x_t < tBlockStart)
+		if(x->x_t < x->x_tBlockStart)
 			outlet_bang(x->x_outletWrapBang);
  	}
  	else
@@ -479,6 +510,21 @@ void outputAlgo_tilde_setup(void)
 		0
 	);
 
+	class_addmethod(
+		outputAlgo_tilde_class,
+		(t_method)outputAlgo_tilde_getInterpMu,
+		gensym("getInterpMu"),
+		0
+	);
+	
+	class_addmethod(
+		outputAlgo_tilde_class,
+		(t_method)outputAlgo_tilde_setInterpMu,
+		gensym("setInterpMu"),
+		A_DEFFLOAT,
+		0
+	);
+	
 	class_addmethod(
 		outputAlgo_tilde_class,
 		(t_method)outputAlgo_tilde_interpSwitch,

@@ -1,7 +1,8 @@
-#N canvas 84 41 854 808 16;
+#N canvas 91 163 854 808 16;
 #X declare -path ./lib;
+#X declare -path ./src;
 #N canvas 58 71 1089 807 control-panel 0;
-#N canvas 595 351 812 444 init 0;
+#N canvas 595 351 528 441 init 0;
 #X obj 31 24 loadbang;
 #X obj 31 56 t b b b b;
 #X obj 123 115 s lb1;
@@ -11,6 +12,7 @@
 #X obj 264 33 r lb4;
 #X obj 198 313 declare -path ./lib;
 #X msg 264 76 \; pd dsp 1 \;;
+#X obj 198 343 declare -path ./src;
 #X connect 0 0 1 0;
 #X connect 1 0 5 0;
 #X connect 1 1 4 0;
@@ -29,22 +31,6 @@
 #X restore 822 303 pd players;
 #X obj 21 590 hsl 300 45 40 100 0 0 master-volume master-volume-set
 master-volume 8 16 0 32 -262144 -1 -1 0 1;
-#N canvas 732 97 815 385 TODO 0;
-#X text 99 67 0) blockSize 4096 and slowDownFactor 64 should be default.
-So figure out tempo based on that \, and mainly move tempo in order
-to change slowDownFactor \; 0) add spigot to stop clock flow for individual
-players \; 0) tie blocksize and tempo so that 64 and slowDownFactor=1
-mean normal speed. moving blocksize in jumps of 64 should increase
-slowdownFactor by 1 \; 0) test with a cos($i1/44100 *2*pi) to test
-for uninterrupted sinusoid. change Pd delay time based on that so that
-there are no dropouts \; 0) for some reason \, [block~ 1] doesn't seem
-to be working. [bang~] still outputs every 1.45125ms. Only larger block
-size (power of 2) changes take effect. Could try re-compiling Pd to
-have a different block size \; 1) switch to dry/wet combo control instead
-of independent \; 2) add a limiter to the output of each player \;
-3) May also want to avoid resizing the table in the plotting abs too.
-Lots of table resizing can cause dropouts.;
-#X restore 822 213 pd TODO;
 #X obj 18 641 bng 15 250 50 0 reset-master-clock empty reset-master-clock
 17 7 0 12 -262144 -1 -1;
 #X obj 615 711 cpumeter;
@@ -193,10 +179,10 @@ Lots of table resizing can cause dropouts.;
 #X connect 3 0 4 0;
 #X connect 4 0 1 0;
 #X restore 822 333 pd plotting;
-#N canvas 83 99 605 380 interface 0;
-#X obj 343 176 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X obj 343 196 s all-player-print;
+#N canvas 83 99 902 565 interface 0;
+#X obj 87 374 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 87 394 s all-player-print;
 #X msg 41 117 6;
 #X obj 41 146 t f b;
 #X obj 41 175 until;
@@ -205,6 +191,14 @@ Lots of table resizing can cause dropouts.;
 #X msg 74 209 0;
 #X msg 41 283 \; player-\$1-set-time-idx 0 \;;
 #X obj 41 86 r reset-master-clock;
+#X msg 411 117 6;
+#X obj 411 146 t f b;
+#X obj 411 175 until;
+#X obj 411 244 f;
+#X obj 468 250 + 1;
+#X msg 444 209 0;
+#X msg 411 283 \; get-player-\$1-time-index bang \;;
+#X obj 411 86 r get-all-player-times;
 #X connect 0 0 1 0;
 #X connect 2 0 3 0;
 #X connect 3 0 4 0;
@@ -215,7 +209,18 @@ Lots of table resizing can cause dropouts.;
 #X connect 6 0 5 1;
 #X connect 7 0 5 1;
 #X connect 9 0 2 0;
+#X connect 10 0 11 0;
+#X connect 11 0 12 0;
+#X connect 11 1 15 0;
+#X connect 12 0 13 0;
+#X connect 13 0 14 0;
+#X connect 13 0 16 0;
+#X connect 14 0 13 1;
+#X connect 15 0 13 1;
+#X connect 17 0 10 0;
 #X restore 822 393 pd interface;
+#X obj 18 671 bng 15 250 50 0 get-all-player-times empty get-all-player-times
+17 7 0 12 -262144 -1 -1;
 #X coords 0 -1 1 1 750 750 1 10 10;
 #X restore 45 27 pd control-panel;
 #X coords 0 808 1 807 1100 600 0;
