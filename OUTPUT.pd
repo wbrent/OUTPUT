@@ -11,16 +11,16 @@
 #X obj 31 205 s lb4;
 #X obj 264 33 r lb4;
 #X obj 198 313 declare -path ./lib;
-#X msg 264 76 \; pd dsp 1 \;;
 #X obj 198 343 declare -path ./src;
+#X msg 264 76 \; pd dsp 1 \; master-volume-set 90 \;;
 #X connect 0 0 1 0;
 #X connect 1 0 5 0;
 #X connect 1 1 4 0;
 #X connect 1 2 3 0;
 #X connect 1 3 2 0;
-#X connect 6 0 8 0;
+#X connect 6 0 9 0;
 #X restore 822 273 pd init;
-#N canvas 729 215 711 337 players 0;
+#N canvas 729 215 595 294 players 0;
 #X obj 99 51 algo-player 0;
 #X obj 99 81 algo-player 1;
 #X obj 99 111 algo-player 2;
@@ -28,9 +28,10 @@
 #X obj 99 171 algo-player 4;
 #X obj 99 201 algo-player 5;
 #X obj 345 114 clone spat-abs-8 6;
+#X obj 345 154 clone spat-LFO-abs 6;
 #X restore 822 303 pd players;
 #X obj 21 590 hsl 300 45 40 100 0 0 master-volume master-volume-set
-master-volume 8 16 0 32 -262144 -1 -1 0 1;
+master-volume 8 16 0 32 -262144 -1 -1 24917 1;
 #X obj 18 641 bng 15 250 50 0 reset-master-clock empty reset-master-clock
 17 7 0 12 -262144 -1 -1;
 #X obj 615 711 cpumeter;

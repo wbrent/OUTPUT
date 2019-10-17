@@ -28,9 +28,9 @@ save 17 7 0 10 -261234 -1 -1;
 #X floatatom 698 368 5 0 0 0 - - -;
 #X msg 698 296 256;
 #X obj 109 382 bng 15 250 50 0 empty player-\$1-algo-\$2-dec-param-0-set
-- 4 8 0 12 -241291 -228992 -228992;
+- 4 8 0 12 -241291 -228992 -1;
 #X obj 129 382 bng 15 250 50 0 empty player-\$1-algo-\$2-inc-param-0-set
-+ 4 8 0 12 -241291 -228992 -228992;
++ 4 8 0 12 -241291 -228992 -1;
 #X obj 109 452 bng 15 250 50 0 empty player-\$1-algo-\$2-randomize-param-0-set
 empty 17 7 0 10 -262144 -1 -1;
 #X floatatom 109 472 5 0 0 0 - - -;
@@ -71,65 +71,65 @@ empty 17 7 0 10 -262144 -1 -1;
 #X connect 15 0 14 0;
 #X restore 820 676 pd populate;
 #X obj 159 382 bng 15 250 50 0 empty player-\$1-algo-\$2-dec-param-1-set
-- 4 8 0 12 -241291 -228992 -228992;
+- 4 8 0 12 -241291 -228992 -1;
 #X obj 179 382 bng 15 250 50 0 empty player-\$1-algo-\$2-inc-param-1-set
-+ 4 8 0 12 -241291 -228992 -228992;
++ 4 8 0 12 -241291 -228992 -1;
 #X obj 159 452 bng 15 250 50 0 empty player-\$1-algo-\$2-randomize-param-1-set
 empty 17 7 0 10 -262144 -1 -1;
 #X floatatom 159 472 5 0 0 0 - - -;
 #X obj 209 382 bng 15 250 50 0 empty player-\$1-algo-\$2-dec-param-2-set
-- 4 8 0 12 -241291 -228992 -228992;
+- 4 8 0 12 -241291 -228992 -1;
 #X obj 229 382 bng 15 250 50 0 empty player-\$1-algo-\$2-inc-param-2-set
-+ 4 8 0 12 -241291 -228992 -228992;
++ 4 8 0 12 -241291 -228992 -1;
 #X obj 209 452 bng 15 250 50 0 empty player-\$1-algo-\$2-randomize-param-2-set
 empty 17 7 0 10 -262144 -1 -1;
 #X floatatom 209 472 5 0 0 0 - - -;
 #X obj 259 382 bng 15 250 50 0 empty player-\$1-algo-\$2-dec-param-3-set
-- 4 8 0 12 -241291 -228992 -228992;
+- 4 8 0 12 -262140 -1 -1;
 #X obj 279 382 bng 15 250 50 0 empty player-\$1-algo-\$2-inc-param-3-set
-+ 4 8 0 12 -241291 -228992 -228992;
++ 4 8 0 12 -262140 -1 -1;
 #X obj 259 452 bng 15 250 50 0 empty player-\$1-algo-\$2-randomize-param-3-set
 empty 17 7 0 10 -262144 -1 -1;
 #X floatatom 259 472 5 0 0 0 - - -;
 #X obj 309 382 bng 15 250 50 0 empty player-\$1-algo-\$2-dec-param-4-set
-- 4 8 0 12 -262144 -1 -1;
+- 4 8 0 12 -262140 -1 -1;
 #X obj 329 382 bng 15 250 50 0 empty player-\$1-algo-\$2-inc-param-4-set
-+ 4 8 0 12 -262144 -1 -1;
++ 4 8 0 12 -262140 -1 -1;
 #X obj 309 452 bng 15 250 50 0 empty player-\$1-algo-\$2-randomize-param-4-set
 empty 17 7 0 10 -262144 -1 -1;
 #X floatatom 309 472 5 0 0 0 - - -;
 #X obj 359 382 bng 15 250 50 0 empty player-\$1-algo-\$2-dec-param-5-set
-- 4 8 0 12 -262144 -1 -1;
+- 4 8 0 12 -262140 -1 -1;
 #X obj 379 382 bng 15 250 50 0 empty player-\$1-algo-\$2-inc-param-5-set
-+ 4 8 0 12 -262144 -1 -1;
++ 4 8 0 12 -262140 -1 -1;
 #X obj 359 452 bng 15 250 50 0 empty player-\$1-algo-\$2-randomize-param-5-set
 empty 17 7 0 10 -262144 -1 -1;
 #X floatatom 359 472 5 0 0 0 - - -;
 #X obj 409 382 bng 15 250 50 0 empty player-\$1-algo-\$2-dec-param-6-set
-- 4 8 0 12 -262144 -1 -1;
+- 4 8 0 12 -262140 -1 -1;
 #X obj 429 382 bng 15 250 50 0 empty player-\$1-algo-\$2-inc-param-6-set
-+ 4 8 0 12 -262144 -1 -1;
++ 4 8 0 12 -262140 -1 -1;
 #X obj 409 452 bng 15 250 50 0 empty player-\$1-algo-\$2-randomize-param-6-set
 empty 17 7 0 10 -262144 -1 -1;
 #X floatatom 409 472 5 0 0 0 - - -;
 #X obj 459 382 bng 15 250 50 0 empty player-\$1-algo-\$2-dec-param-7-set
-- 4 8 0 12 -262144 -1 -1;
+- 4 8 0 12 -262140 -1 -1;
 #X obj 479 382 bng 15 250 50 0 empty player-\$1-algo-\$2-inc-param-7-set
-+ 4 8 0 12 -262144 -1 -1;
++ 4 8 0 12 -262140 -1 -1;
 #X obj 459 452 bng 15 250 50 0 empty player-\$1-algo-\$2-randomize-param-7-set
 empty 17 7 0 10 -262144 -1 -1;
 #X floatatom 459 472 5 0 0 0 - - -;
 #X obj 509 382 bng 15 250 50 0 empty player-\$1-algo-\$2-dec-param-8-set
-- 4 8 0 12 -262144 -1 -1;
+- 4 8 0 12 -262140 -1 -1;
 #X obj 529 382 bng 15 250 50 0 empty player-\$1-algo-\$2-inc-param-8-set
-+ 4 8 0 12 -262144 -1 -1;
++ 4 8 0 12 -262140 -1 -1;
 #X obj 509 452 bng 15 250 50 0 empty player-\$1-algo-\$2-randomize-param-8-set
 empty 17 7 0 10 -262144 -1 -1;
 #X floatatom 509 472 5 0 0 0 - - -;
 #X obj 559 382 bng 15 250 50 0 empty player-\$1-algo-\$2-dec-param-9-set
-- 4 8 0 12 -262144 -1 -1;
+- 4 8 0 12 -262140 -1 -1;
 #X obj 579 382 bng 15 250 50 0 empty player-\$1-algo-\$2-inc-param-9-set
-+ 4 8 0 12 -262144 -1 -1;
++ 4 8 0 12 -262140 -1 -1;
 #X obj 559 452 bng 15 250 50 0 empty player-\$1-algo-\$2-randomize-param-9-set
 empty 17 7 0 10 -262144 -1 -1;
 #X floatatom 559 472 5 0 0 0 - - -;
@@ -285,8 +285,6 @@ send a bang to the populate subpatch, f 19;
 \$1 1;
 #X obj 480 169 buttonBangMap player-\$1-algo-\$2-randomize-param-0-set
 12 \$1 1;
-#X obj 480 49 buttonBangMap player-\$1-algo-\$2-randomize-set 9 \$1
-1;
 #X obj 480 239 buttonBangMap player-\$1-algo-\$2-dec-param-1-set 13
 \$1 1;
 #X obj 480 269 buttonBangMap player-\$1-algo-\$2-inc-param-1-set 14
@@ -299,6 +297,8 @@ send a bang to the populate subpatch, f 19;
 \$1 1;
 #X obj 480 429 buttonBangMap player-\$1-algo-\$2-randomize-param-2-set
 18 \$1 1;
+#X obj 480 49 buttonBangMap player-\$1-algo-\$2-randomize-set 9 \$1
+1;
 #X restore 503 198 pd MIDI-mapping;
 #N canvas 999 90 566 667 keyboard-commands 0;
 #X obj 105 152 key;
@@ -475,8 +475,7 @@ doesn't, f 31;
 #X connect 14 0 15 0;
 #X connect 15 0 5 0;
 #X restore 503 228 pd keyboard-commands;
-#N canvas 780 40 560 449 init 0;
-#X obj 75 57 r player-\$1-param-interface-init;
+#N canvas 530 284 891 479 init 1;
 #X obj 75 81 f \$2;
 #X obj 75 105 select 0 1 2 3 4;
 #X msg 75 149 4;
@@ -488,30 +487,53 @@ doesn't, f 31;
 #X obj 115 285 + 1;
 #X msg 97 246 0;
 #X obj 75 325 pack f \$1 \$2;
-#X msg 75 349 \; player-\$2-algo-\$3-dec-param-\$1-set color 255 128
-128 \; player-\$2-algo-\$3-inc-param-\$1-set color 255 128 128 \;;
 #X msg 115 149 5;
 #X msg 235 149 5;
+#X obj 298 103 t f b;
+#X obj 298 127 until;
+#X obj 298 191 f;
+#X obj 338 195 + 1;
+#X msg 320 156 0;
+#X obj 298 235 pack f \$1 \$2;
+#X msg 298 59 10;
+#X msg 75 349 \; player-\$2-algo-\$3-dec-param-\$1-set color 255 128
+-1 \; player-\$2-algo-\$3-inc-param-\$1-set color 255 128 -1 \;;
+#X msg 298 259 \; player-\$2-algo-\$3-dec-param-\$1-set color -1.67772e+07
+-1 -1 \; player-\$2-algo-\$3-inc-param-\$1-set color -1.67772e+07 -1
+-1 \;, f 74;
+#X obj 75 17 r player-\$1-param-interface-init;
+#X obj 75 41 t b b;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
-#X connect 2 0 3 0;
-#X connect 2 1 13 0;
-#X connect 2 2 4 0;
-#X connect 2 3 5 0;
-#X connect 2 4 14 0;
-#X connect 3 0 6 0;
-#X connect 4 0 6 0;
+#X connect 1 1 11 0;
+#X connect 1 2 3 0;
+#X connect 1 3 4 0;
+#X connect 1 4 12 0;
+#X connect 2 0 5 0;
+#X connect 3 0 5 0;
+#X connect 4 0 5 0;
 #X connect 5 0 6 0;
+#X connect 5 1 9 0;
 #X connect 6 0 7 0;
-#X connect 6 1 10 0;
 #X connect 7 0 8 0;
-#X connect 8 0 9 0;
-#X connect 8 0 11 0;
-#X connect 9 0 8 1;
-#X connect 10 0 8 1;
-#X connect 11 0 12 0;
-#X connect 13 0 6 0;
-#X connect 14 0 6 0;
+#X connect 7 0 10 0;
+#X connect 8 0 7 1;
+#X connect 9 0 7 1;
+#X connect 10 0 20 0;
+#X connect 11 0 5 0;
+#X connect 12 0 5 0;
+#X connect 13 0 14 0;
+#X connect 13 1 17 0;
+#X connect 14 0 15 0;
+#X connect 15 0 16 0;
+#X connect 15 0 18 0;
+#X connect 16 0 15 1;
+#X connect 17 0 15 1;
+#X connect 18 0 21 0;
+#X connect 19 0 13 0;
+#X connect 22 0 23 0;
+#X connect 23 0 0 0;
+#X connect 23 1 19 0;
 #X restore 503 258 pd init;
 #X connect 13 0 72 0;
 #X connect 14 0 13 0;

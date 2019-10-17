@@ -1,10 +1,10 @@
-#N canvas 546 94 1177 360 12;
+#N canvas 666 74 1177 360 12;
 #X obj 62 15 control-panel-abs \$1;
-#N canvas 632 416 1023 330 algo-param-interfaces-subpatch-\$1 0;
-#X obj 50 50 algo-param-interface-client 0 0;
+#N canvas 636 441 1023 330 algo-param-interfaces-subpatch-\$1 0;
+#X obj 50 50 algo-param-interface-client \$1 0;
 #X coords 0 -1 1 1 650 160 2 50 50;
 #X restore 472 15 pd algo-param-interfaces-subpatch-\$1;
-#N canvas 1006 264 761 666 netpreps 0;
+#N canvas 1006 264 749 605 netpreps 0;
 #N canvas 134 106 186 317 player-\$1-algo-netpreps 0;
 #N canvas 1367 156 407 413 algo-0 0;
 #X obj 98 48 netprep player-\$1-algo-0-param-0;
@@ -70,19 +70,20 @@
 #X obj 57 41 netprep-withSet player-\$1-gain;
 #X obj 57 75 netprep-withSet player-\$1-spat-pos;
 #X obj 57 100 netprep-withSet player-\$1-spat-width;
-#X obj 57 135 netprep-withSet player-\$1-algo-select;
-#X obj 57 171 netprep-withSet player-\$1-bitDepth;
-#X obj 57 205 netprep-withSet player-\$1-dry;
-#X obj 57 230 netprep-withSet player-\$1-wet;
-#X obj 57 255 netprep-withSet player-\$1-rvb-liveness;
-#X obj 57 279 netprep-withSet player-\$1-rvb-xover;
-#X obj 57 303 netprep-withSet player-\$1-rvb-damping;
-#X obj 57 373 netprep-withSet player-\$1-tempo;
-#X obj 57 343 netprep-withSet player-\$1-blockSize;
-#X obj 57 433 netprep-withSet player-\$1-tempo-sync;
-#X obj 56 464 netprep-withSet player-\$1-time-sync;
-#X obj 57 403 netprep-withSet player-\$1-compute;
-#X obj 56 494 netprep-withSet player-\$1-interpolation;
+#X obj 57 165 netprep-withSet player-\$1-algo-select;
+#X obj 57 201 netprep-withSet player-\$1-bitDepth;
+#X obj 57 235 netprep-withSet player-\$1-dry;
+#X obj 57 260 netprep-withSet player-\$1-wet;
+#X obj 57 285 netprep-withSet player-\$1-rvb-liveness;
+#X obj 57 309 netprep-withSet player-\$1-rvb-xover;
+#X obj 57 333 netprep-withSet player-\$1-rvb-damping;
+#X obj 57 403 netprep-withSet player-\$1-tempo;
+#X obj 57 373 netprep-withSet player-\$1-blockSize;
+#X obj 57 463 netprep-withSet player-\$1-tempo-sync;
+#X obj 56 494 netprep-withSet player-\$1-time-sync;
+#X obj 57 433 netprep-withSet player-\$1-compute;
+#X obj 56 524 netprep-withSet player-\$1-interpolation;
+#X obj 57 125 netprep-withSet player-\$1-spat-lfo-freq;
 #X restore 62 196 pd netpreps;
 #N canvas 342 266 640 564 algo-cache-stuff 0;
 #X obj 270 172 i;
@@ -124,9 +125,6 @@ bang \;;
 #X text 74 439 =: randomize all \; [ \, ]: load \, save \; 1/q/a: inc/dec/rand
 for p0 \; 2/w/s: inc/dec/rand for p1 \; etc \;;
 #X obj 182 176 r player-\$1-kbd-control;
-#X text 90 31 </>: bitDepth inc/dec \; z: compute toggle \; x: interp
-toggle \; c \, v \, b \, n \, m: tempoSync to 0-4 \; space: timeSync
-to most recently tempoSync'd player;
 #N canvas 327 384 615 322 bitDepth 0;
 #X obj 346 168 f;
 #X obj 386 172 + 1;
@@ -228,17 +226,19 @@ to most recently tempoSync'd player;
 #X connect 4 0 5 0;
 #X restore 105 328 pd timeSync;
 #X obj 105 176 spigot;
-#X connect 0 0 9 0;
-#X connect 2 0 9 1;
+#X text 90 31 </>: bitDepth inc/dec \; z: compute toggle \; x: interp
+toggle \; c \, v \, b \, n \, m: tempoSync to 0-4 \; space: `;
+#X connect 0 0 8 0;
+#X connect 2 0 8 1;
+#X connect 3 0 4 0;
 #X connect 4 0 5 0;
 #X connect 5 0 6 0;
 #X connect 6 0 7 0;
-#X connect 7 0 8 0;
-#X connect 9 0 4 0;
+#X connect 8 0 3 0;
 #X restore 62 256 pd keyboard-commands;
-#N canvas 132 487 1007 282 MIDI 0;
+#N canvas 132 487 1007 371 MIDI 0;
 #N canvas 779 160 790 547 keyboard-tempo 0;
-#X obj 96 64 notein;
+#X obj 172 38 notein;
 #X obj 348 168 bendin;
 #X obj 348 281 select 8192;
 #X msg 348 305 0;
@@ -251,12 +251,11 @@ to most recently tempoSync'd player;
 #X obj 429 373 * 1;
 #X obj 593 342 / 127;
 #X obj 593 390 + 1;
-#X obj 593 366 * 100;
-#X obj 429 397 t b f;
-#X obj 96 88 spigot;
-#X obj 172 88 == \$1;
-#X obj 172 58 - 1;
-#X text 236 57 << MIDI channels start at 1 \, our player indices start
+#X obj 429 457 t b f;
+#X obj 96 87 spigot;
+#X obj 248 62 == \$1;
+#X obj 248 32 - 1;
+#X text 312 31 << MIDI channels start at 1 \, our player indices start
 at 0, f 30;
 #X obj 348 235 spigot;
 #X obj 424 235 == \$1;
@@ -278,14 +277,22 @@ at 0, f 30;
 #X text 182 169 << middle C is base tempo \, with tempo octaves at
 octaves of C, f 16;
 #X obj 96 210 *;
-#X floatatom 126 244 10 0 0 0 - - -;
 #X obj 96 364 min 240;
 #X floatatom 126 388 10 0 0 0 - - -;
-#X connect 0 0 15 0;
+#X obj 429 397 spigot;
+#X obj 593 366 * 50;
+#X obj 140 256 t b;
+#X text 493 420 only allow tempo bend during active holding of a note.
+this allows release of a note to freeze tempo at bent value, f 27
+;
+#X msg 140 280 0;
+#X text 177 249 upon note-on \, reset bend, f 11;
+#X connect 0 0 14 0;
 #X connect 0 1 9 1;
-#X connect 0 2 17 0;
-#X connect 1 0 19 0;
-#X connect 1 1 21 0;
+#X connect 0 1 38 1;
+#X connect 0 2 16 0;
+#X connect 1 0 18 0;
+#X connect 1 1 20 0;
 #X connect 2 0 3 0;
 #X connect 2 1 4 0;
 #X connect 3 0 10 0;
@@ -295,51 +302,123 @@ octaves of C, f 16;
 #X connect 6 0 7 0;
 #X connect 7 0 10 0;
 #X connect 8 0 10 0;
-#X connect 9 0 30 0;
-#X connect 10 0 14 0;
-#X connect 11 0 13 0;
+#X connect 9 0 29 0;
+#X connect 9 1 40 0;
+#X connect 10 0 38 0;
+#X connect 11 0 39 0;
 #X connect 12 0 10 1;
-#X connect 13 0 12 0;
-#X connect 14 0 26 0;
-#X connect 14 1 26 1;
-#X connect 15 0 9 0;
-#X connect 16 0 15 1;
-#X connect 17 0 16 0;
-#X connect 19 0 2 0;
-#X connect 20 0 19 1;
-#X connect 21 0 20 0;
-#X connect 22 0 11 0;
-#X connect 23 0 22 1;
-#X connect 24 0 23 0;
-#X connect 25 0 22 0;
-#X connect 25 1 24 0;
-#X connect 26 0 29 0;
-#X connect 29 0 38 0;
-#X connect 30 0 31 0;
-#X connect 31 0 36 0;
+#X connect 13 0 25 0;
+#X connect 13 1 25 1;
+#X connect 14 0 9 0;
+#X connect 15 0 14 1;
+#X connect 16 0 15 0;
+#X connect 18 0 2 0;
+#X connect 19 0 18 1;
+#X connect 20 0 19 0;
+#X connect 21 0 11 0;
+#X connect 22 0 21 1;
+#X connect 23 0 22 0;
+#X connect 24 0 21 0;
+#X connect 24 1 23 0;
+#X connect 25 0 28 0;
+#X connect 28 0 36 0;
+#X connect 29 0 30 0;
+#X connect 30 0 35 0;
+#X connect 31 0 32 0;
 #X connect 32 0 33 0;
-#X connect 33 0 34 0;
-#X connect 33 0 36 1;
-#X connect 34 0 31 1;
+#X connect 32 0 35 1;
+#X connect 33 0 30 1;
+#X connect 35 0 25 0;
 #X connect 36 0 37 0;
 #X connect 36 0 26 0;
-#X connect 38 0 39 0;
-#X connect 38 0 27 0;
+#X connect 38 0 13 0;
+#X connect 39 0 12 0;
+#X connect 40 0 42 0;
+#X connect 42 0 25 1;
 #X restore 73 21 pd keyboard-tempo;
-#X obj 73 71 fadermap player-\$1-gain 102 \$1 40 60 player-\$1-gain-set
+#X obj 73 131 fadermap player-\$1-gain 102 \$1 40 60 player-\$1-gain-set
 0 1;
-#X obj 73 101 fadermap player-\$1-bitDepth 103 \$1 0 1 player-\$1-spat-pos-set
+#N canvas 0 23 450 300 timeSync 0;
+#X obj 126 141 r player-\$1-tempo-sync;
+#X obj 86 142 f;
+#X obj 86 193 s player-\$1-time-sync-set;
+#X obj 86 42 ctlin 20;
+#X obj 86 66 spigot;
+#X obj 86 90 t b;
+#X obj 176 66 == \$1;
+#X obj 176 36 - 1;
+#X connect 0 0 1 1;
+#X connect 1 0 2 0;
+#X connect 3 0 4 0;
+#X connect 3 1 7 0;
+#X connect 4 0 5 0;
+#X connect 5 0 1 0;
+#X connect 6 0 4 1;
+#X connect 7 0 6 0;
+#X restore 73 51 pd timeSync;
+#N canvas 164 247 617 367 algoChoice 0;
+#X obj 86 66 spigot;
+#X obj 86 90 t b;
+#X obj 176 66 == \$1;
+#X obj 176 36 - 1;
+#X obj 346 168 f;
+#X obj 386 172 + 1;
+#X obj 86 168 f;
+#X obj 126 172 - 1;
+#X obj 275 266 s player-\$1-algo-select-set;
+#X obj 380 120 r player-\$1-algo-select;
+#X obj 120 120 r player-\$1-algo-select;
+#X obj 86 42 ctlin 21;
+#X obj 346 66 spigot;
+#X obj 346 90 t b;
+#X obj 436 66 == \$1;
+#X obj 436 36 - 1;
+#X obj 346 42 ctlin 22;
+#X obj 205 230 moses 0;
+#X obj 275 230 moses 5;
+#X connect 0 0 1 0;
+#X connect 1 0 6 0;
+#X connect 2 0 0 1;
+#X connect 3 0 2 0;
+#X connect 4 0 5 0;
+#X connect 5 0 4 1;
+#X connect 5 0 17 0;
+#X connect 6 0 7 0;
+#X connect 7 0 6 1;
+#X connect 7 0 17 0;
+#X connect 9 0 4 1;
+#X connect 10 0 6 1;
+#X connect 11 0 0 0;
+#X connect 11 1 3 0;
+#X connect 12 0 13 0;
+#X connect 13 0 4 0;
+#X connect 14 0 12 1;
+#X connect 15 0 14 0;
+#X connect 16 0 12 0;
+#X connect 16 1 15 0;
+#X connect 17 1 18 0;
+#X connect 18 0 8 0;
+#X restore 73 81 pd algoChoice;
+#X obj 73 201 fadermap player-\$1-spat-pos 104 \$1 0 1 player-\$1-spat-pos-set
 0 1;
-#X obj 73 191 fadermap player-\$1-tempo 105 \$1 1 239 player-\$1-tempo-set
+#X obj 73 241 fadermap player-\$1-spat-width 105 \$1 0 1 player-\$1-spat-width-set
+0 1;
+#X obj 553 71 fadermap player-\$1-dry 107 \$1 0 100 player-\$1-dry-set
 1 1;
-#X obj 73 141 fadermap player-\$1-bitDepth 104 \$1 1 31 player-\$1-bitDepth-set
+#X obj 553 101 fadermap player-\$1-wet 108 \$1 0 100 player-\$1-wet-set
 1 1;
-#X obj 553 71 fadermap player-\$1-dry 106 \$1 0 100 player-\$1-dry-set
+#X obj 553 131 fadermap player-\$1-rvb-liveness 109 \$1 0 100 player-\$1-rvb-liveness-set
 1 1;
-#X obj 553 101 fadermap player-\$1-wet 107 \$1 0 100 player-\$1-wet-set
+#X text 70 164 Leave a gap so that fader 103 can be the "other" player
+gain;
+#X obj 73 291 fadermap player-\$1-bitDepth 106 \$1 1 31 player-\$1-bitDepth-set
 1 1;
-#X obj 553 131 fadermap player-\$1-rvb-liveness 108 \$1 0 100 player-\$1-rvb-liveness-set
-1 1;
-#X obj 553 171 fadermap player-\$1-rvb-damping 109 \$1 0 100 player-\$1-rvb-damping-set
-1 1;
+#X obj 553 261 buttonToggleMap player-\$1-compute 23 \$1 0 1 player-\$1-compute-set
+1;
+#X obj 553 311 buttonToggleMap player-\$1-interpolation 24 \$1 0 1
+player-\$1-interpolation-set 1;
+#X obj 553 171 fadermap player-\$1-spat-lfo-freq 118 \$1 -3.2 6.35
+player-\$1-spat-lfo-freq-set 0 1;
+#X text 522 210 LFO freq range was chosen carefully so that MIDI CC
+value of 64 can hit zero exactly \, which disables the LFO, f 58;
 #X restore 62 286 pd MIDI;
