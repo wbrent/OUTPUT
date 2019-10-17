@@ -44,7 +44,7 @@ typedef struct _outputAlgo_tilde
 	t_symbol *x_objSymbol;
     t_float x_sr;
     t_float x_n;
-    unsigned char x_bitDepth;
+    t_float x_bitDepth;
     unsigned long int x_quantSteps;
     unsigned char x_interpSwitch;
     unsigned char x_computeSwitch;
@@ -87,7 +87,7 @@ static void outputAlgo_tilde_print(outputAlgo_tilde *x)
 	
 	post("%s: tempo: %0.2f", x->x_objSymbol->s_name, x->x_tempo);
 	post("%s: tempoFactor: %0.6f", x->x_objSymbol->s_name, x->x_incr);
-	post("%s: bitDepth: %u", x->x_objSymbol->s_name, x->x_bitDepth);
+	post("%s: bitDepth: %0.6f", x->x_objSymbol->s_name, x->x_bitDepth);
 	post("%s: interpolation: %u", x->x_objSymbol->s_name, x->x_interpSwitch);
 	
 	post("%s: algo choice: %u", x->x_objSymbol->s_name, x->x_algoChoice);
@@ -222,7 +222,7 @@ static void *outputAlgo_tilde_new(t_symbol *s, int argc, t_atom *argv)
 	x->x_sr = 44100.0f;
 	x->x_n = 64.0f;
 
-	x->x_bitDepth = 24;
+	x->x_bitDepth = 24.0f;
 	x->x_quantSteps = pow(2, x->x_bitDepth);
 	x->x_interpSwitch = 1;
 	x->x_algoChoice = 0;

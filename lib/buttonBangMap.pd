@@ -1,0 +1,21 @@
+#N canvas 528 71 477 310 10;
+#X obj 28 80 ctlin \$2;
+#X obj 110 7 loadbang;
+#X obj 110 83 f \$3;
+#X obj 78 101 ==;
+#X obj 28 101 spigot;
+#X obj 147 40 r player-\$3-param-interface-init;
+#X obj 28 126 t b;
+#X obj 110 104 + \$4;
+#X obj 28 179 s \$1;
+#X text 179 139 \$1: send name \; \$2: CC num \; \$3 MIDI channel (player-ID)
+\; \$4: MIDI channel offset \;;
+#X connect 0 0 4 0;
+#X connect 0 1 3 0;
+#X connect 1 0 2 0;
+#X connect 2 0 7 0;
+#X connect 3 0 4 1;
+#X connect 4 0 6 0;
+#X connect 5 0 2 0;
+#X connect 6 0 8 0;
+#X connect 7 0 3 1;
