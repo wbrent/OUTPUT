@@ -1,10 +1,10 @@
 #N canvas 174 391 641 293 12;
 #X obj 91 130 t b;
-#X text 379 73 \$1: param ID number \; \$2: parent player ID number
-\; \$3: algo ID number \;;
-#X obj 91 106 r player-\$2-algo-\$3-param-\$1;
 #X obj 91 183 s player-\$2-last-param-changed;
-#X obj 91 154 pack \$3 \$1;
+#X text 379 73 \$1: param ID number \; \$2: parent player ID number
+\;;
+#X obj 91 106 r player-\$2-algo-param-\$1;
+#X obj 91 154 f \$1;
 #X connect 0 0 4 0;
-#X connect 2 0 0 0;
-#X connect 4 0 3 0;
+#X connect 3 0 0 0;
+#X connect 4 0 1 0;
