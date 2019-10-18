@@ -1,19 +1,19 @@
 #N canvas 571 166 723 456 10;
 #X obj 68 124 hsl 128 15 0 1 0 0 player-\$1-spat-pos player-\$1-spat-pos-set
-player-\$1-spat-pos 4 8 0 10 -262144 -1 -1 6350 1;
+player-\$1-spat-pos 4 8 0 10 -262144 -1 -1 0 1;
 #X obj 68 84 hsl 128 15 40 100 0 0 player-\$1-gain player-\$1-gain-set
 player-\$1-gain 4 8 0 10 -262144 -1 -1 0 1;
 #X floatatom 206 84 5 0 0 1 dB player-#1-gain -;
 #X obj 68 144 hsl 128 15 0.01 1 0 0 player-\$1-spat-width player-\$1-spat-width-set
-player-\$1-spat-width 4 8 0 10 -262144 -1 -1 3079 1;
+player-\$1-spat-width 4 8 0 10 -262144 -1 -1 0 1;
 #X obj 439 51 f \$1;
 #X obj 206 124 hradio 15 1 0 5 player-\$1-algo-select player-\$1-algo-select-set
 algo-select 0 -8 0 10 -262144 -1 -1 4;
 #X obj 65 338 pack f \$1;
 #X floatatom 206 144 5 1 32 1 bitDepth player-#1-bitDepth-set player-#1-bitDepth
 ;
-#X obj 65 104 bng 15 250 50 0 empty empty waveform 17 7 0 10 -262144
--1 -1;
+#X obj 65 104 bng 15 250 50 0 empty empty plot 17 7 0 10 -262144 -1
+-1;
 #X msg 65 311 1;
 #X floatatom 296 84 5 0 100 1 dry player-#1-dry-set player-#1-dry;
 #X text 293 62 REVERB;
@@ -28,14 +28,14 @@ player-#1-rvb-liveness;
 #X floatatom 296 194 7 1 240 1 tempo player-#1-tempo-set player-#1-tempo
 ;
 #X obj 65 174 tgl 15 0 player-\$1-compute player-\$1-compute-set comp
-17 7 0 10 -262144 -1 -1 1 1;
+17 7 0 10 -262144 -1 -1 0 1;
 #X msg 65 363 \; pd-player-\$2-plot vis \$1 \;;
 #X obj 191 174 hradio 15 1 0 6 player-\$1-tempo-sync player-\$1-tempo-sync-set
 tempoSync 16 8 0 10 -262144 -1 -1 4;
 #X obj 191 194 hradio 15 1 0 6 player-\$1-time-sync player-\$1-time-sync-set
 timeSync 16 8 0 10 -262144 -1 -1 0;
 #X obj 125 174 tgl 15 0 player-\$1-interpolation player-\$1-interpolation-set
-intrp 17 7 0 10 -262144 -1 -1 1 1;
+intrp 17 7 0 10 -262144 -1 -1 0 1;
 #X floatatom 65 194 15 0 0 1 t player-#1-time-idx -;
 #X obj 439 26 r lb4;
 #X obj 386 194 tgl 15 0 player-\$1-kbd-control player-\$1-kbd-control-set
@@ -47,7 +47,7 @@ k 5 7 0 10 -262144 -1 -1 0 1;
 0 \; player-\$1-compute-set 1 \; player-\$1-interpolation-set 1 \;
 player-\$1-algo-select-set 0 \; player-\$1-tempo-set 40 \; player-\$1-kbd-control-set
 0 \;;
-#X floatatom 156 104 5 -4 4 0 - player-#1-spat-lfo-freq-set player-#1-spat-lfo-freq
+#X floatatom 136 104 10 -4 4 0 - player-#1-spat-lfo-freq-set player-#1-spat-lfo-freq
 ;
 #X connect 4 0 25 0;
 #X connect 6 0 18 0;

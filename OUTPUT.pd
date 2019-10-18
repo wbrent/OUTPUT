@@ -1,4 +1,4 @@
-#N canvas 91 163 854 808 16;
+#N canvas 104 150 854 808 16;
 #X declare -path ./lib;
 #X declare -path ./src;
 #N canvas 58 71 1089 807 control-panel 0;
@@ -13,12 +13,15 @@
 #X obj 198 313 declare -path ./lib;
 #X obj 198 343 declare -path ./src;
 #X msg 264 76 \; pd dsp 1 \; master-volume-set 90 \;;
+#X obj 239 193 r lb1;
+#X msg 239 222 \; masterBlockSize 2048 \;;
 #X connect 0 0 1 0;
 #X connect 1 0 5 0;
 #X connect 1 1 4 0;
 #X connect 1 2 3 0;
 #X connect 1 3 2 0;
 #X connect 6 0 9 0;
+#X connect 10 0 11 0;
 #X restore 822 273 pd init;
 #N canvas 729 215 595 294 players 0;
 #X obj 99 51 algo-player 0;
@@ -31,7 +34,7 @@
 #X obj 345 154 clone spat-LFO-abs 6;
 #X restore 822 303 pd players;
 #X obj 21 590 hsl 300 45 40 100 0 0 master-volume master-volume-set
-master-volume 8 16 0 32 -262144 -1 -1 24917 1;
+master-volume 8 16 0 32 -262144 -1 -1 24300 1;
 #X obj 18 641 bng 15 250 50 0 reset-master-clock empty reset-master-clock
 17 7 0 12 -262144 -1 -1;
 #X obj 615 711 cpumeter;

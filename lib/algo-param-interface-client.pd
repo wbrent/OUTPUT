@@ -279,24 +279,6 @@ send a bang to the populate subpatch, f 19;
 1 1;
 #X obj 70 399 fadermap player-\$1-algo-\$2-param-7 117 \$1 0 255 player-\$1-algo-\$2-param-7-set
 1 1;
-#X obj 480 109 buttonBangMap player-\$1-algo-\$2-dec-param-0-set 10
-\$1 1;
-#X obj 480 139 buttonBangMap player-\$1-algo-\$2-inc-param-0-set 11
-\$1 1;
-#X obj 480 169 buttonBangMap player-\$1-algo-\$2-randomize-param-0-set
-12 \$1 1;
-#X obj 480 239 buttonBangMap player-\$1-algo-\$2-dec-param-1-set 13
-\$1 1;
-#X obj 480 269 buttonBangMap player-\$1-algo-\$2-inc-param-1-set 14
-\$1 1;
-#X obj 480 299 buttonBangMap player-\$1-algo-\$2-randomize-param-1-set
-15 \$1 1;
-#X obj 480 369 buttonBangMap player-\$1-algo-\$2-dec-param-2-set 16
-\$1 1;
-#X obj 480 399 buttonBangMap player-\$1-algo-\$2-inc-param-2-set 17
-\$1 1;
-#X obj 480 429 buttonBangMap player-\$1-algo-\$2-randomize-param-2-set
-18 \$1 1;
 #X obj 480 49 buttonBangMap player-\$1-algo-\$2-randomize-set 9 \$1
 1;
 #X restore 503 198 pd MIDI-mapping;
@@ -475,7 +457,7 @@ doesn't, f 31;
 #X connect 14 0 15 0;
 #X connect 15 0 5 0;
 #X restore 503 228 pd keyboard-commands;
-#N canvas 530 284 891 479 init 1;
+#N canvas 530 284 891 479 init 0;
 #X obj 75 81 f \$2;
 #X obj 75 105 select 0 1 2 3 4;
 #X msg 75 149 4;
@@ -535,6 +517,7 @@ doesn't, f 31;
 #X connect 23 0 0 0;
 #X connect 23 1 19 0;
 #X restore 503 258 pd init;
+#X obj 673 198 clone last-param-changed-abs 10 \$1 \$2;
 #X connect 13 0 72 0;
 #X connect 14 0 13 0;
 #X connect 14 0 18 0;

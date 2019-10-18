@@ -355,7 +355,7 @@ this allows release of a note to freeze tempo at bent value, f 27
 #X connect 5 0 1 0;
 #X connect 6 0 4 1;
 #X connect 7 0 6 0;
-#X restore 73 51 pd timeSync;
+#X restore 73 81 pd timeSync;
 #N canvas 164 247 617 367 algoChoice 0;
 #X obj 86 66 spigot;
 #X obj 86 90 t b;
@@ -398,27 +398,179 @@ this allows release of a note to freeze tempo at bent value, f 27
 #X connect 16 1 15 0;
 #X connect 17 1 18 0;
 #X connect 18 0 8 0;
-#X restore 73 81 pd algoChoice;
+#X restore 243 21 pd algoChoice;
 #X obj 73 201 fadermap player-\$1-spat-pos 104 \$1 0 1 player-\$1-spat-pos-set
 0 1;
 #X obj 73 241 fadermap player-\$1-spat-width 105 \$1 0 1 player-\$1-spat-width-set
 0 1;
-#X obj 553 71 fadermap player-\$1-dry 107 \$1 0 100 player-\$1-dry-set
+#X obj 553 181 fadermap player-\$1-dry 107 \$1 0 100 player-\$1-dry-set
 1 1;
-#X obj 553 101 fadermap player-\$1-wet 108 \$1 0 100 player-\$1-wet-set
+#X obj 553 211 fadermap player-\$1-wet 108 \$1 0 100 player-\$1-wet-set
 1 1;
-#X obj 553 131 fadermap player-\$1-rvb-liveness 109 \$1 0 100 player-\$1-rvb-liveness-set
+#X obj 553 241 fadermap player-\$1-rvb-liveness 109 \$1 0 100 player-\$1-rvb-liveness-set
 1 1;
 #X text 70 164 Leave a gap so that fader 103 can be the "other" player
 gain;
 #X obj 73 291 fadermap player-\$1-bitDepth 106 \$1 1 31 player-\$1-bitDepth-set
 1 1;
-#X obj 553 261 buttonToggleMap player-\$1-compute 23 \$1 0 1 player-\$1-compute-set
+#X obj 553 51 buttonToggleMap player-\$1-compute 23 \$1 0 1 player-\$1-compute-set
 1;
-#X obj 553 311 buttonToggleMap player-\$1-interpolation 24 \$1 0 1
+#X obj 553 101 buttonToggleMap player-\$1-interpolation 24 \$1 0 1
 player-\$1-interpolation-set 1;
-#X obj 553 171 fadermap player-\$1-spat-lfo-freq 118 \$1 -3.2 6.35
-player-\$1-spat-lfo-freq-set 0 1;
-#X text 522 210 LFO freq range was chosen carefully so that MIDI CC
+#X text 522 320 LFO freq range was chosen carefully so that MIDI CC
 value of 64 can hit zero exactly \, which disables the LFO, f 58;
+#N canvas 1062 422 807 450 last-param-changed 0;
+#X obj 76 54 r player-\$1-last-param-changed;
+#X msg 39 146 \; player-\$1-algo-\$2-dec-param-\$3-set bang \;;
+#X obj 39 116 pack \$1 f f;
+#X obj 76 78 unpack f f;
+#X obj 76 234 r player-\$1-last-param-changed;
+#X obj 39 296 pack \$1 f f;
+#X obj 76 258 unpack f f;
+#X obj 466 54 r player-\$1-last-param-changed;
+#X obj 429 116 pack \$1 f f;
+#X obj 466 78 unpack f f;
+#X msg 429 146 \; player-\$1-algo-\$2-randomize-param-\$3-set bang
+\;;
+#X msg 39 326 \; player-\$1-algo-\$2-inc-param-\$3-set bang \;;
+#X obj 39 14 r player-\$1-latest-param-dec;
+#X obj 39 204 r player-\$1-latest-param-inc;
+#X obj 429 14 r player-\$1-latest-param-rand;
+#X obj 402 232 buttonBangMap player-\$1-latest-param-dec 10 \$1 1;
+#X obj 402 262 buttonBangMap player-\$1-latest-param-inc 11 \$1 1;
+#X obj 402 292 buttonBangMap player-\$1-latest-param-rand 12 \$1 1
+;
+#X connect 0 0 3 0;
+#X connect 2 0 1 0;
+#X connect 3 0 2 1;
+#X connect 3 1 2 2;
+#X connect 4 0 6 0;
+#X connect 5 0 11 0;
+#X connect 6 0 5 1;
+#X connect 6 1 5 2;
+#X connect 7 0 9 0;
+#X connect 8 0 10 0;
+#X connect 9 0 8 1;
+#X connect 9 1 8 2;
+#X connect 12 0 2 0;
+#X connect 13 0 5 0;
+#X connect 14 0 8 0;
+#X restore 242 51 pd last-param-changed;
+#N canvas 398 386 834 332 tempoSync 0;
+#X obj 37 37 buttonBangMap player-\$1-tempo-sync-0 10 \$1 1;
+#X obj 408 285 s player-\$1-tempo-sync-set;
+#X obj 408 69 r player-\$1-tempo-sync-0;
+#X msg 408 93 0;
+#X msg 448 123 1;
+#X msg 488 153 2;
+#X msg 528 183 3;
+#X msg 568 213 4;
+#X msg 608 243 5;
+#X obj 608 219 r player-\$1-tempo-sync-5;
+#X obj 568 189 r player-\$1-tempo-sync-4;
+#X obj 528 159 r player-\$1-tempo-sync-3;
+#X obj 488 129 r player-\$1-tempo-sync-2;
+#X obj 448 99 r player-\$1-tempo-sync-1;
+#X obj 37 67 buttonBangMap player-\$1-tempo-sync-1 11 \$1 1;
+#X obj 37 97 buttonBangMap player-\$1-tempo-sync-2 12 \$1 1;
+#X obj 37 127 buttonBangMap player-\$1-tempo-sync-3 13 \$1 1;
+#X obj 37 157 buttonBangMap player-\$1-tempo-sync-4 14 \$1 1;
+#X obj 37 187 buttonBangMap player-\$1-tempo-sync-5 15 \$1 1;
+#X connect 2 0 3 0;
+#X connect 3 0 1 0;
+#X connect 4 0 1 0;
+#X connect 5 0 1 0;
+#X connect 6 0 1 0;
+#X connect 7 0 1 0;
+#X connect 8 0 1 0;
+#X connect 9 0 8 0;
+#X connect 10 0 7 0;
+#X connect 11 0 6 0;
+#X connect 12 0 5 0;
+#X connect 13 0 4 0;
+#X restore 73 51 pd tempoSync;
+#N canvas 940 287 735 568 lfo-freq 0;
+#X text 230 34 Have to special-case this because we need logarithmic
+scale from 0 to 4 \, but also log scale going from 0 down to -4;
+#X obj 45 149 t f b;
+#X obj 81 415 t b f;
+#X msg 410 370 0;
+#X msg 442 371 1;
+#X obj 350 400 spigot 1;
+#X obj 95 124 ==;
+#X obj 45 124 spigot;
+#X obj 127 59 r lb1;
+#X obj 350 424 ctlout 118;
+#X obj 127 106 f \$1;
+#X obj 127 137 + 1;
+#X obj 142 82 r player-\$1-param-interface-init;
+#X obj 45 93 ctlin 118;
+#X obj 128 481 s player-\$1-spat-lfo-freq-set;
+#X obj 392 146 r player-\$1-spat-lfo-freq;
+#X obj 45 189 moses 64;
+#X obj 45 213 t b f;
+#X msg 45 237 63;
+#X obj 45 261 -;
+#X obj 45 285 / 63;
+#X obj 45 339 * -4;
+#X obj 45 315 pow 3;
+#X obj 110 223 - 64;
+#X obj 110 250 / 63;
+#X obj 110 280 pow 3;
+#X obj 110 304 * 4;
+#X obj 392 173 moses 0;
+#X obj 392 198 / -4;
+#X obj 392 222 pow 0.333333;
+#X obj 392 246 * 63;
+#X obj 392 270 swap 63;
+#X obj 392 294 -;
+#X obj 512 222 pow 0.333333;
+#X obj 512 246 * 63;
+#X obj 512 198 / 4;
+#X obj 512 270 + 64;
+#X connect 1 0 16 0;
+#X connect 1 1 3 0;
+#X connect 2 0 4 0;
+#X connect 2 1 14 0;
+#X connect 3 0 5 1;
+#X connect 4 0 5 1;
+#X connect 5 0 9 0;
+#X connect 6 0 7 1;
+#X connect 7 0 1 0;
+#X connect 8 0 10 0;
+#X connect 10 0 11 0;
+#X connect 11 0 6 1;
+#X connect 11 0 9 2;
+#X connect 12 0 10 0;
+#X connect 13 0 7 0;
+#X connect 13 1 6 0;
+#X connect 15 0 27 0;
+#X connect 16 0 17 0;
+#X connect 16 1 23 0;
+#X connect 17 0 18 0;
+#X connect 17 1 19 1;
+#X connect 18 0 19 0;
+#X connect 19 0 20 0;
+#X connect 20 0 22 0;
+#X connect 21 0 2 0;
+#X connect 22 0 21 0;
+#X connect 23 0 24 0;
+#X connect 24 0 25 0;
+#X connect 25 0 26 0;
+#X connect 26 0 2 0;
+#X connect 27 0 28 0;
+#X connect 27 1 35 0;
+#X connect 28 0 29 0;
+#X connect 29 0 30 0;
+#X connect 30 0 31 0;
+#X connect 31 0 32 0;
+#X connect 31 1 32 1;
+#X connect 32 0 5 0;
+#X connect 33 0 34 0;
+#X connect 34 0 36 0;
+#X connect 35 0 33 0;
+#X connect 36 0 5 0;
+#X restore 242 81 pd lfo-freq;
+#X text 549 282 [fadermap player-\$1-spat-lfo-freq 118 \$1 -3.2 6.35
+player-\$1-spat-lfo-freq-set 0 1];
 #X restore 62 286 pd MIDI;

@@ -7,6 +7,7 @@ player A:
 107, 1: dry gain A
 108, 1: wet gain A
 109, 1: liveness A
+118, 1: spat LFO freq A
 
 20: timeSync to most recently tempoSync'd player
 21: algo choice dec
@@ -15,17 +16,18 @@ player A:
 24: toggle interpolation
 9: randomize p0 - p9
 
-10: p0 dec
-11: p0 inc
-12: p0 rand
+10: tempo sync to player 0
+11: tempo sync to player 1
+12: tempo sync to player 2
 
-13: p1 dec
-14: p1 inc
-15: p1 rand
+13: tempo sync to player 3
+14: tempo sync to player 4
+15: tempo sync to player 5
 
-16: p2 dec
-17: p2 inc
-18: p2 rand
+16: most recent param dec
+17: most recent param inc
+18: most recent param rand
+
 
 
 
@@ -38,6 +40,7 @@ player B:
 107, 2: dry gain B
 108, 2: wet gain B
 109, 2: liveness B
+118, 2: spat LFO freq B
 
 20: timeSync to most recently tempoSync'd player
 21: algo choice dec
@@ -46,14 +49,14 @@ player B:
 24: toggle interpolation
 9: randomize p0 - p9
 
-10: p0 dec
-11: p0 inc
-12: p0 rand
+10: tempo sync to player 0
+11: tempo sync to player 1
+12: tempo sync to player 2
 
-13: p1 dec
-14: p1 inc
-15: p1 rand
+13: tempo sync to player 3
+14: tempo sync to player 4
+15: tempo sync to player 5
 
-16: p2 dec
-17: p2 inc
-18: p2 rand
+16: most recent param dec
+17: most recent param inc
+18: most recent param rand
