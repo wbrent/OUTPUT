@@ -84,6 +84,7 @@
 #X obj 57 433 netprep-withSet player-\$1-compute;
 #X obj 56 524 netprep-withSet player-\$1-interpolation;
 #X obj 57 125 netprep-withSet player-\$1-spat-lfo-freq;
+#X obj 435 255 netprep player-\$1-spat-lfo-ctrl-color;
 #X restore 62 196 pd netpreps;
 #N canvas 342 266 640 564 algo-cache-stuff 0;
 #X obj 270 172 i;
@@ -436,9 +437,9 @@ value of 64 can hit zero exactly \, which disables the LFO, f 58;
 #X obj 39 14 r player-\$1-latest-param-dec;
 #X obj 39 204 r player-\$1-latest-param-inc;
 #X obj 429 14 r player-\$1-latest-param-rand;
-#X obj 402 232 buttonBangMap player-\$1-latest-param-dec 10 \$1 1;
-#X obj 402 262 buttonBangMap player-\$1-latest-param-inc 11 \$1 1;
-#X obj 402 292 buttonBangMap player-\$1-latest-param-rand 12 \$1 1
+#X obj 402 232 buttonBangMap player-\$1-latest-param-dec 16 \$1 1;
+#X obj 402 262 buttonBangMap player-\$1-latest-param-inc 17 \$1 1;
+#X obj 402 292 buttonBangMap player-\$1-latest-param-rand 18 \$1 1
 ;
 #X connect 0 0 3 0;
 #X connect 2 0 1 0;

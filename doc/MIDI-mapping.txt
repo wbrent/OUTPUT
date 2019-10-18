@@ -28,6 +28,15 @@ player A:
 17: most recent param inc
 18: most recent param rand
 
+110: current algo p0
+111: current algo p1
+112: current algo p2
+113: current algo p3
+114: current algo p4
+115: current algo p5
+116: current algo p6
+117: current algo p7
+
 
 
 
@@ -60,3 +69,12 @@ player B:
 16: most recent param dec
 17: most recent param inc
 18: most recent param rand
+
+110: current algo p0
+111: current algo p1
+112: current algo p2
+113: current algo p3
+114: current algo p4
+115: current algo p5
+116: current algo p6
+117: current algo p7

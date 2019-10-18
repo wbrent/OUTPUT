@@ -1,4 +1,4 @@
-#N canvas 571 166 723 456 10;
+#N canvas 1042 154 812 574 10;
 #X obj 68 124 hsl 128 15 0 1 0 0 player-\$1-spat-pos player-\$1-spat-pos-set
 player-\$1-spat-pos 4 8 0 10 -262144 -1 -1 0 1;
 #X obj 68 84 hsl 128 15 40 100 0 0 player-\$1-gain player-\$1-gain-set
@@ -47,11 +47,43 @@ k 5 7 0 10 -262144 -1 -1 0 1;
 0 \; player-\$1-compute-set 1 \; player-\$1-interpolation-set 1 \;
 player-\$1-algo-select-set 0 \; player-\$1-tempo-set 40 \; player-\$1-kbd-control-set
 0 \;;
+#X obj 137 104 cnv 15 60 14 empty player-\$1-spat-lfo-ctrl-color empty
+20 12 0 14 -233017 -66577 0;
 #X floatatom 136 104 10 -4 4 0 - player-#1-spat-lfo-freq-set player-#1-spat-lfo-freq
 ;
+#X text 742 460 stopped;
+#X obj 315 308 moses 0;
+#X text 339 534 moving counter-clockwise;
+#X text 541 388 moving clockwise;
+#X obj 415 366 select 0 1;
+#X obj 315 366 select 1 0;
+#X obj 315 288 r player-\$1-spat-lfo-freq;
+#X obj 315 343 <= -0.005;
+#X obj 415 343 >= 0.005;
+#X msg 455 415 \; player-\$1-spat-lfo-ctrl-color color -8.45414e+06
+0 0;
+#X msg 415 455 \; player-\$1-spat-lfo-ctrl-color color -1.67374e+07
+0 0;
+#X msg 315 495 \; player-\$1-spat-lfo-ctrl-color color -1.6763e+07
+0 0;
+#X obj 315 467 f \$1;
+#X obj 415 435 f \$1;
+#X obj 455 395 f \$1;
 #X connect 4 0 25 0;
 #X connect 6 0 18 0;
 #X connect 8 0 9 0;
 #X connect 9 0 6 0;
 #X connect 23 0 4 0;
+#X connect 29 0 35 0;
+#X connect 29 1 36 0;
+#X connect 32 0 41 0;
+#X connect 32 1 42 0;
+#X connect 33 0 40 0;
+#X connect 33 1 41 0;
+#X connect 34 0 29 0;
+#X connect 35 0 33 0;
+#X connect 36 0 32 0;
+#X connect 40 0 39 0;
+#X connect 41 0 38 0;
+#X connect 42 0 37 0;
 #X coords 0 -1 1 1 360 170 1 50 50;
