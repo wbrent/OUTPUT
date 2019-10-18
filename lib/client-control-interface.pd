@@ -85,6 +85,7 @@
 #X obj 56 524 netprep-withSet player-\$1-interpolation;
 #X obj 57 125 netprep-withSet player-\$1-spat-lfo-freq;
 #X obj 435 255 netprep player-\$1-spat-lfo-ctrl-color;
+#X obj 435 285 netprep player-\$1-set-time-idx;
 #X restore 62 196 pd netpreps;
 #N canvas 342 266 640 564 algo-cache-stuff 0;
 #X obj 270 172 i;
