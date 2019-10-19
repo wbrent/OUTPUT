@@ -21,7 +21,7 @@
 ;
 #X obj 613 368 bng 15 250 50 0 player-\$1-algo-randomize player-\$1-algo-randomize-set
 randomize 17 7 0 10 -262144 -1 -1;
-#X obj 613 388 bng 15 250 50 0 player-\$1-algo-load-params player-\$1-algo-load-params-set
+#X obj 673 408 bng 15 250 50 0 player-\$1-algo-load-params player-\$1-algo-load-params-set
 load 17 7 0 10 -204786 -1 -1;
 #X obj 613 408 bng 15 250 50 0 player-\$1-algo-save-params player-\$1-algo-save-params-set
 save 17 7 0 10 -261234 -1 -1;
@@ -38,8 +38,6 @@ empty 17 7 0 10 -262144 -1 -1;
 #X obj 140 487 t f b;
 #X obj 140 539 until;
 #X obj 140 605 f;
-#X obj 180 609 + 1;
-#X msg 192 563 0;
 #X obj 140 629 t f f;
 #X msg 140 456 10;
 #X obj 140 52 inlet;
@@ -74,38 +72,60 @@ disables manual algo-select during the cache or preset loading process.
 #X obj 140 85 t b b b b b b;
 #X obj 74 782 f \$1;
 #X msg 140 760 \; player-\$3-algo-param-\$2-set \$1 \;;
+#X msg 192 563 9;
+#X obj 180 609 - 1;
+#X text 238 704 populate params starting at 9 and counting down to
+0 so that param 0 is the last one changed. that way \, controller buttons
+for inc/dec/rand of most recently adjusted param will bet set up to
+work on param 0 directly after preset load., f 86;
+#X obj 133 345 spigot;
+#X obj 193 345 r player-\$1-load-params;
+#X obj 194 269 spigot;
+#X obj 236 213 spigot;
+#X obj 274 157 spigot;
+#X obj 334 157 r player-\$1-load-time;
+#X obj 296 213 r player-\$1-load-tempo;
+#X obj 254 239 r player-\$1-load-bitDepth;
 #X connect 0 0 1 0;
-#X connect 0 1 4 0;
+#X connect 0 1 31 0;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
-#X connect 2 0 5 0;
-#X connect 3 0 2 1;
-#X connect 4 0 2 1;
-#X connect 5 0 21 0;
-#X connect 5 1 20 1;
-#X connect 6 0 0 0;
-#X connect 7 0 30 0;
-#X connect 8 0 22 0;
-#X connect 10 0 9 0;
-#X connect 11 0 16 0;
-#X connect 12 0 18 0;
+#X connect 2 0 32 0;
+#X connect 3 0 19 0;
+#X connect 3 1 18 1;
+#X connect 4 0 0 0;
+#X connect 5 0 28 0;
+#X connect 6 0 20 0;
+#X connect 8 0 7 0;
+#X connect 9 0 14 0;
+#X connect 10 0 16 0;
+#X connect 11 0 21 0;
+#X connect 12 0 22 0;
 #X connect 13 0 23 0;
-#X connect 14 0 24 0;
-#X connect 15 0 25 0;
-#X connect 19 0 26 0;
-#X connect 20 0 32 0;
-#X connect 21 0 20 0;
+#X connect 17 0 24 0;
+#X connect 18 0 30 0;
+#X connect 19 0 18 0;
+#X connect 20 0 8 0;
+#X connect 21 0 9 0;
 #X connect 22 0 10 0;
-#X connect 23 0 11 0;
-#X connect 24 0 12 0;
-#X connect 25 0 19 0;
-#X connect 30 0 31 0;
-#X connect 30 1 6 0;
-#X connect 30 2 8 0;
-#X connect 30 3 13 0;
-#X connect 30 4 14 0;
-#X connect 30 5 15 0;
-#X connect 31 0 29 0;
+#X connect 23 0 17 0;
+#X connect 28 0 29 0;
+#X connect 28 1 34 0;
+#X connect 28 2 36 0;
+#X connect 28 3 37 0;
+#X connect 28 4 38 0;
+#X connect 28 5 13 0;
+#X connect 29 0 27 0;
+#X connect 31 0 2 1;
+#X connect 32 0 2 1;
+#X connect 34 0 4 0;
+#X connect 35 0 34 1;
+#X connect 36 0 6 0;
+#X connect 37 0 11 0;
+#X connect 38 0 12 0;
+#X connect 39 0 38 1;
+#X connect 40 0 37 1;
+#X connect 41 0 36 1;
 #X restore 820 676 pd populate;
 #X obj 159 382 bng 15 250 50 0 empty player-\$1-algo-dec-param-1-set
 - 4 8 0 12 -241291 -228992 -1;
@@ -476,7 +496,7 @@ doesn't, f 31;
 #X connect 14 0 15 0;
 #X connect 15 0 5 0;
 #X restore 503 228 pd keyboard-commands;
-#N canvas 780 442 882 520 init 0;
+#N canvas 780 442 973 520 init 0;
 #X obj 66 175 select 0 1 2 3 4;
 #X msg 66 219 4;
 #X msg 146 219 3;
@@ -503,6 +523,12 @@ doesn't, f 31;
 #X obj 289 305 pack f \$1;
 #X obj 66 395 pack f \$1;
 #X obj 66 43 t f b;
+#X obj 479 54 r lb1;
+#X text 529 44 << sent from OUTPUT-client-player upon TCP/IP connection
+success, f 33;
+#X obj 479 78 f \$1;
+#X msg 479 102 \; player-\$1-load-params-set 1 \; player-\$1-load-bitDepth-set
+1 \; player-\$1-load-time-set 1 \; player-\$1-load-tempo-set 1 \;;
 #X connect 0 0 1 0;
 #X connect 0 1 9 0;
 #X connect 0 2 2 0;
@@ -533,6 +559,8 @@ doesn't, f 31;
 #X connect 21 0 18 0;
 #X connect 22 0 0 0;
 #X connect 22 1 16 0;
+#X connect 23 0 25 0;
+#X connect 25 0 26 0;
 #X restore 503 258 pd init;
 #N canvas 251 329 1102 420 store-other-info 0;
 #X obj 75 137 t f b;
@@ -565,6 +593,14 @@ upon init;
 #X text 592 21 \$1: parent player ID number \;;
 #X obj 503 108 table player-\$1-algo-params 14;
 #X obj 673 198 clone last-param-changed-abs 10 \$1;
+#X obj 673 428 tgl 15 0 player-\$1-load-params player-\$1-load-params-set
+params 17 7 0 10 -262144 -1 -1 0 1;
+#X obj 673 448 tgl 15 0 player-\$1-load-bitDepth player-\$1-load-bitDepth-set
+bit 17 7 0 10 -262144 -1 -1 0 1;
+#X obj 673 468 tgl 15 0 player-\$1-load-time player-\$1-load-time-set
+time 17 7 0 10 -262144 -1 -1 0 1;
+#X obj 673 488 tgl 15 0 player-\$1-load-tempo player-\$1-load-tempo-set
+tempo 17 7 0 10 -262144 -1 -1 0 1;
 #X connect 13 0 69 0;
 #X connect 14 0 13 0;
 #X connect 14 0 18 0;
