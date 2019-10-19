@@ -34,7 +34,7 @@
 #X obj 345 154 clone spat-LFO-abs 6;
 #X restore 822 303 pd players;
 #X obj 21 590 hsl 300 45 40 100 0 0 master-volume master-volume-set
-master-volume 8 16 0 32 -262144 -1 -1 24917 1;
+master-volume 8 16 0 32 -262144 -1 -1 21500 1;
 #X obj 18 641 bng 15 250 50 0 reset-master-clock empty reset-master-clock
 17 7 0 12 -262144 -1 -1;
 #X obj 615 711 cpumeter;
@@ -44,9 +44,9 @@ master-volume 8 16 0 32 -262144 -1 -1 24917 1;
 #X obj 388 220 control-panel-abs 3;
 #X obj 18 400 control-panel-abs 4;
 #X obj 388 400 control-panel-abs 5;
-#N canvas 294 359 824 541 netreceive 0;
-#X obj 432 285 s;
-#X obj 432 243 unpack f s;
+#N canvas 294 359 752 569 netreceive 0;
+#X obj 344 339 s;
+#X obj 344 297 unpack f s;
 #X obj 64 119 netreceive 57120;
 #X obj 245 182 s connected-clients;
 #X obj 64 246 spigot;
@@ -54,15 +54,15 @@ master-volume 8 16 0 32 -262144 -1 -1 24917 1;
 #X obj 148 253 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 64 12 r client-netsend-data-hub;
-#X obj 130 359 list split 3;
-#X obj 130 458 s;
-#X obj 180 458 symbol;
-#X text 325 408 << special case for spat LFO freq nbx color, f 23
+#X obj 199 375 list split 3;
+#X obj 199 474 s;
+#X obj 249 474 symbol;
+#X text 394 424 << special case for spat LFO freq nbx color, f 23
 ;
-#X obj 130 398 list prepend color;
-#X text 559 239 << all other incoming data is a single float followed
+#X obj 199 414 list prepend color;
+#X text 471 293 << all other incoming data is a single float followed
 by the send symbol, f 17;
-#X obj 130 427 list trim;
+#X obj 199 443 list trim;
 #X obj 199 241 route color;
 #X connect 1 0 0 0;
 #X connect 1 1 0 1;
@@ -189,10 +189,10 @@ by the send symbol, f 17;
 #X floatatom 615 661 5 0 0 2 clients connected-clients -;
 #N canvas 703 232 450 300 plotting 0;
 #X obj 78 49 clone 6 plotting-abs;
-#X floatatom 215 231 5 0 0 1 ms - -;
-#X obj 215 259 s plot-duration;
-#X obj 215 150 r lb4;
-#X msg 215 179 100;
+#X floatatom 142 193 5 0 0 1 ms - -;
+#X obj 142 221 s plot-duration;
+#X obj 142 112 r lb4;
+#X msg 142 141 100;
 #X connect 1 0 2 0;
 #X connect 3 0 4 0;
 #X connect 4 0 1 0;

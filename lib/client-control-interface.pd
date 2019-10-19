@@ -1,4 +1,4 @@
-#N canvas 817 206 1062 201 12;
+#N canvas 772 192 1062 201 12;
 #N canvas 465 392 1222 370 panel 0;
 #X obj 20 20 control-panel-abs \$1;
 #N canvas 1006 264 749 605 netpreps 0;
@@ -33,6 +33,7 @@
 #X obj 57 125 netprep-withSet player-\$1-spat-lfo-freq;
 #X obj 435 255 netprep player-\$1-spat-lfo-ctrl-color;
 #X obj 435 285 netprep player-\$1-set-time-idx;
+#X obj 435 315 netprep player-\$1-current-time-index;
 #X restore 20 201 pd netpreps;
 #N canvas 1214 498 583 462 algo-cache-stuff 0;
 #X msg 43 116 0;
