@@ -253,10 +253,10 @@ in the next block.;
 #X obj 163 288 outlet;
 #X msg 219 196 getTimeIndex;
 #X msg 97 77 setTimeIndex \$1;
-#X obj 97 52 r player-\$1-set-time-idx;
+#X obj 97 52 r player-\$1-set-time-index;
 #X obj 244 229 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj 269 224 r get-player-\$1-interp-mu;
+#X obj 269 224 r player-\$1-get-interp-mu;
 #X msg 269 249 getInterpMu;
 #X obj 65 53 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
@@ -338,9 +338,9 @@ in the next block.;
 #X restore 143 155 pd algo-param-receives;
 #X obj 161 390 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj 185 389 r get-player-\$1-time-index;
+#X obj 185 389 r player-\$1-get-time-index;
 #X obj 185 423 f;
-#X obj 185 444 s player-\$1-time-idx;
+#X obj 185 444 s player-\$1-time-index;
 #X obj 405 423 f;
 #X obj 405 389 metro 1000;
 #X obj 405 446 pack f \$1;
