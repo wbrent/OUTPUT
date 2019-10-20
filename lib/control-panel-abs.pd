@@ -29,14 +29,14 @@ player-#1-rvb-liveness;
 ;
 #X obj 65 174 tgl 15 0 player-\$1-compute player-\$1-compute-set comp
 17 7 0 10 -262144 -1 -1 0 1;
-#X msg 65 363 \; pd-player-\$2-plot vis \$1 \;;
 #X obj 191 174 hradio 15 1 0 6 player-\$1-tempo-sync player-\$1-tempo-sync-set
 tempoSync 16 8 0 10 -262144 -1 -1 4;
 #X obj 191 194 hradio 15 1 0 6 player-\$1-time-sync player-\$1-time-sync-set
 timeSync 16 8 0 10 -262144 -1 -1 0;
 #X obj 125 174 tgl 15 0 player-\$1-interpolation player-\$1-interpolation-set
 intrp 17 7 0 10 -262144 -1 -1 0 1;
-#X floatatom 65 194 15 0 0 1 t player-#1-time-index -;
+#X floatatom 65 194 15 0 0 1 t player-#1-set-time-index-set player-#1-set-time-index
+;
 #X obj 439 26 r lb4;
 #X obj 386 194 tgl 15 0 player-\$1-kbd-control player-\$1-kbd-control-set
 k 5 7 0 10 -262144 -1 -1 0 1;
@@ -75,21 +75,23 @@ empty 0 -9 0 10 -262144 -1 -1 0 1;
 0 \; player-\$1-compute-set 1 \; player-\$1-interpolation-set 1 \;
 player-\$1-algo-select-set 0 \; player-\$1-tempo-set 40 \; player-\$1-pitch-bend-display
 0 \; player-\$1-kbd-control-set 0 \;;
-#X connect 4 0 45 0;
-#X connect 6 0 18 0;
+#X msg 111 258 \; pd-player-\$2-plot vis \$1 \;;
+#X msg 65 363 \; pd-player-\$2-raw-output-plot vis \$1 \;;
+#X connect 4 0 44 0;
+#X connect 6 0 46 0;
 #X connect 8 0 9 0;
 #X connect 9 0 6 0;
-#X connect 23 0 4 0;
-#X connect 28 0 34 0;
-#X connect 28 1 35 0;
-#X connect 31 0 40 0;
-#X connect 31 1 41 0;
-#X connect 32 0 39 0;
-#X connect 32 1 40 0;
-#X connect 33 0 28 0;
-#X connect 34 0 32 0;
-#X connect 35 0 31 0;
-#X connect 39 0 38 0;
-#X connect 40 0 37 0;
-#X connect 41 0 36 0;
+#X connect 22 0 4 0;
+#X connect 27 0 33 0;
+#X connect 27 1 34 0;
+#X connect 30 0 39 0;
+#X connect 30 1 40 0;
+#X connect 31 0 38 0;
+#X connect 31 1 39 0;
+#X connect 32 0 27 0;
+#X connect 33 0 31 0;
+#X connect 34 0 30 0;
+#X connect 38 0 37 0;
+#X connect 39 0 36 0;
+#X connect 40 0 35 0;
 #X coords 0 -1 1 1 360 170 1 50 50;
