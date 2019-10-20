@@ -1,5 +1,5 @@
-#N canvas 220 321 538 424 10;
-#X floatatom 106 118 0 0 0 1 % - -;
+#N canvas 220 321 538 424 16;
+#X floatatom 108 109 0 0 0 1 %-CPU - -;
 #X obj 255 170 cputime;
 #X obj 255 30 loadbang;
 #X obj 255 114 metro 1000;
@@ -18,4 +18,4 @@
 #X connect 6 1 1 1;
 #X connect 7 0 0 0;
 #X connect 8 0 7 0;
-#X coords 0 -1 1 1 60 40 1 100 100;
+#X coords 0 -1 1 1 100 40 2 100 100;

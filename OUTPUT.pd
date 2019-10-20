@@ -34,8 +34,8 @@
 #X obj 345 154 clone spat-LFO-abs 6;
 #X restore 822 303 pd players;
 #X obj 21 590 hsl 300 45 40 100 0 0 master-volume master-volume-set
-master-volume 8 16 0 32 -262144 -1 -1 21500 1;
-#X obj 18 641 bng 15 250 50 0 reset-master-clock empty reset-master-clock
+master-volume 8 24 0 32 -262144 -1 -1 24917 1;
+#X obj 18 641 bng 15 250 50 0 reset-all-player-clocks empty reset-all-player-clocks
 17 7 0 12 -262144 -1 -1;
 #X obj 615 711 cpumeter;
 #X obj 18 220 control-panel-abs 2;
@@ -208,7 +208,6 @@ by the send symbol, f 17;
 #X obj 98 250 + 1;
 #X msg 74 209 0;
 #X msg 41 283 \; player-\$1-set-time-index 0 \;;
-#X obj 41 86 r reset-master-clock;
 #X msg 411 117 6;
 #X obj 411 146 t f b;
 #X obj 411 175 until;
@@ -217,6 +216,7 @@ by the send symbol, f 17;
 #X msg 444 209 0;
 #X msg 411 283 \; player-\$1-get-time-index bang \;;
 #X obj 411 86 r get-all-player-times;
+#X obj 41 86 r reset-all-player-clocks;
 #X connect 0 0 1 0;
 #X connect 2 0 3 0;
 #X connect 3 0 4 0;
@@ -226,18 +226,18 @@ by the send symbol, f 17;
 #X connect 5 0 8 0;
 #X connect 6 0 5 1;
 #X connect 7 0 5 1;
-#X connect 9 0 2 0;
+#X connect 9 0 10 0;
 #X connect 10 0 11 0;
+#X connect 10 1 14 0;
 #X connect 11 0 12 0;
-#X connect 11 1 15 0;
 #X connect 12 0 13 0;
-#X connect 13 0 14 0;
-#X connect 13 0 16 0;
-#X connect 14 0 13 1;
-#X connect 15 0 13 1;
-#X connect 17 0 10 0;
+#X connect 12 0 15 0;
+#X connect 13 0 12 1;
+#X connect 14 0 12 1;
+#X connect 16 0 9 0;
+#X connect 17 0 2 0;
 #X restore 822 393 pd interface;
-#X obj 18 671 bng 15 250 50 0 get-all-player-times empty get-all-player-times
+#X obj 18 661 bng 15 250 50 0 get-all-player-times empty get-all-player-times
 17 7 0 12 -262144 -1 -1;
 #X coords 0 -1 1 1 750 750 1 10 10;
 #X restore 45 27 pd control-panel;

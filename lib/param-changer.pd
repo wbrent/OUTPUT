@@ -17,8 +17,8 @@
 #X msg 225 315 \; player-\$2-algo-param-\$3-set \$1 \;;
 #X obj 225 291 pack f \$1 \$2;
 #X text 543 268 \$1: player ID number \; \$2: param index \;;
-#X obj 317 100 r player-\$1-algo-param-\$3;
-#X obj 577 100 r player-\$1-algo-param-\$3;
+#X obj 317 100 r player-\$1-algo-param-\$2;
+#X obj 577 100 r player-\$1-algo-param-\$2;
 #X connect 0 0 4 0;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
