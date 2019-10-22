@@ -1,13 +1,21 @@
 player A:
 
-102, 1: player A gain
-104, 1: spat position A
-105, 1: spat width A
-106, 1: bit depth A
-107, 1: dry gain A
-108, 1: wet gain A
-109, 1: liveness A
-118, 1: spat LFO freq A
+102: player A gain
+104: spat position A
+105: spat width A
+106: bit depth A
+107: dry gain A
+108: wet gain A
+109: liveness A
+
+110: current algo p0
+111: current algo p1
+112: current algo p2
+113: current algo p3
+114: current algo p4
+115: current algo p5
+116: current algo p6
+117: spat LFO freq A
 
 20: timeSync to most recently tempoSync'd player
 21: algo choice dec
@@ -28,28 +36,34 @@ player A:
 17: most recent param inc
 18: most recent param rand
 
-110: current algo p0
-111: current algo p1
-112: current algo p2
-113: current algo p3
-114: current algo p4
-115: current algo p5
-116: current algo p6
-117: current algo p7
+34: bit depth increment
+44: bit depth decrement
+
+35: save preset
+45: load preset
+55: refresh most recently loaded preset
 
 
 
 
 player B:
 
-102, 2: player B gain
-104, 2: spat position B
-105, 2: spat width B
-106, 2: bit depth B
-107, 2: dry gain B
-108, 2: wet gain B
-109, 2: liveness B
-118, 2: spat LFO freq B
+103: player B gain
+104: spat position B
+105: spat width B
+106: bit depth B
+107: dry gain B
+108: wet gain B
+109: liveness B
+
+110: current algo p0
+111: current algo p1
+112: current algo p2
+113: current algo p3
+114: current algo p4
+115: current algo p5
+116: current algo p6
+117: spat LFO freq B
 
 20: timeSync to most recently tempoSync'd player
 21: algo choice dec
@@ -70,11 +84,9 @@ player B:
 17: most recent param inc
 18: most recent param rand
 
-110: current algo p0
-111: current algo p1
-112: current algo p2
-113: current algo p3
-114: current algo p4
-115: current algo p5
-116: current algo p6
-117: current algo p7
+34: bit depth increment
+44: bit depth decrement
+
+35: save preset
+45: load preset
+55: refresh most recently loaded preset
