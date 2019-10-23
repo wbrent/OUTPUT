@@ -1,4 +1,4 @@
-#N canvas -1081 104 1062 201 12;
+#N canvas 733 163 1062 201 12;
 #N canvas 617 552 1222 370 panel 0;
 #X obj 20 20 control-panel-abs \$1;
 #N canvas 1006 264 749 605 netpreps 0;
@@ -14,7 +14,7 @@
 #X obj 98 288 netprep player-\$1-algo-param-8;
 #X obj 98 318 netprep player-\$1-algo-param-9;
 #X restore 463 179 pd player-\$1-algo-netpreps;
-#X obj 57 41 netprep-withSet player-\$1-gain;
+#X obj 57 26 netprep-withSet player-\$1-gain;
 #X obj 57 75 netprep-withSet player-\$1-spat-pos;
 #X obj 57 100 netprep-withSet player-\$1-spat-width;
 #X obj 57 165 netprep-withSet player-\$1-algo-select;
@@ -35,6 +35,7 @@
 #X obj 435 345 netprep player-\$1-midi-note-display;
 #X obj 435 375 netprep player-\$1-pitch-bend-display;
 #X obj 57 383 netprep-withSet player-\$1-set-time-index;
+#X obj 57 51 netprep-withSet player-\$1-mute;
 #X restore 20 201 pd netpreps;
 #N canvas 1214 498 583 462 algo-cache-stuff 0;
 #X msg 43 116 0;
@@ -659,10 +660,6 @@ player-\$1-spat-lfo-freq-set 0 1];
 #X obj 541 189 fadermap player-\$1-dry 107 \$1 0 100 player-\$1-dry-set
 1;
 #X restore 43 124 pd faders;
-#N canvas 268 769 356 144 muting 0;
-#X obj 37 37 buttonBangMap player-\$1-mute-set 11 \$1;
-#X obj 37 67 buttonBangMap player-\$1-mute-set 14 \$1;
-#X restore 212 124 pd muting;
 #N canvas 551 347 488 228 compute-interp-rand 0;
 #X obj 36 126 buttonToggleMap player-\$1-interpolation 24 \$1 0 1 player-\$1-interpolation-set
 ;
