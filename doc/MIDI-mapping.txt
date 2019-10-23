@@ -1,84 +1,41 @@
-player A:
+0: toggle controls for player A/B ("toggle" mode: 0/127)
 
+(all other CCs in "momentary" mode: 0/127)
 102: player A gain
-104: spat position A
-105: spat width A
-106: bit depth A
-107: dry gain A
-108: wet gain A
-109: liveness A
-
-110: current algo p0
-111: current algo p1
-112: current algo p2
-113: current algo p3
-114: current algo p4
-115: current algo p5
-116: current algo p6
-117: spat LFO freq A
-
-20: timeSync to most recently tempoSync'd player
-21: algo choice dec
-22: algo choice inc
-23: toggle compute
-24: toggle interpolation
-9: randomize p0 - p9
-
-10: tempo sync to player 0
-11: tempo sync to player 1
-12: tempo sync to player 2
-
-13: tempo sync to player 3
-14: tempo sync to player 4
-15: tempo sync to player 5
-
-16: most recent param dec
-17: most recent param inc
-18: most recent param rand
-
-34: bit depth increment
-44: bit depth decrement
-
-35: save preset
-45: load preset
-55: refresh most recently loaded preset
-
-
-
-
-player B:
-
 103: player B gain
-104: spat position B
-105: spat width B
-106: bit depth B
-107: dry gain B
-108: wet gain B
-109: liveness B
+104: spat position
+105: spat width
+106: bit depth
+107: dry gain
+108: wet gain
+109: liveness
 
-110: current algo p0
-111: current algo p1
-112: current algo p2
-113: current algo p3
-114: current algo p4
-115: current algo p5
-116: current algo p6
-117: spat LFO freq B
+110: p0
+111: p1
+112: p2
+113: p3
+114: p4
+115: p5
+116: p6
+117: spat LFO freq
 
-20: timeSync to most recently tempoSync'd player
+52: timeSync to most recently tempoSync'd player
 21: algo choice dec
 22: algo choice inc
 23: toggle compute
 24: toggle interpolation
 9: randomize p0 - p9
 
-10: tempo sync to player 0
-11: tempo sync to player 1
-12: tempo sync to player 2
+11: mute player A
+14: mute player B
 
-13: tempo sync to player 3
-14: tempo sync to player 4
-15: tempo sync to player 5
+30: tempo sync to player 0
+40: tempo sync to player 1
+50: tempo sync to player 2
+
+31: tempo sync to player 3
+41: tempo sync to player 4
+51: tempo sync to player 5
 
 16: most recent param dec
 17: most recent param inc
