@@ -1,4 +1,4 @@
-#N canvas 748 285 1062 201 12;
+#N canvas -1081 104 1062 201 12;
 #N canvas 617 552 1222 370 panel 0;
 #X obj 20 20 control-panel-abs \$1;
 #N canvas 1006 264 749 605 netpreps 0;
@@ -582,8 +582,6 @@ scale from 0 to 4 \, but also log scale going from 0 down to -4;
 #X obj 70 299 fadermap player-\$1-algo-param-5 115 \$1 0 255 player-\$1-algo-param-5-set
 1;
 #X obj 70 349 fadermap player-\$1-algo-param-6 116 \$1 0 255 player-\$1-algo-param-6-set
-1;
-#X obj 70 399 fadermap player-\$1-algo-param-7 117 \$1 0 255 player-\$1-algo-param-7-set
 1;
 #X restore 413 34 pd param-knobs;
 #N canvas 559 236 860 389 bitDepth 0;
