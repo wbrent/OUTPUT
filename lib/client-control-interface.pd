@@ -192,16 +192,16 @@ toggle \; c \, v \, b \, n \, m: tempoSync to 0-4 \; space: `;
 #X obj 456 445 / 8191;
 #X obj 526 445 / 8190;
 #X obj 94 174 stripnote;
-#X obj 591 458 / 127;
+#X obj 591 428 / 127;
 #X obj 591 506 + 1;
 #X obj 427 583 t b f;
 #X obj 94 143 spigot;
 #X obj 346 351 spigot;
-#X obj 591 424 spigot;
-#X obj 591 386 ctlin 1;
+#X obj 591 394 spigot;
+#X obj 591 356 ctlin 1;
 #X obj 94 432 +;
 #X obj 94 556 s player-\$1-tempo-set;
-#X text 671 416 set the range of the tempo bend with the mod wheel
+#X text 671 386 set the range of the tempo bend with the mod wheel
 , f 14;
 #X obj 94 456 max 1;
 #X obj 94 258 mtof;
@@ -263,6 +263,7 @@ being off. must check the sum post-storage of the incoming note state.
 #X connect 10 0 6 0;
 #X connect 10 1 4 0;
 #X restore 202 84 pd detect-no-keys;
+#X obj 591 452 pow 2;
 #X connect 0 0 13 0;
 #X connect 0 0 49 0;
 #X connect 0 1 9 1;
@@ -280,7 +281,7 @@ being off. must check the sum post-storage of the incoming note state.
 #X connect 9 0 21 0;
 #X connect 9 0 35 0;
 #X connect 9 1 31 0;
-#X connect 10 0 30 0;
+#X connect 10 0 50 0;
 #X connect 11 0 38 1;
 #X connect 12 0 17 0;
 #X connect 12 1 17 1;
@@ -323,6 +324,7 @@ being off. must check the sum post-storage of the incoming note state.
 #X connect 48 0 45 0;
 #X connect 49 0 40 0;
 #X connect 49 0 29 1;
+#X connect 50 0 30 0;
 #X restore 43 34 pd keyboard-tempo;
 #N canvas 0 23 470 269 timeSync 0;
 #X obj 123 153 r player-\$1-tempo-sync;
@@ -584,12 +586,6 @@ scale from 0 to 4 \, but also log scale going from 0 down to -4;
 #X obj 70 399 fadermap player-\$1-algo-param-7 117 \$1 0 255 player-\$1-algo-param-7-set
 1;
 #X restore 413 34 pd param-knobs;
-#N canvas 770 330 500 213 save-load-refresh 0;
-#X obj 37 97 buttonBangMap player-\$1-algo-refresh-params-set 55 \$1
-;
-#X obj 37 37 buttonBangMap player-\$1-algo-save-params-set 35 \$1;
-#X obj 37 67 buttonBangMap player-\$1-algo-load-params-set 45 \$1;
-#X restore 413 64 pd save-load-refresh;
 #N canvas 559 236 860 389 bitDepth 0;
 #X obj 113 93 spigot;
 #X obj 113 157 t b;
@@ -676,6 +672,20 @@ player-\$1-spat-lfo-freq-set 0 1];
 ;
 #X obj 36 46 buttonBangMap player-\$1-algo-randomize-set 9 \$1;
 #X restore 413 124 pd compute-interp-rand;
+#N canvas 960 227 542 406 preset-loading 0;
+#X obj 37 97 buttonBangMap player-\$1-algo-refresh-params-set 55 \$1
+;
+#X obj 37 37 buttonBangMap player-\$1-algo-save-params-set 35 \$1;
+#X obj 37 67 buttonBangMap player-\$1-algo-load-params-set 45 \$1;
+#X obj 37 147 buttonToggleMap player-\$1-load-bitDepth 33 \$1 0 1 player-\$1-load-bitDepth-set
+;
+#X obj 37 297 buttonToggleMap player-\$1-load-params 54 \$1 0 1 player-\$1-load-params-set
+;
+#X obj 37 247 buttonToggleMap player-\$1-load-tempo 53 \$1 0 1 player-\$1-load-tempo-set
+;
+#X obj 37 197 buttonToggleMap player-\$1-load-time 43 \$1 0 1 player-\$1-load-time-set
+;
+#X restore 413 64 pd preset-loading;
 #X restore 20 291 pd MIDI;
 #X obj 400 20 algo-param-interface-client \$1;
 #X coords 0 -1 1 1 1030 170 2 20 20;

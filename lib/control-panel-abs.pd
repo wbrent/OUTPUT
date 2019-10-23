@@ -2,10 +2,10 @@
 #X obj 68 124 hsl 128 15 0 1 0 0 player-\$1-spat-pos player-\$1-spat-pos-set
 player-\$1-spat-pos 4 8 0 10 -262144 -1 -1 0 1;
 #X obj 68 84 hsl 128 15 40 100 0 0 player-\$1-gain player-\$1-gain-set
-player-\$1-gain 4 8 0 10 -262144 -1 -1 0 1;
+player-\$1-gain 4 8 0 10 -262144 -1 -1 11000 1;
 #X floatatom 206 84 5 0 0 1 dB player-#1-gain -;
 #X obj 68 144 hsl 128 15 0.01 1 0 0 player-\$1-spat-width player-\$1-spat-width-set
-player-\$1-spat-width 4 8 0 10 -262144 -1 -1 0 1;
+player-\$1-spat-width 4 8 0 10 -262144 -1 -1 4362 1;
 #X obj 724 53 f \$1;
 #X obj 206 124 hradio 15 1 0 5 player-\$1-algo-select player-\$1-algo-select-set
 algo-select 0 -8 0 10 -262144 -1 -1 0;
@@ -28,13 +28,13 @@ player-#1-rvb-liveness;
 #X floatatom 296 194 7 1 240 1 tempo player-#1-tempo-set player-#1-tempo
 ;
 #X obj 65 174 tgl 15 0 player-\$1-compute player-\$1-compute-set comp
-17 7 0 10 -262144 -1 -1 0 1;
+17 7 0 10 -262144 -1 -1 1 1;
 #X obj 191 174 hradio 15 1 0 6 player-\$1-tempo-sync player-\$1-tempo-sync-set
 tempoSync 16 8 0 10 -262144 -1 -1 4;
 #X obj 191 194 hradio 15 1 0 6 player-\$1-time-sync player-\$1-time-sync-set
 timeSync 16 8 0 10 -262144 -1 -1 0;
 #X obj 125 174 tgl 15 0 player-\$1-interpolation player-\$1-interpolation-set
-intrp 17 7 0 10 -262144 -1 -1 0 1;
+intrp 17 7 0 10 -262144 -1 -1 1 1;
 #X floatatom 65 194 15 0 0 1 t player-#1-set-time-index-set player-#1-set-time-index
 ;
 #X obj 724 28 r lb4;
@@ -67,14 +67,12 @@ in the abstraction though \, so that they can be set in the same way.
 , f 30;
 #X floatatom 296 174 5 0 127 1 note player-#1-midi-note-display -;
 #X obj 286 176 vsl 8 30 -1 1 0 0 empty player-\$1-pitch-bend-display
-empty 0 -9 0 10 -262144 -1 -1 0 1;
+empty 0 -9 0 10 -262144 -1 -1 1450 1;
 #X msg 65 363 \; pd-player-\$2-raw-output-plot vis \$1 \;;
 #X obj 498 83 r player-\$1-mute;
 #X obj 498 184 t b;
 #X obj 498 131 f;
 #X obj 498 209 f;
-#X obj 498 161 moses 1;
-#X obj 535 133 moses 1;
 #X obj 535 104 r player-\$1-gain;
 #X obj 498 235 s player-\$1-gain-set;
 #X obj 538 184 t b;
@@ -88,7 +86,9 @@ empty 0 -9 0 10 -262144 -1 -1 0 1;
 \; player-\$1-compute-set 1 \; player-\$1-interpolation-set 1 \; player-\$1-algo-select-set
 0 \; player-\$1-tempo-set 30 \; player-\$1-pitch-bend-display 0 \;
 player-\$1-kbd-control-set 0 \;;
-#X connect 4 0 56 0;
+#X obj 535 133 moses 41;
+#X obj 498 161 moses 41;
+#X connect 4 0 54 0;
 #X connect 6 0 44 0;
 #X connect 8 0 9 0;
 #X connect 9 0 6 0;
@@ -107,13 +107,13 @@ player-\$1-kbd-control-set 0 \;;
 #X connect 40 0 35 0;
 #X connect 45 0 47 0;
 #X connect 46 0 48 0;
-#X connect 47 0 49 0;
-#X connect 48 0 52 0;
-#X connect 49 0 46 0;
-#X connect 49 1 53 0;
-#X connect 50 1 48 1;
-#X connect 51 0 47 1;
-#X connect 51 0 50 0;
-#X connect 53 0 55 0;
-#X connect 55 0 52 0;
+#X connect 47 0 56 0;
+#X connect 48 0 50 0;
+#X connect 49 0 47 1;
+#X connect 49 0 55 0;
+#X connect 51 0 53 0;
+#X connect 53 0 50 0;
+#X connect 55 1 48 1;
+#X connect 56 0 46 0;
+#X connect 56 1 51 0;
 #X coords 0 -1 1 1 360 170 1 50 50;
