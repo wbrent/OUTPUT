@@ -229,23 +229,16 @@ by the send symbol, f 17;
 #X connect 16 0 9 0;
 #X connect 17 0 2 0;
 #X restore 822 363 pd interface;
-#N canvas 412 280 1166 637 DRFX 0;
+#N canvas 540 134 1166 637 DRFX 0;
 #X obj 72 510 DRFX;
-#N canvas 229 147 1571 616 FX-plugins 0;
-#X obj 520 210 pitch-shift-plugin A;
+#N canvas 229 147 764 652 FX-plugins 0;
+#X obj 270 230 pitch-shift-plugin A;
 #X obj 270 20 pulser-plugin A;
-#X obj 270 210 reverb-plugin A;
-#X obj 770 20 ring-mod-plugin A;
+#X obj 20 440 ring-mod-plugin A;
 #X obj 520 20 phaser-plugin A;
-#X obj 20 210 echodel-plugin B;
+#X obj 20 230 echodel-plugin B;
 #X obj 20 20 echodel-plugin A;
-#X obj 770 210 sr-decimator-plugin A;
-#X obj 20 420 direct-plugin A;
-#X obj 270 420 direct-plugin B;
-#X obj 520 420 direct-plugin C;
-#X obj 770 420 direct-plugin D;
-#X obj 1020 420 direct-plugin E;
-#X obj 1270 420 direct-plugin F;
+#X obj 520 230 sr-decimator-plugin A;
 #X restore 962 523 pd FX-plugins;
 #X msg 310 387 matrix \$1;
 #N canvas 748 231 556 393 exporting-and-loading-presets 0;
@@ -290,7 +283,7 @@ by the send symbol, f 17;
 #X restore 605 398 pd other-stuff;
 #X msg 279 270 create;
 #X msg 289 310 destroy;
-#X msg 152 16 input-list player-0-output player-1-output player-2-output
+#X msg 183 55 input-list player-0-output player-1-output player-2-output
 player-3-output player-4-output player-5-output;
 #X obj 13 32 r lb1;
 #X obj 13 61 t b b b b;
@@ -325,30 +318,61 @@ player-3-output player-4-output player-5-output;
 #X obj 418 454 spat-LFO-abs ring-mod-A;
 #X obj 418 484 spat-LFO-abs sr-decimator-A;
 #X restore 962 553 pd spat-abs;
-#X msg 196 84 fx-list direct-A direct-B direct-C direct-D direct-E
-direct-F echodel-A echodel-B phaser-A pitch-shift-A pulser-A reverb-A
-ring-mod-A sr-decimator-A;
 #N canvas 253 125 1346 650 fx-params 0;
 #X obj 90 44 inlet;
 #X obj 90 553 outlet;
-#X msg 90 114 fx-params direct-A-spat-pos direct-A-spat-width direct-B-spat-pos
-direct-B-spat-width direct-C-spat-pos direct-C-spat-width direct-D-spat-pos
-direct-D-spat-width direct-E-spat-pos direct-E-spat-width direct-F-spat-pos
-direct-F-spat-width echodel-A-deltime echodel-A-fdbk echodel-A-spat-pos
-echodel-A-spat-width echodel-B-deltime echodel-B-fdbk echodel-B-spat-pos
-echodel-B-spat-width phaser-A-rate phaser-A-spat-pos phaser-A-spat-width
-pitch-shift-A-transpo pitch-shift-A-spat-pos pitch-shift-A-spat-width
-pulser-A-rate pulser-A-spat-pos pulser-A-spat-width reverb-A-rvb reverb-A-spat-pos
-reverb-A-spat-width ring-mod-A-freq ring-mod-A-spat-pos ring-mod-A-spat-width
+#X msg 90 113 fx-params direct-A-spat-pos direct-A-spat-width direct-A-spat-lfo-freq
+direct-B-spat-pos direct-B-spat-width direct-B-spat-lfo-freq direct-C-spat-pos
+direct-C-spat-width direct-C-spat-lfo-freq direct-D-spat-pos direct-D-spat-width
+direct-D-spat-lfo-freq direct-E-spat-pos direct-E-spat-width direct-E-spat-lfo-freq
+direct-F-spat-pos direct-F-spat-width direct-F-spat-lfo-freq reverb-A-rvb
+reverb-A-spat-pos reverb-A-spat-width reverb-A-spat-lfo-freq reverb-B-rvb
+reverb-B-spat-pos reverb-B-spat-width reverb-B-spat-lfo-freq reverb-C-rvb
+reverb-C-spat-pos reverb-C-spat-width reverb-C-spat-lfo-freq reverb-D-rvb
+reverb-D-spat-pos reverb-D-spat-width reverb-D-spat-lfo-freq reverb-E-rvb
+reverb-E-spat-pos reverb-E-spat-width reverb-E-spat-lfo-freq reverb-F-rvb
+reverb-F-spat-pos reverb-F-spat-width reverb-F-spat-lfo-freq echodel-A-deltime
+echodel-A-fdbk echodel-A-spat-pos echodel-A-spat-width echodel-A-spat-lfo-freq
+echodel-B-deltime echodel-B-fdbk echodel-B-spat-pos echodel-B-spat-width
+echodel-B-spat-lfo-freq phaser-A-rate phaser-A-spat-pos phaser-A-spat-width
+phaser-A-spat-lfo-freq pitch-shift-A-transpo pitch-shift-A-spat-pos
+pitch-shift-A-spat-width pitch-shift-A-spat-lfo-freq pulser-A-rate
+pulser-A-spat-pos pulser-A-spat-width pulser-A-spat-lfo-freq ring-mod-A-freq
+ring-mod-A-spat-pos ring-mod-A-spat-width ring-mod-A-spat-lfo-freq
 sr-decimator-A-rate sr-decimator-A-spat-pos sr-decimator-A-spat-width
-, f 109;
+sr-decimator-A-spat-lfo-freq, f 109;
 #X connect 0 0 2 0;
 #X connect 2 0 1 0;
 #X restore 248 196 pd fx-params;
 #X obj 72 602 qlist;
+#N canvas 1175 74 528 552 direct-outs 0;
+#X obj 29 35 direct-plugin A;
+#X obj 279 35 direct-plugin B;
+#X obj 29 205 direct-plugin C;
+#X obj 279 205 direct-plugin D;
+#X obj 29 375 direct-plugin E;
+#X obj 279 375 direct-plugin F;
+#X restore 962 463 pd direct-outs;
+#N canvas 344 92 571 634 reverbs 0;
+#X obj 46 34 reverb-plugin A;
+#X obj 306 414 reverb-plugin F;
+#X obj 46 414 reverb-plugin E;
+#X obj 306 224 reverb-plugin D;
+#X obj 46 224 reverb-plugin C;
+#X obj 306 34 reverb-plugin B;
+#X restore 962 493 pd reverbs;
+#N canvas 465 174 1004 441 fx-list 0;
+#X obj 68 39 inlet;
+#X obj 68 367 outlet;
+#X msg 68 98 fx-list direct-A direct-B direct-C direct-D direct-E direct-F
+reverb-A reverb-B reverb-C reverb-D reverb-E reverb-F echodel-A echodel-B
+phaser-A pitch-shift-A pulser-A ring-mod-A sr-decimator-A;
+#X connect 0 0 2 0;
+#X connect 2 0 1 0;
+#X restore 209 140 pd fx-list;
 #X msg 72 574 read ./FX-presets/init.txt \, rewind \, bang;
 #X connect 0 0 4 0;
-#X connect 0 0 16 0;
+#X connect 0 0 18 0;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
 #X connect 5 0 0 0;
@@ -357,20 +381,28 @@ sr-decimator-A-rate sr-decimator-A-spat-pos sr-decimator-A-spat-width
 #X connect 8 0 0 0;
 #X connect 9 0 10 0;
 #X connect 10 0 6 0;
-#X connect 10 1 14 0;
-#X connect 10 2 13 0;
+#X connect 10 1 13 0;
+#X connect 10 2 17 0;
 #X connect 10 3 8 0;
 #X connect 11 0 2 0;
 #X connect 13 0 0 0;
-#X connect 14 0 0 0;
-#X connect 16 0 15 0;
+#X connect 17 0 0 0;
+#X connect 18 0 14 0;
 #X restore 822 393 pd DRFX;
-#X obj 18 671 tgl 15 0 drfx-matrix drfx-matrix-set DRFX 17 7 0 10 -262144
--1 -1 0 1;
-#X obj 18 691 bng 15 250 50 0 empty empty plugins 17 7 0 10 -262144
+#X obj 18 671 tgl 15 0 drfx-matrix drfx-matrix-set DRFX-matrix 17 7
+0 10 -262144 -1 -1 0 1;
+#X obj 18 731 bng 15 250 50 0 empty empty FX 17 7 0 10 -262144 -1 -1
+;
+#X obj 18 711 bng 15 250 50 0 empty empty reverbs 17 7 0 10 -262144
 -1 -1;
-#X msg 19 790 \; pd-FX-plugins vis 1 \;;
-#X connect 17 0 18 0;
+#X obj 18 691 bng 15 250 50 0 empty empty directs 17 7 0 10 -262144
+-1 -1;
+#X msg 508 790 \; pd-FX-plugins vis 1 \;;
+#X msg 268 790 \; pd-reverbs vis 1 \;;
+#X msg 18 790 \; pd-direct-outs vis 1 \;;
+#X connect 17 0 20 0;
+#X connect 18 0 21 0;
+#X connect 19 0 22 0;
 #X coords 0 -1 1 1 750 750 1 10 10;
 #X restore 45 27 pd control-panel;
 #X coords 0 808 1 807 1100 600 0;
