@@ -121,6 +121,8 @@ pitch-shift-#1-spat-pos;
 #X floatatom 366 308 5 0 0 1 pitch-shift-#1-spat-width pitch-shift-#1-spat-width-set
 pitch-shift-#1-spat-width;
 #X obj 37 509 send~ pitch-shift-\$1-tap-out;
+#X floatatom 366 328 5 0 0 1 pitch-shift-#1-spat-lfo-freq pitch-shift-#1-spat-lfo-freq-set
+pitch-shift-#1-spat-lfo-freq;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
 #X connect 3 0 4 1;
@@ -134,4 +136,4 @@ pitch-shift-#1-spat-width;
 #X connect 13 0 5 0;
 #X connect 13 0 4 0;
 #X connect 14 0 10 0;
-#X coords 0 -1 1 1 210 150 1 360 180;
+#X coords 0 -1 1 1 215 170 1 360 180;

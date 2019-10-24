@@ -1,5 +1,5 @@
 #N canvas 91 105 596 585 10;
-#X floatatom 368 258 5 0 0 1 direct-#1-tap-out-gain direct-#1-tap-out-gain-set
+#X floatatom 358 245 5 0 0 1 direct-#1-tap-out-gain direct-#1-tap-out-gain-set
 direct-#1-tap-out-gain;
 #X obj 85 446 dbtorms;
 #X obj 85 468 pack f 40;
@@ -9,17 +9,19 @@ direct-#1-tap-out-gain;
 #X obj 125 243 pack f 40;
 #X obj 125 265 line~;
 #X obj 37 244 *~;
-#X floatatom 368 238 5 0 0 1 direct-#1-out-gain direct-#1-out-gain-set
+#X floatatom 358 225 5 0 0 1 direct-#1-out-gain direct-#1-out-gain-set
 direct-#1-out-gain;
 #X obj 37 59 catch~ direct-\$1-in;
 #X obj 125 198 r direct-\$1-out-gain;
 #X obj 87 370 s~ direct-\$1-out;
 #X obj 85 423 r direct-\$1-tap-out-gain;
-#X floatatom 368 288 5 0 0 1 direct-#1-spat-pos direct-#1-spat-pos-set
+#X floatatom 358 275 5 0 0 1 direct-#1-spat-pos direct-#1-spat-pos-set
 direct-#1-spat-pos;
-#X floatatom 368 308 5 0 0 1 direct-#1-spat-width direct-#1-spat-width-set
+#X floatatom 358 295 5 0 0 1 direct-#1-spat-width direct-#1-spat-width-set
 direct-#1-spat-width;
 #X obj 37 523 send~ direct-\$1-tap-out;
+#X floatatom 358 315 5 0 0 1 direct-#1-spat-lfo-freq direct-#1-spat-lfo-freq-set
+direct-#1-spat-lfo-freq;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
 #X connect 3 0 4 1;
@@ -32,4 +34,4 @@ direct-#1-spat-width;
 #X connect 10 0 8 0;
 #X connect 11 0 5 0;
 #X connect 13 0 1 0;
-#X coords 0 -1 1 1 200 130 1 350 200;
+#X coords 0 -1 1 1 200 135 1 350 200;

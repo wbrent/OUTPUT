@@ -63,6 +63,8 @@ phaser-#1-spat-pos;
 #X floatatom 308 230 5 0 0 1 phaser-#1-spat-width phaser-#1-spat-width-set
 phaser-#1-spat-width;
 #X obj 37 514 send~ phaser-\$1-tap-out;
+#X floatatom 308 250 5 0 0 1 phaser-#1-spat-lfo-freq phaser-#1-spat-lfo-freq-set
+phaser-#1-spat-lfo-freq;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
 #X connect 3 0 4 1;
@@ -76,4 +78,4 @@ phaser-#1-spat-width;
 #X connect 12 0 8 0;
 #X connect 14 0 1 0;
 #X connect 15 0 11 0;
-#X coords 0 -1 1 1 200 155 1 300 100;
+#X coords 0 -1 1 1 200 175 1 300 100;

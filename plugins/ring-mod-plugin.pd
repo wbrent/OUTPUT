@@ -27,6 +27,8 @@ ring-mod-#1-spat-pos;
 #X floatatom 368 308 5 0 0 1 ring-mod-#1-spat-width ring-mod-#1-spat-width-set
 ring-mod-#1-spat-width;
 #X obj 37 496 send~ ring-mod-\$1-tap-out;
+#X floatatom 368 328 5 0 0 1 ring-mod-#1-spat-lfo-freq ring-mod-#1-spat-lfo-freq-set
+ring-mod-#1-spat-lfo-freq;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
 #X connect 3 0 4 1;
@@ -42,4 +44,4 @@ ring-mod-#1-spat-width;
 #X connect 14 0 12 0;
 #X connect 16 0 17 0;
 #X connect 17 0 14 1;
-#X coords 0 -1 1 1 200 150 1 360 180;
+#X coords 0 -1 1 1 200 170 1 360 180;

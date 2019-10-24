@@ -55,6 +55,8 @@ echodel-#1-spat-pos;
 #X floatatom 369 329 5 0 0 1 echodel-#1-spat-width echodel-#1-spat-width-set
 echodel-#1-spat-width;
 #X obj 37 518 send~ echodel-\$1-tap-out;
+#X floatatom 369 349 5 0 0 1 echodel-#1-spat-lfo-freq echodel-#1-spat-lfo-freq-set
+echodel-#1-spat-lfo-freq;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
 #X connect 3 0 4 1;
@@ -68,4 +70,4 @@ echodel-#1-spat-width;
 #X connect 13 0 4 0;
 #X connect 14 0 10 0;
 #X connect 16 0 1 0;
-#X coords 0 -1 1 1 200 170 1 360 180;
+#X coords 0 -1 1 1 200 190 1 360 180;

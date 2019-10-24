@@ -229,7 +229,7 @@ by the send symbol, f 17;
 #X connect 16 0 9 0;
 #X connect 17 0 2 0;
 #X restore 822 363 pd interface;
-#N canvas 396 161 1166 637 DRFX 0;
+#N canvas 412 280 1166 637 DRFX 0;
 #X obj 72 510 DRFX;
 #N canvas 229 147 1571 616 FX-plugins 0;
 #X obj 520 210 pitch-shift-plugin A;
@@ -247,73 +247,6 @@ by the send symbol, f 17;
 #X obj 1020 420 direct-plugin E;
 #X obj 1270 420 direct-plugin F;
 #X restore 962 523 pd FX-plugins;
-#X obj 346 441 hradio 15 1 0 6 empty empty empty 0 -8 0 10 -262144
--1 -1 5;
-#N canvas 377 68 1344 910 test-presets 0;
-#X obj 108 41 inlet;
-#X msg 643 121 \; sine-pulse-ring-mod-A-switch-set 1 \; noise-pulse-echodel-A-switch-set
-1 \; \; ring-mod-A-freq-set 100 \; ring-mod-A-out-gain-set 100 \; ring-mod-A-reverb-A-switch-set
-1 \; reverb-A-out-gain-set 100 \; reverb-A-tap-out-gain-set 100 \;
-\; echodel-A-deltime-set 100 \; echodel-A-fdbk-set 0.8 \; echodel-A-out-gain-set
-100 \; echodel-A-tap-out-gain-set 96 \;;
-#X msg 41 580 \; sine-pulse-reverb-A-switch-set 1 \; \; reverb-A-rvb-set
-80 \; reverb-A-out-gain-set 100 \; reverb-A-tap-out-gain-set 100 \;
-;
-#X obj 108 103 t f b;
-#X msg 128 253 \; sine-pulse-pitch-shift-A-switch-set 1 \; sine-pulse-reverb-A-switch-set
-1 \; \; pitch-shift-A-transpo-set 6 \; pitch-shift-A-out-gain-set 100
-\; pitch-shift-A-tap-out-gain-set 96 \; \; reverb-A-rvb-set 75 \; reverb-A-out-gain-set
-100 \; reverb-A-tap-out-gain-set 100 \;;
-#X msg 1238 111 \; sine-pulse-pitch-shift-A-switch-set 1 \; sine-pulse-reverb-A-switch-set
-1 \; noise-pulse-echodel-B-switch-set 1 \; \; pitch-shift-A-ring-mod-A-switch-set
-1 \; ring-mod-A-reverb-A-switch-set 1 \; ring-mod-A-echodel-A-switch-set
-1 \; reverb-A-pulser-A-switch-set 1 \; \; pitch-shift-A-transpo-set
-6 \; reverb-A-rvb-set 85 \; pulser-A-rate-set 7 \; ring-mod-A-freq-set
-777 \; echodel-A-fdbk-set 0.75 \; echodel-A-deltime-set 100 \; echodel-B-fdbk-set
-0.85 \; echodel-B-deltime-set 170 \; \; pitch-shift-A-out-gain-set
-100 \; ring-mod-A-out-gain-set 100 \; reverb-A-out-gain-set 100 \;
-echodel-A-out-gain-set 100 \; echodel-B-out-gain-set 100 \; pulser-A-out-gain-set
-100 \; \; reverb-A-tap-out-gain-set 100 \; echodel-A-tap-out-gain-set
-92 \; echodel-B-tap-out-gain-set 96 \; pulser-A-tap-out-gain-set 100
-\;;
-#X obj 212 99 qlist;
-#X msg 212 71 read ./presets/init.txt \, rewind \, bang;
-#X text 209 -3 Load the initialization preset text file to clear previous
-routing \, output gains \, and FX parameter settings between preset
-changes.;
-#X obj 108 155 select 0 1 2 3 4 5;
-#X msg 810 527 sine-pulse-pitch-shift-A-switch-set 1 \; sine-pulse-sr-decimator-A-switch-set
-1 \; noise-pulse-sr-decimator-A-switch-set 1 \; \; echodel-A-phaser-A-switch-set
-1 \; pitch-shift-A-reverb-A-switch-set 1 \; pitch-shift-A-echodel-B-switch-set
-1 \; sr-decimator-A-echodel-A-switch-set 1 \; \; echodel-A-out-gain-set
-100 \; echodel-B-out-gain-set 100 \; phaser-A-out-gain-set 100 \; pitch-shift-A-out-gain-set
-100 \; reverb-A-out-gain-set 100 \; sr-decimator-A-out-gain-set 100
-\; \; echodel-B-tap-out-gain-set 100 \; phaser-A-tap-out-gain-set 100
-\; reverb-A-tap-out-gain-set 106 \; \; echodel-A-deltime-set 100 \;
-echodel-A-fdbk-set 0.8 \; echodel-B-deltime-set 175 \; echodel-B-fdbk-set
-0.9 \; phaser-A-rate-set 0.3 \; pitch-shift-A-transpo-set 16 \; pulser-A-rate-set
-5 \; reverb-A-rvb-set 90 \; ring-mod-A-freq-set 700 \; sr-decimator-A-rate-set
-3000 \;;
-#X msg 406 562 \; sine-pulse-echodel-B-switch-set 1 \; noise-pulse-echodel-B-switch-set
-1 \; \; echodel-B-phaser-A-switch-set 1 \; echodel-B-pitch-shift-A-switch-set
-1 \; pitch-shift-A-pulser-A-switch-set 1 \; pulser-A-reverb-A-switch-set
-1 \; \; echodel-B-out-gain-set 100 \; phaser-A-out-gain-set 100 \;
-pitch-shift-A-out-gain-set 104 \; pulser-A-out-gain-set 100 \; reverb-A-out-gain-set
-100 \; \; phaser-A-tap-out-gain-set 94 \; reverb-A-tap-out-gain-set
-94 \; \; echodel-B-deltime-set 146 \; echodel-B-fdbk-set 0.9 \; phaser-A-rate-set
-0.3 \; pulser-A-rate-set 5 \; pitch-shift-A-transpo-set 11 \; reverb-A-rvb-set
-60 \;;
-#X connect 0 0 3 0;
-#X connect 3 0 9 0;
-#X connect 3 1 7 0;
-#X connect 7 0 6 0;
-#X connect 9 0 2 0;
-#X connect 9 1 4 0;
-#X connect 9 2 1 0;
-#X connect 9 3 5 0;
-#X connect 9 4 11 0;
-#X connect 9 5 10 0;
-#X restore 346 464 pd test-presets;
 #X msg 310 387 matrix \$1;
 #N canvas 748 231 556 393 exporting-and-loading-presets 0;
 #X obj 37 307 outlet;
@@ -326,19 +259,14 @@ pitch-shift-A-out-gain-set 104 \; pulser-A-out-gain-set 100 \; reverb-A-out-gain
 #X obj 159 157 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 159 177 openpanel;
-#X text 124 53 << export current routing settings \, FX parameter settings
-\, and FX output gain settings as a text file. You can later load this
-file with [qlist] \, paste the code into a message box \, or paste
-it into a separate cue file to automate complex changes in sequence.
-;
 #X connect 1 0 0 0;
 #X connect 2 0 3 0;
 #X connect 3 0 1 0;
 #X connect 5 0 4 0;
 #X connect 6 0 7 0;
 #X connect 7 0 5 0;
-#X restore 362 515 pd exporting-and-loading-presets;
-#X obj 72 546 bng 15 250 50 0 empty empty done 17 7 0 10 -262144 -1
+#X restore 561 359 pd exporting-and-loading-presets;
+#X obj 92 546 bng 15 250 50 0 empty empty done 17 7 0 10 -262144 -1
 -1;
 #N canvas 302 81 1031 562 other-stuff 0;
 #X obj 28 513 outlet;
@@ -351,7 +279,6 @@ it into a separate cue file to automate complex changes in sequence.
 #X msg 186 116 fx-tap-out-gain-mute;
 #X msg 338 375 global-ramp-time 3000;
 #X msg 311 315 \; sine-pulse-reverb-A-switch-ramp-time 5000 \;;
-#X obj 439 21 r lb2;
 #X connect 1 0 0 0;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
@@ -360,54 +287,83 @@ it into a separate cue file to automate complex changes in sequence.
 #X connect 6 0 0 0;
 #X connect 7 0 0 0;
 #X connect 8 0 0 0;
-#X connect 10 0 4 0;
-#X connect 10 0 5 0;
-#X restore 406 554 pd other-stuff;
+#X restore 605 398 pd other-stuff;
 #X msg 279 270 create;
 #X msg 289 310 destroy;
-#X msg 230 170 fx-params echodel-A-deltime echodel-A-fdbk echodel-B-deltime
-echodel-B-fdbk phaser-A-rate pitch-shift-A-transpo pulser-A-rate reverb-A-rvb
-ring-mod-A-freq sr-decimator-A-rate;
 #X msg 152 16 input-list player-0-output player-1-output player-2-output
 player-3-output player-4-output player-5-output;
 #X obj 13 32 r lb1;
 #X obj 13 61 t b b b b;
 #X obj 310 357 r drfx-matrix;
-#N canvas 261 175 665 312 spat-abs 0;
+#N canvas 261 175 792 579 spat-abs 0;
 #X obj 58 34 spat-abs-8 direct-A;
 #X obj 58 64 spat-abs-8 direct-B;
 #X obj 58 94 spat-abs-8 direct-C;
 #X obj 58 124 spat-abs-8 direct-D;
 #X obj 58 154 spat-abs-8 direct-E;
 #X obj 58 184 spat-abs-8 direct-F;
-#X obj 338 34 spat-abs-8 echodel-A;
-#X obj 338 64 spat-abs-8 echodel-B;
-#X obj 338 94 spat-abs-8 pulser-A;
-#X obj 338 124 spat-abs-8 reverb-A;
-#X obj 338 154 spat-abs-8 phaser-A;
-#X obj 338 184 spat-abs-8 pitch-shift-A;
-#X obj 338 214 spat-abs-8 ring-mod-A;
-#X obj 338 244 spat-abs-8 sr-decimator-A;
+#X obj 58 274 spat-abs-8 echodel-A;
+#X obj 58 304 spat-abs-8 echodel-B;
+#X obj 58 334 spat-abs-8 pulser-A;
+#X obj 58 364 spat-abs-8 reverb-A;
+#X obj 58 394 spat-abs-8 phaser-A;
+#X obj 58 424 spat-abs-8 pitch-shift-A;
+#X obj 58 454 spat-abs-8 ring-mod-A;
+#X obj 58 484 spat-abs-8 sr-decimator-A;
+#X obj 418 34 spat-LFO-abs direct-A;
+#X obj 418 64 spat-LFO-abs direct-B;
+#X obj 418 94 spat-LFO-abs direct-C;
+#X obj 418 124 spat-LFO-abs direct-D;
+#X obj 418 154 spat-LFO-abs direct-E;
+#X obj 418 184 spat-LFO-abs direct-F;
+#X obj 418 274 spat-LFO-abs echodel-A;
+#X obj 418 304 spat-LFO-abs echodel-B;
+#X obj 418 334 spat-LFO-abs pulser-A;
+#X obj 418 364 spat-LFO-abs reverb-A;
+#X obj 418 394 spat-LFO-abs phaser-A;
+#X obj 418 424 spat-LFO-abs pitch-shift-A;
+#X obj 418 454 spat-LFO-abs ring-mod-A;
+#X obj 418 484 spat-LFO-abs sr-decimator-A;
 #X restore 962 553 pd spat-abs;
 #X msg 196 84 fx-list direct-A direct-B direct-C direct-D direct-E
 direct-F echodel-A echodel-B phaser-A pitch-shift-A pulser-A reverb-A
 ring-mod-A sr-decimator-A;
-#X connect 0 0 6 0;
-#X connect 2 0 3 0;
-#X connect 4 0 0 0;
+#N canvas 253 125 1346 650 fx-params 0;
+#X obj 90 44 inlet;
+#X obj 90 553 outlet;
+#X msg 90 114 fx-params direct-A-spat-pos direct-A-spat-width direct-B-spat-pos
+direct-B-spat-width direct-C-spat-pos direct-C-spat-width direct-D-spat-pos
+direct-D-spat-width direct-E-spat-pos direct-E-spat-width direct-F-spat-pos
+direct-F-spat-width echodel-A-deltime echodel-A-fdbk echodel-A-spat-pos
+echodel-A-spat-width echodel-B-deltime echodel-B-fdbk echodel-B-spat-pos
+echodel-B-spat-width phaser-A-rate phaser-A-spat-pos phaser-A-spat-width
+pitch-shift-A-transpo pitch-shift-A-spat-pos pitch-shift-A-spat-width
+pulser-A-rate pulser-A-spat-pos pulser-A-spat-width reverb-A-rvb reverb-A-spat-pos
+reverb-A-spat-width ring-mod-A-freq ring-mod-A-spat-pos ring-mod-A-spat-width
+sr-decimator-A-rate sr-decimator-A-spat-pos sr-decimator-A-spat-width
+, f 109;
+#X connect 0 0 2 0;
+#X connect 2 0 1 0;
+#X restore 248 196 pd fx-params;
+#X obj 72 602 qlist;
+#X msg 72 574 read ./FX-presets/init.txt \, rewind \, bang;
+#X connect 0 0 4 0;
+#X connect 0 0 16 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
 #X connect 5 0 0 0;
+#X connect 6 0 0 0;
 #X connect 7 0 0 0;
 #X connect 8 0 0 0;
-#X connect 9 0 0 0;
-#X connect 10 0 0 0;
-#X connect 11 0 0 0;
-#X connect 12 0 13 0;
-#X connect 13 0 8 0;
-#X connect 13 1 10 0;
-#X connect 13 2 16 0;
-#X connect 13 3 11 0;
-#X connect 14 0 4 0;
-#X connect 16 0 0 0;
+#X connect 9 0 10 0;
+#X connect 10 0 6 0;
+#X connect 10 1 14 0;
+#X connect 10 2 13 0;
+#X connect 10 3 8 0;
+#X connect 11 0 2 0;
+#X connect 13 0 0 0;
+#X connect 14 0 0 0;
+#X connect 16 0 15 0;
 #X restore 822 393 pd DRFX;
 #X obj 18 671 tgl 15 0 drfx-matrix drfx-matrix-set DRFX 17 7 0 10 -262144
 -1 -1 0 1;
