@@ -1,0 +1,49 @@
+#N canvas 193 23 730 653 10;
+#X floatatom 368 229 5 0 0 1 pulser-#1-tap-out-gain pulser-#1-tap-out-gain-set
+pulser-#1-tap-out-gain;
+#X obj 96 494 dbtorms;
+#X obj 96 516 pack f 40;
+#X obj 96 538 line~;
+#X obj 48 447 *~;
+#X obj 86 397 s~ pulser-\$1-out;
+#X obj 48 51 catch~ pulser-\$1-in;
+#X obj 96 471 r pulser-\$1-tap-out-gain;
+#X floatatom 368 259 5 0 0 1 pulser-#1-rate pulser-#1-rate-set pulser-#1-rate
+;
+#X obj 106 253 dbtorms;
+#X obj 106 275 pack f 40;
+#X obj 106 297 line~;
+#X obj 48 336 *~;
+#X obj 106 230 r pulser-\$1-out-gain;
+#X obj 48 125 *~;
+#X obj 108 99 r pulser-\$1-rate;
+#X obj 108 121 osc~;
+#X obj 108 143 +~ 1;
+#X obj 108 165 *~ 0.5;
+#X floatatom 368 209 5 0 0 1 pulser-#1-out-gain pulser-#1-out-gain-set
+pulser-#1-out-gain;
+#X text 361 37 See PLUGIN-SHELL.pd in the plugins directory for an
+explanation of the required plugin design.;
+#X floatatom 368 288 5 0 0 1 pulser-#1-spat-pos pulser-#1-spat-pos-set
+pulser-#1-spat-pos;
+#X floatatom 368 308 5 0 0 1 pulser-#1-spat-width pulser-#1-spat-width-set
+pulser-#1-spat-width;
+#X obj 48 590 send~ pulser-\$1-tap-out;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 1;
+#X connect 4 0 23 0;
+#X connect 6 0 14 0;
+#X connect 7 0 1 0;
+#X connect 9 0 10 0;
+#X connect 10 0 11 0;
+#X connect 11 0 12 1;
+#X connect 12 0 5 0;
+#X connect 12 0 4 0;
+#X connect 13 0 9 0;
+#X connect 14 0 12 0;
+#X connect 15 0 16 0;
+#X connect 16 0 17 0;
+#X connect 17 0 18 0;
+#X connect 18 0 14 1;
+#X coords 0 -1 1 1 200 150 1 360 180;

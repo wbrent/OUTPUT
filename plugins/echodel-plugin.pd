@@ -1,0 +1,71 @@
+#N canvas 193 23 742 577 10;
+#X floatatom 369 229 5 0 0 1 echodel-#1-tap-out-gain echodel-#1-tap-out-gain-set
+echodel-#1-tap-out-gain;
+#X obj 85 442 dbtorms;
+#X obj 85 464 pack f 40;
+#X obj 85 486 line~;
+#X obj 37 395 *~;
+#X obj 117 360 s~ echodel-\$1-out;
+#X obj 37 69 catch~ echodel-\$1-in;
+#N canvas 0 22 602 564 echodel 0;
+#X obj 67 43 inlet~;
+#X obj 81 429 outlet~;
+#X obj 292 145 r echodel-\$1-fdbk;
+#X obj 292 166 clip 0 0.99;
+#X obj 292 187 pack f 40;
+#X obj 292 208 line~;
+#X obj 109 285 +~;
+#X obj 149 176 vd~ \$0-flangedel;
+#X obj 149 247 *~;
+#X obj 152 139 line~;
+#X obj 152 76 r echodel-\$1-deltime;
+#X obj 152 118 pack f 100;
+#X obj 173 339 delwrite~ \$0-flangedel 2000;
+#X obj 152 96 clip 2 1999;
+#X connect 0 0 6 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 4 0 5 0;
+#X connect 5 0 8 1;
+#X connect 6 0 1 0;
+#X connect 6 0 12 0;
+#X connect 7 0 8 0;
+#X connect 8 0 6 1;
+#X connect 9 0 7 0;
+#X connect 10 0 13 0;
+#X connect 11 0 9 0;
+#X connect 13 0 11 0;
+#X restore 37 103 pd echodel;
+#X floatatom 369 259 5 0 0 1 echodel-#1-deltime echodel-#1-deltime-set
+echodel-#1-deltime;
+#X floatatom 369 279 5 0 0 1 echodel-#1-fdbk echodel-#1-fdbk-set echodel-#1-fdbk
+;
+#X obj 95 165 dbtorms;
+#X obj 95 187 pack f 40;
+#X obj 95 209 line~;
+#X obj 37 254 *~;
+#X obj 95 142 r echodel-\$1-out-gain;
+#X floatatom 369 209 5 0 0 1 echodel-#1-out-gain echodel-#1-out-gain-set
+echodel-#1-out-gain;
+#X obj 85 419 r echodel-\$1-tap-out-gain;
+#X text 345 83 See PLUGIN-SHELL.pd in the plugins directory for an
+explanation of the required plugin design.;
+#X floatatom 369 309 5 0 0 1 echodel-#1-spat-pos echodel-#1-spat-pos-set
+echodel-#1-spat-pos;
+#X floatatom 369 329 5 0 0 1 echodel-#1-spat-width echodel-#1-spat-width-set
+echodel-#1-spat-width;
+#X obj 37 518 send~ echodel-\$1-tap-out;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 1;
+#X connect 4 0 20 0;
+#X connect 6 0 7 0;
+#X connect 7 0 13 0;
+#X connect 10 0 11 0;
+#X connect 11 0 12 0;
+#X connect 12 0 13 1;
+#X connect 13 0 5 0;
+#X connect 13 0 4 0;
+#X connect 14 0 10 0;
+#X connect 16 0 1 0;
+#X coords 0 -1 1 1 200 170 1 360 180;

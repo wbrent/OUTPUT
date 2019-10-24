@@ -1,0 +1,53 @@
+#N canvas 581 115 573 567 10;
+#X floatatom 308 150 5 0 0 1 sr-decimator-#1-tap-out-gain sr-decimator-#1-tap-out-gain-set
+sr-decimator-#1-tap-out-gain;
+#X obj 85 437 dbtorms;
+#X obj 85 459 pack f 40;
+#X obj 85 481 line~;
+#X obj 37 390 *~;
+#X obj 87 361 s~ sr-decimator-\$1-out;
+#X obj 37 50 catch~ sr-decimator-\$1-in;
+#X floatatom 308 180 5 0 0 1 sr-decimator-#1-rate sr-decimator-#1-rate-set
+sr-decimator-#1-rate;
+#X obj 125 212 dbtorms;
+#X obj 125 234 pack f 40;
+#X obj 125 256 line~;
+#X obj 37 235 *~;
+#X obj 125 189 r sr-decimator-\$1-out-gain;
+#X floatatom 308 130 5 0 0 1 sr-decimator-#1-out-gain sr-decimator-#1-out-gain-set
+sr-decimator-#1-out-gain;
+#X obj 85 414 r sr-decimator-\$1-tap-out-gain;
+#N canvas 402 237 432 249 sample-rate-decimation 0;
+#X obj 67 43 inlet~;
+#X obj 67 170 outlet~;
+#X obj 171 62 r sr-decimator-\$1-rate;
+#X obj 171 83 pack f 40;
+#X obj 171 104 line~;
+#X obj 67 103 samphold~;
+#X obj 171 145 phasor~;
+#X connect 0 0 5 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 4 0 6 0;
+#X connect 5 0 1 0;
+#X connect 6 0 5 1;
+#X restore 37 124 pd sample-rate-decimation;
+#X floatatom 308 210 5 0 0 1 sr-decimator-#1-spat-pos sr-decimator-#1-spat-pos-set
+sr-decimator-#1-spat-pos;
+#X floatatom 308 230 5 0 0 1 sr-decimator-#1-spat-width sr-decimator-#1-spat-width-set
+sr-decimator-#1-spat-width;
+#X obj 37 514 send~ sr-decimator-\$1-tap-out;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 1;
+#X connect 4 0 18 0;
+#X connect 6 0 15 0;
+#X connect 8 0 9 0;
+#X connect 9 0 10 0;
+#X connect 10 0 11 1;
+#X connect 11 0 5 0;
+#X connect 11 0 4 0;
+#X connect 12 0 8 0;
+#X connect 14 0 1 0;
+#X connect 15 0 11 0;
+#X coords 0 -1 1 1 220 150 1 300 100;

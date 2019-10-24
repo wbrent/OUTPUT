@@ -1,0 +1,45 @@
+#N canvas 193 23 734 567 10;
+#X floatatom 368 228 5 0 0 1 ring-mod-#1-tap-out-gain ring-mod-#1-tap-out-gain-set
+ring-mod-#1-tap-out-gain;
+#X obj 85 399 dbtorms;
+#X obj 85 421 pack f 40;
+#X obj 85 443 line~;
+#X obj 37 402 *~;
+#X obj 74 328 s~ ring-mod-\$1-out;
+#X obj 37 29 catch~ ring-mod-\$1-in;
+#X obj 85 374 r ring-mod-\$1-tap-out-gain;
+#X floatatom 368 258 5 0 0 1 ring-mod-#1-freq ring-mod-#1-freq-set
+ring-mod-#1-freq;
+#X obj 95 221 dbtorms;
+#X obj 95 243 pack f 40;
+#X obj 95 265 line~;
+#X obj 37 254 *~;
+#X obj 95 198 r ring-mod-\$1-out-gain;
+#X obj 37 123 *~;
+#X floatatom 368 208 5 0 0 1 ring-mod-#1-out-gain ring-mod-#1-out-gain-set
+ring-mod-#1-out-gain;
+#X obj 68 77 r ring-mod-\$1-freq;
+#X obj 68 99 osc~;
+#X text 361 37 See PLUGIN-SHELL.pd in the plugins directory for an
+explanation of the required plugin design.;
+#X floatatom 368 288 5 0 0 1 ring-mod-#1-spat-pos ring-mod-#1-spat-pos-set
+ring-mod-#1-spat-pos;
+#X floatatom 368 308 5 0 0 1 ring-mod-#1-spat-width ring-mod-#1-spat-width-set
+ring-mod-#1-spat-width;
+#X obj 37 496 send~ ring-mod-\$1-tap-out;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 1;
+#X connect 4 0 21 0;
+#X connect 6 0 14 0;
+#X connect 7 0 1 0;
+#X connect 9 0 10 0;
+#X connect 10 0 11 0;
+#X connect 11 0 12 1;
+#X connect 12 0 5 0;
+#X connect 12 0 4 0;
+#X connect 13 0 9 0;
+#X connect 14 0 12 0;
+#X connect 16 0 17 0;
+#X connect 17 0 14 1;
+#X coords 0 -1 1 1 200 150 1 360 180;
