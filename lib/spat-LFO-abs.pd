@@ -1,7 +1,7 @@
-#N canvas 174 248 1384 653 12;
-#X obj 95 481 *~;
+#N canvas 434 193 1384 653 12;
+#X obj 95 521 *~;
 #X msg 702 422 1 0;
-#X obj 315 481 *~;
+#X obj 315 521 *~;
 #X obj 315 177 phasor~;
 #X msg 848 52 0 1;
 #X obj 702 476 unpack f f;
@@ -11,9 +11,9 @@
 #X obj 370 272 snapshot~;
 #X obj 599 98 t f b;
 #X obj 702 322 t b b b b;
-#X obj 370 408 s client-netsend-data-hub;
-#X obj 95 407 line~;
-#X obj 95 292 pack f 50;
+#X obj 370 478 s client-netsend-data-hub;
+#X obj 95 427 line~;
+#X obj 95 352 pack f 50;
 #X obj 315 27 pack f 50;
 #X obj 702 218 timer;
 #X obj 702 242 > 1000;
@@ -41,14 +41,14 @@ end., f 45;
 and 6.35 in order for a zero to even be possible. This strategy is
 less touchy and lets us use any offset and range desired., f 33;
 #X obj 702 530 s \$0-static-gain;
-#X obj 125 481 r \$0-static-gain;
+#X obj 125 521 r \$0-static-gain;
 #X obj 782 500 s \$0-lfo-gain;
-#X obj 345 481 r \$0-lfo-gain;
+#X obj 345 521 r \$0-lfo-gain;
 #X obj 814 359 s \$0-lfo-freeze;
 #X obj 350 74 r \$0-lfo-freeze;
 #X msg 350 98 0;
-#X obj 417 332 s \$0-static-pos-jump;
-#X obj 118 352 r \$0-static-pos-jump;
+#X obj 417 296 s \$0-static-pos-jump;
+#X obj 118 392 r \$0-static-pos-jump;
 #X obj 455 177 r \$0-lfo-phase-spigot;
 #X obj 800 172 s \$0-lfo-phase-spigot;
 #X obj 771 446 s \$0-lfo-phase-spigot;
@@ -60,13 +60,30 @@ less touchy and lets us use any offset and range desired., f 33;
 #X obj 393 239 r \$0-lfo-snap;
 #X obj 670 78 >= 0.005;
 #X obj 599 21 r \$1-spat-lfo-freq;
-#X msg 370 384 send \$1 \$2-spat-pos-set;
+#X msg 370 454 send \$1 \$2-spat-pos-set;
 #X obj 396 148 r \$1-spat-pos;
 #X obj 210 583 s~ \$1-spat-pos-sig;
-#X obj 95 268 r \$1-spat-pos;
-#X obj 582 342 loadbang;
-#X obj 582 366 symbol \$1;
-#X obj 370 356 pack f s;
+#X obj 95 328 r \$1-spat-pos;
+#X obj 476 396 loadbang;
+#X obj 370 426 pack f s;
+#X obj 476 420 symbol \$2;
+#X obj 440 327 list fromsymbol;
+#X obj 440 355 route bang;
+#X msg 440 379 0;
+#X obj 550 355 t b;
+#X msg 550 379 1;
+#X obj 370 327 spigot;
+#X text 593 318 Test to see if a 2nd argument was provided. If so \,
+allow snapshot of spat pos to go through., f 10;
+#X text 58 52 \$1: spat LFO source target \; \$2: optional related
+target \;;
+#X text 34 103 The idea here is that direct-A and player-O can both
+be specified so that changes to the direct-A LFO can be reflected in
+the player-0 spat-pos GUI when LFO motion stops. However \, this is
+only necessary in some uses of this abstraction \, so the 2nd argument
+is optional. The case where it would not be provided is direct-A and
+reverb-A \, since reverb-A's spat pos GUI doesn't need to be updated
+when LFO motion stops., f 36;
 #X connect 0 0 53 0;
 #X connect 1 0 5 0;
 #X connect 2 0 53 0;
@@ -100,7 +117,7 @@ less touchy and lets us use any offset and range desired., f 33;
 #X connect 22 0 18 0;
 #X connect 23 0 22 0;
 #X connect 23 1 16 0;
-#X connect 24 0 57 0;
+#X connect 24 0 63 0;
 #X connect 24 1 38 0;
 #X connect 25 0 49 0;
 #X connect 26 0 27 0;
@@ -123,6 +140,14 @@ less touchy and lets us use any offset and range desired., f 33;
 #X connect 51 0 12 0;
 #X connect 52 0 7 0;
 #X connect 54 0 14 0;
-#X connect 55 0 56 0;
-#X connect 56 0 57 1;
-#X connect 57 0 51 0;
+#X connect 55 0 57 0;
+#X connect 56 0 51 0;
+#X connect 57 0 56 1;
+#X connect 57 0 58 0;
+#X connect 58 0 59 0;
+#X connect 59 0 60 0;
+#X connect 59 1 61 0;
+#X connect 60 0 63 1;
+#X connect 61 0 62 0;
+#X connect 62 0 63 1;
+#X connect 63 0 56 0;
