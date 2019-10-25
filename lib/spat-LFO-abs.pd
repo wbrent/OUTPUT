@@ -11,7 +11,7 @@
 #X obj 370 272 snapshot~;
 #X obj 599 98 t f b;
 #X obj 702 322 t b b b b;
-#X obj 370 478 s client-netsend-data-hub;
+#X obj 370 388 s client-netsend-data-hub;
 #X obj 95 427 line~;
 #X obj 95 352 pack f 50;
 #X obj 315 27 pack f 50;
@@ -59,34 +59,16 @@ less touchy and lets us use any offset and range desired., f 33;
 #X obj 791 391 s \$0-lfo-snap;
 #X obj 393 239 r \$0-lfo-snap;
 #X obj 670 78 >= 0.005;
-#X obj 599 21 r \$1-spat-lfo-freq;
-#X msg 370 454 send \$1 \$2-spat-pos-set;
 #X obj 396 148 r \$1-spat-pos;
-#X obj 210 583 s~ \$1-spat-pos-sig;
-#X obj 95 328 r \$1-spat-pos;
-#X obj 476 396 loadbang;
-#X obj 370 426 pack f s;
-#X obj 476 420 symbol \$2;
-#X obj 440 327 list fromsymbol;
-#X obj 440 355 route bang;
-#X msg 440 379 0;
-#X obj 550 355 t b;
-#X msg 550 379 1;
-#X obj 370 327 spigot;
-#X text 593 318 Test to see if a 2nd argument was provided. If so \,
-allow snapshot of spat pos to go through., f 10;
-#X text 58 52 \$1: spat LFO source target \; \$2: optional related
-target \;;
-#X text 34 103 The idea here is that direct-A and player-O can both
-be specified so that changes to the direct-A LFO can be reflected in
-the player-0 spat-pos GUI when LFO motion stops. However \, this is
-only necessary in some uses of this abstraction \, so the 2nd argument
-is optional. The case where it would not be provided is direct-A and
-reverb-A \, since reverb-A's spat pos GUI doesn't need to be updated
-when LFO motion stops., f 36;
-#X connect 0 0 53 0;
+#X obj 370 336 pack f \$1;
+#X text 58 52 \$1: player ID \;;
+#X obj 599 21 r player-\$1-spat-lfo-freq;
+#X obj 95 328 r player-\$1-spat-pos;
+#X obj 210 583 s~ player-\$1-spat-pos-sig;
+#X msg 370 364 send \$1 player-\$2-spat-pos-set;
+#X connect 0 0 55 0;
 #X connect 1 0 5 0;
-#X connect 2 0 53 0;
+#X connect 2 0 55 0;
 #X connect 3 0 2 0;
 #X connect 3 0 9 0;
 #X connect 4 0 44 0;
@@ -117,7 +99,7 @@ when LFO motion stops., f 36;
 #X connect 22 0 18 0;
 #X connect 23 0 22 0;
 #X connect 23 1 16 0;
-#X connect 24 0 63 0;
+#X connect 24 0 51 0;
 #X connect 24 1 38 0;
 #X connect 25 0 49 0;
 #X connect 26 0 27 0;
@@ -136,18 +118,8 @@ when LFO motion stops., f 36;
 #X connect 48 0 9 0;
 #X connect 49 0 27 1;
 #X connect 49 0 28 0;
-#X connect 50 0 26 0;
-#X connect 51 0 12 0;
-#X connect 52 0 7 0;
+#X connect 50 0 7 0;
+#X connect 51 0 56 0;
+#X connect 53 0 26 0;
 #X connect 54 0 14 0;
-#X connect 55 0 57 0;
-#X connect 56 0 51 0;
-#X connect 57 0 56 1;
-#X connect 57 0 58 0;
-#X connect 58 0 59 0;
-#X connect 59 0 60 0;
-#X connect 59 1 61 0;
-#X connect 60 0 63 1;
-#X connect 61 0 62 0;
-#X connect 62 0 63 1;
-#X connect 63 0 56 0;
+#X connect 56 0 12 0;

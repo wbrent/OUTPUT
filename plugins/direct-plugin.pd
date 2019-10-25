@@ -22,6 +22,8 @@ direct-#1-spat-width;
 #X obj 37 523 send~ direct-\$1-tap-out;
 #X floatatom 358 315 5 0 0 1 direct-#1-spat-lfo-freq direct-#1-spat-lfo-freq-set
 direct-#1-spat-lfo-freq;
+#X obj 358 335 hradio 15 1 0 6 direct-\$1-spat-sig-source direct-\$1-spat-sig-source-set
+spat-sig 16 8 0 10 -262144 -1 -1 0;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
 #X connect 3 0 4 1;
@@ -34,4 +36,4 @@ direct-#1-spat-lfo-freq;
 #X connect 10 0 8 0;
 #X connect 11 0 5 0;
 #X connect 13 0 1 0;
-#X coords 0 -1 1 1 200 135 1 350 200;
+#X coords 0 -1 1 1 200 155 1 350 200;

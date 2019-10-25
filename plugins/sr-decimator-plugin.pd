@@ -39,6 +39,8 @@ sr-decimator-#1-spat-width;
 #X obj 37 514 send~ sr-decimator-\$1-tap-out;
 #X floatatom 308 250 5 0 0 1 sr-decimator-#1-spat-lfo-freq sr-decimator-#1-spat-lfo-freq-set
 sr-decimator-#1-spat-lfo-freq;
+#X obj 308 270 hradio 15 1 0 6 sr-decimator-\$1-spat-sig-source sr-decimator-\$1-spat-sig-source-set
+spat-sig 16 8 0 10 -262144 -1 -1 0;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
 #X connect 3 0 4 1;
@@ -52,4 +54,4 @@ sr-decimator-#1-spat-lfo-freq;
 #X connect 12 0 8 0;
 #X connect 14 0 1 0;
 #X connect 15 0 11 0;
-#X coords 0 -1 1 1 220 170 1 300 100;
+#X coords 0 -1 1 1 220 190 1 300 100;

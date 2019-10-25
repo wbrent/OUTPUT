@@ -114,8 +114,6 @@ pitch-shift-#1-transpo;
 #X obj 85 148 r pitch-shift-\$1-out-gain;
 #X floatatom 366 208 5 0 0 1 pitch-shift-#1-out-gain pitch-shift-#1-out-gain-set
 pitch-shift-#1-out-gain;
-#X text 398 92 See PLUGIN-SHELL.pd in the plugins directory for an
-explanation of the required plugin design.;
 #X floatatom 366 288 5 0 0 1 pitch-shift-#1-spat-pos pitch-shift-#1-spat-pos-set
 pitch-shift-#1-spat-pos;
 #X floatatom 366 308 5 0 0 1 pitch-shift-#1-spat-width pitch-shift-#1-spat-width-set
@@ -123,10 +121,12 @@ pitch-shift-#1-spat-width;
 #X obj 37 509 send~ pitch-shift-\$1-tap-out;
 #X floatatom 366 328 5 0 0 1 pitch-shift-#1-spat-lfo-freq pitch-shift-#1-spat-lfo-freq-set
 pitch-shift-#1-spat-lfo-freq;
+#X obj 366 348 hradio 15 1 0 6 pitch-shift-\$1-spat-sig-source pitch-shift-\$1-spat-sig-source-set
+spat-sig 16 8 0 10 -262144 -1 -1 0;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
 #X connect 3 0 4 1;
-#X connect 4 0 19 0;
+#X connect 4 0 18 0;
 #X connect 6 0 8 0;
 #X connect 7 0 1 0;
 #X connect 8 0 13 0;
@@ -136,4 +136,4 @@ pitch-shift-#1-spat-lfo-freq;
 #X connect 13 0 5 0;
 #X connect 13 0 4 0;
 #X connect 14 0 10 0;
-#X coords 0 -1 1 1 215 170 1 360 180;
+#X coords 0 -1 1 1 215 190 1 360 180;

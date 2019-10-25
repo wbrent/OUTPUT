@@ -57,6 +57,8 @@ echodel-#1-spat-width;
 #X obj 37 518 send~ echodel-\$1-tap-out;
 #X floatatom 369 349 5 0 0 1 echodel-#1-spat-lfo-freq echodel-#1-spat-lfo-freq-set
 echodel-#1-spat-lfo-freq;
+#X obj 369 369 hradio 15 1 0 6 echodel-\$1-spat-sig-source echodel-\$1-spat-sig-source-set
+spat-sig 16 8 0 10 -262144 -1 -1 0;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
 #X connect 3 0 4 1;
@@ -70,4 +72,4 @@ echodel-#1-spat-lfo-freq;
 #X connect 13 0 4 0;
 #X connect 14 0 10 0;
 #X connect 16 0 1 0;
-#X coords 0 -1 1 1 200 190 1 360 180;
+#X coords 0 -1 1 1 200 210 1 360 180;

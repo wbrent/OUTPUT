@@ -31,6 +31,8 @@ pulser-#1-spat-width;
 #X obj 48 590 send~ pulser-\$1-tap-out;
 #X floatatom 368 328 5 0 0 1 pulser-#1-spat-lfo-freq pulser-#1-spat-lfo-freq-set
 pulser-#1-spat-lfo-freq;
+#X obj 368 348 hradio 15 1 0 6 pulser-\$1-spat-sig-source pulser-\$1-spat-sig-source-set
+spat-sig 16 8 0 10 -262144 -1 -1 0;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
 #X connect 3 0 4 1;
@@ -48,4 +50,4 @@ pulser-#1-spat-lfo-freq;
 #X connect 16 0 17 0;
 #X connect 17 0 18 0;
 #X connect 18 0 14 1;
-#X coords 0 -1 1 1 200 170 1 360 180;
+#X coords 0 -1 1 1 200 190 1 360 180;
