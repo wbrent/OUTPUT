@@ -37,9 +37,12 @@
 41: tempo sync to player 4
 51: tempo sync to player 5
 
-16: most recent param dec
-17: most recent param inc
-18: most recent param rand
+16: active param choice dec
+17: active param choice inc
+
+18: active param rand
+19: active param dec
+20: active param inc
 
 34: bit depth increment
 44: bit depth decrement
@@ -47,6 +50,8 @@
 35: save preset
 45: load preset
 55: refresh most recently loaded preset
+
+32: jump to time zero
 
 33: load bitDepth with preset toggle
 43: load time with preset toggle
@@ -63,8 +68,4 @@ UNMAPPED:
 13
 15
 
-19
-20
-
-32
 42

@@ -19,13 +19,13 @@
 ;
 #X floatatom 559 402 5 0 0 3 p9 player-#1-algo-param-9-set player-#1-algo-param-9
 ;
-#X obj 613 368 bng 15 250 50 0 player-\$1-algo-randomize player-\$1-algo-randomize-set
-randomize 17 7 0 10 -262144 -1 -1;
+#X obj 662 358 bng 15 250 50 0 player-\$1-algo-randomize player-\$1-algo-randomize-set
+randomize -60 7 0 10 -262144 -1 -1;
 #X obj 673 408 bng 15 250 50 0 player-\$1-algo-load-params player-\$1-algo-load-params-set
 load 17 7 0 10 -204786 -1 -1;
 #X obj 613 408 bng 15 250 50 0 player-\$1-algo-save-params player-\$1-algo-save-params-set
 save 17 7 0 10 -261234 -1 -1;
-#X floatatom 698 368 5 0 0 0 - - -;
+#X floatatom 687 358 7 0 0 0 - - -;
 #X msg 698 296 256;
 #X obj 109 382 bng 15 250 50 0 empty player-\$1-algo-dec-param-0-set
 - 4 8 0 12 -241291 -228992 -1;
@@ -316,7 +316,7 @@ send a bang to the populate subpatch, f 19;
 #X connect 19 0 18 0;
 #X connect 21 0 15 1;
 #X connect 22 0 15 1;
-#X restore 698 547 pd randomization;
+#X restore 801 413 pd randomization;
 #X obj 698 272 r player-\$1-param-interface-init;
 #N canvas 999 90 566 667 keyboard-commands 0;
 #X obj 105 152 key;
@@ -591,13 +591,13 @@ upon init;
 #X obj 503 108 table player-\$1-algo-params 14;
 #X obj 673 198 clone last-param-changed-abs 10 \$1;
 #X obj 673 488 tgl 15 0 player-\$1-load-params player-\$1-load-params-set
-params 17 7 0 10 -262144 -1 -1 0 1;
+params 17 7 0 10 -262144 -1 -1 1 1;
 #X obj 673 428 tgl 15 0 player-\$1-load-bitDepth player-\$1-load-bitDepth-set
-bit 17 7 0 10 -262144 -1 -1 0 1;
+bit 17 7 0 10 -262144 -1 -1 1 1;
 #X obj 673 448 tgl 15 0 player-\$1-load-time player-\$1-load-time-set
-time 17 7 0 10 -262144 -1 -1 0 1;
+time 17 7 0 10 -262144 -1 -1 1 1;
 #X obj 673 468 tgl 15 0 player-\$1-load-tempo player-\$1-load-tempo-set
-tempo 17 7 0 10 -262144 -1 -1 0 1;
+tempo 17 7 0 10 -262144 -1 -1 1 1;
 #X obj 109 588 param-changer \$1 0;
 #X obj 159 618 param-changer \$1 1;
 #X obj 209 648 param-changer \$1 2;
@@ -611,17 +611,17 @@ tempo 17 7 0 10 -262144 -1 -1 0 1;
 #X obj 723 408 bng 15 250 50 0 player-\$1-algo-refresh-params player-\$1-algo-refresh-params-set
 r 4 7 0 10 -262130 -1 -1;
 #X connect 13 0 59 0;
+#X connect 13 0 55 0;
+#X connect 13 0 51 0;
+#X connect 13 0 47 0;
+#X connect 13 0 43 0;
+#X connect 13 0 39 0;
+#X connect 13 0 31 0;
+#X connect 13 0 35 0;
+#X connect 13 0 27 0;
+#X connect 13 0 23 0;
+#X connect 13 0 18 0;
 #X connect 14 0 13 0;
-#X connect 14 0 18 0;
-#X connect 14 0 23 0;
-#X connect 14 0 27 0;
-#X connect 14 0 31 0;
-#X connect 14 0 35 0;
-#X connect 14 0 39 0;
-#X connect 14 0 43 0;
-#X connect 14 0 47 0;
-#X connect 14 0 51 0;
-#X connect 14 0 55 0;
 #X connect 15 0 71 1;
 #X connect 16 0 71 2;
 #X connect 17 0 71 0;

@@ -1,19 +1,6 @@
 #N canvas 525 196 985 574 10;
-#X obj 68 124 hsl 128 15 0 1 0 0 player-\$1-spat-pos player-\$1-spat-pos-set
-player-\$1-spat-pos 4 8 0 10 -262144 -1 -1 0 1;
-#X obj 68 84 hsl 128 15 40 100 0 0 player-\$1-gain player-\$1-gain-set
-player-\$1-gain 4 8 0 10 -262144 -1 -1 0 1;
-#X floatatom 206 84 5 0 0 1 dB player-#1-gain -;
-#X obj 68 144 hsl 128 15 0.01 1 0 0 player-\$1-spat-width player-\$1-spat-width-set
-player-\$1-spat-width 4 8 0 10 -262144 -1 -1 4362 1;
 #X obj 724 53 f \$1;
-#X obj 206 124 hradio 15 1 0 5 player-\$1-algo-select player-\$1-algo-select-set
-algo-select 0 -8 0 10 -262144 -1 -1 0;
 #X obj 65 338 pack f \$1;
-#X floatatom 206 144 5 1 32 1 bitDepth player-#1-bitDepth-set player-#1-bitDepth
-;
-#X obj 65 104 bng 15 250 50 0 empty empty plot 17 7 0 10 -262144 -1
--1;
 #X msg 65 311 1;
 #X floatatom 296 84 5 0 100 1 dry player-#1-dry-set player-#1-dry;
 #X text 293 62 REVERB;
@@ -28,22 +15,18 @@ player-#1-rvb-liveness;
 #X floatatom 296 194 7 1 240 1 tempo player-#1-tempo-set player-#1-tempo
 ;
 #X obj 65 174 tgl 15 0 player-\$1-compute player-\$1-compute-set comp
-17 7 0 10 -262144 -1 -1 1 1;
+17 7 0 10 -262144 -1 -1 0 1;
 #X obj 191 174 hradio 15 1 0 6 player-\$1-tempo-sync player-\$1-tempo-sync-set
 tempoSync 16 8 0 10 -262144 -1 -1 4;
 #X obj 191 194 hradio 15 1 0 6 player-\$1-time-sync player-\$1-time-sync-set
 timeSync 16 8 0 10 -262144 -1 -1 0;
 #X obj 125 174 tgl 15 0 player-\$1-interpolation player-\$1-interpolation-set
-intrp 17 7 0 10 -262144 -1 -1 1 1;
+intrp 17 7 0 10 -262144 -1 -1 0 1;
 #X floatatom 65 194 15 0 0 1 t player-#1-set-time-index-set player-#1-set-time-index
 ;
 #X obj 724 28 r lb4;
 #X obj 386 194 tgl 15 0 player-\$1-kbd-control player-\$1-kbd-control-set
 k 5 7 0 10 -262144 -1 -1 0 1;
-#X obj 137 104 cnv 15 60 14 empty player-\$1-spat-lfo-ctrl-color empty
-20 12 0 14 -259678 -262144 0;
-#X floatatom 136 104 10 -4 4 0 - player-#1-spat-lfo-freq-set player-#1-spat-lfo-freq
-;
 #X text 742 460 stopped;
 #X obj 315 308 moses 0;
 #X text 339 534 moving counter-clockwise;
@@ -65,12 +48,10 @@ k 5 7 0 10 -262144 -1 -1 0 1;
 #X text 63 429 Taking these out of GUI \, not used much. Leaving them
 in the abstraction though \, so that they can be set in the same way.
 , f 30;
-#X floatatom 296 174 5 0 127 1 note player-#1-midi-note-display -;
+#X floatatom 296 174 7 0 127 1 note player-#1-midi-note-display -;
 #X obj 286 176 vsl 8 30 -1 1 0 0 empty player-\$1-pitch-bend-display
-empty 0 -9 0 10 -262144 -1 -1 1450 1;
+empty 0 -9 0 10 -262144 -1 -1 0 1;
 #X msg 65 363 \; pd-player-\$2-raw-output-plot vis \$1 \;;
-#X obj 266 84 tgl 15 0 player-\$1-mute player-\$1-mute-set m 4 7 0
-10 -262144 -1 -1 0 1;
 #X msg 724 84 \; player-\$1-bitDepth-set 24 \; player-\$1-dry-set 90
 \; player-\$1-wet-set 85 \; player-\$1-mute-set 0 \; player-\$1-rvb-liveness-set
 90 \; player-\$1-rvb-xover-set 3000 \; player-\$1-rvb-damping-set 20
@@ -78,21 +59,63 @@ empty 0 -9 0 10 -262144 -1 -1 1450 1;
 0 \; player-\$1-compute-set 1 \; player-\$1-interpolation-set 1 \;
 player-\$1-algo-select-set 0 \; player-\$1-tempo-set 30 \; player-\$1-pitch-bend-display
 0 \; player-\$1-kbd-control-set 0 \;;
-#X connect 4 0 46 0;
-#X connect 6 0 44 0;
-#X connect 8 0 9 0;
-#X connect 9 0 6 0;
-#X connect 22 0 4 0;
-#X connect 27 0 33 0;
-#X connect 27 1 34 0;
-#X connect 30 0 39 0;
-#X connect 30 1 40 0;
-#X connect 31 0 38 0;
-#X connect 31 1 39 0;
-#X connect 32 0 27 0;
-#X connect 33 0 31 0;
-#X connect 34 0 30 0;
-#X connect 38 0 37 0;
-#X connect 39 0 36 0;
-#X connect 40 0 35 0;
+#X obj 60 70 cnv 15 230 95 empty player-\$1-active-canvas-set empty
+20 12 0 14 -233017 -66577 0;
+#X obj 68 124 hsl 128 15 0 1 0 0 player-\$1-spat-pos player-\$1-spat-pos-set
+player-\$1-spat-pos 4 8 0 10 -262144 -1 -1 0 1;
+#X obj 68 84 hsl 128 15 40 100 0 0 player-\$1-gain player-\$1-gain-set
+player-\$1-gain 4 8 0 10 -262144 -1 -1 0 1;
+#X floatatom 206 84 5 0 0 1 dB player-#1-gain -;
+#X obj 68 144 hsl 128 15 0.01 1 0 0 player-\$1-spat-width player-\$1-spat-width-set
+player-\$1-spat-width 4 8 0 10 -262144 -1 -1 0 1;
+#X obj 206 124 hradio 15 1 0 5 player-\$1-algo-select player-\$1-algo-select-set
+algo-select 0 -8 0 10 -262144 -1 -1 0;
+#X floatatom 206 144 5 1 32 1 bitDepth player-#1-bitDepth-set player-#1-bitDepth
+;
+#X obj 65 104 bng 15 250 50 0 empty empty plot 17 7 0 10 -262144 -1
+-1;
+#X obj 137 104 cnv 15 60 14 empty player-\$1-spat-lfo-ctrl-color empty
+20 12 0 14 -259678 -262144 0;
+#X floatatom 136 104 10 -4 4 0 - player-#1-spat-lfo-freq-set player-#1-spat-lfo-freq
+;
+#X obj 266 84 tgl 15 0 player-\$1-mute player-\$1-mute-set m 4 7 0
+10 -262144 -1 -1 0 1;
+#N canvas 264 396 416 251 find-MIDI-note 0;
+#X obj 45 46 r player-\$1-tempo;
+#X obj 45 93 / 60;
+#X obj 45 141 ftom;
+#X obj 148 89 r lb1;
+#X msg 148 113 60;
+#X obj 148 137 mtof;
+#X obj 45 117 *;
+#X text 238 66 Based on the current tempo (regardless of whether it
+came from a preset or the keyboard) \, this displays the current tempo
+as a MIDI note. Makes it easier to find the tempo of another player
+on the keyboard., f 23;
+#X obj 45 190 s player-\$1-midi-note-display;
+#X connect 0 0 1 0;
+#X connect 1 0 6 0;
+#X connect 2 0 8 0;
+#X connect 3 0 4 0;
+#X connect 4 0 5 0;
+#X connect 5 0 6 1;
+#X connect 6 0 2 0;
+#X restore 437 118 pd find-MIDI-note;
+#X connect 0 0 36 0;
+#X connect 1 0 35 0;
+#X connect 2 0 1 0;
+#X connect 15 0 0 0;
+#X connect 18 0 24 0;
+#X connect 18 1 25 0;
+#X connect 21 0 30 0;
+#X connect 21 1 31 0;
+#X connect 22 0 29 0;
+#X connect 22 1 30 0;
+#X connect 23 0 18 0;
+#X connect 24 0 22 0;
+#X connect 25 0 21 0;
+#X connect 29 0 28 0;
+#X connect 30 0 27 0;
+#X connect 31 0 26 0;
+#X connect 44 0 2 0;
 #X coords 0 -1 1 1 360 170 1 50 50;
