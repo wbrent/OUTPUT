@@ -52,6 +52,7 @@
 55: refresh most recently loaded preset
 
 32: jump to time zero
+42: jump to a random time
 
 33: load bitDepth with preset toggle
 43: load time with preset toggle
@@ -67,5 +68,3 @@ UNMAPPED:
 
 13
 15
-
-42

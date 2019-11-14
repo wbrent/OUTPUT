@@ -65,6 +65,7 @@
 #X msg 352 244 190 255 255;
 #X msg 316 215 255 255 255;
 #X obj 224 221 r lb1;
+#X obj 248 29 inlet;
 #X connect 0 0 4 0;
 #X connect 3 0 0 0;
 #X connect 4 0 1 0;

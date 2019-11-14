@@ -1,4 +1,4 @@
-#N canvas 88 171 789 446 12;
+#N canvas 88 171 885 546 12;
 #X obj 122 18 r player-\$1-time-sync;
 #X obj 122 42 == \$2;
 #X obj 122 66 select 1;
@@ -18,7 +18,14 @@ ID \;;
 #X obj 202 138 s player-\$2-get-interp-mu;
 #X obj 172 168 s player-\$2-get-time-index;
 #X obj 152 213 r player-\$2-time-index;
-#X obj 122 405 s player-\$1-set-time-index-set;
+#X obj 162 405 s player-\$1-set-time-index-set;
+#X obj 122 488 s client-netsend-data-hub;
+#X obj 122 434 pack f \$1;
+#X msg 122 464 send \$1 player-\$2-set-time-index-set;
+#X text 414 430 Instead of setting the time index GUI control on the
+host side \, set it on the client side so that it's visible there.
+Hopefully the round trip to actually make the change on the host side
+is short enough that it doesn't matter.;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
 #X connect 2 0 7 0;
@@ -27,8 +34,10 @@ ID \;;
 #X connect 7 0 5 0;
 #X connect 7 1 13 0;
 #X connect 7 2 12 0;
-#X connect 8 0 15 0;
+#X connect 8 0 17 0;
 #X connect 8 1 9 0;
 #X connect 10 0 8 0;
 #X connect 11 0 10 1;
 #X connect 14 0 5 1;
+#X connect 17 0 18 0;
+#X connect 18 0 16 0;
