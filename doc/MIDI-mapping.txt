@@ -26,6 +26,9 @@
 24: toggle interpolation
 9: randomize p0 - p9
 
+10: increase param range
+12: decrease param range
+
 11: mute player A
 14: mute player B
 
@@ -44,15 +47,15 @@
 19: active param dec
 20: active param inc
 
-34: bit depth increment
-44: bit depth decrement
+32: bit depth increment
+42: bit depth decrement
 
 35: save preset
 45: load preset
 55: refresh most recently loaded preset
 
-32: jump to time zero
-42: jump to a random time
+34: jump to time zero
+44: jump to a random time
 
 33: load bitDepth with preset toggle
 43: load time with preset toggle
@@ -63,8 +66,6 @@
 
 
 UNMAPPED:
-10
-12
 
 13
 15
