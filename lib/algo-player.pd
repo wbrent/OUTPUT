@@ -179,7 +179,7 @@ the difference between the measured and desired level, f 27;
 #X connect 5 0 6 0;
 #X connect 6 0 1 0;
 #X restore 50 140 pd compressor;
-#N canvas 734 569 706 288 time-sync 0;
+#N canvas 571 392 706 288 time-sync 0;
 #X obj 91 55 time-sync-req-abs 0 \$1;
 #X obj 91 85 time-sync-req-abs 1 \$1;
 #X obj 91 115 time-sync-req-abs 2 \$1;

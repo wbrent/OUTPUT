@@ -28,14 +28,14 @@ intrp 17 7 0 10 -262144 -1 -1 0 1;
 #X obj 386 194 tgl 15 0 player-\$1-kbd-control player-\$1-kbd-control-set
 k 5 7 0 10 -262144 -1 -1 0 1;
 #X text 742 460 stopped;
-#X obj 315 308 moses 0;
+#X obj 315 288 moses 0;
 #X text 339 534 moving counter-clockwise;
 #X text 541 388 moving clockwise;
 #X obj 415 366 select 0 1;
 #X obj 315 366 select 1 0;
-#X obj 315 288 r player-\$1-spat-lfo-freq;
-#X obj 315 343 <= -0.005;
-#X obj 415 343 >= 0.005;
+#X obj 315 268 r player-\$1-spat-lfo-freq;
+#X obj 315 323 <= -0.005;
+#X obj 415 323 >= 0.005;
 #X msg 455 415 \; player-\$1-spat-lfo-ctrl-color color -8.45414e+06
 0 0;
 #X msg 415 455 \; player-\$1-spat-lfo-ctrl-color color -1.67374e+07
@@ -48,7 +48,6 @@ k 5 7 0 10 -262144 -1 -1 0 1;
 #X text 63 429 Taking these out of GUI \, not used much. Leaving them
 in the abstraction though \, so that they can be set in the same way.
 , f 30;
-#X floatatom 296 174 7 0 127 1 note player-#1-midi-note-display -;
 #X obj 286 176 vsl 8 30 -1 1 0 0 empty player-\$1-pitch-bend-display
 empty 0 -9 0 10 -262144 -1 -1 0 1;
 #X msg 65 363 \; pd-player-\$2-raw-output-plot vis \$1 \;;
@@ -80,7 +79,7 @@ algo-select 0 -8 0 10 -262144 -1 -1 0;
 ;
 #X obj 266 84 tgl 15 0 player-\$1-mute player-\$1-mute-set m 4 7 0
 10 -262144 -1 -1 0 1;
-#N canvas 264 396 416 251 find-MIDI-note 0;
+#N canvas 264 396 499 382 find-MIDI-note 0;
 #X obj 45 46 r player-\$1-tempo;
 #X obj 45 93 / 60;
 #X obj 45 141 ftom;
@@ -92,17 +91,28 @@ algo-select 0 -8 0 10 -262144 -1 -1 0;
 came from a preset or the keyboard) \, this displays the current tempo
 as a MIDI note. Makes it easier to find the tempo of another player
 on the keyboard., f 23;
-#X obj 45 190 s player-\$1-midi-note-display;
+#X obj 45 260 s player-\$1-midi-note-display;
+#X obj 45 162 + 0.5;
+#X obj 45 183 i;
+#X obj 45 234 text get midiNoteNames;
+#X obj 45 204 change;
 #X connect 0 0 1 0;
 #X connect 1 0 6 0;
-#X connect 2 0 8 0;
+#X connect 2 0 9 0;
 #X connect 3 0 4 0;
 #X connect 4 0 5 0;
 #X connect 5 0 6 1;
 #X connect 6 0 2 0;
+#X connect 9 0 10 0;
+#X connect 10 0 12 0;
+#X connect 11 0 8 0;
+#X connect 12 0 11 0;
 #X restore 437 118 pd find-MIDI-note;
-#X connect 0 0 36 0;
-#X connect 1 0 35 0;
+#X obj 415 344 change;
+#X obj 315 344 change;
+#X symbolatom 296 174 7 0 0 1 note player-#1-midi-note-display -;
+#X connect 0 0 35 0;
+#X connect 1 0 34 0;
 #X connect 2 0 1 0;
 #X connect 15 0 0 0;
 #X connect 18 0 24 0;
@@ -112,10 +122,12 @@ on the keyboard., f 23;
 #X connect 22 0 29 0;
 #X connect 22 1 30 0;
 #X connect 23 0 18 0;
-#X connect 24 0 22 0;
-#X connect 25 0 21 0;
+#X connect 24 0 49 0;
+#X connect 25 0 48 0;
 #X connect 29 0 28 0;
 #X connect 30 0 27 0;
 #X connect 31 0 26 0;
-#X connect 44 0 2 0;
+#X connect 43 0 2 0;
+#X connect 48 0 21 0;
+#X connect 49 0 22 0;
 #X coords 0 -1 1 1 360 170 1 50 50;
