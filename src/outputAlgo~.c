@@ -10,13 +10,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-version 0.4.1, October 11, 2019
-
-next, should interpolate tempo, bit depth, and p-parameters per sample to reduce clicks on changes
-
-is getTimeIndex/setTimeIndex getting and setting x_t on block boundaries only? that seems to be happening when testing the patch, but need to think that through. could make tBlockStart in _perform routine a variable in the object dataspace and use that for getting/setting since it's a known quantity at the start of each block, not a potentially changing quantity mid-block.
-
-getting double wrap-bangs
+version 0.5.1, November 16, 2019
 
 */
 
@@ -25,13 +19,8 @@ getting double wrap-bangs
 #include <float.h>
 #include <limits.h>
 #define EXTRAPOINTS 8 // after careful testing, 8 guard points seems safe
-#define ALGOZEROPARAMS 4
-#define ALGOONEPARAMS 5
-#define ALGOTWOPARAMS 3
-#define ALGOTHREEPARAMS 5
-#define ALGOFOURPARAMS 5
 #define MAXALGOPARAMS 10
-#define NUMALGOS 5
+#define NUMALGOS 24
 #define BASETEMPO 60
 #define MAXTEMPO 240
 #define MAXBITDEPTH 32
@@ -68,6 +57,137 @@ typedef struct _outputAlgo_tilde
 
 
 /* ------------------------ outputAlgo~ -------------------------------- */
+static unsigned long int outputAlgo_tilde_getSample(outputAlgo_tilde *x)
+{
+    unsigned int t, p0, p1, p2, p3, p4, p5, p6, p7, p8, p9;
+    unsigned long int thisSample;
+
+	t = x->x_t;
+	
+	// grab the params from the array before the for loop to simplify algos
+	p0 = x->x_params[0];
+	p1 = x->x_params[1];
+	p2 = x->x_params[2];
+	p3 = x->x_params[3];
+	p4 = x->x_params[4];
+	p5 = x->x_params[5];
+	p6 = x->x_params[6];
+	p7 = x->x_params[7];
+	p8 = x->x_params[8];
+	p9 = x->x_params[9];
+	
+	switch(x->x_algoChoice)
+	{
+		case 0:
+			thisSample = t*((t>>p0|t>>p1)&p2&t>>p3);
+			break;
+		case 1:
+			thisSample = t*(p0&t>>p1)|((t*p2)*(t>>p3)*(t<<p4));
+			break;
+		case 2:
+			thisSample = ((t*p0)*(t>>p1)|(t<<p2));
+			break;
+		case 3:
+			thisSample = t*((t>>p0)*(t>>p1))|((t>>p2)&(p3&t>>p4));
+			break;
+		case 4:
+			thisSample = (t*p0&(t>>p1))|((t*p2)&(t*p3>>p4));
+			break;
+		case 5:
+			thisSample = t&t>>p0;
+			break;
+		case 6:
+			thisSample = (t*p0)&t>>p1;
+			break;
+		case 7:
+			thisSample = t&p0&t>>p1;
+			break;
+		case 8:
+			thisSample = t*(p0&t>>p1);
+			break;
+		case 9:
+			thisSample = t*(t>>p0|t>>p1)&p2;
+			break;
+		case 10:
+			p0 = (p0<1)?1:p0;
+			p1 = (p1<1)?1:p1;
+			p2 = (p2<1)?1:p2;
+			p3 = (p3<1)?1:p3;
+			// crashes with param = 0
+			thisSample = (t&t%p0)-(t*p1&t>>p2&t>>p3);
+			break;
+		case 11:
+			p0 = (p0<1)?1:p0;
+			p1 = (p1<1)?1:p1;
+			p2 = (p2<1)?1:p2;
+			p3 = (p3<1)?1:p3;
+			p4 = (p4<1)?1:p4;
+			// crashes with param = 0
+			thisSample = (int)(t/1e7*t*t+t)%p0|t>>p1|t>>p2|t%p3+(t>>p4)|t;
+			break;
+		case 12:
+			thisSample = t*(t^t+(t>>p0|p1)^(t-p2^t)>>p3);
+			break;
+		case 13:
+			thisSample = (t*p0&(t>>p1))|(t*p2&(t*p3>>p4));
+			break;
+		case 14:
+			thisSample = (t*p0&t>>p1)|(t*p2&t>>p3);
+			break;
+		case 15:
+			thisSample = (t*p0&t>>p1)|(t*p2&t>>p3)|(t*p4&(int)(t/(float)p5));
+			break;
+		case 16:
+			thisSample = t*(0xCA98>>(t>>p1&p2)&p3)|t>>p4;
+			break;
+		case 17:
+			p0 = (p0<1)?1:p0;
+			p1 = (p1<1)?1:p1;
+			p2 = (p2<1)?1:p2;
+			p3 = (p3<1)?1:p3;
+			p4 = (p4<1)?1:p4;
+			p5 = (p5<1)?1:p5;
+			p6 = (p6<1)?1:p6;
+			// crashes with param = 0
+			thisSample = ((t*p0&t>>p1)|(t*p2&t>>p3)|(t*p4&t/p5))-p6;
+			break;
+		case 18:
+			thisSample = ((t*(t>>p0)&(p1*t/100)&(p2*t/100))&(t*(t>>p3)&(t*p4/100)&(t*p5/100)))+((t*(t>>p6)&(t*p7/100)&(t*p8/100))-(t*(t>>p9)&(t*302/100)&(t*298/100)));
+			break;
+		case 19:
+			thisSample = ((t/2*(p0&(0x234568a0>>(t>>p1&p2))))|(t/2>>(t>>p3)^t>>p4))+(t/16&t&p5);
+			break;
+		case 20:
+			thisSample = ((t*(int)(p0/(float)(t&p1+p2))&t>>p3)&((t*p4)&t>>p5))|(t>>p6&p7);
+			break;
+		case 21:
+			thisSample = ((t*(p0|(t&p1+p2))&t>>p3)&((t*p4)&t>>p5))|(t>>p6&p7);
+			break;
+		case 22:
+			p0 = (p0<1)?1:p0;
+			p1 = (p1<1)?1:p1;
+			p2 = (p2<1)?1:p2;
+			p3 = (p3<1)?1:p3;
+			p4 = (p4<1)?1:p4;
+			p5 = (p5<1)?1:p5;
+			p6 = (p6<1)?1:p6;
+			p7 = (p7<1)?1:p7;
+			p8 = (p8<1)?1:p8;
+			p9 = (p9<1)?1:p9;
+			// crashes with param = 0
+			thisSample = ((((int)((((t>>p0)%p1)*t)/(float)(t%p2))|(t/(p3*(((t>>p4)%p5)+p6))))^((t>>p7)%p8))-p9);
+			break;
+		case 23:
+			thisSample = t>>p0|(int)((t&(t>>p1))/(float)(t>>(p2-(t>>p3))& t >> (p4-(t>>p5))));
+			break;
+		default:
+			thisSample = 0;
+			break;					
+	}
+	
+	return(thisSample);
+}
+
 static double outputAlgo_tilde_cubicInterpolate(double y0, double y1, double y2, double y3, double mu)
 {
    double a0, a1, a2, a3, mu2;
@@ -258,7 +378,6 @@ static void *outputAlgo_tilde_new(t_symbol *s, int argc, t_atom *argv)
 static t_int *outputAlgo_tilde_perform(t_int *w)
 {
     unsigned int i, j, n, m, hop;
-    unsigned int p0, p1, p2, p3, p4, p5, p6, p7, p8, p9;
 	
     outputAlgo_tilde *x = (outputAlgo_tilde *)(w[1]);
     t_sample *out = (t_float *)(w[2]);
@@ -269,18 +388,6 @@ static t_int *outputAlgo_tilde_perform(t_int *w)
 	
 	// note the current time index at the start of the block
 	x->x_tBlockStart = x->x_t;
-	
-	// grab the params from the array before the for loop, since those won't change within a block anyway
-	p0 = x->x_params[0];
-	p1 = x->x_params[1];
-	p2 = x->x_params[2];
-	p3 = x->x_params[3];
-	p4 = x->x_params[4];
-	p5 = x->x_params[5];
-	p6 = x->x_params[6];
-	p7 = x->x_params[7];
-	p8 = x->x_params[8];
-	p9 = x->x_params[9];
 	
 	if(x->x_computeSwitch)
 	{
@@ -301,27 +408,7 @@ static t_int *outputAlgo_tilde_perform(t_int *w)
 			unsigned long int thisSample;
 				
 			// perform the algorithm in unsigned int precision. Bitwise operators MUST BE used in UINT precision. we store the result in higher precision - unsigned long int
-			switch(x->x_algoChoice)
-			{
-				case 0:
-					thisSample = x->x_t*((x->x_t >> p0 | x->x_t >> p1) & p2 & x->x_t >> p3);
-					break;
-				case 1:
-					thisSample = x->x_t*(p0&x->x_t>>p1)|((x->x_t*p2)*(x->x_t>>p3)*(x->x_t<<p4));
-					break;
-				case 2:
-					thisSample = ((x->x_t*p0)*(x->x_t>>p1)|(x->x_t<<p2));
-					break;
-				case 3:
-					thisSample = x->x_t*((x->x_t>>p0)*(x->x_t>>p1))|((x->x_t>>p2)&(p3&x->x_t>>p4));
-					break;
-				case 4:
-					thisSample = (x->x_t*p0&(x->x_t>>p1))|((x->x_t*p2)&(x->x_t*p3>>p4));
-					break;
-				default:
-					thisSample = 0;
-					break;					
-			}
+			thisSample = outputAlgo_tilde_getSample(x);
 		
 			// convert the unsigned long long int-ranged sample into a float sample
 			thisSampleFloat = thisSample / (t_float)x->x_quantSteps;

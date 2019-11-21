@@ -67,8 +67,6 @@ player-\$1-gain 4 8 0 10 -262144 -1 -1 0 1;
 #X floatatom 206 84 5 0 0 1 dB player-#1-gain -;
 #X obj 68 144 hsl 128 15 0.01 1 0 0 player-\$1-spat-width player-\$1-spat-width-set
 player-\$1-spat-width 4 8 0 10 -262144 -1 -1 0 1;
-#X obj 206 124 hradio 15 1 0 5 player-\$1-algo-select player-\$1-algo-select-set
-algo-select 0 -8 0 10 -262144 -1 -1 0;
 #X floatatom 206 144 5 1 32 1 bitDepth player-#1-bitDepth-set player-#1-bitDepth
 ;
 #X obj 65 104 bng 15 250 50 0 empty empty plot 17 7 0 10 -262144 -1
@@ -111,6 +109,8 @@ on the keyboard., f 23;
 #X obj 415 344 change;
 #X obj 315 344 change;
 #X symbolatom 296 174 7 0 0 1 note player-#1-midi-note-display -;
+#X floatatom 206 124 5 0 23 2 algo-select player-#1-algo-select-set
+player-#1-algo-select;
 #X connect 0 0 35 0;
 #X connect 1 0 34 0;
 #X connect 2 0 1 0;
@@ -122,12 +122,12 @@ on the keyboard., f 23;
 #X connect 22 0 29 0;
 #X connect 22 1 30 0;
 #X connect 23 0 18 0;
-#X connect 24 0 49 0;
-#X connect 25 0 48 0;
+#X connect 24 0 48 0;
+#X connect 25 0 47 0;
 #X connect 29 0 28 0;
 #X connect 30 0 27 0;
 #X connect 31 0 26 0;
-#X connect 43 0 2 0;
-#X connect 48 0 21 0;
-#X connect 49 0 22 0;
+#X connect 42 0 2 0;
+#X connect 47 0 21 0;
+#X connect 48 0 22 0;
 #X coords 0 -1 1 1 360 170 1 50 50;
