@@ -1,0 +1,4 @@
+.DS_Store
+src/outputAlgo~.o
+src/outputAlgo~.*
+algo-presets/*

@@ -28,6 +28,28 @@ reverb-#1-spat-width;
 reverb-#1-spat-lfo-freq;
 #X obj 368 348 hradio 15 1 0 6 reverb-\$1-spat-sig-source reverb-\$1-spat-sig-source-set
 spat-sig 16 8 0 10 -262144 -1 -1 0;
+#X obj 389 483 switch~;
+#N canvas 941 183 419 243 decide-to-compute 0;
+#X obj 23 47 select 0;
+#X obj 23 98 delay 1000;
+#X msg 23 119 0;
+#X msg 103 129 1;
+#X obj 103 103 t b;
+#X obj 23 170 outlet;
+#X text 155 63 If the out-gain is nonzero \, turn computing on for
+this plugin. If out-gain is zero \, wait 1 second for any remaining
+audio to fade out \, then turn off computing. This isn't foolproof
+\, but will get rid of most problems, f 33;
+#X obj 23 26 r reverb-\$1-out-gain;
+#X connect 0 0 1 0;
+#X connect 0 1 4 0;
+#X connect 1 0 2 0;
+#X connect 2 0 5 0;
+#X connect 3 0 5 0;
+#X connect 4 0 3 0;
+#X connect 7 0 0 0;
+#X restore 389 455 pd decide-to-compute;
+#X obj 535 348 tgl 15 0 empty empty c 4 7 0 10 -262144 -1 -1 0 1;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
 #X connect 3 0 4 1;
@@ -42,4 +64,6 @@ spat-sig 16 8 0 10 -262144 -1 -1 0;
 #X connect 13 0 9 0;
 #X connect 18 0 19 3;
 #X connect 19 0 12 0;
+#X connect 23 0 22 0;
+#X connect 23 0 24 0;
 #X coords 0 -1 1 1 200 190 1 360 180;

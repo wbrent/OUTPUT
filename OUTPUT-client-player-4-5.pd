@@ -140,7 +140,7 @@ gains and mutes, f 33;
 #X msg 494 156 \; algoNumParams \$1 \;;
 #X obj 494 127 r num-algos;
 #X obj 354 179 r lb2;
-#X msg 595 105 \; num-algos 24 \;;
+#X msg 595 105 \; num-algos 25 \;;
 #X connect 1 0 2 0;
 #X connect 1 1 5 0;
 #X connect 1 2 4 0;

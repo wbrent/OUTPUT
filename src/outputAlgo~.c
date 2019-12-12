@@ -20,7 +20,7 @@ version 0.5.1, November 16, 2019
 #include <limits.h>
 #define EXTRAPOINTS 8 // after careful testing, 8 guard points seems safe
 #define MAXALGOPARAMS 10
-#define NUMALGOS 24
+#define NUMALGOS 25
 #define BASETEMPO 60
 #define MAXTEMPO 240
 #define MAXBITDEPTH 32
@@ -62,7 +62,9 @@ static unsigned long int outputAlgo_tilde_getSample(outputAlgo_tilde *x)
     unsigned int t, p0, p1, p2, p3, p4, p5, p6, p7, p8, p9;
     unsigned long int thisSample;
 
-	t = x->x_t;
+	t = x->x_t;	
+	// avoid t==0, which would cause division or modulus by zero in some algos
+	t=(t==0)?1:t;
 	
 	// grab the params from the array before the for loop to simplify algos
 	p0 = x->x_params[0];
@@ -109,24 +111,13 @@ static unsigned long int outputAlgo_tilde_getSample(outputAlgo_tilde *x)
 			thisSample = t*(t>>p0|t>>p1)&p2;
 			break;
 		case 10:
-			p0 = (p0<1)?1:p0;
-			p1 = (p1<1)?1:p1;
-			p2 = (p2<1)?1:p2;
-			p3 = (p3<1)?1:p3;
-			// crashes with param = 0
 			thisSample = (t&t%p0)-(t*p1&t>>p2&t>>p3);
 			break;
 		case 11:
-			p0 = (p0<1)?1:p0;
-			p1 = (p1<1)?1:p1;
-			p2 = (p2<1)?1:p2;
-			p3 = (p3<1)?1:p3;
-			p4 = (p4<1)?1:p4;
-			// crashes with param = 0
 			thisSample = (int)(t/1e7*t*t+t)%p0|t>>p1|t>>p2|t%p3+(t>>p4)|t;
 			break;
 		case 12:
-			thisSample = t*(t^t+(t>>p0|p1)^(t-p2^t)>>p3);
+			thisSample = ((((t%p0)+t)|t)<<p1)+(t&(t>>p2))+(t<<p3);
 			break;
 		case 13:
 			thisSample = (t*p0&(t>>p1))|(t*p2&(t*p3>>p4));
@@ -141,21 +132,13 @@ static unsigned long int outputAlgo_tilde_getSample(outputAlgo_tilde *x)
 			thisSample = t*(0xCA98>>(t>>p1&p2)&p3)|t>>p4;
 			break;
 		case 17:
-			p0 = (p0<1)?1:p0;
-			p1 = (p1<1)?1:p1;
-			p2 = (p2<1)?1:p2;
-			p3 = (p3<1)?1:p3;
-			p4 = (p4<1)?1:p4;
-			p5 = (p5<1)?1:p5;
-			p6 = (p6<1)?1:p6;
-			// crashes with param = 0
 			thisSample = ((t*p0&t>>p1)|(t*p2&t>>p3)|(t*p4&t/p5))-p6;
 			break;
 		case 18:
 			thisSample = ((t*(t>>p0)&(p1*t/100)&(p2*t/100))&(t*(t>>p3)&(t*p4/100)&(t*p5/100)))+((t*(t>>p6)&(t*p7/100)&(t*p8/100))-(t*(t>>p9)&(t*302/100)&(t*298/100)));
 			break;
 		case 19:
-			thisSample = ((t/2*(p0&(0x234568a0>>(t>>p1&p2))))|(t/2>>(t>>p3)^t>>p4))+(t/16&t&p5);
+			thisSample = ((t/2*(p0&(0x234568a0>>(t>>p1&p2)))))|(t/2>>(t>>p3)^t>>p4)+(t/16&t&p5);
 			break;
 		case 20:
 			thisSample = ((t*(int)(p0/(float)(t&p1+p2))&t>>p3)&((t*p4)&t>>p5))|(t>>p6&p7);
@@ -164,21 +147,13 @@ static unsigned long int outputAlgo_tilde_getSample(outputAlgo_tilde *x)
 			thisSample = ((t*(p0|(t&p1+p2))&t>>p3)&((t*p4)&t>>p5))|(t>>p6&p7);
 			break;
 		case 22:
-			p0 = (p0<1)?1:p0;
-			p1 = (p1<1)?1:p1;
-			p2 = (p2<1)?1:p2;
-			p3 = (p3<1)?1:p3;
-			p4 = (p4<1)?1:p4;
-			p5 = (p5<1)?1:p5;
-			p6 = (p6<1)?1:p6;
-			p7 = (p7<1)?1:p7;
-			p8 = (p8<1)?1:p8;
-			p9 = (p9<1)?1:p9;
-			// crashes with param = 0
-			thisSample = ((((int)((((t>>p0)%p1)*t)/(float)(t%p2))|(t/(p3*(((t>>p4)%p5)+p6))))^((t>>p7)%p8))-p9);
+			thisSample = ((((int)((((t>>p0)%p1)*t)/t%p2)|(t/(p3*(((t>>p4)%p5)+p6))))^((t>>p7)%p8))-p9);
 			break;
 		case 23:
 			thisSample = t>>p0|(int)((t&(t>>p1))/(float)(t>>(p2-(t>>p3))& t >> (p4-(t>>p5))));
+			break;
+		case 24:
+			thisSample = (((((t%p0) + (t%p1)) | t) | (t>>p2 & t>>p3))%p4) | t>>p5;
 			break;
 		default:
 			thisSample = 0;
@@ -317,20 +292,26 @@ static void outputAlgo_tilde_debug(outputAlgo_tilde *x, t_floatarg d)
 static void outputAlgo_tilde_parameters(outputAlgo_tilde *x, t_symbol *s, int argc, t_atom *argv)
 {
 	int i;
+	unsigned int p;
 	
 	for(i=0; i<argc; i++)
-		x->x_params[i] = atom_getfloat(argv+i);
+	{
+		p = atom_getfloat(argv+i);
+		// don't allow parameters to be zero, which causes undefined behavior with division and modulus
+		p = (p<1)?1:p;
+		x->x_params[i] = p;
+	}
 		
-	// if there weren't enough arguments, fill remaining params with 0
+	// if there weren't enough arguments, fill remaining params with 1
 	for(; i<MAXALGOPARAMS; i++)
-		x->x_params[i] = 0;
+		x->x_params[i] = 1;
 }
 
 static void *outputAlgo_tilde_new(t_symbol *s, int argc, t_atom *argv)
 {
     outputAlgo_tilde *x = (outputAlgo_tilde *)pd_new(outputAlgo_tilde_class);
 	int i;
-	
+		
 	outlet_new(&x->x_obj, &s_signal);
     x->x_outletTime = outlet_new(&x->x_obj, &s_float);
     x->x_outletMu = outlet_new(&x->x_obj, &s_float);
@@ -342,7 +323,7 @@ static void *outputAlgo_tilde_new(t_symbol *s, int argc, t_atom *argv)
 	x->x_sr = 44100.0f;
 	x->x_n = 64.0f;
 
-	x->x_bitDepth = 24.0f;
+	x->x_bitDepth = 8.0f;
 	x->x_quantSteps = pow(2, x->x_bitDepth);
 	x->x_interpSwitch = 1;
 	x->x_algoChoice = 0;
@@ -356,20 +337,25 @@ static void *outputAlgo_tilde_new(t_symbol *s, int argc, t_atom *argv)
 	x->x_incr = 0.0f;
 	x->x_sampIdx = 0.0f;
 	
-	x->x_tempo = 60.0f;
+	// this tempo recreates results of 8kHz sampling rate when running at 44.1kHz 
+	x->x_tempo = 10.884f;
 	outputAlgo_tilde_tempo(x, x->x_tempo);
 
 	x->x_signalBuffer = (t_sample *)t_getbytes((x->x_n*4+EXTRAPOINTS) * sizeof(t_sample));
 	
 	for(i=0; i<x->x_n*4+EXTRAPOINTS; i++)
 		x->x_signalBuffer[i] = 0.0;
-		
+	
+	outputAlgo_tilde_parameters(x, s, argc, argv);
+	
+	/*
 	for(i=0; i<argc; i++)
 		x->x_params[i] = atom_getfloat(argv+i);
 		
 	// if there weren't enough arguments, fill remaining params with 0
 	for(; i<MAXALGOPARAMS; i++)
-		x->x_params[i] = 0;
+		x->x_params[i] = 1;
+	*/
 	
     return(x);
 }

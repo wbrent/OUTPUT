@@ -109,7 +109,7 @@ on the keyboard., f 23;
 #X obj 415 344 change;
 #X obj 315 344 change;
 #X symbolatom 296 174 7 0 0 1 note player-#1-midi-note-display -;
-#X floatatom 206 124 5 0 23 2 algo-select player-#1-algo-select-set
+#X floatatom 206 124 5 0 24 2 algo-select player-#1-algo-select-set
 player-#1-algo-select;
 #X connect 0 0 35 0;
 #X connect 1 0 34 0;
