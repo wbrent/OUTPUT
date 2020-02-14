@@ -35,6 +35,8 @@
 #X obj 57 75 netprep player-\$1-spat-pos 1;
 #X obj 57 51 netprep player-\$1-mute 1;
 #X obj 57 26 netprep player-\$1-gain 1;
+#X obj 435 395 netprep player-\$1-asr-kbd;
+#X obj 435 425 netprep player-\$1-asr-env;
 #X restore 20 201 pd netpreps;
 #N canvas 1214 498 583 462 algo-cache-stuff 0;
 #X msg 43 116 0;
@@ -182,8 +184,8 @@ inc/dec/rand for p9 \;;
 #X connect 5 0 6 0;
 #X connect 7 0 2 0;
 #X restore 20 261 pd keyboard-commands;
-#N canvas 98 273 607 194 MIDI 0;
-#N canvas 365 87 791 699 keyboard-tempo 0;
+#N canvas 98 273 621 228 MIDI 0;
+#N canvas 818 150 791 699 keyboard-tempo 0;
 #X obj 156 21 notein;
 #X obj 346 284 bendin;
 #X obj 346 397 select 8192;
@@ -230,13 +232,13 @@ this allows release of a note to freeze tempo at bent value, f 27
 #X obj 305 567 select 0;
 #X text 161 586 Take snapshot of pitch bend position for GUI display
 as reference, f 19;
-#X obj 417 179 ==;
-#X msg 489 223 0;
-#X obj 417 149 ctlin 0;
-#X obj 489 151 f \$1;
-#X obj 489 182 select 0 1 2 3 4 5;
-#X msg 529 223 127;
-#X obj 489 125 r lb1;
+#X obj 466 250 ==;
+#X msg 538 294 0;
+#X obj 466 220 ctlin 0;
+#X obj 538 222 f \$1;
+#X obj 538 253 select 0 1 2 3 4 5;
+#X msg 578 294 127;
+#X obj 538 196 r lb1;
 #N canvas 1134 89 667 392 detect-no-keys 0;
 #X obj 49 24 inlet;
 #X obj 199 24 inlet;
@@ -265,6 +267,38 @@ being off. must check the sum post-storage of the incoming note state.
 #X connect 10 1 4 0;
 #X restore 202 84 pd detect-no-keys;
 #X obj 591 452 pow 2;
+#N canvas 980 67 795 528 set-ASR-keyboard 0;
+#X obj 249 413 s player-\$1-asr-env;
+#X obj 346 149 r player-\$1-asr-kbd;
+#X obj 172 334 spigot;
+#X msg 325 345 1;
+#X msg 207 291 1;
+#X msg 247 291 0;
+#X obj 346 209 t b b;
+#X obj 346 185 select 0 1;
+#X obj 396 209 t b b;
+#X obj 365 345 f;
+#X obj 83 34 inlet;
+#X text 230 28 When player-\$1-asr-kbd is ON \, we push through the
+most recent value from [pd detect-no-keys] \, then allow 1 or 0 out
+of detect-no keys to player-\$1-asr-env thereafter. \; When player-\$1-asr-kbd
+is OFF \, we suppress values from detect-no-keys \, then send a solid
+1 to asr-env to keep it on.;
+#X connect 1 0 7 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X connect 4 0 2 1;
+#X connect 5 0 2 1;
+#X connect 6 0 3 0;
+#X connect 6 1 5 0;
+#X connect 7 0 6 0;
+#X connect 7 1 8 0;
+#X connect 8 0 4 0;
+#X connect 8 1 9 0;
+#X connect 9 0 0 0;
+#X connect 10 0 2 0;
+#X connect 10 0 9 1;
+#X restore 271 141 pd set-ASR-keyboard;
 #X connect 0 0 13 0;
 #X connect 0 0 48 0;
 #X connect 0 1 9 1;
@@ -324,6 +358,7 @@ being off. must check the sum post-storage of the incoming note state.
 #X connect 47 0 44 0;
 #X connect 48 0 39 0;
 #X connect 48 0 29 1;
+#X connect 48 0 50 0;
 #X connect 49 0 30 0;
 #X restore 43 34 pd keyboard-tempo;
 #N canvas 179 228 959 559 timeSync 0;
@@ -421,7 +456,7 @@ being off. must check the sum post-storage of the incoming note state.
 #X connect 37 0 36 0;
 #X connect 40 0 14 0;
 #X connect 41 0 26 0;
-#X restore 43 94 pd timeSync;
+#X restore 43 124 pd timeSync;
 #N canvas 609 445 765 367 algoChoice 0;
 #X obj 86 66 spigot;
 #X obj 86 120 t b;
@@ -566,7 +601,7 @@ being off. must check the sum post-storage of the incoming note state.
 #X connect 10 0 5 0;
 #X connect 11 0 4 0;
 #X connect 12 0 3 0;
-#X restore 43 64 pd tempoSync;
+#X restore 43 94 pd tempoSync;
 #N canvas 940 287 660 547 lfo-freq 0;
 #X text 137 14 Have to special-case this because we need logarithmic
 scale from 0 to 4 \, but also log scale going from 0 down to -4;
@@ -1190,8 +1225,8 @@ player-\$1-spat-lfo-freq-set 0 1];
 1;
 #X obj 541 189 fadermap player-\$1-dry 107 \$1 0 100 player-\$1-dry-set
 1;
-#X restore 43 124 pd faders;
-#N canvas 551 347 488 228 compute-interp-rand 0;
+#X restore 43 154 pd faders;
+#N canvas 748 400 488 228 compute-interp-rand 0;
 #X obj 36 126 buttonToggleMap player-\$1-interpolation 24 \$1 0 1 player-\$1-interpolation-set
 ;
 #X obj 36 76 buttonToggleMap player-\$1-compute 23 \$1 0 1 player-\$1-compute-set
@@ -1299,6 +1334,10 @@ player-\$1-spat-lfo-freq-set 0 1];
 #X connect 12 0 9 0;
 #X connect 14 0 5 0;
 #X restore 212 124 pd active-player-sensing;
+#N canvas 0 23 450 300 keyboard-ASR 0;
+#X obj 36 76 buttonToggleMap player-\$1-asr-kbd 15 \$1 0 1 player-\$1-asr-kbd-set
+;
+#X restore 43 64 pd keyboard-ASR;
 #X restore 20 291 pd MIDI;
 #X obj 400 20 algo-param-interface-client \$1;
 #X coords 0 -1 1 1 1030 170 2 20 20;

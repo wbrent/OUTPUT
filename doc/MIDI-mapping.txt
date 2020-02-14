@@ -62,10 +62,10 @@
 53: load tempo with preset toggle
 54: load parameters with preset toggle
 
+15: toggle ASR keyboard mode
 
 
 
 UNMAPPED:
 
 13
-15

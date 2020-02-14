@@ -51,13 +51,6 @@ in the abstraction though \, so that they can be set in the same way.
 #X obj 286 176 vsl 8 30 -1 1 0 0 empty player-\$1-pitch-bend-display
 empty 0 -9 0 10 -262144 -1 -1 0 1;
 #X msg 65 363 \; pd-player-\$2-raw-output-plot vis \$1 \;;
-#X msg 724 84 \; player-\$1-bitDepth-set 24 \; player-\$1-dry-set 90
-\; player-\$1-wet-set 85 \; player-\$1-mute-set 0 \; player-\$1-rvb-liveness-set
-90 \; player-\$1-rvb-xover-set 3000 \; player-\$1-rvb-damping-set 20
-\; player-\$1-spat-width-set 0.35 \; player-\$1-spat-pos-set 0 \; player-\$1-spat-lfo-freq-set
-0 \; player-\$1-compute-set 1 \; player-\$1-interpolation-set 1 \;
-player-\$1-algo-select-set 0 \; player-\$1-tempo-set 30 \; player-\$1-pitch-bend-display
-0 \; player-\$1-kbd-control-set 0 \;;
 #X obj 60 70 cnv 15 230 95 empty player-\$1-active-canvas-set empty
 20 12 0 14 -233017 -66577 0;
 #X obj 68 124 hsl 128 15 0 1 0 0 player-\$1-spat-pos player-\$1-spat-pos-set
@@ -109,9 +102,18 @@ on the keyboard., f 23;
 #X obj 415 344 change;
 #X obj 315 344 change;
 #X symbolatom 296 174 7 0 0 1 note player-#1-midi-note-display -;
-#X floatatom 206 124 5 0 24 2 algo-select player-#1-algo-select-set
+#X floatatom 206 124 5 0 120 2 algo-select player-#1-algo-select-set
 player-#1-algo-select;
-#X connect 0 0 35 0;
+#X obj 296 154 tgl 15 0 player-\$1-asr-kbd player-\$1-asr-kbd-set ASR-kbd
+17 7 0 10 -262144 -1 -1 0 1;
+#X msg 724 84 \; player-\$1-bitDepth-set 24 \; player-\$1-dry-set 90
+\; player-\$1-wet-set 85 \; player-\$1-mute-set 0 \; player-\$1-rvb-liveness-set
+90 \; player-\$1-rvb-xover-set 3000 \; player-\$1-rvb-damping-set 20
+\; player-\$1-spat-width-set 0.35 \; player-\$1-spat-pos-set 0 \; player-\$1-spat-lfo-freq-set
+0 \; player-\$1-compute-set 1 \; player-\$1-interpolation-set 1 \;
+player-\$1-algo-select-set 0 \; player-\$1-tempo-set 30 \; player-\$1-pitch-bend-display
+0 \; player-\$1-kbd-control-set 0 \; player-\$1-asr-kbd-set 0 \;;
+#X connect 0 0 51 0;
 #X connect 1 0 34 0;
 #X connect 2 0 1 0;
 #X connect 15 0 0 0;
@@ -122,12 +124,12 @@ player-#1-algo-select;
 #X connect 22 0 29 0;
 #X connect 22 1 30 0;
 #X connect 23 0 18 0;
-#X connect 24 0 48 0;
-#X connect 25 0 47 0;
+#X connect 24 0 47 0;
+#X connect 25 0 46 0;
 #X connect 29 0 28 0;
 #X connect 30 0 27 0;
 #X connect 31 0 26 0;
-#X connect 42 0 2 0;
-#X connect 47 0 21 0;
-#X connect 48 0 22 0;
+#X connect 41 0 2 0;
+#X connect 46 0 21 0;
+#X connect 47 0 22 0;
 #X coords 0 -1 1 1 360 170 1 50 50;
