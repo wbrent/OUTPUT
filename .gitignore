@@ -1,4 +1,6 @@
 .DS_Store
 src/outputAlgo~.o
-src/outputAlgo~.*
+src/outputAlgo~.pd_darwin
+src/outputAlgo~.pd_linux
+src/outputAlgo~.dll
 algo-presets/*

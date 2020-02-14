@@ -10,11 +10,11 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-version 0.5.1, November 16, 2019
+version 0.6, February 14, 2020
 
 */
 
-#include "outputAlgo~.h"
+#include "outputAlgorithms.c"
 
 /* ------------------------ outputAlgo~ -------------------------------- */
 static double outputAlgo_tilde_cubicInterpolate(double y0, double y1, double y2, double y3, double mu)
