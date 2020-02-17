@@ -21,6 +21,7 @@ static unsigned long int outputAlgo_tilde_getSample(outputAlgo_tilde *x)
 	p8 = x->x_params[8];
 	p9 = x->x_params[9];
 	
+	// NOTE: for all divisions, cast divisor (float), then cast the result as (int)
 	switch(x->x_algoChoice)
 	{
 		case 0:
@@ -108,7 +109,7 @@ static unsigned long int outputAlgo_tilde_getSample(outputAlgo_tilde *x)
 			thisSample = ((t*("36364689"[t>>p0&p1]&p2))/p3&p4);
 			break;
 		case 28:
-			thisSample = (t>>p0)|(t>>p1)|(((t%p2)*(t>>p3)|(0x15483113)-(t>>p4))/(t>>p5)^(t|(t>>p6)));
+			thisSample = (t>>p0)|(t>>p1)|(int)(((t%p2)*(t>>p3)|(0x15483113)-(t>>p4))/(float)((t>>p5)^(t|(t>>p6))));
 			break;
 		case 29:
 			thisSample = ((t*p0/p1)|t*p2+(t<<p3));
@@ -194,52 +195,52 @@ static unsigned long int outputAlgo_tilde_getSample(outputAlgo_tilde *x)
 			thisSample = ((t*p0&t>>p1)|(t*p2&t>>p3)|(t*p4&t/p5))-p6;
 			break;
 		case 57:
-			thisSample = 0;
+			thisSample = ((t*(t>>p0)&(p1*t/100)&(p2*t/100))&(t*(t>>p3)&(t*p4/100)&(t*p5/100)))+((t*(t>>p6)&(t*p7/100)&(t*p8/100))-(t*(t>>p9)&(t*302/100)&(t*298/100)));
 			break;
 		case 58:
-			thisSample = 0;
+			thisSample = ((t*("36364689"[t>>p0&p1]&p2))/p3&p4)+(((((t>>p5)^(t>>p6)-p7)%p8*t)/4|t>>p9)&127);
 			break;
 		case 59:
-			thisSample = 0;
+			thisSample = t*(t^t+(t>>p0|p1)^(t-p2^t)>>p3);
 			break;
 		case 60:
-			thisSample = 0;
+			thisSample = ((1-(((t+p0)>>((t>>p1)&((t>>p2))))&(t>>p3&-2)))*2)*(((t>>p4)^((t+((t>>p5)&p6))>>p7))&p8)*32+p9;
 			break;
 		case 61:
-			thisSample = 0;
+			thisSample = ((t>>p0%p1)+p2)*p3*t>>p4*t>>p5;
 			break;
 		case 62:
-			thisSample = 0;
+			thisSample = t*(((t>>p0)&p1)|(((t>>p2)&p3)^((t>>p4)&p5&(t>>p6))));
 			break;
 		case 63:
-			thisSample = 0;
+			thisSample = ((t*t/p0)&(t>>((t/p1)%p2)))^t%p3*(0xC0D3DE4D69>>(t>>p4&p5)&t%p6)*t>>p7;
 			break;
 		case 64:
-			thisSample = 0;
+			thisSample = t|t%p0|t%p1;
 			break;
 		case 65:
-			thisSample = 0;
+			thisSample = t>>p0&p1?t>>p2:-t>>p3;
 			break;
 		case 66:
-			thisSample = 0;
+			thisSample = t*(t>>p0|t>>p1)&p2;
 			break;
 		case 67:
-			thisSample = 0;
+			thisSample = (t&t>>p0)*(t>>p1|t>>p2);
 			break;
 		case 68:
-			thisSample = 0;
+			thisSample = (t*p0&t>>p1)|(t*p2&t>>p3);
 			break;
 		case 69:
-			thisSample = 0;
+			thisSample = (t*(t>>p0|t>>p1))>>(t>>p2);
 			break;
 		case 70:
-			thisSample = 0;
+			thisSample = (t*p0&(t>>p1))|(t*p2&(t*p3>>p4));
 			break;
 		case 71:
-			thisSample = 0;
+			thisSample = (t>>p0|t%p1)&(t>>p2|t%p3);
 			break;
 		case 72:
-			thisSample = 0;
+			thisSample = (t*((t>>p0|t>>p1)&p2))&p3;
 			break;
 		case 73:
 			thisSample = 0;
