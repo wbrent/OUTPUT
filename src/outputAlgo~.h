@@ -4,7 +4,7 @@
 #include <limits.h>
 #define EXTRAPOINTS 8 // after careful testing, 8 guard points seems safe
 #define MAXALGOPARAMS 10
-#define NUMALGOS 121
+#define NUMALGOS 113
 #define BASETEMPO 60
 #define MAXTEMPO 240
 #define MAXBITDEPTH 32
