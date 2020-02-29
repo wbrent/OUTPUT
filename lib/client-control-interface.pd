@@ -35,8 +35,8 @@
 #X obj 57 75 netprep player-\$1-spat-pos 1;
 #X obj 57 51 netprep player-\$1-mute 1;
 #X obj 57 26 netprep player-\$1-gain 1;
-#X obj 435 395 netprep player-\$1-asr-kbd;
 #X obj 435 425 netprep player-\$1-asr-env;
+#X obj 435 395 netprep player-\$1-asr-kbd 1;
 #X restore 20 201 pd netpreps;
 #N canvas 1214 498 583 462 algo-cache-stuff 0;
 #X msg 43 116 0;
@@ -267,7 +267,7 @@ being off. must check the sum post-storage of the incoming note state.
 #X connect 10 1 4 0;
 #X restore 202 84 pd detect-no-keys;
 #X obj 591 452 pow 2;
-#N canvas 980 67 795 528 set-ASR-keyboard 0;
+#N canvas 885 67 795 528 set-ASR-keyboard 0;
 #X obj 249 413 s player-\$1-asr-env;
 #X obj 346 149 r player-\$1-asr-kbd;
 #X obj 172 334 spigot;
