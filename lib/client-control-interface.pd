@@ -1,7 +1,7 @@
 #N canvas 334 210 1062 201 12;
 #N canvas 218 468 1222 370 panel 0;
 #X obj 20 20 control-panel-abs \$1;
-#N canvas 403 122 749 605 netpreps 0;
+#N canvas 403 122 768 605 netpreps 0;
 #N canvas 852 206 436 431 player-\$1-algo-netpreps 0;
 #X obj 98 48 netprep player-\$1-algo-param-0;
 #X obj 98 78 netprep player-\$1-algo-param-1;
@@ -35,8 +35,10 @@
 #X obj 57 75 netprep player-\$1-spat-pos 1;
 #X obj 57 51 netprep player-\$1-mute 1;
 #X obj 57 26 netprep player-\$1-gain 1;
-#X obj 435 425 netprep player-\$1-asr-env;
-#X obj 435 395 netprep player-\$1-asr-kbd 1;
+#X obj 435 495 netprep player-\$1-asr-env;
+#X obj 435 465 netprep player-\$1-asr-kbd 1;
+#X text 432 400 Just "set" this toggle on the master side so that it
+can be seen if other players are using ASR kbd, f 37;
 #X restore 20 201 pd netpreps;
 #N canvas 1214 498 583 462 algo-cache-stuff 0;
 #X msg 43 116 0;
