@@ -1,0 +1,6 @@
+#N canvas 1170 531 451 233 12;
+#X declare -path ./lib;
+#X obj 24 179 declare -path ./lib;
+#X obj 24 59 client-player-abs 0 1;
+#X text 21 14 Enter two player ID numbers as arguments (0-5), f 28
+;

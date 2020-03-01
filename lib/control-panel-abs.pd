@@ -2,11 +2,12 @@
 #X obj 724 53 f \$1;
 #X obj 65 338 pack f \$1;
 #X msg 65 311 1;
-#X floatatom 296 84 5 0 100 1 dry player-#1-dry-set player-#1-dry;
-#X text 293 62 REVERB;
-#X floatatom 296 104 5 0 100 1 wet player-#1-wet-set player-#1-wet
+#X floatatom 296 84 5 40 100 1 dry player-#1-dry-set player-#1-dry
 ;
-#X floatatom 296 124 5 0 100 1 liveness player-#1-rvb-liveness-set
+#X text 293 62 REVERB;
+#X floatatom 296 104 5 40 100 1 wet player-#1-wet-set player-#1-wet
+;
+#X floatatom 296 124 5 50 100 1 liveness player-#1-rvb-liveness-set
 player-#1-rvb-liveness;
 #X floatatom 65 493 10 0 20000 1 xover player-#1-rvb-xover-set player-#1-rvb-xover
 ;
