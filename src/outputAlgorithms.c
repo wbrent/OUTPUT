@@ -25,7 +25,7 @@ static unsigned long int outputAlgo_tilde_getSample(outputAlgo_tilde *x)
 	switch(x->x_algoChoice)
 	{
 		case 0:
-			thisSample = t*((t>>p0|t>>p1)&p2&t>>p3);
+			thisSample = t*((t>>p0|t>>p1)&p2&t>>p3); // IDENT: 0, 36, 38, 83
 			break;
 		case 1:
 			thisSample = t*(p0&t>>p1)|((t*p2)*(t>>p3)*(t<<p4));
@@ -133,13 +133,13 @@ static unsigned long int outputAlgo_tilde_getSample(outputAlgo_tilde *x)
 			thisSample = ((t>>p0)*(p1&(0x8898a989>>(t>>p2&p3)))&p4)+((((t>>p5|(t>>p6)|t>>p7)*p8+4*(((t>>2)&t>>p9)|t>>8))&255)>>1);
 			break;
 		case 36:
-			thisSample = t*(((t>>p0)|(t>>p1))&(p2&(t>>p3)));
+			thisSample = t*(((t>>p0)|(t>>p1))&(p2&(t>>p3))); // IDENT: 0, 36, 38, 83
 			break;
 		case 37:
 			thisSample = (t*(t>>p0|t>>p1))>>(t>>p2);
 			break;
 		case 38:
-			thisSample = t*(((t>>p0)|(t>>p1))&(p2&(t>>p3)));
+			thisSample = t*(((t>>p0)|(t>>p1))&(p2&(t>>p3))); // IDENT: 0, 36, 38, 83
 			break;
 		case 39:
 			thisSample = t*(((t>>p0)&(t>>p1))&(p2&(t>>p3)));
@@ -273,7 +273,7 @@ static unsigned long int outputAlgo_tilde_getSample(outputAlgo_tilde *x)
 			thisSample = t*(((t>>p0)|(t>>p1))&(p2&(t>>p3)));
 			break;
 		case 83:
-			thisSample = t*(((t>>p0)|(t>>p1))&(p2&(t>>p3)));
+			thisSample = t*(((t>>p0)|(t>>p1))&(p2&(t>>p3))); // IDENT: 0, 36, 38, 83
 			break;
 		case 84:
 			thisSample = t*(t^t+(t>>p0|p1)^(t-p2^t)>>p3);
