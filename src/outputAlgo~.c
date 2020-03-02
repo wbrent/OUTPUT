@@ -90,6 +90,13 @@ static void outputAlgo_tilde_setTimeIndex(outputAlgo_tilde *x, t_floatarg t)
 	x->x_t = t;
 }
 
+static void outputAlgo_tilde_setTimeRand(outputAlgo_tilde *x)
+{
+	double randFloat;
+	randFloat = rand()/(double)RAND_MAX;
+	x->x_t = randFloat * (UINT_MAX-1);
+}
+
 static void outputAlgo_tilde_getInterpMu(outputAlgo_tilde *x)
 {
 	float mu;
@@ -133,6 +140,7 @@ static void outputAlgo_tilde_algoChoice(outputAlgo_tilde *x, t_floatarg a)
 	a = (a<0)?0:a;
 	a = (a>(NUMALGOS-1))?(NUMALGOS-1):a;
 	x->x_algoChoice = a;
+	outlet_float(x->x_outletParamsPerAlgo, paramsPerAlgo[x->x_algoChoice]);
 }
 
 static void outputAlgo_tilde_debug(outputAlgo_tilde *x, t_floatarg d)
@@ -169,6 +177,7 @@ static void *outputAlgo_tilde_new(t_symbol *s, int argc, t_atom *argv)
 	outlet_new(&x->x_obj, &s_signal);
     x->x_outletTime = outlet_new(&x->x_obj, &s_float);
     x->x_outletMu = outlet_new(&x->x_obj, &s_float);
+    x->x_outletParamsPerAlgo = outlet_new(&x->x_obj, &s_float);
     x->x_outletWrapBang = outlet_new(&x->x_obj, &s_bang);
 
 	// store the pointer to the symbol containing the object name. Can access it for error and post functions via s->s_name
@@ -201,15 +210,6 @@ static void *outputAlgo_tilde_new(t_symbol *s, int argc, t_atom *argv)
 		x->x_signalBuffer[i] = 0.0;
 	
 	outputAlgo_tilde_parameters(x, s, argc, argv);
-	
-	/*
-	for(i=0; i<argc; i++)
-		x->x_params[i] = atom_getfloat(argv+i);
-		
-	// if there weren't enough arguments, fill remaining params with 0
-	for(; i<MAXALGOPARAMS; i++)
-		x->x_params[i] = 1;
-	*/
 	
     return(x);
 }
@@ -437,6 +437,13 @@ void outputAlgo_tilde_setup(void)
 		0
 	);
 
+	class_addmethod(
+		outputAlgo_tilde_class,
+		(t_method)outputAlgo_tilde_setTimeRand,
+		gensym("setTimeRand"),
+		0
+	);
+	
 	class_addmethod(
 		outputAlgo_tilde_class,
 		(t_method)outputAlgo_tilde_getInterpMu,

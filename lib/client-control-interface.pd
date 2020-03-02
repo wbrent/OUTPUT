@@ -17,12 +17,12 @@
 #X obj 435 255 netprep player-\$1-spat-lfo-ctrl-color;
 #X obj 435 315 netprep player-\$1-current-time-index;
 #X obj 435 345 netprep player-\$1-pitch-bend-display;
-#X obj 56 534 netprep player-\$1-interpolation 1;
-#X obj 56 504 netprep player-\$1-time-sync 1;
-#X obj 57 473 netprep player-\$1-tempo-sync 1;
-#X obj 57 443 netprep player-\$1-compute 1;
-#X obj 57 413 netprep player-\$1-tempo 1;
-#X obj 57 383 netprep player-\$1-set-time-index 1;
+#X obj 56 554 netprep player-\$1-interpolation 1;
+#X obj 56 524 netprep player-\$1-time-sync 1;
+#X obj 57 493 netprep player-\$1-tempo-sync 1;
+#X obj 57 463 netprep player-\$1-compute 1;
+#X obj 57 433 netprep player-\$1-tempo 1;
+#X obj 57 403 netprep player-\$1-set-time-index 1;
 #X obj 57 333 netprep player-\$1-rvb-damping 1;
 #X obj 57 309 netprep player-\$1-rvb-xover 1;
 #X obj 57 285 netprep player-\$1-rvb-liveness 1;
@@ -39,6 +39,7 @@
 #X obj 435 465 netprep player-\$1-asr-kbd 1;
 #X text 432 400 Just "set" this toggle on the master side so that it
 can be seen if other players are using ASR kbd, f 37;
+#X obj 57 373 netprep player-\$1-set-time-random;
 #X restore 20 201 pd netpreps;
 #N canvas 1214 498 583 462 algo-cache-stuff 0;
 #X msg 43 116 0;
@@ -363,7 +364,7 @@ is OFF \, we suppress values from detect-no-keys \, then send a solid
 #X connect 48 0 50 0;
 #X connect 49 0 30 0;
 #X restore 43 34 pd keyboard-tempo;
-#N canvas 179 228 959 559 timeSync 0;
+#N canvas 179 228 1139 559 timeSync 0;
 #X obj 123 153 r player-\$1-tempo-sync;
 #X obj 83 154 f;
 #X obj 83 205 s player-\$1-time-sync-set;
@@ -400,12 +401,18 @@ is OFF \, we suppress values from detect-no-keys \, then send a solid
 #X obj 696 261 r lb1;
 #X obj 533 343 select 127;
 #X obj 533 367 t b;
-#X obj 533 445 s player-\$1-set-time-index-set;
-#X obj 533 391 random 2.14748e+09;
-#X text 576 416 Jump to a random time between 0 and INT_MAX;
+#X obj 533 515 s player-\$1-set-time-index-set;
+#X obj 533 411 random 2.14748e+09;
 #X text 553 178 Jump to time zero;
 #X obj 533 54 ctlin 34;
 #X obj 533 294 ctlin 44;
+#X text 576 436 Jump to a random time between 0 and INT_MAX. [random]
+can't go higher than this \, even though [outputAlgo~]'s time paramter
+goes to UINT_MAX, f 31;
+#X obj 273 515 s player-\$1-set-time-random;
+#X msg 273 488 1;
+#X text 320 458 since we can't send a bang over [netsend] as currently
+configured, f 23;
 #X connect 0 0 1 1;
 #X connect 1 0 2 0;
 #X connect 3 0 11 0;
@@ -454,10 +461,11 @@ is OFF \, we suppress values from detect-no-keys \, then send a solid
 #X connect 32 0 27 1;
 #X connect 33 0 30 0;
 #X connect 34 0 35 0;
-#X connect 35 0 37 0;
+#X connect 35 0 43 0;
 #X connect 37 0 36 0;
-#X connect 40 0 14 0;
-#X connect 41 0 26 0;
+#X connect 39 0 14 0;
+#X connect 40 0 26 0;
+#X connect 43 0 42 0;
 #X restore 43 124 pd timeSync;
 #N canvas 609 445 765 367 algoChoice 0;
 #X obj 86 66 spigot;
