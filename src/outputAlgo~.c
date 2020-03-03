@@ -10,7 +10,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-version 0.6, February 14, 2020
+version 0.7, March 3, 2020
 
 */
 
@@ -140,7 +140,7 @@ static void outputAlgo_tilde_algoChoice(outputAlgo_tilde *x, t_floatarg a)
 	a = (a<0)?0:a;
 	a = (a>(NUMALGOS-1))?(NUMALGOS-1):a;
 	x->x_algoChoice = a;
-	outlet_float(x->x_outletParamsPerAlgo, paramsPerAlgo[x->x_algoChoice]);
+	outlet_float(x->x_outletParamsPerAlgo, x->x_paramsPerAlgo[x->x_algoChoice]);
 }
 
 static void outputAlgo_tilde_debug(outputAlgo_tilde *x, t_floatarg d)
@@ -210,6 +210,8 @@ static void *outputAlgo_tilde_new(t_symbol *s, int argc, t_atom *argv)
 		x->x_signalBuffer[i] = 0.0;
 	
 	outputAlgo_tilde_parameters(x, s, argc, argv);
+	
+	memcpy(x->x_paramsPerAlgo, paramsPerAlgo, sizeof(paramsPerAlgo));
 	
     return(x);
 }

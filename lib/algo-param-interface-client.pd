@@ -1,4 +1,4 @@
-#N canvas 173 50 1079 785 12;
+#N canvas 561 116 1079 785 12;
 #X obj 662 358 bng 15 250 50 0 player-\$1-algo-randomize player-\$1-algo-randomize-set
 randomize -60 7 0 10 -262144 -1 -1;
 #X obj 673 408 bng 15 250 50 0 player-\$1-algo-load-params player-\$1-algo-load-params-set
@@ -170,7 +170,7 @@ empty 17 7 0 10 -262144 -1 -1;
 #X obj 559 462 bng 15 250 50 0 empty player-\$1-algo-randomize-param-9-set
 empty 17 7 0 10 -262144 -1 -1;
 #X floatatom 559 482 5 0 0 0 - - -;
-#N canvas 688 52 616 588 save-parameters 0;
+#N canvas 1204 86 616 588 save-parameters 0;
 #X obj 41 70 savepanel;
 #X obj 253 284 makefilename notset;
 #X msg 253 202 set \$1;
@@ -188,8 +188,8 @@ empty 17 7 0 10 -262144 -1 -1;
 #X obj 41 13 r player-\$1-algo-save-params;
 #X obj 41 37 symbol;
 #X obj 392 135 makefilename %s/algo-presets;
-#X msg 134 273 dir 3;
-#X msg 392 77 dir 3;
+#X msg 134 273 dir 0 ../;
+#X msg 392 76 dir 0 ../;
 #X connect 0 0 10 0;
 #X connect 1 0 6 0;
 #X connect 2 0 1 0;
@@ -234,8 +234,8 @@ empty 17 7 0 10 -262144 -1 -1;
 #X obj 45 43 r player-\$1-algo-load-params;
 #X obj 45 67 symbol;
 #X obj 168 195 makefilename %s/algo-presets;
-#X msg 328 219 dir 3;
-#X msg 168 138 dir 3;
+#X msg 328 219 dir 0 ../;
+#X msg 168 138 dir 0 ../;
 #X connect 1 0 16 0;
 #X connect 2 0 11 0;
 #X connect 3 0 8 0;
@@ -664,6 +664,10 @@ empty 20 12 0 14 -262144 -66577 0;
 ;
 #X obj 503 138 clone algo-param-writer 10 \$1;
 #X obj 801 443 s player-\$1-algo-param-range;
+#X obj 643 468 bng 15 250 50 0 player-\$1-algo-time-zero player-\$1-algo-time-zero-set
+0 4 8 0 10 -262144 -1 -1;
+#X obj 643 488 bng 15 250 50 0 player-\$1-algo-time-rand player-\$1-algo-time-rand-set
+r 4 8 0 10 -262144 -1 -1;
 #X connect 3 0 47 0;
 #X connect 3 0 44 0;
 #X connect 3 0 40 0;

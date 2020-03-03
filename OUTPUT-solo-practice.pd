@@ -516,10 +516,10 @@ echodel-B phaser-A pitch-shift-A pulser-A ring-mod-A sr-decimator-A
 #X msg 18 221 \; pd-direct-outs vis 1 \;;
 #X obj 18 121 bng 15 250 50 0 drfx-matrix empty DRFX-matrix 17 7 0
 10 -262144 -1 -1;
-#N canvas 1100 97 735 464 client-init 0;
-#X obj 174 160 r lb1;
-#X msg 174 184 \; netprep-init bang \;;
-#X text 140 250 This initializes all of the netprep parameter names
+#N canvas 1100 97 457 386 client-init 0;
+#X obj 71 34 r lb1;
+#X msg 71 58 \; netprep-init bang \;;
+#X text 37 124 This initializes all of the netprep parameter names
 to have -set appended, f 27;
 #N canvas 212 320 783 400 fadermap-player-A-and-B 0;
 #X obj 28 136 / 127;
@@ -582,7 +582,7 @@ to have -set appended, f 27;
 #X connect 24 0 15 0;
 #X connect 27 0 22 0;
 #X connect 28 0 10 0;
-#X restore 169 332 pd fadermap-player-A-and-B;
+#X restore 66 206 pd fadermap-player-A-and-B;
 #N canvas 1238 206 557 364 muting 0;
 #X obj 28 218 f;
 #X obj 106 209 + 1;
@@ -636,21 +636,14 @@ to have -set appended, f 27;
 #X connect 19 0 18 0;
 #X connect 21 0 6 0;
 #X connect 23 0 16 0;
-#X restore 169 362 pd muting;
-#X text 262 361 Map gain faders and muting globally (outside of abstractions)
+#X restore 66 236 pd muting;
+#X text 159 235 Map gain faders and muting globally (outside of abstractions)
 so that 102/103 will always be accessible on controller as player A/B
 gains and mutes, f 33;
-#X obj 438 266 table algoNumParams;
-#X msg 354 208 \; algoNumParams read ./data/algoNumParams.txt;
-#X obj 595 76 r lb1;
-#X msg 494 156 \; algoNumParams \$1 \;;
-#X obj 494 127 r num-algos;
-#X obj 354 179 r lb2;
-#X msg 595 105 \; num-algos 113 \;;
+#X obj 288 54 r lb1;
+#X msg 288 83 \; num-algos 113 \;;
 #X connect 0 0 1 0;
-#X connect 8 0 12 0;
-#X connect 10 0 9 0;
-#X connect 11 0 7 0;
+#X connect 6 0 7 0;
 #X restore 483 52 pd client-init;
 #X connect 9 0 12 0;
 #X connect 10 0 13 0;
