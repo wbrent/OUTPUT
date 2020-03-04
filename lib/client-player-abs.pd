@@ -72,7 +72,7 @@
 #X connect 26 0 22 0;
 #X connect 29 0 10 0;
 #X restore 169 332 pd fadermap-player-A-and-B;
-#N canvas 1123 206 606 364 muting 0;
+#N canvas 1159 278 606 364 muting 0;
 #X obj 28 218 f;
 #X obj 106 209 + 1;
 #X obj 106 230 % 2;
@@ -200,12 +200,10 @@ bang \;;
 #X obj 216 96 bng 20 250 50 0 empty empty B 6 10 0 14 -204786 -1 -1
 ;
 #X obj 240 231 clone -s \$1 client-control-interface 2;
-#X obj 350 157 f \$1;
-#X obj 350 186 + 1;
+#X obj 350 157 f \$2;
 #X connect 2 0 4 0;
 #X connect 3 0 6 0;
 #X connect 4 0 3 0;
 #X connect 5 0 7 0;
-#X connect 7 0 8 0;
-#X connect 8 0 3 0;
+#X connect 7 0 3 0;
 #X coords 0 -1 1 1 230 100 1 35 35;
