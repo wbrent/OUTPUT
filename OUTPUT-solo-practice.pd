@@ -1,9 +1,9 @@
-#N canvas 289 362 535 321 10;
+#N canvas 163 379 535 321 10;
 #X declare -path ./lib;
 #X declare -path ./src;
 #X declare -path DRFX;
 #X declare -path ./plugins;
-#N canvas 821 170 648 310 control-panel 0;
+#N canvas 618 494 689 283 control-panel 0;
 #N canvas 682 501 686 380 init 0;
 #X obj 31 24 loadbang;
 #X obj 264 33 r lb4;
@@ -365,7 +365,7 @@ the difference between the measured and desired level, f 27;
 #X connect 15 0 17 0;
 #X connect 16 0 8 0;
 #X connect 17 0 2 0;
-#X restore 483 132 pd interface;
+#X restore 483 152 pd interface;
 #N canvas 122 109 722 673 DRFX 0;
 #X obj 72 510 DRFX;
 #N canvas 974 326 764 683 FX-plugins 0;
@@ -504,7 +504,7 @@ echodel-B phaser-A pitch-shift-A pulser-A ring-mod-A sr-decimator-A
 #X connect 17 0 0 0;
 #X connect 18 0 12 0;
 #X connect 19 0 0 0;
-#X restore 483 152 pd DRFX;
+#X restore 483 172 pd DRFX;
 #X obj 18 181 bng 15 250 50 0 empty empty FX 17 7 0 10 -262144 -1 -1
 ;
 #X obj 18 161 bng 15 250 50 0 empty empty reverbs 17 7 0 10 -262144
@@ -645,6 +645,43 @@ gains and mutes, f 33;
 #X connect 0 0 1 0;
 #X connect 6 0 7 0;
 #X restore 483 52 pd client-init;
+#N canvas 963 543 765 372 client-side-netreceive 0;
+#X obj 121 23 r client-netsend-data-hub;
+#X obj 121 44 list split 4;
+#X obj 45 114 list split 1;
+#X obj 79 139 list split 2;
+#X obj 162 210 s;
+#X obj 79 160 list trim;
+#X obj 215 114 list split 1;
+#X obj 249 160 list trim;
+#X obj 249 139 list split 1;
+#X obj 520 230 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 479 264 spigot;
+#X obj 479 285 print;
+#X text 375 155 send 2.34983e+08 player-0-current-time-index;
+#X text 375 175 send 5 player-0-params-per-algo;
+#X text 355 125 This processes commands that have fewer than 4 elements
+in the list \, e.g.:;
+#X text 40 266 This processes commands that have 4 elements in the
+list \, e.g.:;
+#X text 60 296 send set 2.34983e+08 player-0-set-time-index-set;
+#X text 114 328 This isn't needed \, because algo-player.pd/sub-block
+has a local send to player-0-set-time-index-set \, so it would be redundant
+;
+#X connect 0 0 1 0;
+#X connect 1 2 6 0;
+#X connect 2 1 3 0;
+#X connect 3 0 5 0;
+#X connect 3 1 4 1;
+#X connect 5 0 4 0;
+#X connect 6 1 8 0;
+#X connect 7 0 4 0;
+#X connect 8 0 7 0;
+#X connect 8 1 4 1;
+#X connect 9 0 10 1;
+#X connect 10 0 11 0;
+#X restore 483 132 pd client-side-netreceive;
 #X connect 9 0 12 0;
 #X connect 10 0 13 0;
 #X connect 11 0 14 0;
