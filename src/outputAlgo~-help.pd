@@ -211,6 +211,9 @@ the difference between the measured and desired level, f 27;
 -1;
 #X obj 370 70 t b b;
 #X obj 356 106 delay 3;
+#X obj 283 30 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 283 50 metro 5;
 #X connect 0 0 2 0;
 #X connect 1 0 22 0;
 #X connect 2 0 12 0;
@@ -235,6 +238,8 @@ the difference between the measured and desired level, f 27;
 #X connect 25 0 26 0;
 #X connect 25 1 23 0;
 #X connect 26 0 7 0;
+#X connect 27 0 28 0;
+#X connect 28 0 25 0;
 #X restore 260 177 pd settings;
 #N canvas 1231 176 355 332 more-settings 0;
 #X msg 195 192 print;

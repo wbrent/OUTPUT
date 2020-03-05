@@ -668,6 +668,23 @@ empty 20 12 0 14 -262144 -66577 0;
 0 4 8 0 10 -262144 -1 -1;
 #X obj 643 488 bng 15 250 50 0 player-\$1-algo-time-rand player-\$1-algo-time-rand-set
 r 4 8 0 10 -262144 -1 -1;
+#X text 35 59 If the bit/time/tempo/params loading toggles are set
+to OFF \, current settings will remain the same while moving to different
+algos. However \, the cache of a given algo is loadeed to the player-\$1-algo-params
+table in the background anyway \, and this change is not reflected
+in the user's GUI number box interface. When saving in this situation
+\, the user will expect the currently shown params and settings to
+be written to the preset file. Instead \, the contents of the player-\$1-algo-params
+table will be written \, which are different. This is confusing behavior
+and should be fixed.;
+#X text 35 219 One option is to simply remove the cache system. In
+that case \, the user GUI interface and the contents of the player-\$1-algo-params
+table should always match.;
+#X text 35 279 Another option is to somehow populate the table with
+the current GUI interface values \, but that would require another
+layer of storage.;
+#X text 35 29 March 5 \, 2020: note special case bug when saving presets::
+;
 #X connect 3 0 47 0;
 #X connect 3 0 44 0;
 #X connect 3 0 40 0;

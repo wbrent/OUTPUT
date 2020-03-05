@@ -4,6 +4,7 @@
 #include <limits.h>
 #include <stdlib.h> // for rand()
 #include <string.h> // for memcpy()
+#include <time.h> // to get time for random seeding
 #define EXTRAPOINTS 8 // after careful testing, 8 guard points seems safe
 #define MAXALGOPARAMS 10
 #define NUMALGOS 113

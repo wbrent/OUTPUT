@@ -92,9 +92,12 @@ static void outputAlgo_tilde_setTimeIndex(outputAlgo_tilde *x, t_floatarg t)
 
 static void outputAlgo_tilde_setTimeRand(outputAlgo_tilde *x)
 {
-	double randFloat;
-	randFloat = rand()/(double)RAND_MAX;
-	x->x_t = randFloat * UINT_MAX;
+	double randDoubleFloat;
+
+	randDoubleFloat = rand()/(double)RAND_MAX;
+
+	// note: on this machine, UINT_MAX is twice the size of RAND_MAX
+	x->x_t = floor(randDoubleFloat * UINT_MAX);
 }
 
 static void outputAlgo_tilde_getInterpMu(outputAlgo_tilde *x)
@@ -212,6 +215,9 @@ static void *outputAlgo_tilde_new(t_symbol *s, int argc, t_atom *argv)
 	outputAlgo_tilde_parameters(x, s, argc, argv);
 	
 	memcpy(x->x_paramsPerAlgo, paramsPerAlgo, sizeof(paramsPerAlgo));
+	
+	// seed randomness via current time
+	srand(time(0));
 	
     return(x);
 }
