@@ -85,7 +85,7 @@ static void outputAlgo_tilde_getTimeIndex(outputAlgo_tilde *x)
 static void outputAlgo_tilde_setTimeIndex(outputAlgo_tilde *x, t_floatarg t)
 {
 	// keep bounded within 1 and UINT_MAX
-	t = (t<0)?0:t;
+	t = (t<1)?1:t;
 	t = (t>UINT_MAX)?UINT_MAX:t;
 	x->x_t = t;
 }
@@ -94,7 +94,7 @@ static void outputAlgo_tilde_setTimeRand(outputAlgo_tilde *x)
 {
 	double randFloat;
 	randFloat = rand()/(double)RAND_MAX;
-	x->x_t = randFloat * (UINT_MAX-1);
+	x->x_t = randFloat * UINT_MAX;
 }
 
 static void outputAlgo_tilde_getInterpMu(outputAlgo_tilde *x)
@@ -204,7 +204,7 @@ static void *outputAlgo_tilde_new(t_symbol *s, int argc, t_atom *argv)
 	x->x_tempo = 10.884f;
 	outputAlgo_tilde_tempo(x, x->x_tempo);
 
-	x->x_signalBuffer = (t_sample *)t_getbytes((x->x_n*4+EXTRAPOINTS) * sizeof(t_sample));
+	x->x_signalBuffer = (double *)t_getbytes((x->x_n*4+EXTRAPOINTS) * sizeof(double));
 	
 	for(i=0; i<x->x_n*4+EXTRAPOINTS; i++)
 		x->x_signalBuffer[i] = 0.0;
@@ -246,18 +246,18 @@ static t_int *outputAlgo_tilde_perform(t_int *w)
 		// calculate this block of the algo signal, plus extra guard points
 		for(i=1; i<m+EXTRAPOINTS; i++)
 		{
-			t_sample thisSampleFloat;
+			double thisSampleDouble;
 			unsigned long int thisSample;
 				
 			// perform the algorithm in unsigned int precision. Bitwise operators MUST BE used in UINT precision. we store the result in higher precision - unsigned long int
 			thisSample = outputAlgo_tilde_getSample(x);
 		
-			// convert the unsigned long long int-ranged sample into a float sample
-			thisSampleFloat = thisSample / (t_float)x->x_quantSteps;
-			thisSample = floor(thisSampleFloat);
-			thisSampleFloat = thisSampleFloat - thisSample;
-			thisSampleFloat = thisSampleFloat*2.0-1.0;
-			x->x_signalBuffer[i] = thisSampleFloat;
+			// convert the unsigned long long int-ranged sample into a double precision float sample
+			thisSampleDouble = thisSample / (double)x->x_quantSteps;
+			thisSample = floor(thisSampleDouble);
+			thisSampleDouble = thisSampleDouble - thisSample;
+			thisSampleDouble = thisSampleDouble*2.0-1.0;
+			x->x_signalBuffer[i] = thisSampleDouble;
 
 			if(x->x_debug)
 			{
@@ -355,7 +355,7 @@ static void outputAlgo_tilde_dsp(outputAlgo_tilde *x, t_signal **sp)
 
 	if(x->x_n != sp[0]->s_n)
 	{
-		x->x_signalBuffer = (t_sample *)t_resizebytes(x->x_signalBuffer, (x->x_n*4+EXTRAPOINTS) * sizeof(t_sample), (sp[0]->s_n*4+EXTRAPOINTS) * sizeof(t_sample));
+		x->x_signalBuffer = (double *)t_resizebytes(x->x_signalBuffer, (x->x_n*4+EXTRAPOINTS) * sizeof(double), (sp[0]->s_n*4+EXTRAPOINTS) * sizeof(double));
 
 		x->x_n = sp[0]->s_n;
 	}
@@ -368,7 +368,7 @@ static void outputAlgo_tilde_dsp(outputAlgo_tilde *x, t_signal **sp)
 static void outputAlgo_tilde_free(outputAlgo_tilde *x)
 {	
 	// free the signalBuffer memory
-	t_freebytes(x->x_signalBuffer,  (x->x_n*4+EXTRAPOINTS)*sizeof(t_sample));
+	t_freebytes(x->x_signalBuffer,  (x->x_n*4+EXTRAPOINTS)*sizeof(double));
 };
 
 

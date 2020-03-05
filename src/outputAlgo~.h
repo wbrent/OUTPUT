@@ -64,7 +64,7 @@ static const unsigned int paramsPerAlgo[NUMALGOS] =
 	7,
 	6,
 	4,
-	5,
+	7,
 	9,
 	4,
 	6,
@@ -152,7 +152,7 @@ typedef struct _outputAlgo_tilde
     unsigned char x_algoChoice;
     unsigned int x_params[MAXALGOPARAMS];
     unsigned int x_paramsPerAlgo[NUMALGOS];
-    t_sample *x_signalBuffer;
+    double *x_signalBuffer;
     t_outlet *x_outletTime;
     t_outlet *x_outletMu;
     t_outlet *x_outletParamsPerAlgo;
