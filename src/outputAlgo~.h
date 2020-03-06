@@ -30,7 +30,7 @@ static const unsigned int paramsPerAlgo[NUMALGOS] =
 	5,
 	4,
 	6,
-	5,
+	4,
 	7,
 	10,
 	6,

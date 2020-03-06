@@ -73,7 +73,7 @@ static unsigned long int outputAlgo_tilde_getSample(outputAlgo_tilde *x)
 			thisSample = (t*p0&t>>p1)|(t*p2&t>>p3)|(t*p4&((int)(t/(float)p5)));
 			break;
 		case 16:
-			thisSample = t*(0xCA98>>(t>>p1&p2)&p3)|t>>p4;
+			thisSample = t*(0xCA98>>(t>>p0&p1)&p2)|t>>p3;
 			break;
 		case 17:
 			thisSample = ((t*p0&t>>p1)|(t*p2&t>>p3)|(t*p4&t/p5))-p6;
