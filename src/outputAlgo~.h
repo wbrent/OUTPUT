@@ -11,6 +11,7 @@
 #define BASETEMPO 60
 #define MAXTEMPO 240
 #define MAXBITDEPTH 32
+#define NUMALGOSETTINGS 14 // 10 params, bit-depth, tempo, time, algo
 
 static const unsigned int paramsPerAlgo[NUMALGOS] =
 {
@@ -150,13 +151,13 @@ typedef struct _outputAlgo_tilde
     double x_incr;
     double x_sampIdx;
     t_float x_tempo;
-    unsigned char x_algoChoice;
+    unsigned int x_algoChoice;
     unsigned int x_params[MAXALGOPARAMS];
     unsigned int x_paramsPerAlgo[NUMALGOS];
     double *x_signalBuffer;
     t_outlet *x_outletTime;
-    t_outlet *x_outletMu;
     t_outlet *x_outletParamsPerAlgo;
+    t_outlet *x_outletAlgoSettings;
     t_outlet *x_outletWrapBang;
     
 } outputAlgo_tilde;

@@ -52,9 +52,9 @@ master-volume 8 24 0 32 -262144 -1 -1 24917 1;
 #X obj 388 220 control-panel-abs 3;
 #X obj 18 400 control-panel-abs 4;
 #X obj 388 400 control-panel-abs 5;
-#N canvas 294 309 638 477 netreceive 0;
-#X obj 344 339 s;
-#X obj 344 297 unpack f s;
+#N canvas 294 309 761 477 netreceive 0;
+#X obj 496 354 s;
+#X obj 496 312 unpack f s;
 #X obj 64 119 netreceive 57120;
 #X obj 245 182 s connected-clients;
 #X obj 64 246 spigot;
@@ -65,13 +65,23 @@ master-volume 8 24 0 32 -262144 -1 -1 24917 1;
 #X obj 199 285 list split 3;
 #X obj 199 384 s;
 #X obj 249 384 symbol;
-#X text 313 388 << special case for spat LFO freq nbx color, f 23
+#X text 175 409 << special case for spat LFO freq nbx color, f 23
 ;
 #X obj 199 324 list prepend color;
-#X text 471 293 << all other incoming data is a single float followed
+#X text 578 318 << all other incoming data is a single float followed
 by the send symbol, f 17;
 #X obj 199 353 list trim;
 #X obj 199 241 route color;
+#X obj 420 194 t l l;
+#X obj 420 224 list length;
+#X obj 420 245 list append;
+#X obj 420 266 route 1 2;
+#X obj 374 320 t b a;
+#X obj 374 341 s;
+#X obj 414 341 symbol;
+#X obj 420 169 list;
+#X text 361 366 special case for "bang" sent to a send symbol \, where
+the only data transmitted is the send symbol itself, f 18;
 #X connect 1 0 0 0;
 #X connect 1 1 0 1;
 #X connect 2 0 4 0;
@@ -86,7 +96,17 @@ by the send symbol, f 17;
 #X connect 12 0 14 0;
 #X connect 14 0 9 0;
 #X connect 15 0 8 0;
-#X connect 15 1 1 0;
+#X connect 15 1 23 0;
+#X connect 16 0 17 0;
+#X connect 16 1 18 1;
+#X connect 17 0 18 0;
+#X connect 18 0 19 0;
+#X connect 19 0 20 0;
+#X connect 19 1 1 0;
+#X connect 20 0 21 0;
+#X connect 20 1 22 0;
+#X connect 22 0 21 1;
+#X connect 23 0 16 0;
 #X restore 822 313 pd netreceive;
 #N canvas 35 50 1405 612 output 0;
 #X obj 58 141 *~;

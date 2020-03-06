@@ -170,27 +170,53 @@ empty 17 7 0 10 -262144 -1 -1;
 #X obj 559 462 bng 15 250 50 0 empty player-\$1-algo-randomize-param-9-set
 empty 17 7 0 10 -262144 -1 -1;
 #X floatatom 559 482 5 0 0 0 - - -;
-#N canvas 1204 86 616 588 save-parameters 0;
-#X obj 41 70 savepanel;
-#X obj 253 284 makefilename notset;
-#X msg 253 202 set \$1;
-#X obj 253 148 f \$1;
-#X obj 134 306 pdcontrol;
-#X obj 134 404 makefilename notset;
-#X msg 253 308 set \$1;
-#X obj 253 178 makefilename %%%%s/caches/%d-%%d-cache.txt;
-#X obj 134 77 r player-\$1-algo-save-cache;
-#X msg 41 486 \; player-\$2-algo-params write \$1 \;;
-#X obj 41 462 pack s \$1;
-#X obj 134 101 t b f b;
-#X obj 392 110 pdcontrol;
-#X obj 392 37 r lb1;
-#X obj 41 13 r player-\$1-algo-save-params;
-#X obj 41 37 symbol;
-#X obj 392 135 makefilename %s/algo-presets;
-#X msg 134 273 dir 0 ../;
-#X msg 392 76 dir 0 ../;
-#X connect 0 0 10 0;
+#N canvas 241 77 1052 593 save-parameters 0;
+#X obj 172 264 savepanel;
+#X obj 650 240 makefilename notset;
+#X msg 650 198 set \$1;
+#X obj 650 144 f \$1;
+#X obj 531 262 pdcontrol;
+#X obj 531 310 makefilename notset;
+#X msg 650 264 set \$1;
+#X obj 650 174 makefilename %%%%s/caches/%d-%%d-cache.txt;
+#X obj 531 73 r player-\$1-algo-save-cache;
+#X msg 531 505 \; player-\$2-algo-params write \$1 \;;
+#X obj 531 481 pack s \$1;
+#X obj 531 97 t b f b;
+#X obj 243 158 pdcontrol;
+#X obj 243 85 r lb1;
+#X obj 172 47 r player-\$1-algo-save-params;
+#X obj 172 231 symbol;
+#X obj 243 183 makefilename %s/algo-presets;
+#X msg 531 229 dir 0 ../;
+#X msg 243 124 dir 0 ../;
+#X obj 172 288 t a b;
+#X obj 112 331 symbol;
+#X obj 112 13 r player-\$1-algo-settings-received;
+#X obj 228 324 s player-\$1-get-algo-settings;
+#X text 64 393 Send a "bang" to get all algo settings before saving
+a preset. Must wait for the response via "player-\$1-algo-settings-received"
+\, then we can issue the "write" command, f 47;
+#N canvas 1099 160 537 397 presets-BUG-(fixed) 0;
+#X text 35 59 If the bit/time/tempo/params loading toggles are set
+to OFF \, current settings will remain the same while moving to different
+algos. However \, the cache of a given algo is loadeed to the player-\$1-algo-params
+table in the background anyway \, and this change is not reflected
+in the user's GUI number box interface. When saving in this situation
+\, the user will expect the currently shown params and settings to
+be written to the preset file. Instead \, the contents of the player-\$1-algo-params
+table will be written \, which are different. This is confusing behavior
+and should be fixed.;
+#X text 35 219 One option is to simply remove the cache system. In
+that case \, the user GUI interface and the contents of the player-\$1-algo-params
+table should always match.;
+#X text 35 279 Another option is to somehow populate the table with
+the current GUI interface values \, but that would require another
+layer of storage.;
+#X text 35 29 March 5 \, 2020: note special case bug when saving presets::
+;
+#X restore 156 490 pd presets-BUG-(fixed);
+#X connect 0 0 19 0;
 #X connect 1 0 6 0;
 #X connect 2 0 1 0;
 #X connect 3 0 7 0;
@@ -210,6 +236,10 @@ empty 17 7 0 10 -262144 -1 -1;
 #X connect 16 0 15 1;
 #X connect 17 0 4 0;
 #X connect 18 0 12 0;
+#X connect 19 0 20 1;
+#X connect 19 1 22 0;
+#X connect 20 0 10 0;
+#X connect 21 0 20 0;
 #X restore 850 572 pd save-parameters;
 #N canvas 529 43 789 730 recall-parameters 0;
 #X obj 45 569 outlet;
@@ -668,23 +698,14 @@ empty 20 12 0 14 -262144 -66577 0;
 0 4 8 0 10 -262144 -1 -1;
 #X obj 643 488 bng 15 250 50 0 player-\$1-algo-time-rand player-\$1-algo-time-rand-set
 r 4 8 0 10 -262144 -1 -1;
-#X text 35 59 If the bit/time/tempo/params loading toggles are set
-to OFF \, current settings will remain the same while moving to different
-algos. However \, the cache of a given algo is loadeed to the player-\$1-algo-params
-table in the background anyway \, and this change is not reflected
-in the user's GUI number box interface. When saving in this situation
-\, the user will expect the currently shown params and settings to
-be written to the preset file. Instead \, the contents of the player-\$1-algo-params
-table will be written \, which are different. This is confusing behavior
-and should be fixed.;
-#X text 35 219 One option is to simply remove the cache system. In
-that case \, the user GUI interface and the contents of the player-\$1-algo-params
-table should always match.;
-#X text 35 279 Another option is to somehow populate the table with
-the current GUI interface values \, but that would require another
-layer of storage.;
-#X text 35 29 March 5 \, 2020: note special case bug when saving presets::
-;
+#X obj 109 136 t b l;
+#X obj 109 112 r player-\$1-algo-settings;
+#X obj 159 165 list prepend 0;
+#X obj 159 189 s player-\$1-algo-params;
+#X obj 109 220 s player-\$1-algo-settings-received;
+#X text 107 44 For receiving all settings from [outputAlgo~] on the
+master side. Write the settings to the local param table \, and bang
+the "received" send, f 38;
 #X connect 3 0 47 0;
 #X connect 3 0 44 0;
 #X connect 3 0 40 0;
@@ -738,4 +759,8 @@ layer of storage.;
 #X connect 43 0 67 0;
 #X connect 44 0 67 0;
 #X connect 46 0 8 0;
+#X connect 93 0 97 0;
+#X connect 93 1 95 0;
+#X connect 94 0 93 0;
+#X connect 95 0 96 0;
 #X coords 0 -1 1 1 650 170 1 100 350;

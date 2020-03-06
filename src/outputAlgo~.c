@@ -57,29 +57,52 @@ static void outputAlgo_tilde_print(outputAlgo_tilde *x)
 	post("");
 }
 
-static void outputAlgo_tilde_bitDepth(outputAlgo_tilde *x, t_floatarg b)
+static void outputAlgo_tilde_getAlgoSettings(outputAlgo_tilde *x)
 {
-	// keep bounded within 1 and MAXBITDEPTH
-	b = (b<1)?1:b;
-	b = (b>MAXBITDEPTH)?MAXBITDEPTH:b;
-	x->x_bitDepth = b;
- 	x->x_quantSteps = pow(2, x->x_bitDepth);
-}
+	int i;
+	t_atom *listOut;
 
-static void outputAlgo_tilde_tempo(outputAlgo_tilde *x, t_floatarg t)
-{	
-	// keep bounded within 1 and MAXTEMPO
-	t = (t<1.0)?1.0:t;
-	t = (t>MAXTEMPO)?MAXTEMPO:t;
-	x->x_tempo = t;
+	listOut = (t_atom *)t_getbytes(NUMALGOSETTINGS*sizeof(t_atom));
+
+	for(i=0; i<MAXALGOPARAMS; i++)
+		SETFLOAT(listOut+i, x->x_params[i]);
+
+	SETFLOAT(listOut+10, x->x_bitDepth);
+	SETFLOAT(listOut+11, x->x_tempo);
+	SETFLOAT(listOut+12, x->x_tBlockEnd);
+	SETFLOAT(listOut+13, x->x_algoChoice);
+
+	outlet_list(x->x_outletAlgoSettings, 0, NUMALGOSETTINGS, listOut);
 	
-	// calculate the interpolation increment (tempo factor) relative to BASETEMPO BPM
-	x->x_incr = (x->x_tempo/(double)BASETEMPO);
+	// free local memory
+	t_freebytes(listOut, NUMALGOSETTINGS * sizeof(t_atom));
 }
 
 static void outputAlgo_tilde_getTimeIndex(outputAlgo_tilde *x)
 {
-	outlet_float(x->x_outletTime, x->x_tBlockEnd);
+	t_atom *listOut;
+	float mu;
+
+	listOut = (t_atom *)t_getbytes(2*sizeof(t_atom));
+
+	// probably due to rounding error, posting sampIdx and its floor shows a different integer in the case that sampIdx = 44.0, for example.
+	mu = x->x_sampIdx - floor(x->x_sampIdx);
+	// ensure that this wraps at 1.0 no matter what	
+	// strangely, have to do this in float precision. doesn't work as expected in double precision
+	mu = (mu>=1.0f)?0.0f:mu;
+	
+	SETFLOAT(listOut, x->x_tBlockEnd);
+	SETFLOAT(listOut+1, mu);
+	
+	outlet_list(x->x_outletTime, 0, 2, listOut);
+	
+	// free local memory
+	t_freebytes(listOut, 2 * sizeof(t_atom));
+}
+
+static void outputAlgo_tilde_getParamsPerAlgo(outputAlgo_tilde *x)
+{
+	outlet_float(x->x_outletParamsPerAlgo, x->x_paramsPerAlgo[x->x_algoChoice]);
 }
 
 static void outputAlgo_tilde_setTimeIndex(outputAlgo_tilde *x, t_floatarg t)
@@ -90,6 +113,14 @@ static void outputAlgo_tilde_setTimeIndex(outputAlgo_tilde *x, t_floatarg t)
 	x->x_t = t;
 }
 
+static void outputAlgo_tilde_setInterpMu(outputAlgo_tilde *x, t_floatarg m)
+{
+	// keep bounded within 0 and 1
+	m = (m<0)?0:m;
+	m = (m>1.0f)?1.0f:m;
+	x->x_sampIdx = m;
+}
+
 static void outputAlgo_tilde_setTimeRand(outputAlgo_tilde *x)
 {
 	double randDoubleFloat;
@@ -98,27 +129,6 @@ static void outputAlgo_tilde_setTimeRand(outputAlgo_tilde *x)
 
 	// note: on this machine, UINT_MAX is twice the size of RAND_MAX
 	x->x_t = floor(randDoubleFloat * UINT_MAX);
-}
-
-static void outputAlgo_tilde_getInterpMu(outputAlgo_tilde *x)
-{
-	float mu;
-	
-	// probably due to rounding error, posting sampIdx and its floor shows a different integer in the case that sampIdx = 44.0, for example.
-	mu = x->x_sampIdx - floor(x->x_sampIdx);
-	// ensure that this wraps at 1.0 no matter what	
-	// strangely, have to do this in float precision. doesn't work as expected in double precision
-	mu = (mu>=1.0f)?0.0f:mu;
-	
-	outlet_float(x->x_outletMu, mu);
-}
-
-static void outputAlgo_tilde_setInterpMu(outputAlgo_tilde *x, t_floatarg m)
-{
-	// keep bounded within 0 and 1
-	m = (m<0)?0:m;
-	m = (m>1.0f)?1.0f:m;
-	x->x_sampIdx = m;
 }
 
 static void outputAlgo_tilde_interpSwitch(outputAlgo_tilde *x, t_floatarg i)
@@ -135,23 +145,6 @@ static void outputAlgo_tilde_computeSwitch(outputAlgo_tilde *x, t_floatarg c)
 	c = (c<0)?0:c;
 	c = (c>1)?1:c;
 	x->x_computeSwitch = c;
-}
-
-static void outputAlgo_tilde_algoChoice(outputAlgo_tilde *x, t_floatarg a)
-{
-	// keep bounded within 0 and (NUMALGOS-1)
-	a = (a<0)?0:a;
-	a = (a>(NUMALGOS-1))?(NUMALGOS-1):a;
-	x->x_algoChoice = a;
-	outlet_float(x->x_outletParamsPerAlgo, x->x_paramsPerAlgo[x->x_algoChoice]);
-}
-
-static void outputAlgo_tilde_debug(outputAlgo_tilde *x, t_floatarg d)
-{
-	// keep bounded within 0 and 255
-	d = (d<0)?0:d;
-	d = (d>255)?255:d;
-	x->x_debug = d;
 }
 
 static void outputAlgo_tilde_parameters(outputAlgo_tilde *x, t_symbol *s, int argc, t_atom *argv)
@@ -172,15 +165,54 @@ static void outputAlgo_tilde_parameters(outputAlgo_tilde *x, t_symbol *s, int ar
 		x->x_params[i] = 1;
 }
 
+static void outputAlgo_tilde_bitDepth(outputAlgo_tilde *x, t_floatarg b)
+{
+	// keep bounded within 1 and MAXBITDEPTH
+	b = (b<1)?1:b;
+	b = (b>MAXBITDEPTH)?MAXBITDEPTH:b;
+	x->x_bitDepth = b;
+ 	x->x_quantSteps = pow(2, x->x_bitDepth);
+}
+
+static void outputAlgo_tilde_tempo(outputAlgo_tilde *x, t_floatarg t)
+{	
+	// keep bounded within 1 and MAXTEMPO
+	t = (t<1.0)?1.0:t;
+	t = (t>MAXTEMPO)?MAXTEMPO:t;
+	x->x_tempo = t;
+	
+	// calculate the interpolation increment (tempo factor) relative to BASETEMPO BPM
+	x->x_incr = (x->x_tempo/(double)BASETEMPO);
+}
+
+static void outputAlgo_tilde_algoChoice(outputAlgo_tilde *x, t_floatarg a)
+{
+	// keep bounded within 0 and (NUMALGOS-1)
+	a = (a<0)?0:a;
+	a = (a>(NUMALGOS-1))?(NUMALGOS-1):a;
+	x->x_algoChoice = a;
+
+	// call getParamsPerAlgo so that the number of params for this algo are output from the object automatically
+	outputAlgo_tilde_getParamsPerAlgo(x);
+}
+
+static void outputAlgo_tilde_debug(outputAlgo_tilde *x, t_floatarg d)
+{
+	// keep bounded within 0 and 255
+	d = (d<0)?0:d;
+	d = (d>255)?255:d;
+	x->x_debug = d;
+}
+
 static void *outputAlgo_tilde_new(t_symbol *s, int argc, t_atom *argv)
 {
     outputAlgo_tilde *x = (outputAlgo_tilde *)pd_new(outputAlgo_tilde_class);
 	int i;
 		
 	outlet_new(&x->x_obj, &s_signal);
-    x->x_outletTime = outlet_new(&x->x_obj, &s_float);
-    x->x_outletMu = outlet_new(&x->x_obj, &s_float);
+    x->x_outletTime = outlet_new(&x->x_obj, gensym("list"));
     x->x_outletParamsPerAlgo = outlet_new(&x->x_obj, &s_float);
+    x->x_outletAlgoSettings = outlet_new(&x->x_obj, gensym("list"));
     x->x_outletWrapBang = outlet_new(&x->x_obj, &s_bang);
 
 	// store the pointer to the symbol containing the object name. Can access it for error and post functions via s->s_name
@@ -400,6 +432,81 @@ void outputAlgo_tilde_setup(void)
 
 	class_addmethod(
 		outputAlgo_tilde_class,
+		(t_method)outputAlgo_tilde_print,
+		gensym("print"),
+		0
+	);
+
+	class_addmethod(
+		outputAlgo_tilde_class,
+		(t_method)outputAlgo_tilde_getAlgoSettings,
+		gensym("getAlgoSettings"),
+		0
+	);
+	
+	class_addmethod(
+		outputAlgo_tilde_class,
+		(t_method)outputAlgo_tilde_getTimeIndex,
+		gensym("getTimeIndex"),
+		0
+	);
+
+	class_addmethod(
+		outputAlgo_tilde_class,
+		(t_method)outputAlgo_tilde_getParamsPerAlgo,
+		gensym("getParamsPerAlgo"),
+		0
+	);
+
+	class_addmethod(
+		outputAlgo_tilde_class,
+		(t_method)outputAlgo_tilde_setTimeIndex,
+		gensym("setTimeIndex"),
+		A_DEFFLOAT,
+		0
+	);
+
+	class_addmethod(
+		outputAlgo_tilde_class,
+		(t_method)outputAlgo_tilde_setInterpMu,
+		gensym("setInterpMu"),
+		A_DEFFLOAT,
+		0
+	);
+	
+	class_addmethod(
+		outputAlgo_tilde_class,
+		(t_method)outputAlgo_tilde_setTimeRand,
+		gensym("setTimeRand"),
+		0
+	);
+
+	class_addmethod(
+		outputAlgo_tilde_class,
+		(t_method)outputAlgo_tilde_interpSwitch,
+		gensym("interpolate"),
+		A_DEFFLOAT,
+		0
+	);
+
+	class_addmethod(
+		outputAlgo_tilde_class,
+		(t_method)outputAlgo_tilde_computeSwitch,
+		gensym("compute"),
+		A_DEFFLOAT,
+		0
+	);
+	
+	class_addmethod(
+		outputAlgo_tilde_class,
+		(t_method)outputAlgo_tilde_parameters,
+		gensym("parameters"),
+		A_GIMME,
+		0
+	);
+	
+	class_addmethod(
+		outputAlgo_tilde_class,
 		(t_method)outputAlgo_tilde_bitDepth,
 		gensym("bitDepth"),
 		A_DEFFLOAT,
@@ -421,80 +528,12 @@ void outputAlgo_tilde_setup(void)
 		A_DEFFLOAT,
 		0
 	);
-	
-	class_addmethod(
-		outputAlgo_tilde_class,
-		(t_method)outputAlgo_tilde_parameters,
-		gensym("parameters"),
-		A_GIMME,
-		0
-	);
-
-	class_addmethod(
-		outputAlgo_tilde_class,
-		(t_method)outputAlgo_tilde_getTimeIndex,
-		gensym("getTimeIndex"),
-		0
-	);
-	
-	class_addmethod(
-		outputAlgo_tilde_class,
-		(t_method)outputAlgo_tilde_setTimeIndex,
-		gensym("setTimeIndex"),
-		A_DEFFLOAT,
-		0
-	);
-
-	class_addmethod(
-		outputAlgo_tilde_class,
-		(t_method)outputAlgo_tilde_setTimeRand,
-		gensym("setTimeRand"),
-		0
-	);
-	
-	class_addmethod(
-		outputAlgo_tilde_class,
-		(t_method)outputAlgo_tilde_getInterpMu,
-		gensym("getInterpMu"),
-		0
-	);
-	
-	class_addmethod(
-		outputAlgo_tilde_class,
-		(t_method)outputAlgo_tilde_setInterpMu,
-		gensym("setInterpMu"),
-		A_DEFFLOAT,
-		0
-	);
-	
-	class_addmethod(
-		outputAlgo_tilde_class,
-		(t_method)outputAlgo_tilde_interpSwitch,
-		gensym("interpolate"),
-		A_DEFFLOAT,
-		0
-	);
-
-	class_addmethod(
-		outputAlgo_tilde_class,
-		(t_method)outputAlgo_tilde_computeSwitch,
-		gensym("compute"),
-		A_DEFFLOAT,
-		0
-	);
 
 	class_addmethod(
 		outputAlgo_tilde_class,
 		(t_method)outputAlgo_tilde_debug,
 		gensym("debug"),
 		A_DEFFLOAT,
-		0
-	);
-
-	class_addmethod(
-		outputAlgo_tilde_class,
-		(t_method)outputAlgo_tilde_print,
-		gensym("print"),
 		0
 	);
 
