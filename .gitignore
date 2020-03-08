@@ -1,4 +1,5 @@
 .DS_Store
+src/outputAlgorithms.o
 src/outputAlgo~.o
 src/outputAlgo~.pd_darwin
 src/outputAlgo~.pd_linux

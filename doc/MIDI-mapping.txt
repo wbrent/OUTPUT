@@ -33,11 +33,12 @@
 14: mute player B
 
 30: tempo sync to player 0
-40: tempo sync to player 1
-50: tempo sync to player 2
+31: tempo sync to player 1
 
-31: tempo sync to player 3
-41: tempo sync to player 4
+40: tempo sync to player 2
+41: tempo sync to player 3
+
+50: tempo sync to player 4
 51: tempo sync to player 5
 
 16: active param choice dec

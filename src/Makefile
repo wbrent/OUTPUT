@@ -4,15 +4,12 @@
 # PDDIR = /home/yourname/somedirectory/pd-0.50-0
 
 lib.name = outputAlgo~
- 
-# specify the location of FFTW header file
-# cflags = -Iinclude -I/usr/local/include
 
 lib.setup.sources = $(lib.name).c
 
 class.sources = outputAlgo~.c
 
-# common.sources = src/tIDLib.c
+common.sources = outputAlgorithms.c
 
 datafiles = outputAlgo~-help.pd
 

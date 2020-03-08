@@ -106,6 +106,10 @@ static unsigned long int outputAlgo_tilde_getSample(outputAlgo_tilde *x)
 			thisSample = (((int)((((t>>p0)^(t>>p1)-p2)%p3*t)/(float)p4)|t>>p5)&p6);
 			break;
 		case 27:
+			// for now, the only safeguard seems to be limiting p0 and p1 to 8192. this doesn't crash on my macbook pro, but may crash on other machines - still don't understand why we're allowed any leeway on indexing "36364689" beyond 0-8 anyway
+			p0 = (p0>8192) ? 8192: p0;
+			p1 = (p1>8192) ? 8192: p1;
+			
 			thisSample = ((int)((t*("36364689"[t>>p0&p1]&p2))/(float)p3)&p4);
 			break;
 		case 28:
@@ -189,6 +193,10 @@ static unsigned long int outputAlgo_tilde_getSample(outputAlgo_tilde *x)
 			thisSample = t>>p0|(t&(int)((t>>p1)/(float)(t>>(p2-(t>>p3))&-t>>(p4-(t>>p5)))));
 			break;
 		case 55:
+			// for now, the only safeguard seems to be limiting p0 and p1 to 8192. this doesn't crash on my macbook pro, but may crash on other machines - still don't understand why we're allowed any leeway on indexing "36364689" beyond 0-8 anyway
+			p0 = (p0>8192) ? 8192: p0;
+			p1 = (p1>8192) ? 8192: p1;
+			
 			thisSample = ((int)((t*("36364689"[t>>p0&p1]&p2))/(float)p3)&128)+(((int)((((t>>p4)^(t>>p5)-p6)%p7*t)/(float)p8)|t>>p9)&127);
 			break;
 		case 56:
@@ -198,6 +206,13 @@ static unsigned long int outputAlgo_tilde_getSample(outputAlgo_tilde *x)
 			thisSample = ((t*(t>>p0)&((int)(p1*t/(float)100))&((int)(p2*t/(float)100)))&(t*(t>>p3)&((int)(t*p4/(float)100))&((int)(t*p5/(float)100))))+((t*(t>>p6)&((int)(t*p7/(float)100))&((int)(t*p8/(float)100)))-(t*(t>>p9)&((int)(t*302/(float)100))&((int)(t*298/(float)100))));
 			break;
 		case 58:
+			// this caused a segfault 11 with random parameters in the 16384 range. could be due to the "36364689"[array access] situation, where one of the values went out of bounds of the char array? algos 27, 55, and 58 all have the char array lookup[] as well. need to do a simple test of the limits of that to see if i can recreate a segfault.
+			// if i mod the index into that char array by 8192, it doesn't crash, but preset patterns sound different. what is the max number I can mod by? or what value causes a crash? what is a safe way to keep the current preset pattern output without risking crashes on some machines, even if i find a hack that works on this machine?
+			
+			// for now, the only safeguard seems to be limiting p0 and p1 to 8192. this doesn't crash on my macbook pro, but may crash on other machines - still don't understand why we're allowed any leeway on indexing "36364689" beyond 0-8 anyway
+			p0 = (p0>8192) ? 8192: p0;
+			p1 = (p1>8192) ? 8192: p1;
+			
 			thisSample = ((int)(t*(("36364689"[t>>p0&p1]&p2))/(float)p3)&p4)+(((int)((((t>>p5)^(t>>p6)-p7)%p8*t)/(float)4)|t>>p9)&127);
 			break;
 		case 59:
