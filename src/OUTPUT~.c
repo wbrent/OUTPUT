@@ -157,6 +157,7 @@ static void OUTPUT_tilde_parameters(OUTPUT_tilde *x, t_symbol *s, int argc, t_at
 		p = atom_getfloat(argv+i);
 		// don't allow parameters to be zero, which causes undefined behavior with division and modulus
 		p = (p<1)?1:p;
+		p = (p>UINT_MAX)?UINT_MAX:p;		
 		x->x_params[i] = p;
 	}
 		

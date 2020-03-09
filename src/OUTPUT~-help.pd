@@ -47,20 +47,20 @@ outlet and the internal time variable ceases to be incremented.;
 #X obj 109 208 pack f 40;
 #X obj 109 232 line~;
 #X obj 156 37 loadbang;
-#X msg 156 61 85;
 #X obj 59 44 inlet~;
 #X obj 229 100 loadbang;
 #X msg 229 129 \; pd dsp 1 \;;
+#X msg 156 61 60;
 #X connect 0 0 1 0;
 #X connect 0 0 1 1;
 #X connect 2 0 4 0;
 #X connect 3 0 2 0;
 #X connect 4 0 5 0;
 #X connect 5 0 0 1;
-#X connect 6 0 7 0;
-#X connect 7 0 3 0;
-#X connect 8 0 0 0;
-#X connect 9 0 10 0;
+#X connect 6 0 10 0;
+#X connect 7 0 0 0;
+#X connect 8 0 9 0;
+#X connect 10 0 3 0;
 #X coords 0 -1 1 1 85 45 1 100 100;
 #X restore 54 646 pd volume;
 #N canvas 901 509 716 452 current-settings 0;
@@ -276,7 +276,7 @@ f 44;
 #X text 545 669 [OUTPUT~];
 #X text 206 24 [OUTPUT~] crunches the output of algorithmic "bytebeat"
 code to produce signal. Although bytebeat algorithms can be explored
-in Pd natively using [expr~] or even control bitwise operation objects
+in Pd natively using [expr~] or even bitwise operation control objects
 \, there are some advantages to implementing them in an external. For
 instance \, Pd uses floating point precision for its data \, but greater
 control is available using the unsigned int data type for an algorithm's
