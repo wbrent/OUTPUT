@@ -1,19 +1,13 @@
 # Makefile for [outputAlgo~]
 
 # specify a location for Pd if desired
-# PDDIR = /home/yourname/somedirectory/pd-0.50-0
+# PDDIR = /home/yourname/somedirectory/pd-0.50-2
 
-lib.name = outputAlgo~
+lib.name = OUTPUT~
 
-lib.setup.sources = $(lib.name).c
+$(lib.name).class.sources = OUTPUT~.c outputAlgorithms.c
 
-# class.sources = outputAlgo~.c
-outputAlgo~.class.sources = outputAlgo~.c outputAlgorithms.c
-
-datafiles = outputAlgo~-help.pd
-
-# build a multi-object library
-make-lib-executable=no
+datafiles = $(lib.name)-help.pd
 
 # provide the path to pd-lib-builder
 PDLIBBUILDER_DIR=./pd-lib-builder/

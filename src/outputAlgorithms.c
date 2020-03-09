@@ -1,6 +1,6 @@
-#include "outputAlgo~.h"
+#include "OUTPUT~.h"
 
-static unsigned long int outputAlgo_tilde_getSample(outputAlgo_tilde *x)
+static unsigned long int OUTPUT_tilde_getSample(OUTPUT_tilde *x)
 {
     unsigned int t, p0, p1, p2, p3, p4, p5, p6, p7, p8, p9;
     unsigned long int thisSample;

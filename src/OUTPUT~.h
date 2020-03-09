@@ -130,9 +130,9 @@ static const unsigned int paramsPerAlgo[NUMALGOS] =
 	5
 };
 
-static t_class *outputAlgo_tilde_class;
+static t_class *OUTPUT_tilde_class;
 
-typedef struct _outputAlgo_tilde 
+typedef struct _OUTPUT_tilde 
 {
     t_object x_obj;
 	t_symbol *x_objSymbol;
@@ -160,4 +160,4 @@ typedef struct _outputAlgo_tilde
     t_outlet *x_outletAlgoSettings;
     t_outlet *x_outletWrapBang;
     
-} outputAlgo_tilde;
+} OUTPUT_tilde;

@@ -1,6 +1,6 @@
 /*
 
-outputAlgo~
+OUTPUT~
 
 Copyright 2019 William Brent
 
@@ -10,14 +10,14 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-version 0.7, March 3, 2020
+version 0.8, March 9, 2020
 
 */
 
 #include "outputAlgorithms.c"
 
-/* ------------------------ outputAlgo~ -------------------------------- */
-static double outputAlgo_tilde_cubicInterpolate(double y0, double y1, double y2, double y3, double mu)
+/* ------------------------ OUTPUT~ -------------------------------- */
+static double OUTPUT_tilde_cubicInterpolate(double y0, double y1, double y2, double y3, double mu)
 {
    double a0, a1, a2, a3, mu2;
 
@@ -30,7 +30,7 @@ static double outputAlgo_tilde_cubicInterpolate(double y0, double y1, double y2,
    return(a0*mu*mu2+a1*mu2+a2*mu+a3);
 }
 
-static void outputAlgo_tilde_print(outputAlgo_tilde *x)
+static void OUTPUT_tilde_print(OUTPUT_tilde *x)
 {
 	int i;
 	
@@ -57,7 +57,7 @@ static void outputAlgo_tilde_print(outputAlgo_tilde *x)
 	post("");
 }
 
-static void outputAlgo_tilde_getAlgoSettings(outputAlgo_tilde *x)
+static void OUTPUT_tilde_getAlgoSettings(OUTPUT_tilde *x)
 {
 	int i;
 	t_atom *listOut;
@@ -78,7 +78,7 @@ static void outputAlgo_tilde_getAlgoSettings(outputAlgo_tilde *x)
 	t_freebytes(listOut, NUMALGOSETTINGS * sizeof(t_atom));
 }
 
-static void outputAlgo_tilde_getTimeIndex(outputAlgo_tilde *x)
+static void OUTPUT_tilde_getTimeIndex(OUTPUT_tilde *x)
 {
 	t_atom *listOut;
 	float mu;
@@ -100,12 +100,12 @@ static void outputAlgo_tilde_getTimeIndex(outputAlgo_tilde *x)
 	t_freebytes(listOut, 2 * sizeof(t_atom));
 }
 
-static void outputAlgo_tilde_getParamsPerAlgo(outputAlgo_tilde *x)
+static void OUTPUT_tilde_getParamsPerAlgo(OUTPUT_tilde *x)
 {
 	outlet_float(x->x_outletParamsPerAlgo, x->x_paramsPerAlgo[x->x_algoChoice]);
 }
 
-static void outputAlgo_tilde_setTimeIndex(outputAlgo_tilde *x, t_floatarg t)
+static void OUTPUT_tilde_setTimeIndex(OUTPUT_tilde *x, t_floatarg t)
 {
 	// keep bounded within 1 and UINT_MAX
 	t = (t<1)?1:t;
@@ -113,7 +113,7 @@ static void outputAlgo_tilde_setTimeIndex(outputAlgo_tilde *x, t_floatarg t)
 	x->x_t = t;
 }
 
-static void outputAlgo_tilde_setInterpMu(outputAlgo_tilde *x, t_floatarg m)
+static void OUTPUT_tilde_setInterpMu(OUTPUT_tilde *x, t_floatarg m)
 {
 	// keep bounded within 0 and 1
 	m = (m<0)?0:m;
@@ -121,7 +121,7 @@ static void outputAlgo_tilde_setInterpMu(outputAlgo_tilde *x, t_floatarg m)
 	x->x_sampIdx = m;
 }
 
-static void outputAlgo_tilde_setTimeRand(outputAlgo_tilde *x)
+static void OUTPUT_tilde_setTimeRand(OUTPUT_tilde *x)
 {
 	double randDoubleFloat;
 
@@ -131,7 +131,7 @@ static void outputAlgo_tilde_setTimeRand(outputAlgo_tilde *x)
 	x->x_t = floor(randDoubleFloat * UINT_MAX);
 }
 
-static void outputAlgo_tilde_interpSwitch(outputAlgo_tilde *x, t_floatarg i)
+static void OUTPUT_tilde_interpSwitch(OUTPUT_tilde *x, t_floatarg i)
 {
 	// keep bounded within 0 and 1
 	i = (i<0)?0:i;
@@ -139,7 +139,7 @@ static void outputAlgo_tilde_interpSwitch(outputAlgo_tilde *x, t_floatarg i)
 	x->x_interpSwitch = i;
 }
 
-static void outputAlgo_tilde_computeSwitch(outputAlgo_tilde *x, t_floatarg c)
+static void OUTPUT_tilde_computeSwitch(OUTPUT_tilde *x, t_floatarg c)
 {
 	// keep bounded within 0 and 1
 	c = (c<0)?0:c;
@@ -147,7 +147,7 @@ static void outputAlgo_tilde_computeSwitch(outputAlgo_tilde *x, t_floatarg c)
 	x->x_computeSwitch = c;
 }
 
-static void outputAlgo_tilde_parameters(outputAlgo_tilde *x, t_symbol *s, int argc, t_atom *argv)
+static void OUTPUT_tilde_parameters(OUTPUT_tilde *x, t_symbol *s, int argc, t_atom *argv)
 {
 	int i;
 	unsigned int p;
@@ -165,7 +165,7 @@ static void outputAlgo_tilde_parameters(outputAlgo_tilde *x, t_symbol *s, int ar
 		x->x_params[i] = 1;
 }
 
-static void outputAlgo_tilde_bitDepth(outputAlgo_tilde *x, t_floatarg b)
+static void OUTPUT_tilde_bitDepth(OUTPUT_tilde *x, t_floatarg b)
 {
 	// keep bounded within 1 and MAXBITDEPTH
 	b = (b<1)?1:b;
@@ -174,7 +174,7 @@ static void outputAlgo_tilde_bitDepth(outputAlgo_tilde *x, t_floatarg b)
  	x->x_quantSteps = pow(2, x->x_bitDepth);
 }
 
-static void outputAlgo_tilde_tempo(outputAlgo_tilde *x, t_floatarg t)
+static void OUTPUT_tilde_tempo(OUTPUT_tilde *x, t_floatarg t)
 {	
 	// keep bounded within 1 and MAXTEMPO
 	t = (t<1.0)?1.0:t;
@@ -185,7 +185,7 @@ static void outputAlgo_tilde_tempo(outputAlgo_tilde *x, t_floatarg t)
 	x->x_incr = (x->x_tempo/(double)BASETEMPO);
 }
 
-static void outputAlgo_tilde_algoChoice(outputAlgo_tilde *x, t_floatarg a)
+static void OUTPUT_tilde_algoChoice(OUTPUT_tilde *x, t_floatarg a)
 {
 	// keep bounded within 0 and (NUMALGOS-1)
 	a = (a<0)?0:a;
@@ -193,10 +193,10 @@ static void outputAlgo_tilde_algoChoice(outputAlgo_tilde *x, t_floatarg a)
 	x->x_algoChoice = a;
 
 	// call getParamsPerAlgo so that the number of params for this algo are output from the object automatically
-	outputAlgo_tilde_getParamsPerAlgo(x);
+	OUTPUT_tilde_getParamsPerAlgo(x);
 }
 
-static void outputAlgo_tilde_debug(outputAlgo_tilde *x, t_floatarg d)
+static void OUTPUT_tilde_debug(OUTPUT_tilde *x, t_floatarg d)
 {
 	// keep bounded within 0 and 255
 	d = (d<0)?0:d;
@@ -204,9 +204,9 @@ static void outputAlgo_tilde_debug(outputAlgo_tilde *x, t_floatarg d)
 	x->x_debug = d;
 }
 
-static void *outputAlgo_tilde_new(t_symbol *s, int argc, t_atom *argv)
+static void *OUTPUT_tilde_new(t_symbol *s, int argc, t_atom *argv)
 {
-    outputAlgo_tilde *x = (outputAlgo_tilde *)pd_new(outputAlgo_tilde_class);
+    OUTPUT_tilde *x = (OUTPUT_tilde *)pd_new(OUTPUT_tilde_class);
 	int i;
 		
 	outlet_new(&x->x_obj, &s_signal);
@@ -237,14 +237,14 @@ static void *outputAlgo_tilde_new(t_symbol *s, int argc, t_atom *argv)
 	
 	// this tempo recreates results of 8kHz sampling rate when running at 44.1kHz 
 	x->x_tempo = 10.884f;
-	outputAlgo_tilde_tempo(x, x->x_tempo);
+	OUTPUT_tilde_tempo(x, x->x_tempo);
 
 	x->x_signalBuffer = (double *)t_getbytes((x->x_n*4+EXTRAPOINTS) * sizeof(double));
 	
 	for(i=0; i<x->x_n*4+EXTRAPOINTS; i++)
 		x->x_signalBuffer[i] = 0.0;
 	
-	outputAlgo_tilde_parameters(x, s, argc, argv);
+	OUTPUT_tilde_parameters(x, s, argc, argv);
 	
 	memcpy(x->x_paramsPerAlgo, paramsPerAlgo, sizeof(paramsPerAlgo));
 	
@@ -255,11 +255,11 @@ static void *outputAlgo_tilde_new(t_symbol *s, int argc, t_atom *argv)
 }
 
 
-static t_int *outputAlgo_tilde_perform(t_int *w)
+static t_int *OUTPUT_tilde_perform(t_int *w)
 {
     unsigned int i, j, n, m, hop;
 	
-    outputAlgo_tilde *x = (outputAlgo_tilde *)(w[1]);
+    OUTPUT_tilde *x = (OUTPUT_tilde *)(w[1]);
     t_sample *out = (t_float *)(w[2]);
     n = w[3];
 	
@@ -288,7 +288,7 @@ static t_int *outputAlgo_tilde_perform(t_int *w)
 			unsigned long int thisSample;
 				
 			// perform the algorithm in unsigned int precision. Bitwise operators MUST BE used in UINT precision. we store the result in higher precision - unsigned long int
-			thisSample = outputAlgo_tilde_getSample(x);
+			thisSample = OUTPUT_tilde_getSample(x);
 		
 			// convert the unsigned long long int-ranged sample into a double precision float sample
 			thisSampleDouble = thisSample / (double)x->x_quantSteps;
@@ -323,7 +323,7 @@ static t_int *outputAlgo_tilde_perform(t_int *w)
 				
 			j = floor(x->x_sampIdx);
 		
-			out[i] = outputAlgo_tilde_cubicInterpolate(x->x_signalBuffer[j-1], x->x_signalBuffer[j], x->x_signalBuffer[j+1], x->x_signalBuffer[j+2], x->x_mu);
+			out[i] = OUTPUT_tilde_cubicInterpolate(x->x_signalBuffer[j-1], x->x_signalBuffer[j], x->x_signalBuffer[j+1], x->x_signalBuffer[j+2], x->x_mu);
 
 			if(x->x_debug)
 			{
@@ -381,10 +381,10 @@ static t_int *outputAlgo_tilde_perform(t_int *w)
 }
 
 
-static void outputAlgo_tilde_dsp(outputAlgo_tilde *x, t_signal **sp)
+static void OUTPUT_tilde_dsp(OUTPUT_tilde *x, t_signal **sp)
 {
 	dsp_add(
-		outputAlgo_tilde_perform,
+		OUTPUT_tilde_perform,
 		3,
 		x,
 		sp[0]->s_vec,
@@ -403,143 +403,144 @@ static void outputAlgo_tilde_dsp(outputAlgo_tilde *x, t_signal **sp)
 };
 
 
-static void outputAlgo_tilde_free(outputAlgo_tilde *x)
+static void OUTPUT_tilde_free(OUTPUT_tilde *x)
 {	
 	// free the signalBuffer memory
 	t_freebytes(x->x_signalBuffer,  (x->x_n*4+EXTRAPOINTS)*sizeof(double));
 };
 
 
-void outputAlgo_tilde_setup(void)
+void OUTPUT_tilde_setup(void)
 {
-    outputAlgo_tilde_class = 
+    OUTPUT_tilde_class = 
     class_new(
-    	gensym("outputAlgo~"),
-    	(t_newmethod)outputAlgo_tilde_new,
-    	(t_method)outputAlgo_tilde_free,
-        sizeof(outputAlgo_tilde),
+    	gensym("OUTPUT~"),
+    	(t_newmethod)OUTPUT_tilde_new,
+    	(t_method)OUTPUT_tilde_free,
+        sizeof(OUTPUT_tilde),
         CLASS_DEFAULT,
         A_GIMME,
 		0
     );
 
+	// strangely, deleting this changes the output of algorithms involving the 36364689 char array! keeping it for that reason
 	class_addcreator(
-		(t_newmethod)outputAlgo_tilde_new,
-		gensym("output/outputAlgo~"),
+		(t_newmethod)OUTPUT_tilde_new,
+		gensym("output/OUTPUT~"),
 		A_GIMME,
 		0
 	);
 
 	class_addmethod(
-		outputAlgo_tilde_class,
-		(t_method)outputAlgo_tilde_print,
+		OUTPUT_tilde_class,
+		(t_method)OUTPUT_tilde_print,
 		gensym("print"),
 		0
 	);
 
 	class_addmethod(
-		outputAlgo_tilde_class,
-		(t_method)outputAlgo_tilde_getAlgoSettings,
+		OUTPUT_tilde_class,
+		(t_method)OUTPUT_tilde_getAlgoSettings,
 		gensym("getAlgoSettings"),
 		0
 	);
 	
 	class_addmethod(
-		outputAlgo_tilde_class,
-		(t_method)outputAlgo_tilde_getTimeIndex,
+		OUTPUT_tilde_class,
+		(t_method)OUTPUT_tilde_getTimeIndex,
 		gensym("getTimeIndex"),
 		0
 	);
 
 	class_addmethod(
-		outputAlgo_tilde_class,
-		(t_method)outputAlgo_tilde_getParamsPerAlgo,
+		OUTPUT_tilde_class,
+		(t_method)OUTPUT_tilde_getParamsPerAlgo,
 		gensym("getParamsPerAlgo"),
 		0
 	);
 
 	class_addmethod(
-		outputAlgo_tilde_class,
-		(t_method)outputAlgo_tilde_setTimeIndex,
+		OUTPUT_tilde_class,
+		(t_method)OUTPUT_tilde_setTimeIndex,
 		gensym("setTimeIndex"),
 		A_DEFFLOAT,
 		0
 	);
 
 	class_addmethod(
-		outputAlgo_tilde_class,
-		(t_method)outputAlgo_tilde_setInterpMu,
+		OUTPUT_tilde_class,
+		(t_method)OUTPUT_tilde_setInterpMu,
 		gensym("setInterpMu"),
 		A_DEFFLOAT,
 		0
 	);
 	
 	class_addmethod(
-		outputAlgo_tilde_class,
-		(t_method)outputAlgo_tilde_setTimeRand,
+		OUTPUT_tilde_class,
+		(t_method)OUTPUT_tilde_setTimeRand,
 		gensym("setTimeRand"),
 		0
 	);
 
 	class_addmethod(
-		outputAlgo_tilde_class,
-		(t_method)outputAlgo_tilde_interpSwitch,
+		OUTPUT_tilde_class,
+		(t_method)OUTPUT_tilde_interpSwitch,
 		gensym("interpolate"),
 		A_DEFFLOAT,
 		0
 	);
 
 	class_addmethod(
-		outputAlgo_tilde_class,
-		(t_method)outputAlgo_tilde_computeSwitch,
+		OUTPUT_tilde_class,
+		(t_method)OUTPUT_tilde_computeSwitch,
 		gensym("compute"),
 		A_DEFFLOAT,
 		0
 	);
 	
 	class_addmethod(
-		outputAlgo_tilde_class,
-		(t_method)outputAlgo_tilde_parameters,
+		OUTPUT_tilde_class,
+		(t_method)OUTPUT_tilde_parameters,
 		gensym("parameters"),
 		A_GIMME,
 		0
 	);
 	
 	class_addmethod(
-		outputAlgo_tilde_class,
-		(t_method)outputAlgo_tilde_bitDepth,
+		OUTPUT_tilde_class,
+		(t_method)OUTPUT_tilde_bitDepth,
 		gensym("bitDepth"),
 		A_DEFFLOAT,
 		0
 	);
 	
 	class_addmethod(
-		outputAlgo_tilde_class,
-		(t_method)outputAlgo_tilde_tempo,
+		OUTPUT_tilde_class,
+		(t_method)OUTPUT_tilde_tempo,
 		gensym("tempo"),
 		A_DEFFLOAT,
 		0
 	);
 
 	class_addmethod(
-		outputAlgo_tilde_class,
-		(t_method)outputAlgo_tilde_algoChoice,
+		OUTPUT_tilde_class,
+		(t_method)OUTPUT_tilde_algoChoice,
 		gensym("algoChoice"),
 		A_DEFFLOAT,
 		0
 	);
 
 	class_addmethod(
-		outputAlgo_tilde_class,
-		(t_method)outputAlgo_tilde_debug,
+		OUTPUT_tilde_class,
+		(t_method)OUTPUT_tilde_debug,
 		gensym("debug"),
 		A_DEFFLOAT,
 		0
 	);
 
     class_addmethod(
-    	outputAlgo_tilde_class,
-    	(t_method)outputAlgo_tilde_dsp,
+    	OUTPUT_tilde_class,
+    	(t_method)OUTPUT_tilde_dsp,
     	gensym("dsp"),
     	0
     );

@@ -1,8 +1,8 @@
 .DS_Store
 src/outputAlgorithms.o
-src/outputAlgo~.o
-src/outputAlgo~.pd_darwin
-src/outputAlgo~.pd_linux
-src/outputAlgo~.dll
+src/OUTPUT~.o
+src/OUTPUT~.pd_darwin
+src/OUTPUT~.pd_linux
+src/OUTPUT~.dll
 algo-presets/*
 caches/*
