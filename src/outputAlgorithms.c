@@ -4,6 +4,7 @@ static unsigned long int outputAlgo_tilde_getSample(outputAlgo_tilde *x)
 {
     unsigned int t, p0, p1, p2, p3, p4, p5, p6, p7, p8, p9;
     unsigned long int thisSample;
+    unsigned char idx36364689;
 
 	t = x->x_t;	
 	// avoid t==0, which would cause division or modulus by zero in some algos
@@ -20,6 +21,8 @@ static unsigned long int outputAlgo_tilde_getSample(outputAlgo_tilde *x)
 	p7 = x->x_params[7];
 	p8 = x->x_params[8];
 	p9 = x->x_params[9];
+	
+	idx36364689 = 0;
 	
 	// NOTE: for all divisions, cast divisor (float), then cast the result as (int)
 	switch(x->x_algoChoice)
@@ -106,11 +109,14 @@ static unsigned long int outputAlgo_tilde_getSample(outputAlgo_tilde *x)
 			thisSample = (((int)((((t>>p0)^(t>>p1)-p2)%p3*t)/(float)p4)|t>>p5)&p6);
 			break;
 		case 27:
-			// for now, the only safeguard seems to be limiting p0 and p1 to 8192. this doesn't crash on my macbook pro, but may crash on other machines - still don't understand why we're allowed any leeway on indexing "36364689" beyond 0-8 anyway
-			p0 = (p0>8192) ? 8192: p0;
-			p1 = (p1>8192) ? 8192: p1;
+			// we must mod p0 by 32, since t on the following line is 32 bit and we can't right shift more than the width of that variable
+			p0 = p0 % 32;
+			// right shift has higher precedence than AND, so the shifted t result will be ANDed with p1, resulting in an unsigned int
+			idx36364689 = t>>p0&p1;
+			// although array "36364689" has eight characters and we expect mod 8 to produce the same result as before debugging, it doesn't. modding by 256, which produces indices greater than 7 leads to undefined behavior when used to index the 8-element char array. yet, no crash seems to happen. 
+			idx36364689 %= 256;
 			
-			thisSample = ((int)((t*("36364689"[t>>p0&p1]&p2))/(float)p3)&p4);
+			thisSample = ((int)((t*("36364689"[idx36364689]&p2))/(float)p3)&p4);
 			break;
 		case 28:
 			thisSample = (t>>p0)|(t>>p1)|(int)(((t%p2)*(t>>p3)|(0x15483113)-(t>>p4))/(float)((t>>p5)^(t|(t>>p6))));
@@ -193,11 +199,14 @@ static unsigned long int outputAlgo_tilde_getSample(outputAlgo_tilde *x)
 			thisSample = t>>p0|(t&(int)((t>>p1)/(float)(t>>(p2-(t>>p3))&-t>>(p4-(t>>p5)))));
 			break;
 		case 55:
-			// for now, the only safeguard seems to be limiting p0 and p1 to 8192. this doesn't crash on my macbook pro, but may crash on other machines - still don't understand why we're allowed any leeway on indexing "36364689" beyond 0-8 anyway
-			p0 = (p0>8192) ? 8192: p0;
-			p1 = (p1>8192) ? 8192: p1;
+			// we must mod p0 by 32, since t on the following line is 32 bit and we can't right shift more than the width of that variable
+			p0 = p0 % 32;
+			// right shift has higher precedence than AND, so the shifted t result will be ANDed with p1, resulting in an unsigned int
+			idx36364689 = t>>p0&p1;
+			// although array "36364689" has eight characters and we expect mod 8 to produce the same result as before debugging, it doesn't. modding by 256, which produces indices greater than 7 leads to undefined behavior when used to index the 8-element char array. yet, no crash seems to happen. 
+			idx36364689 %= 256;
 			
-			thisSample = ((int)((t*("36364689"[t>>p0&p1]&p2))/(float)p3)&128)+(((int)((((t>>p4)^(t>>p5)-p6)%p7*t)/(float)p8)|t>>p9)&127);
+			thisSample = ((int)((t*("36364689"[idx36364689]&p2))/(float)p3)&128)+(((int)((((t>>p4)^(t>>p5)-p6)%p7*t)/(float)p8)|t>>p9)&127);
 			break;
 		case 56:
 			thisSample = ((t*p0&t>>p1)|(t*p2&t>>p3)|(t*p4&(int)(t/(float)p5)))-p6;
@@ -205,15 +214,15 @@ static unsigned long int outputAlgo_tilde_getSample(outputAlgo_tilde *x)
 		case 57:
 			thisSample = ((t*(t>>p0)&((int)(p1*t/(float)100))&((int)(p2*t/(float)100)))&(t*(t>>p3)&((int)(t*p4/(float)100))&((int)(t*p5/(float)100))))+((t*(t>>p6)&((int)(t*p7/(float)100))&((int)(t*p8/(float)100)))-(t*(t>>p9)&((int)(t*302/(float)100))&((int)(t*298/(float)100))));
 			break;
-		case 58:
-			// this caused a segfault 11 with random parameters in the 16384 range. could be due to the "36364689"[array access] situation, where one of the values went out of bounds of the char array? algos 27, 55, and 58 all have the char array lookup[] as well. need to do a simple test of the limits of that to see if i can recreate a segfault.
-			// if i mod the index into that char array by 8192, it doesn't crash, but preset patterns sound different. what is the max number I can mod by? or what value causes a crash? what is a safe way to keep the current preset pattern output without risking crashes on some machines, even if i find a hack that works on this machine?
+		case 58:			
+			// we must mod p0 by 32, since t on the following line is 32 bit and we can't right shift more than the width of that variable
+			p0 = p0 % 32;
+			// right shift has higher precedence than AND, so the shifted t result will be ANDed with p1, resulting in an unsigned int
+			idx36364689 = t>>p0&p1;
+			// although array "36364689" has eight characters and we expect mod 8 to produce the same result as before debugging, it doesn't. modding by 256, which produces indices greater than 7 leads to undefined behavior when used to index the 8-element char array. yet, no crash seems to happen. 
+			idx36364689 %= 256;
 			
-			// for now, the only safeguard seems to be limiting p0 and p1 to 8192. this doesn't crash on my macbook pro, but may crash on other machines - still don't understand why we're allowed any leeway on indexing "36364689" beyond 0-8 anyway
-			p0 = (p0>8192) ? 8192: p0;
-			p1 = (p1>8192) ? 8192: p1;
-			
-			thisSample = ((int)(t*(("36364689"[t>>p0&p1]&p2))/(float)p3)&p4)+(((int)((((t>>p5)^(t>>p6)-p7)%p8*t)/(float)4)|t>>p9)&127);
+			thisSample = ((int)(t*(("36364689"[idx36364689]&p2))/(float)p3)&p4)+(((int)((((t>>p5)^(t>>p6)-p7)%p8*t)/(float)4)|t>>p9)&127);
 			break;
 		case 59:
 			thisSample = t*(t^t+(t>>p0|p1)^(t-p2^t)>>p3);

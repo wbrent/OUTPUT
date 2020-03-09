@@ -7,9 +7,8 @@ lib.name = outputAlgo~
 
 lib.setup.sources = $(lib.name).c
 
-class.sources = outputAlgo~.c
-
-common.sources = outputAlgorithms.c
+# class.sources = outputAlgo~.c
+outputAlgo~.class.sources = outputAlgo~.c outputAlgorithms.c
 
 datafiles = outputAlgo~-help.pd
 
