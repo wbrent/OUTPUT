@@ -1,18 +1,20 @@
-#N canvas 561 116 1079 785 12;
+#N canvas 561 117 1003 561 12;
 #X obj 662 358 bng 15 250 50 0 player-\$1-algo-randomize player-\$1-algo-randomize-set
 randomize -60 7 0 10 -262144 -1 -1;
 #X obj 673 408 bng 15 250 50 0 player-\$1-algo-load-params player-\$1-algo-load-params-set
 load 17 7 0 10 -204786 -1 -1;
 #X obj 613 408 bng 15 250 50 0 player-\$1-algo-save-params player-\$1-algo-save-params-set
 save 17 7 0 10 -261234 -1 -1;
-#X floatatom 687 358 7 0 0 0 - player-#1-algo-param-range-set -;
-#X obj 109 382 bng 15 250 50 0 empty player-\$1-algo-dec-param-0-set
+#X floatatom 687 358 7 0 0 0 - player-#1-algo-param-range-set player-#1-algo-param-range
+;
+#X obj 109 382 bng 15 250 50 0 player-\$1-algo-dec-param-0 player-\$1-algo-dec-param-0-set
 - 4 8 0 12 -241291 -1 -1;
-#X obj 129 382 bng 15 250 50 0 empty player-\$1-algo-inc-param-0-set
+#X obj 129 382 bng 15 250 50 0 player-\$1-algo-inc-param-0 player-\$1-algo-inc-param-0-set
 + 4 8 0 12 -241291 -1 -1;
-#X obj 109 462 bng 15 250 50 0 empty player-\$1-algo-randomize-param-0-set
+#X obj 109 462 bng 15 250 50 0 player-\$1-algo-randomize-param-0 player-\$1-algo-randomize-param-0-set
 empty 17 7 0 10 -262144 -1 -1;
-#X floatatom 109 482 5 0 0 0 - - -;
+#X floatatom 109 482 5 0 0 0 - player-#1-algo-param-0-range-set player-#1-algo-param-0-range
+;
 #N canvas 771 104 1010 895 populate 0;
 #X obj 140 487 t f b;
 #X obj 140 539 until;
@@ -57,8 +59,8 @@ disables manual algo-select during the cache or preset loading process.
 0 so that param 0 is the last one changed. that way \, controller buttons
 for inc/dec/rand of most recently adjusted param will bet set up to
 work on param 0 directly after preset load., f 86;
-#X obj 133 345 spigot;
-#X obj 193 345 r player-\$1-load-params;
+#X obj 140 345 spigot;
+#X obj 200 345 r player-\$1-load-params;
 #X obj 194 269 spigot;
 #X obj 236 213 spigot;
 #X obj 274 157 spigot;
@@ -106,116 +108,107 @@ work on param 0 directly after preset load., f 86;
 #X connect 38 0 37 1;
 #X connect 39 0 36 1;
 #X connect 40 0 35 1;
-#X restore 850 630 pd populate;
-#X obj 159 382 bng 15 250 50 0 empty player-\$1-algo-dec-param-1-set
+#X restore 798 475 pd populate;
+#X obj 159 382 bng 15 250 50 0 player-\$1-algo-dec-param-1 player-\$1-algo-dec-param-1-set
 - 4 8 0 12 -241291 -1 -1;
-#X obj 179 382 bng 15 250 50 0 empty player-\$1-algo-inc-param-1-set
+#X obj 179 382 bng 15 250 50 0 player-\$1-algo-inc-param-1 player-\$1-algo-inc-param-1-set
 + 4 8 0 12 -241291 -1 -1;
-#X obj 159 462 bng 15 250 50 0 empty player-\$1-algo-randomize-param-1-set
+#X obj 159 462 bng 15 250 50 0 player-\$1-algo-randomize-param-1 player-\$1-algo-randomize-param-1-set
 empty 17 7 0 10 -262144 -1 -1;
-#X floatatom 159 482 5 0 0 0 - - -;
-#X obj 209 382 bng 15 250 50 0 empty player-\$1-algo-dec-param-2-set
-- 4 8 0 12 -241291 -1 -1;
-#X obj 229 382 bng 15 250 50 0 empty player-\$1-algo-inc-param-2-set
-+ 4 8 0 12 -241291 -1 -1;
-#X obj 209 462 bng 15 250 50 0 empty player-\$1-algo-randomize-param-2-set
-empty 17 7 0 10 -262144 -1 -1;
-#X floatatom 209 482 5 0 0 0 - - -;
-#X obj 259 382 bng 15 250 50 0 empty player-\$1-algo-dec-param-3-set
-- 4 8 0 12 -241291 -1 -1;
-#X obj 279 382 bng 15 250 50 0 empty player-\$1-algo-inc-param-3-set
-+ 4 8 0 12 -241291 -1 -1;
-#X obj 259 462 bng 15 250 50 0 empty player-\$1-algo-randomize-param-3-set
-empty 17 7 0 10 -262144 -1 -1;
-#X floatatom 259 482 5 0 0 0 - - -;
-#X obj 309 382 bng 15 250 50 0 empty player-\$1-algo-dec-param-4-set
-- 4 8 0 12 -262140 -1 -1;
-#X obj 329 382 bng 15 250 50 0 empty player-\$1-algo-inc-param-4-set
-+ 4 8 0 12 -262140 -1 -1;
-#X obj 309 462 bng 15 250 50 0 empty player-\$1-algo-randomize-param-4-set
-empty 17 7 0 10 -262144 -1 -1;
-#X floatatom 309 482 5 0 0 0 - - -;
-#X obj 359 382 bng 15 250 50 0 empty player-\$1-algo-dec-param-5-set
-- 4 8 0 12 -262140 -1 -1;
-#X obj 379 382 bng 15 250 50 0 empty player-\$1-algo-inc-param-5-set
-+ 4 8 0 12 -262140 -1 -1;
-#X obj 359 462 bng 15 250 50 0 empty player-\$1-algo-randomize-param-5-set
-empty 17 7 0 10 -262144 -1 -1;
-#X floatatom 359 482 5 0 0 0 - - -;
-#X obj 409 382 bng 15 250 50 0 empty player-\$1-algo-dec-param-6-set
-- 4 8 0 12 -262140 -1 -1;
-#X obj 429 382 bng 15 250 50 0 empty player-\$1-algo-inc-param-6-set
-+ 4 8 0 12 -262140 -1 -1;
-#X obj 409 462 bng 15 250 50 0 empty player-\$1-algo-randomize-param-6-set
-empty 17 7 0 10 -262144 -1 -1;
-#X floatatom 409 482 5 0 0 0 - - -;
-#X obj 459 382 bng 15 250 50 0 empty player-\$1-algo-dec-param-7-set
-- 4 8 0 12 -262140 -1 -1;
-#X obj 479 382 bng 15 250 50 0 empty player-\$1-algo-inc-param-7-set
-+ 4 8 0 12 -262140 -1 -1;
-#X obj 459 462 bng 15 250 50 0 empty player-\$1-algo-randomize-param-7-set
-empty 17 7 0 10 -262144 -1 -1;
-#X floatatom 459 482 5 0 0 0 - - -;
-#X obj 509 382 bng 15 250 50 0 empty player-\$1-algo-dec-param-8-set
-- 4 8 0 12 -262140 -1 -1;
-#X obj 529 382 bng 15 250 50 0 empty player-\$1-algo-inc-param-8-set
-+ 4 8 0 12 -262140 -1 -1;
-#X obj 509 462 bng 15 250 50 0 empty player-\$1-algo-randomize-param-8-set
-empty 17 7 0 10 -262144 -1 -1;
-#X floatatom 509 482 5 0 0 0 - - -;
-#X obj 559 382 bng 15 250 50 0 empty player-\$1-algo-dec-param-9-set
-- 4 8 0 12 -262140 -1 -1;
-#X obj 579 382 bng 15 250 50 0 empty player-\$1-algo-inc-param-9-set
-+ 4 8 0 12 -262140 -1 -1;
-#X obj 559 462 bng 15 250 50 0 empty player-\$1-algo-randomize-param-9-set
-empty 17 7 0 10 -262144 -1 -1;
-#X floatatom 559 482 5 0 0 0 - - -;
-#N canvas 241 77 1052 593 save-parameters 0;
-#X obj 172 264 savepanel;
-#X obj 650 240 makefilename notset;
-#X msg 650 198 set \$1;
-#X obj 650 144 f \$1;
-#X obj 531 262 pdcontrol;
-#X obj 531 310 makefilename notset;
-#X msg 650 264 set \$1;
-#X obj 650 174 makefilename %%%%s/caches/%d-%%d-cache.txt;
-#X obj 531 73 r player-\$1-algo-save-cache;
-#X msg 531 505 \; player-\$2-algo-params write \$1 \;;
-#X obj 531 481 pack s \$1;
-#X obj 531 97 t b f b;
-#X obj 243 158 pdcontrol;
-#X obj 243 85 r lb1;
-#X obj 172 47 r player-\$1-algo-save-params;
-#X obj 172 231 symbol;
-#X obj 243 183 makefilename %s/algo-presets;
-#X msg 531 229 dir 0 ../;
-#X msg 243 124 dir 0 ../;
-#X obj 172 288 t a b;
-#X obj 112 331 symbol;
-#X obj 112 13 r player-\$1-algo-settings-received;
-#X obj 228 324 s player-\$1-get-algo-settings;
-#X text 64 393 Send a "bang" to get all algo settings before saving
-a preset. Must wait for the response via "player-\$1-algo-settings-received"
-\, then we can issue the "write" command, f 47;
-#N canvas 1099 160 537 397 presets-BUG-(fixed) 0;
-#X text 35 59 If the bit/time/tempo/params loading toggles are set
-to OFF \, current settings will remain the same while moving to different
-algos. However \, the cache of a given algo is loadeed to the player-\$1-algo-params
-table in the background anyway \, and this change is not reflected
-in the user's GUI number box interface. When saving in this situation
-\, the user will expect the currently shown params and settings to
-be written to the preset file. Instead \, the contents of the player-\$1-algo-params
-table will be written \, which are different. This is confusing behavior
-and should be fixed.;
-#X text 35 219 One option is to simply remove the cache system. In
-that case \, the user GUI interface and the contents of the player-\$1-algo-params
-table should always match.;
-#X text 35 279 Another option is to somehow populate the table with
-the current GUI interface values \, but that would require another
-layer of storage.;
-#X text 35 29 March 5 \, 2020: note special case bug when saving presets::
+#X floatatom 159 482 5 0 0 0 - player-#1-algo-param-1-range-set player-#1-algo-param-1-range
 ;
-#X restore 156 490 pd presets-BUG-(fixed);
+#X obj 209 382 bng 15 250 50 0 player-\$1-algo-dec-param-2 player-\$1-algo-dec-param-2-set
+- 4 8 0 12 -241291 -1 -1;
+#X obj 229 382 bng 15 250 50 0 player-\$1-algo-inc-param-2 player-\$1-algo-inc-param-2-set
++ 4 8 0 12 -241291 -1 -1;
+#X obj 209 462 bng 15 250 50 0 player-\$1-algo-randomize-param-2 player-\$1-algo-randomize-param-2-set
+empty 17 7 0 10 -262144 -1 -1;
+#X floatatom 209 482 5 0 0 0 - player-#1-algo-param-2-range-set player-#1-algo-param-2-range
+;
+#X obj 259 382 bng 15 250 50 0 player-\$1-algo-dec-param-3 player-\$1-algo-dec-param-3-set
+- 4 8 0 12 -241291 -1 -1;
+#X obj 279 382 bng 15 250 50 0 player-\$1-algo-inc-param-3 player-\$1-algo-inc-param-3-set
++ 4 8 0 12 -241291 -1 -1;
+#X obj 259 462 bng 15 250 50 0 player-\$1-algo-randomize-param-3 player-\$1-algo-randomize-param-3-set
+empty 17 7 0 10 -262144 -1 -1;
+#X floatatom 259 482 5 0 0 0 - player-#1-algo-param-3-range-set player-#1-algo-param-3-range
+;
+#X obj 309 382 bng 15 250 50 0 player-\$1-algo-dec-param-4 player-\$1-algo-dec-param-4-set
+- 4 8 0 12 -262140 -1 -1;
+#X obj 329 382 bng 15 250 50 0 player-\$1-algo-inc-param-4 player-\$1-algo-inc-param-4-set
++ 4 8 0 12 -262140 -1 -1;
+#X obj 309 462 bng 15 250 50 0 player-\$1-algo-randomize-param-4 player-\$1-algo-randomize-param-4-set
+empty 17 7 0 10 -262144 -1 -1;
+#X floatatom 309 482 5 0 0 0 - player-#1-algo-param-4-range-set player-#1-algo-param-4-range
+;
+#X obj 359 382 bng 15 250 50 0 player-\$1-algo-dec-param-5 player-\$1-algo-dec-param-5-set
+- 4 8 0 12 -262140 -1 -1;
+#X obj 379 382 bng 15 250 50 0 player-\$1-algo-inc-param-5 player-\$1-algo-inc-param-5-set
++ 4 8 0 12 -262140 -1 -1;
+#X obj 359 462 bng 15 250 50 0 player-\$1-algo-randomize-param-5 player-\$1-algo-randomize-param-5-set
+empty 17 7 0 10 -262144 -1 -1;
+#X floatatom 359 482 5 0 0 0 - player-#1-algo-param-5-range-set player-#1-algo-param-5-range
+;
+#X obj 409 382 bng 15 250 50 0 player-\$1-algo-dec-param-6 player-\$1-algo-dec-param-6-set
+- 4 8 0 12 -262140 -1 -1;
+#X obj 429 382 bng 15 250 50 0 player-\$1-algo-inc-param-6 player-\$1-algo-inc-param-6-set
++ 4 8 0 12 -262140 -1 -1;
+#X obj 409 462 bng 15 250 50 0 player-\$1-algo-randomize-param-6 player-\$1-algo-randomize-param-6-set
+empty 17 7 0 10 -262144 -1 -1;
+#X floatatom 409 482 5 0 0 0 - player-#1-algo-param-6-range-set player-#1-algo-param-6-range
+;
+#X obj 459 382 bng 15 250 50 0 player-\$1-algo-dec-param-7 player-\$1-algo-dec-param-7-set
+- 4 8 0 12 -262140 -1 -1;
+#X obj 479 382 bng 15 250 50 0 player-\$1-algo-inc-param-7 player-\$1-algo-inc-param-7-set
++ 4 8 0 12 -262140 -1 -1;
+#X obj 459 462 bng 15 250 50 0 player-\$1-algo-randomize-param-7 player-\$1-algo-randomize-param-7-set
+empty 17 7 0 10 -262144 -1 -1;
+#X floatatom 459 482 5 0 0 0 - player-#1-algo-param-7-range-set player-#1-algo-param-7-range
+;
+#X obj 509 382 bng 15 250 50 0 player-\$1-algo-dec-param-8 player-\$1-algo-dec-param-8-set
+- 4 8 0 12 -262140 -1 -1;
+#X obj 529 382 bng 15 250 50 0 player-\$1-algo-inc-param-8 player-\$1-algo-inc-param-8-set
++ 4 8 0 12 -262140 -1 -1;
+#X obj 509 462 bng 15 250 50 0 player-\$1-algo-randomize-param-8 player-\$1-algo-randomize-param-8-set
+empty 17 7 0 10 -262144 -1 -1;
+#X floatatom 509 482 5 0 0 0 - player-#1-algo-param-8-range-set player-#1-algo-param-8-range
+;
+#X obj 559 382 bng 15 250 50 0 player-\$1-algo-dec-param-9 player-\$1-algo-dec-param-9-set
+- 4 8 0 12 -262140 -1 -1;
+#X obj 579 382 bng 15 250 50 0 player-\$1-algo-inc-param-9 player-\$1-algo-inc-param-9-set
++ 4 8 0 12 -262140 -1 -1;
+#X obj 559 462 bng 15 250 50 0 player-\$1-algo-randomize-param-9 player-\$1-algo-randomize-param-9-set
+empty 17 7 0 10 -262144 -1 -1;
+#X floatatom 559 482 5 0 0 0 - player-#1-algo-param-9-range-set player-#1-algo-param-9-range
+;
+#N canvas 944 209 905 584 save-parameters 0;
+#X obj 76 309 savepanel;
+#X obj 533 211 makefilename notset;
+#X msg 533 169 set \$1;
+#X obj 533 115 f \$1;
+#X obj 414 233 pdcontrol;
+#X obj 414 281 makefilename notset;
+#X msg 533 235 set \$1;
+#X obj 533 145 makefilename %%%%s/caches/%d-%%d-cache.txt;
+#X obj 414 44 r player-\$1-algo-save-cache;
+#X msg 414 346 \; player-\$2-algo-params write \$1 \;;
+#X obj 414 322 pack s \$1;
+#X obj 414 68 t b f b;
+#X obj 147 203 pdcontrol;
+#X obj 147 130 r lb1;
+#X obj 76 92 r player-\$1-algo-save-params;
+#X obj 76 276 symbol;
+#X obj 147 228 makefilename %s/algo-presets;
+#X msg 414 200 dir 0 ../;
+#X msg 147 169 dir 0 ../;
+#X obj 76 355 s player-\$1-save-preset;
+#X text 412 392 Note that the cache is only saving what's stored locally
+here on the client side \, which reflects the state of the player's
+GUI control panel via algo-param-interface-client.pd. In cases where
+the time \, tempo \, bitDepth \, and params checkboxes are OFF \, the
+internal settings of [OUTPUT~] on the master side will differ from
+what is stored in the local client side cache. Thus \, the cache saving
+feature really only works when those checkboxes are ON.;
 #X connect 0 0 19 0;
 #X connect 1 0 6 0;
 #X connect 2 0 1 0;
@@ -236,26 +229,22 @@ layer of storage.;
 #X connect 16 0 15 1;
 #X connect 17 0 4 0;
 #X connect 18 0 12 0;
-#X connect 19 0 20 1;
-#X connect 19 1 22 0;
-#X connect 20 0 10 0;
-#X connect 21 0 20 0;
-#X restore 850 572 pd save-parameters;
-#N canvas 529 43 789 730 recall-parameters 0;
+#X restore 798 417 pd save-parameters;
+#N canvas 529 43 956 631 recall-parameters 0;
 #X obj 45 569 outlet;
 #X obj 45 117 openpanel;
-#X obj 135 590 symbol;
-#X obj 447 230 makefilename notset;
-#X msg 447 188 set \$1;
-#X obj 447 134 f \$1;
-#X obj 328 252 pdcontrol;
-#X obj 328 310 makefilename notset;
-#X msg 447 254 set \$1;
-#X obj 447 164 makefilename %%%%s/caches/%d-%%d-cache.txt;
-#X obj 328 61 r player-\$1-algo-load-cache;
-#X obj 135 620 pack s \$1;
-#X msg 135 645 \; player-\$2-algo-params read \$1 \;;
-#X obj 328 87 t b f b;
+#X obj 111 433 symbol;
+#X obj 567 230 makefilename notset;
+#X msg 567 188 set \$1;
+#X obj 567 134 f \$1;
+#X obj 448 252 pdcontrol;
+#X obj 448 310 makefilename notset;
+#X msg 567 254 set \$1;
+#X obj 567 164 makefilename %%%%s/caches/%d-%%d-cache.txt;
+#X obj 448 61 r player-\$1-algo-load-cache;
+#X obj 111 463 pack s \$1;
+#X msg 111 488 \; player-\$2-algo-params read \$1 \;;
+#X obj 448 87 t b f b;
 #X obj 45 391 t b a;
 #X obj 68 277 r player-\$1-algo-refresh-params;
 #X obj 45 361 symbol;
@@ -264,7 +253,7 @@ layer of storage.;
 #X obj 45 43 r player-\$1-algo-load-params;
 #X obj 45 67 symbol;
 #X obj 168 195 makefilename %s/algo-presets;
-#X msg 328 219 dir 0 ../;
+#X msg 448 219 dir 0 ../;
 #X msg 168 138 dir 0 ../;
 #X connect 1 0 16 0;
 #X connect 2 0 11 0;
@@ -291,9 +280,8 @@ layer of storage.;
 #X connect 21 0 20 1;
 #X connect 22 0 6 0;
 #X connect 23 0 17 0;
-#X restore 850 602 pd recall-parameters;
-#N canvas 330 100 585 621 randomization 0;
-#X obj 423 17 inlet;
+#X restore 798 447 pd recall-parameters;
+#N canvas 330 100 866 621 randomization 0;
 #X obj 159 192 until;
 #X obj 186 238 f;
 #X obj 226 242 + 1;
@@ -303,7 +291,7 @@ layer of storage.;
 #X msg 126 101 10;
 #X obj 186 330 random;
 #X obj 126 125 t b f b;
-#X text 355 201 Fill the param table with 10 random values \, then
+#X text 266 124 Fill the param table with 10 random values \, then
 send a bang to the populate subpatch, f 19;
 #X obj 126 77 r player-\$1-algo-randomize;
 #X obj 186 387 tabwrite player-\$1-algo-params;
@@ -317,34 +305,56 @@ send a bang to the populate subpatch, f 19;
 #X msg 86 523 \; player-\$3-algo-param-\$2-set \$1 \;;
 #X msg 138 326 9;
 #X obj 126 372 - 1;
-#X connect 0 0 8 1;
+#X obj 561 216 until;
+#X obj 561 272 f;
+#X obj 601 276 + 1;
+#X msg 598 240 0;
+#X obj 575 169 t f b;
+#X msg 575 138 10;
+#X obj 603 33 r player-\$1-algo-param-range;
+#X obj 603 57 t b f;
+#X msg 561 352 \; player-\$2-algo-param-\$1-range-set \$3;
+#X obj 561 320 pack f \$1 f;
+#X connect 0 0 1 0;
 #X connect 1 0 2 0;
-#X connect 2 0 3 0;
-#X connect 2 0 5 0;
-#X connect 3 0 2 1;
-#X connect 4 0 2 1;
-#X connect 5 0 8 0;
-#X connect 5 1 12 1;
-#X connect 6 0 12 0;
-#X connect 7 0 9 0;
-#X connect 8 0 6 0;
-#X connect 9 0 17 0;
-#X connect 9 1 1 0;
-#X connect 9 2 4 0;
-#X connect 11 0 7 0;
+#X connect 1 0 4 0;
+#X connect 2 0 1 1;
+#X connect 3 0 1 1;
+#X connect 4 0 7 0;
+#X connect 4 1 11 1;
+#X connect 5 0 11 0;
+#X connect 6 0 8 0;
+#X connect 7 0 5 0;
+#X connect 8 0 16 0;
+#X connect 8 1 0 0;
+#X connect 8 2 3 0;
+#X connect 10 0 6 0;
+#X connect 12 0 13 0;
+#X connect 12 1 20 0;
 #X connect 13 0 14 0;
-#X connect 13 1 21 0;
 #X connect 14 0 15 0;
-#X connect 15 0 16 0;
-#X connect 15 0 22 0;
-#X connect 16 0 19 0;
-#X connect 16 1 18 1;
-#X connect 17 0 13 0;
-#X connect 18 0 20 0;
-#X connect 19 0 18 0;
-#X connect 21 0 15 1;
-#X connect 22 0 15 1;
-#X restore 801 413 pd randomization;
+#X connect 14 0 21 0;
+#X connect 15 0 18 0;
+#X connect 15 1 17 1;
+#X connect 16 0 12 0;
+#X connect 17 0 19 0;
+#X connect 18 0 17 0;
+#X connect 20 0 14 1;
+#X connect 21 0 14 1;
+#X connect 22 0 23 0;
+#X connect 23 0 24 0;
+#X connect 23 0 31 0;
+#X connect 24 0 23 1;
+#X connect 25 0 23 1;
+#X connect 26 0 22 0;
+#X connect 26 1 25 0;
+#X connect 27 0 26 0;
+#X connect 28 0 29 0;
+#X connect 29 0 27 0;
+#X connect 29 1 7 1;
+#X connect 29 1 31 2;
+#X connect 31 0 30 0;
+#X restore 798 387 pd randomization;
 #N canvas 999 90 566 667 keyboard-commands 0;
 #X obj 105 152 key;
 #X text 277 237 =: randomize all \; [ \, ]: load \, save \; 1/q/a:
@@ -600,8 +610,8 @@ success, f 33;
 #X connect 32 2 29 0;
 #X connect 33 0 28 0;
 #X connect 34 0 14 0;
-#X restore 503 228 pd init;
-#N canvas 251 329 1102 420 store-other-info 0;
+#X restore 503 48 pd init;
+#N canvas 200 552 1102 420 store-other-info 0;
 #X obj 75 137 t f b;
 #X msg 303 217 10;
 #X obj 75 103 r player-\$1-bitDepth;
@@ -629,7 +639,7 @@ upon init;
 #X connect 11 0 10 1;
 #X connect 12 0 9 0;
 #X restore 503 168 pd store-other-info;
-#X text 592 21 \$1: parent player ID number \;;
+#X text 109 35 \$1: parent player ID number \;;
 #X obj 503 108 table player-\$1-algo-params 14;
 #X obj 673 198 clone last-param-changed-abs 10 \$1;
 #X obj 673 488 tgl 15 0 player-\$1-load-params player-\$1-load-params-set
@@ -640,16 +650,16 @@ bit 17 7 0 10 -262144 -1 -1 0 1;
 time 17 7 0 10 -262144 -1 -1 0 1;
 #X obj 673 468 tgl 15 0 player-\$1-load-tempo player-\$1-load-tempo-set
 tempo 17 7 0 10 -262144 -1 -1 0 1;
-#X obj 109 588 param-changer \$1 0;
-#X obj 159 618 param-changer \$1 1;
-#X obj 209 648 param-changer \$1 2;
-#X obj 259 678 param-changer \$1 3;
-#X obj 459 678 param-changer \$1 7;
-#X obj 409 648 param-changer \$1 6;
-#X obj 359 618 param-changer \$1 5;
-#X obj 309 588 param-changer \$1 4;
-#X obj 509 588 param-changer \$1 8;
-#X obj 559 618 param-changer \$1 9;
+#X obj 110 112 param-changer \$1 0;
+#X obj 110 142 param-changer \$1 1;
+#X obj 110 172 param-changer \$1 2;
+#X obj 110 202 param-changer \$1 3;
+#X obj 310 172 param-changer \$1 7;
+#X obj 310 142 param-changer \$1 6;
+#X obj 310 112 param-changer \$1 5;
+#X obj 110 232 param-changer \$1 4;
+#X obj 310 202 param-changer \$1 8;
+#X obj 310 232 param-changer \$1 9;
 #X obj 723 408 bng 15 250 50 0 player-\$1-algo-refresh-params player-\$1-algo-refresh-params-set
 r 4 7 0 10 -262130 -1 -1;
 #X obj 109 402 cnv 15 37 18 empty player-\$1-algo-param-0-canvas-set
@@ -693,74 +703,9 @@ empty 20 12 0 14 -262144 -66577 0;
 #X floatatom 559 402 5 0 0 3 p9 player-#1-algo-param-9-set player-#1-algo-param-9
 ;
 #X obj 503 138 clone algo-param-writer 10 \$1;
-#X obj 801 443 s player-\$1-algo-param-range;
 #X obj 643 468 bng 15 250 50 0 player-\$1-algo-time-zero player-\$1-algo-time-zero-set
 0 4 8 0 10 -262144 -1 -1;
 #X obj 643 488 bng 15 250 50 0 player-\$1-algo-time-rand player-\$1-algo-time-rand-set
 r 4 8 0 10 -262144 -1 -1;
-#X obj 109 136 t b l;
-#X obj 109 112 r player-\$1-algo-settings;
-#X obj 159 165 list prepend 0;
-#X obj 159 189 s player-\$1-algo-params;
-#X obj 109 220 s player-\$1-algo-settings-received;
-#X text 107 44 For receiving all settings from [outputAlgo~] on the
-master side. Write the settings to the local param table \, and bang
-the "received" send, f 38;
-#X connect 3 0 47 0;
-#X connect 3 0 44 0;
-#X connect 3 0 40 0;
-#X connect 3 0 36 0;
-#X connect 3 0 32 0;
-#X connect 3 0 28 0;
-#X connect 3 0 20 0;
-#X connect 3 0 24 0;
-#X connect 3 0 16 0;
-#X connect 3 0 12 0;
-#X connect 3 0 7 0;
-#X connect 3 0 90 0;
-#X connect 4 0 58 1;
-#X connect 5 0 58 2;
-#X connect 6 0 58 0;
-#X connect 7 0 58 0;
-#X connect 9 0 59 1;
-#X connect 10 0 59 2;
-#X connect 11 0 59 0;
-#X connect 12 0 59 0;
-#X connect 13 0 60 1;
-#X connect 14 0 60 2;
-#X connect 15 0 60 0;
-#X connect 16 0 60 0;
-#X connect 17 0 61 1;
-#X connect 18 0 61 2;
-#X connect 19 0 61 0;
-#X connect 20 0 61 0;
-#X connect 21 0 65 1;
-#X connect 22 0 65 2;
-#X connect 23 0 65 0;
-#X connect 24 0 65 0;
-#X connect 25 0 64 1;
-#X connect 26 0 64 2;
-#X connect 27 0 64 0;
-#X connect 28 0 64 0;
-#X connect 29 0 63 1;
-#X connect 30 0 63 2;
-#X connect 31 0 63 0;
-#X connect 32 0 63 0;
-#X connect 33 0 62 1;
-#X connect 34 0 62 2;
-#X connect 35 0 62 0;
-#X connect 36 0 62 0;
-#X connect 37 0 66 1;
-#X connect 38 0 66 2;
-#X connect 39 0 66 0;
-#X connect 40 0 66 0;
-#X connect 41 0 67 1;
-#X connect 42 0 67 2;
-#X connect 43 0 67 0;
-#X connect 44 0 67 0;
 #X connect 46 0 8 0;
-#X connect 93 0 97 0;
-#X connect 93 1 95 0;
-#X connect 94 0 93 0;
-#X connect 95 0 96 0;
 #X coords 0 -1 1 1 650 170 1 100 350;

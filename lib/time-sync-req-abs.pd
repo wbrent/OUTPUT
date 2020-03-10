@@ -7,15 +7,10 @@ ID \;;
 #X obj 59 177 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
 #X obj 122 308 unpack f f;
-#X obj 202 365 s player-\$1-set-interp-mu;
+#X obj 212 365 s player-\$1-set-interp-mu;
 #X obj 162 405 s player-\$1-set-time-index-set;
 #X obj 122 488 s client-netsend-data-hub;
 #X obj 122 434 pack f \$1;
-#X msg 122 464 send \$1 player-\$2-set-time-index-set;
-#X text 414 430 Instead of setting the time index GUI control on the
-host side \, set it on the client side so that it's visible there.
-Hopefully the round trip to actually make the change on the host side
-is short enough that it doesn't matter.;
 #X obj 122 90 t b b;
 #X obj 122 244 list;
 #X obj 152 213 r player-\$2-time-index-and-mu;
@@ -23,15 +18,21 @@ is short enough that it doesn't matter.;
 \, but to a cold inlet where it terminates. The exception is this instance
 \, where the data stored in [list ] is banged through, f 32;
 #X obj 172 168 s player-\$2-get-time-index-and-mu;
+#X msg 122 464 send set \$1 player-\$2-set-time-index-set;
+#X text 428 350 Set the interp mu and time index GUI control on the
+master side immediately. Also use a non-triggering "set" message to
+update the GUI control on the client side so that it's visible there.
+;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
-#X connect 2 0 12 0;
+#X connect 2 0 10 0;
 #X connect 5 0 9 0;
+#X connect 5 0 7 0;
 #X connect 5 1 6 0;
-#X connect 9 0 10 0;
-#X connect 10 0 8 0;
-#X connect 12 0 4 0;
-#X connect 12 0 13 0;
-#X connect 12 1 16 0;
-#X connect 13 0 5 0;
-#X connect 14 0 13 1;
+#X connect 9 0 15 0;
+#X connect 10 0 4 0;
+#X connect 10 0 11 0;
+#X connect 10 1 14 0;
+#X connect 11 0 5 0;
+#X connect 12 0 11 1;
+#X connect 15 0 8 0;

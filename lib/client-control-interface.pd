@@ -37,11 +37,11 @@
 #X text 432 400 Just "set" this toggle on the master side so that it
 can be seen if other players are using ASR kbd, f 37;
 #X obj 57 373 netprep player-\$1-set-time-random;
-#X obj 435 525 netprep player-\$1-get-algo-settings;
 #X text 387 65 netprep player-\$1-current-time-index;
 #X obj 57 235 netprep player-\$1-dry-wet 1;
 #X text 387 85 netprep player-\$1-wet 1;
 #X text 367 45 NO LONGER NEEDED?:;
+#X obj 435 525 netprep player-\$1-save-preset;
 #X restore 20 201 pd netpreps;
 #N canvas 1214 498 583 462 algo-cache-stuff 0;
 #X msg 43 116 0;
