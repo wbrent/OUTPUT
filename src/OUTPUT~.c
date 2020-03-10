@@ -105,16 +105,13 @@ static void OUTPUT_tilde_getParamsPerAlgo(OUTPUT_tilde *x)
 	outlet_float(x->x_outletParamsPerAlgo, x->x_paramsPerAlgo[x->x_algoChoice]);
 }
 
-static void OUTPUT_tilde_setTimeIndex(OUTPUT_tilde *x, t_floatarg t)
+static void OUTPUT_tilde_setTimeIndex(OUTPUT_tilde *x, t_floatarg t, t_floatarg m)
 {
 	// keep bounded within 1 and UINT_MAX
 	t = (t<1)?1:t;
 	t = (t>UINT_MAX)?UINT_MAX:t;
 	x->x_t = t;
-}
 
-static void OUTPUT_tilde_setInterpMu(OUTPUT_tilde *x, t_floatarg m)
-{
 	// keep bounded within 0 and 1
 	m = (m<0)?0:m;
 	m = (m>1.0f)?1.0f:m;
@@ -205,6 +202,78 @@ static void OUTPUT_tilde_debug(OUTPUT_tilde *x, t_floatarg d)
 	x->x_debug = d;
 }
 
+static void OUTPUT_tilde_savePreset(OUTPUT_tilde *x, t_symbol *f)
+{
+	FILE *filePtr;
+    char fileNameBuf[MAXPDSTRING];
+    unsigned char i;
+
+    canvas_makefilename(x->x_canvas, f->s_name, fileNameBuf, MAXPDSTRING);
+
+	filePtr = fopen(fileNameBuf, "w");
+	
+    if(!filePtr)
+    {
+        pd_error(x, "%s: failed to create %s", x->x_objSymbol->s_name, fileNameBuf);
+        return;
+    }
+    
+    for(i=0; i<MAXALGOPARAMS; i++)
+    	fprintf(filePtr, "%u\n", x->x_params[i]);
+
+	fprintf(filePtr, "%0.6f\n", x->x_bitDepth);
+	fprintf(filePtr, "%0.6f\n", x->x_tempo);
+	fprintf(filePtr, "%u\n", x->x_t);
+	fprintf(filePtr, "%u\n", x->x_algoChoice);
+
+    fclose(filePtr);
+}
+
+static void OUTPUT_tilde_loadPreset(OUTPUT_tilde *x, t_symbol *f)
+{
+	FILE *filePtr;
+    char fileNameBuf[MAXPDSTRING];
+    t_float bitDepth, tempo;
+    unsigned int t, algo, params[MAXALGOPARAMS];
+    unsigned char i;
+    
+    canvas_makefilename(x->x_canvas, f->s_name, fileNameBuf, MAXPDSTRING);
+
+    filePtr = fopen(fileNameBuf, "r");
+
+    if (!filePtr)
+    {
+        pd_error(x, "%s: failed to open %s", x->x_objSymbol->s_name, fileNameBuf);
+        return;
+    }
+    
+    for(i=0; i<MAXALGOPARAMS; i++)
+    	fscanf(filePtr, "%u", (params)+i);
+    
+    fscanf(filePtr, "%f", &bitDepth);
+    fscanf(filePtr, "%f", &tempo);
+    fscanf(filePtr, "%u", &t);
+    fscanf(filePtr, "%u", &algo);
+
+	// assign the values to the object dataspace
+	for(i=0; i<MAXALGOPARAMS; i++)
+	{
+		unsigned int p;
+		p = params[i];
+		p = (p<1)?1:p;
+		p = (p>UINT_MAX)?UINT_MAX:p;		
+		x->x_params[i] = p;
+	}
+
+	// use existing functions for remaining assignments since they have safety checks
+	OUTPUT_tilde_bitDepth(x, bitDepth);
+	OUTPUT_tilde_tempo(x, tempo);
+	OUTPUT_tilde_setTimeIndex(x, t, 0); // set mu to 0
+	OUTPUT_tilde_algoChoice(x, algo);
+
+    fclose(filePtr);
+}
+
 static void *OUTPUT_tilde_new(t_symbol *s, int argc, t_atom *argv)
 {
     OUTPUT_tilde *x = (OUTPUT_tilde *)pd_new(OUTPUT_tilde_class);
@@ -247,11 +316,15 @@ static void *OUTPUT_tilde_new(t_symbol *s, int argc, t_atom *argv)
 	
 	OUTPUT_tilde_parameters(x, s, argc, argv);
 	
+	// copy the global const array contents to arrays within our object dataspace
 	memcpy(x->x_paramsPerAlgo, paramsPerAlgo, sizeof(paramsPerAlgo));
+	memcpy(x->x_array36364689, array36364689, sizeof(array36364689));
 	
 	// seed randomness via current time
 	srand(time(0));
-	
+
+    x->x_canvas = canvas_getcurrent();
+		
     return(x);
 }
 
@@ -412,7 +485,7 @@ static void OUTPUT_tilde_free(OUTPUT_tilde *x)
 
 
 void OUTPUT_tilde_setup(void)
-{
+{		
     OUTPUT_tilde_class = 
     class_new(
     	gensym("OUTPUT~"),
@@ -423,15 +496,7 @@ void OUTPUT_tilde_setup(void)
         A_GIMME,
 		0
     );
-
-	// strangely, deleting this changes the output of algorithms involving the 36364689 char array! keeping it for that reason
-	class_addcreator(
-		(t_newmethod)OUTPUT_tilde_new,
-		gensym("output/OUTPUT~"),
-		A_GIMME,
-		0
-	);
-
+	
 	class_addmethod(
 		OUTPUT_tilde_class,
 		(t_method)OUTPUT_tilde_print,
@@ -452,7 +517,7 @@ void OUTPUT_tilde_setup(void)
 		gensym("getTimeIndex"),
 		0
 	);
-
+	
 	class_addmethod(
 		OUTPUT_tilde_class,
 		(t_method)OUTPUT_tilde_getParamsPerAlgo,
@@ -465,13 +530,6 @@ void OUTPUT_tilde_setup(void)
 		(t_method)OUTPUT_tilde_setTimeIndex,
 		gensym("setTimeIndex"),
 		A_DEFFLOAT,
-		0
-	);
-
-	class_addmethod(
-		OUTPUT_tilde_class,
-		(t_method)OUTPUT_tilde_setInterpMu,
-		gensym("setInterpMu"),
 		A_DEFFLOAT,
 		0
 	);
@@ -539,6 +597,23 @@ void OUTPUT_tilde_setup(void)
 		0
 	);
 
+	// it looks like changing the number of class_addmethod() function calls here in _setup() changes the output of algorithms involving the 36364689 char array as well. even their ORDER listed here changes it. additional code elsewhere (like the _loadPreset function definition) don't seem to affect this. nor does additional memory (even large amounts!) declared in the object's data struct. it is only within the _setup() function. it would be excellent to figure out how this works, and perhaps find a way to work toward a modulo value other than 256 for the index into the char array (which invokes undefined behavior since the max index should be 7). the two issues may be interrelated
+	class_addmethod(
+		OUTPUT_tilde_class,
+		(t_method)OUTPUT_tilde_loadPreset,
+		gensym("load"),
+		A_DEFSYMBOL,
+		0
+	);
+
+	class_addmethod(
+		OUTPUT_tilde_class,
+		(t_method)OUTPUT_tilde_savePreset,
+		gensym("save"),
+		A_DEFSYMBOL,
+		0
+	);
+	
     class_addmethod(
     	OUTPUT_tilde_class,
     	(t_method)OUTPUT_tilde_dsp,

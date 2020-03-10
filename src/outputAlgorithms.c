@@ -116,7 +116,7 @@ static unsigned long int OUTPUT_tilde_getSample(OUTPUT_tilde *x)
 			// although array "36364689" has eight characters and we expect mod 8 to produce the same result as before debugging, it doesn't. modding by 256, which produces indices greater than 7 leads to undefined behavior when used to index the 8-element char array. yet, no crash seems to happen. 
 			idx36364689 %= 256;
 			
-			thisSample = ((int)((t*("36364689"[idx36364689]&p2))/(float)p3)&p4);
+			thisSample = ((int)((t*(array36364689[idx36364689]&p2))/(float)p3)&p4);
 			break;
 		case 28:
 			thisSample = (t>>p0)|(t>>p1)|(int)(((t%p2)*(t>>p3)|(0x15483113)-(t>>p4))/(float)((t>>p5)^(t|(t>>p6))));
@@ -206,7 +206,7 @@ static unsigned long int OUTPUT_tilde_getSample(OUTPUT_tilde *x)
 			// although array "36364689" has eight characters and we expect mod 8 to produce the same result as before debugging, it doesn't. modding by 256, which produces indices greater than 7 leads to undefined behavior when used to index the 8-element char array. yet, no crash seems to happen. 
 			idx36364689 %= 256;
 			
-			thisSample = ((int)((t*("36364689"[idx36364689]&p2))/(float)p3)&128)+(((int)((((t>>p4)^(t>>p5)-p6)%p7*t)/(float)p8)|t>>p9)&127);
+			thisSample = ((int)((t*(array36364689[idx36364689]&p2))/(float)p3)&128)+(((int)((((t>>p4)^(t>>p5)-p6)%p7*t)/(float)p8)|t>>p9)&127);
 			break;
 		case 56:
 			thisSample = ((t*p0&t>>p1)|(t*p2&t>>p3)|(t*p4&(int)(t/(float)p5)))-p6;
@@ -222,7 +222,7 @@ static unsigned long int OUTPUT_tilde_getSample(OUTPUT_tilde *x)
 			// although array "36364689" has eight characters and we expect mod 8 to produce the same result as before debugging, it doesn't. modding by 256, which produces indices greater than 7 leads to undefined behavior when used to index the 8-element char array. yet, no crash seems to happen. 
 			idx36364689 %= 256;
 			
-			thisSample = ((int)(t*(("36364689"[idx36364689]&p2))/(float)p3)&p4)+(((int)((((t>>p5)^(t>>p6)-p7)%p8*t)/(float)4)|t>>p9)&127);
+			thisSample = ((int)(t*((array36364689[idx36364689]&p2))/(float)p3)&p4)+(((int)((((t>>p5)^(t>>p6)-p7)%p8*t)/(float)4)|t>>p9)&127);
 			break;
 		case 59:
 			thisSample = t*(t^t+(t>>p0|p1)^(t-p2^t)>>p3);
