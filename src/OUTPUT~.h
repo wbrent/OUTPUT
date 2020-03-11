@@ -4,7 +4,6 @@
 #include <limits.h>
 #include <stdlib.h> // for rand()
 #include <string.h> // for memcpy()
-#include <time.h> // to get time for random seeding
 #define EXTRAPOINTS 8 // after careful testing, 8 guard points seems safe
 #define MAXALGOPARAMS 10
 #define NUMALGOS 113
@@ -13,6 +12,7 @@
 #define MAXBITDEPTH 32
 #define NUMALGOSETTINGS 14 // 10 params, bit-depth, tempo, time, algo
 #define ARRAY36364689SIZE 256
+#define OUTPUTVERSION "0.8.1"
 
 static const unsigned int paramsPerAlgo[NUMALGOS] =
 {

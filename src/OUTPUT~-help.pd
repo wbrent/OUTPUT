@@ -1,4 +1,4 @@
-#N canvas 224 177 733 733 12;
+#N canvas 193 211 733 733 12;
 #X obj 282 440 bng 15 250 50 0 empty empty time-wraparound 17 7 0 12
 -262144 -1 -1;
 #X floatatom 201 645 20 1 32 1 t - -;
@@ -29,27 +29,32 @@
 #X connect 10 0 3 0;
 #X coords 0 -1 1 1 85 45 1 100 100;
 #X restore 54 646 pd volume;
-#N canvas 790 529 716 452 current-settings 0;
-#X obj 51 32 inlet;
-#X obj 51 56 list split 10;
-#X obj 51 270 unpack f f f f f f f f f f;
-#X floatatom 51 358 5 0 0 0 - - -;
-#X floatatom 101 358 5 0 0 0 - - -;
-#X floatatom 151 358 5 0 0 0 - - -;
-#X floatatom 201 358 5 0 0 0 - - -;
-#X floatatom 251 358 5 0 0 0 - - -;
-#X floatatom 301 358 5 0 0 0 - - -;
-#X floatatom 351 358 5 0 0 0 - - -;
-#X floatatom 401 358 5 0 0 0 - - -;
-#X floatatom 451 358 5 0 0 0 - - -;
-#X floatatom 501 358 5 0 0 0 - - -;
-#X text 48 393 Parameters 0 - 9;
-#X obj 139 117 unpack f f f f;
-#X floatatom 139 181 5 0 0 3 bit-depth - -;
-#X floatatom 229 181 5 0 0 3 tempo - -;
-#X floatatom 319 181 15 0 0 3 time - -;
-#X floatatom 489 181 5 0 0 3 algorithm - -;
+#N canvas 790 431 716 550 current-settings 0;
+#X obj 51 42 inlet;
+#X obj 51 136 list split 10;
+#X obj 51 350 unpack f f f f f f f f f f;
+#X floatatom 51 438 5 0 0 0 - - -;
+#X floatatom 101 438 5 0 0 0 - - -;
+#X floatatom 151 438 5 0 0 0 - - -;
+#X floatatom 201 438 5 0 0 0 - - -;
+#X floatatom 251 438 5 0 0 0 - - -;
+#X floatatom 301 438 5 0 0 0 - - -;
+#X floatatom 351 438 5 0 0 0 - - -;
+#X floatatom 401 438 5 0 0 0 - - -;
+#X floatatom 451 438 5 0 0 0 - - -;
+#X floatatom 501 438 5 0 0 0 - - -;
+#X text 48 473 Parameters 0 - 9;
+#X obj 139 197 unpack f f f f;
+#X floatatom 139 261 5 0 0 3 bit-depth - -;
+#X floatatom 229 261 5 0 0 3 tempo - -;
+#X floatatom 319 261 15 0 0 3 time - -;
+#X floatatom 489 261 5 0 0 3 algorithm - -;
+#X obj 217 110 s \$0-output-current-settings;
+#X text 245 50 Send settings out so that GUI controls can be updated
+to [OUTPUT~]'s current internal state after loading a preset., f 45
+;
 #X connect 0 0 1 0;
+#X connect 0 0 19 0;
 #X connect 1 0 2 0;
 #X connect 1 1 14 0;
 #X connect 2 0 3 0;
@@ -67,39 +72,54 @@
 #X connect 14 2 17 0;
 #X connect 14 3 18 0;
 #X restore 289 490 pd current-settings;
-#N canvas 719 73 811 435 set-parameters 0;
-#X floatatom 110 119 5 1 16384 0 - - -;
-#X floatatom 160 119 5 1 16384 0 - - -;
-#X obj 160 202 t b f;
-#X floatatom 210 119 5 1 16384 0 - - -;
-#X obj 210 202 t b f;
-#X floatatom 260 119 5 1 16384 0 - - -;
-#X obj 260 202 t b f;
+#N canvas 237 72 1383 550 set-parameters 0;
+#X floatatom 110 229 5 1 16384 0 - - -;
+#X floatatom 160 229 5 1 16384 0 - - -;
+#X obj 160 312 t b f;
+#X floatatom 210 229 5 1 16384 0 - - -;
+#X obj 210 312 t b f;
+#X floatatom 260 229 5 1 16384 0 - - -;
+#X obj 260 312 t b f;
 #X obj 110 13 loadbang;
-#X floatatom 310 119 5 1 16384 0 - - -;
-#X obj 310 202 t b f;
-#X floatatom 360 119 5 1 16384 0 - - -;
-#X obj 360 202 t b f;
+#X floatatom 310 229 5 1 16384 0 - - -;
+#X obj 310 312 t b f;
+#X floatatom 360 229 5 1 16384 0 - - -;
+#X obj 360 312 t b f;
 #X obj 110 74 unpack f f f f f f f f f f;
-#X floatatom 410 119 5 1 16384 0 - - -;
-#X obj 410 202 t b f;
-#X floatatom 460 119 5 1 16384 0 - - -;
-#X obj 460 202 t b f;
-#X floatatom 510 119 5 1 16384 0 - - -;
-#X obj 510 202 t b f;
-#X floatatom 560 119 5 1 16384 0 - - -;
-#X obj 560 202 t b f;
-#X obj 110 286 list prepend parameters;
-#X obj 110 310 list trim;
-#X obj 110 262 pack f f f f f f f f f f;
-#X obj 110 334 outlet;
-#X text 311 280 Send a list of all 10 parameters via the "parameters"
+#X floatatom 410 229 5 1 16384 0 - - -;
+#X obj 410 312 t b f;
+#X floatatom 460 229 5 1 16384 0 - - -;
+#X obj 460 312 t b f;
+#X floatatom 510 229 5 1 16384 0 - - -;
+#X obj 510 312 t b f;
+#X floatatom 560 229 5 1 16384 0 - - -;
+#X obj 560 312 t b f;
+#X obj 110 396 list prepend parameters;
+#X obj 110 420 list trim;
+#X obj 110 372 pack f f f f f f f f f f;
+#X obj 110 444 outlet;
+#X text 311 390 Send a list of all 10 parameters via the "parameters"
 message. Values should be between 1 and UINT_MAX. Note that the number
 of parameters in a given algorithm varies between one and ten. When
 the "algoChoice" message is received \, the object will automatically
 report the number of parameters for the chosen algorithm at the 3rd
 outlet. The "getParamsPerAlgo" will also produce this output.;
 #X msg 110 42 802 2912 3280 2145 3437 768 430 860 1909 760;
+#X msg 630 141 set \$1;
+#X msg 700 141 set \$1;
+#X msg 770 141 set \$1;
+#X obj 630 57 list split 10;
+#X obj 630 88 unpack f f f f f f f f f f;
+#X msg 840 141 set \$1;
+#X msg 910 141 set \$1;
+#X msg 980 141 set \$1;
+#X msg 1050 141 set \$1;
+#X msg 1120 141 set \$1;
+#X msg 1190 141 set \$1;
+#X msg 1260 141 set \$1;
+#X text 887 49 Update the GUI controls here if a preset is loaded,
+f 32;
+#X obj 630 33 r \$0-output-current-settings;
 #X connect 0 0 23 0;
 #X connect 1 0 2 0;
 #X connect 2 0 23 0;
@@ -143,13 +163,34 @@ outlet. The "getParamsPerAlgo" will also produce this output.;
 #X connect 22 0 24 0;
 #X connect 23 0 21 0;
 #X connect 26 0 12 0;
-#X coords 0 -1 1 1 510 45 1 100 100;
+#X connect 27 0 0 0;
+#X connect 28 0 1 0;
+#X connect 29 0 3 0;
+#X connect 30 0 31 0;
+#X connect 31 0 27 0;
+#X connect 31 1 28 0;
+#X connect 31 2 29 0;
+#X connect 31 3 32 0;
+#X connect 31 4 33 0;
+#X connect 31 5 34 0;
+#X connect 31 6 35 0;
+#X connect 31 7 36 0;
+#X connect 31 8 37 0;
+#X connect 31 9 38 0;
+#X connect 32 0 5 0;
+#X connect 33 0 8 0;
+#X connect 34 0 10 0;
+#X connect 35 0 13 0;
+#X connect 36 0 15 0;
+#X connect 37 0 17 0;
+#X connect 38 0 19 0;
+#X connect 40 0 30 0;
+#X coords 0 -1 1 1 510 45 1 100 210;
 #X restore 120 170 pd set-parameters;
 #N canvas 670 90 861 471 get-and-set-time 0;
 #X msg 159 113 0;
 #X msg 100 36 getTimeIndex;
 #X msg 222 174 742816;
-#X msg 182 145 1.00547e+06;
 #X obj 100 396 outlet;
 #X msg 289 350 setTimeRand;
 #X text 211 31 Poll the object to get the current time index and interpolation
@@ -178,41 +219,58 @@ are more tightly in sync., f 61;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
 #X restore 249 232 pd minutes-to-samples;
-#X connect 0 0 8 0;
-#X connect 1 0 4 0;
-#X connect 2 0 8 0;
-#X connect 3 0 8 0;
-#X connect 5 0 4 0;
-#X connect 8 0 4 0;
-#X connect 10 0 11 0;
-#X connect 11 0 8 0;
+#X msg 182 145 1.37833e+08;
+#X connect 0 0 7 0;
+#X connect 1 0 3 0;
+#X connect 2 0 7 0;
+#X connect 4 0 3 0;
+#X connect 7 0 3 0;
+#X connect 9 0 10 0;
+#X connect 10 0 7 0;
+#X connect 11 0 7 0;
 #X restore 150 230 pd get-and-set-time;
-#N canvas 895 120 554 474 main-settings 0;
-#X floatatom 70 165 5 1 240 1 tempo - -;
+#N canvas 754 102 727 534 main-settings 0;
+#X floatatom 70 225 5 1 240 1 tempo - -;
 #X floatatom 70 195 5 1 32 1 bit-depth - -;
-#X msg 270 282 algoChoice \$1;
+#X msg 270 342 algoChoice \$1;
 #X obj 130 24 loadbang;
-#X obj 70 406 outlet;
-#X floatatom 70 135 5 0 112 1 algorithm - -;
-#X obj 130 77 unpack f f f;
-#X msg 70 282 bitDepth \$1;
-#X msg 170 282 tempo \$1;
-#X text 241 126 Change the active algorithm (0-112) \, tempo (1-240)
+#X obj 70 466 outlet;
+#X floatatom 70 255 5 0 112 1 algorithm - -;
+#X msg 70 342 bitDepth \$1;
+#X msg 170 342 tempo \$1;
+#X text 241 186 Change the active algorithm (0-112) \, tempo (1-240)
 \, and bit-depth (1-32) via the "algoChoice" \, "tempo" \, and "bitDepth"
 messages, f 37;
-#X msg 130 53 22 30 14;
-#X connect 0 0 8 0;
-#X connect 1 0 7 0;
+#X msg 320 102 set \$1;
+#X msg 390 102 set \$1;
+#X msg 460 102 set \$1;
+#X obj 320 48 list split 10;
+#X text 462 54 Update the GUI controls here if a preset is loaded,
+f 32;
+#X obj 320 24 r \$0-output-current-settings;
+#X obj 320 78 unpack f f f f;
+#X msg 130 53 14 30 22;
+#X obj 130 77 unpack f f f;
+#X connect 0 0 7 0;
+#X connect 1 0 6 0;
 #X connect 2 0 4 0;
-#X connect 3 0 10 0;
+#X connect 3 0 16 0;
 #X connect 5 0 2 0;
-#X connect 6 0 5 0;
-#X connect 6 1 0 0;
-#X connect 6 2 1 0;
+#X connect 6 0 4 0;
 #X connect 7 0 4 0;
-#X connect 8 0 4 0;
-#X connect 10 0 6 0;
-#X coords 0 -1 1 1 125 110 1 65 110;
+#X connect 9 0 1 0;
+#X connect 10 0 0 0;
+#X connect 11 0 5 0;
+#X connect 12 1 15 0;
+#X connect 14 0 12 0;
+#X connect 15 0 9 0;
+#X connect 15 1 10 0;
+#X connect 15 3 11 0;
+#X connect 16 0 17 0;
+#X connect 17 0 1 0;
+#X connect 17 1 0 0;
+#X connect 17 2 5 0;
+#X coords 0 -1 1 1 125 110 1 65 170;
 #X restore 54 43 pd main-settings;
 #X obj 54 598 hip~ 3;
 #N canvas 0 23 450 300 plotting 0;
@@ -258,19 +316,34 @@ control is available using the unsigned int data type for an algorithm's
 time variable and associated parameters. Different interpolation methods
 can also be explored \, and the code can run more efficiently as an
 external., f 69;
-#N canvas 804 350 872 380 presets 0;
-#X obj 80 316 outlet;
-#X text 325 93 Save preset files containing the 10 parameters \, bit
+#N canvas 602 222 872 421 presets 0;
+#X obj 80 356 outlet;
+#X msg 200 244 load preset77.txt;
+#X msg 156 100 save;
+#X text 255 133 If you omit the file name with a save message \, [OUTPUT~]
+will generate a unique file name based on the current logical time.
+, f 47;
+#X msg 240 304 getAlgoSettings;
+#X text 255 23 Save preset files containing the 10 parameters \, bit
 depth \, tempo \, time index \, and algorithm used to generate the
 current output signal. This is the same information that is reported
 from the 4th outlet in response to an "getAlgoSettings" message. Preset
-files are saved as plain text file so they can be easily edited. The
-file loading message expects plain text files containing information
-in the same format.;
-#X msg 80 44 load preset77.txt;
-#X msg 150 144 save preset78.txt;
+files are saved as plain text file so they can be easily edited.;
+#X text 381 212 The file loading message expects plain text files containing
+information in the same format. After you have loaded a preset \, you
+can get [OUTPUT~]'s internal settings via a "getAlgoSettings" message
+\, and use the list coming out of the 4th outlet to populate your GUI
+controls via "set" messages. This keeps your GUI controls in sync with
+loaded preset data.;
+#X msg 220 274 load preset78.txt;
+#X msg 180 214 load preset76.txt;
+#X msg 80 44 save preset79.txt;
+#X connect 1 0 0 0;
 #X connect 2 0 0 0;
-#X connect 3 0 0 0;
+#X connect 4 0 0 0;
+#X connect 7 0 0 0;
+#X connect 8 0 0 0;
+#X connect 9 0 0 0;
 #X restore 210 290 pd presets;
 #X text 371 363 NOTE: because the raw output of bytebeat algorithms
 can have intense DC offsets \, a high-pass filter is recommended.,

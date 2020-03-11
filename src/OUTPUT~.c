@@ -10,7 +10,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-version 0.8, March 9, 2020
+version 0.8.1, March 11, 2020
 
 */
 
@@ -206,9 +206,19 @@ static void OUTPUT_tilde_savePreset(OUTPUT_tilde *x, t_symbol *f)
 {
 	FILE *filePtr;
     char fileNameBuf[MAXPDSTRING];
+	char altFileNameBuf[MAXPDSTRING];
     unsigned char i;
+    t_symbol *fileSymbol;
 
-    canvas_makefilename(x->x_canvas, f->s_name, fileNameBuf, MAXPDSTRING);
+	if(!strcmp(f->s_name, ""))
+	{		
+		sprintf(altFileNameBuf, "preset-%f.txt",  clock_getlogicaltime());
+		fileSymbol = gensym(altFileNameBuf);
+	}
+	else
+		fileSymbol = f;
+
+    canvas_makefilename(x->x_canvas, fileSymbol->s_name, fileNameBuf, MAXPDSTRING);
 
 	filePtr = fopen(fileNameBuf, "w");
 	
@@ -321,10 +331,12 @@ static void *OUTPUT_tilde_new(t_symbol *s, int argc, t_atom *argv)
 	memcpy(x->x_array36364689, array36364689, sizeof(array36364689));
 	
 	// seed randomness via current time
-	srand(time(0));
+	srand(clock_getlogicaltime());
 
     x->x_canvas = canvas_getcurrent();
-		
+
+	post("%s version %s", x->x_objSymbol->s_name, OUTPUTVERSION);
+
     return(x);
 }
 

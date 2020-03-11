@@ -15,13 +15,13 @@ player-#1-rvb-liveness;
 ;
 #X floatatom 296 194 7 1 240 1 tempo player-#1-tempo-set player-#1-tempo
 ;
-#X obj 65 174 tgl 15 0 player-\$1-compute player-\$1-compute-set comp
+#X obj 296 124 tgl 15 0 player-\$1-compute player-\$1-compute-set comp
 17 7 0 10 -262144 -1 -1 0 1;
 #X obj 191 174 hradio 15 1 0 6 player-\$1-tempo-sync player-\$1-tempo-sync-set
 tempoSync 16 8 0 10 -262144 -1 -1 4;
 #X obj 191 194 hradio 15 1 0 6 player-\$1-time-sync player-\$1-time-sync-set
 timeSync 16 8 0 10 -262144 -1 -1 0;
-#X obj 125 174 tgl 15 0 player-\$1-interpolation player-\$1-interpolation-set
+#X obj 346 124 tgl 15 0 player-\$1-interpolation player-\$1-interpolation-set
 intrp 17 7 0 10 -262144 -1 -1 0 1;
 #X floatatom 65 194 15 0 0 1 t player-#1-set-time-index-set player-#1-set-time-index
 ;
@@ -87,30 +87,17 @@ on the keyboard., f 23;
 player-#1-algo-select;
 #X obj 296 154 tgl 15 0 player-\$1-asr-kbd player-\$1-asr-kbd-set ASR-kbd
 17 7 0 10 -262144 -1 -1 0 1;
-#X obj 178 176 vsl 8 30 0 127 0 0 player-\$1-time-point player-\$1-time-point-set
-t 1 15 0 10 -262144 -1 -1 0 1;
 #N canvas 897 125 427 283 time-control 0;
-#X obj 67 136 * 60;
-#X obj 67 157 * 60;
-#X obj 67 178 * 44100;
-#X obj 67 96 + 0.5;
-#X obj 67 117 i;
-#X obj 67 199 change;
-#X text 118 77 Hour 0-27 \, integers only \, sets time, f 21;
 #X obj 67 220 s player-\$1-set-time-index-set;
 #X obj 67 15 r player-\$1-time-point;
-#X text 225 14 0-127 for MIDI control;
-#X obj 67 36 / 127;
-#X obj 67 77 * 27;
-#X connect 0 0 1 0;
+#X obj 67 98 * 60;
+#X obj 67 137 * 44100;
+#X text 163 95 seconds;
+#X text 163 135 samples;
+#X text 225 14 0-1623;
 #X connect 1 0 2 0;
-#X connect 2 0 5 0;
-#X connect 3 0 4 0;
-#X connect 4 0 0 0;
-#X connect 5 0 7 0;
-#X connect 8 0 10 0;
-#X connect 10 0 11 0;
-#X connect 11 0 3 0;
+#X connect 2 0 3 0;
+#X connect 3 0 0 0;
 #X restore 437 98 pd time-control;
 #N canvas 740 452 597 382 spat-LFO-control 0;
 #X text 484 232 stopped;
@@ -186,7 +173,9 @@ player-\$1-rvb-xover-set 3000 \; player-\$1-rvb-damping-set 30 \; player-\$1-spa
 \; player-\$1-compute-set 1 \; player-\$1-interpolation-set 1 \; player-\$1-algo-select-set
 0 \; player-\$1-tempo-set 30 \; player-\$1-pitch-bend-display 0 \;
 player-\$1-kbd-control-set 0 \; player-\$1-asr-kbd-set 0 \;;
-#X connect 0 0 39 0;
+#X floatatom 65 174 7 0 1623 1 minutes player-#1-time-point-set player-#1-time-point
+;
+#X connect 0 0 38 0;
 #X connect 1 0 19 0;
 #X connect 2 0 1 0;
 #X connect 15 0 0 0;
