@@ -33,14 +33,9 @@ static double OUTPUT_tilde_cubicInterpolate(double y0, double y1, double y2, dou
 static void OUTPUT_tilde_print(OUTPUT_tilde *x)
 {
 	int i;
-	
-	post("%s: tempo: %0.2f", x->x_objSymbol->s_name, x->x_tempo);
-	post("%s: tempoFactor: %0.6f", x->x_objSymbol->s_name, x->x_incr);
-	post("%s: bitDepth: %0.6f", x->x_objSymbol->s_name, x->x_bitDepth);
-	post("%s: interpolation: %u", x->x_objSymbol->s_name, x->x_interpSwitch);
-	
-	post("%s: algo choice: %u", x->x_objSymbol->s_name, x->x_algoChoice);
-	
+
+	post("%s version %s", x->x_objSymbol->s_name, OUTPUTVERSION);
+	post("%s: number of algorithms: %u", x->x_objSymbol->s_name, NUMALGOS);
 	startpost("%s: params: [", x->x_objSymbol->s_name);
 	
 	for(i=0; i<MAXALGOPARAMS-1; i++)
@@ -48,10 +43,14 @@ static void OUTPUT_tilde_print(OUTPUT_tilde *x)
 	
 	startpost("%u]", x->x_params[MAXALGOPARAMS-1]);
 	endpost();
-
+		
+	post("%s: paramsPerAlgo: %u", x->x_objSymbol->s_name, x->x_paramsPerAlgo[x->x_algoChoice]);
+	post("%s: bitDepth: %0.6f", x->x_objSymbol->s_name, x->x_bitDepth);
+	post("%s: tempo: %0.2f", x->x_objSymbol->s_name, x->x_tempo);
+	post("%s: tempoFactor: %0.6f", x->x_objSymbol->s_name, x->x_incr);
+	post("%s: algo choice: %u", x->x_objSymbol->s_name, x->x_algoChoice);
 	post("%s: t: %u", x->x_objSymbol->s_name, x->x_t);
-	
-	post("");
+	post("%s: interpolation: %u", x->x_objSymbol->s_name, x->x_interpSwitch);
 	post("%s: sampling rate: %i", x->x_objSymbol->s_name, (int)x->x_sr);
 	post("%s: block size: %i", x->x_objSymbol->s_name, (int)x->x_n);
 	post("");
@@ -71,6 +70,7 @@ static void OUTPUT_tilde_getAlgoSettings(OUTPUT_tilde *x)
 	SETFLOAT(listOut+11, x->x_tempo);
 	SETFLOAT(listOut+12, x->x_tBlockEnd);
 	SETFLOAT(listOut+13, x->x_algoChoice);
+	SETFLOAT(listOut+14, NUMALGOS);
 
 	outlet_list(x->x_outletAlgoSettings, 0, NUMALGOSETTINGS, listOut);
 	
@@ -110,7 +110,7 @@ static void OUTPUT_tilde_setTimeIndex(OUTPUT_tilde *x, t_floatarg t, t_floatarg 
 	// keep bounded within 1 and UINT_MAX
 	t = (t<1)?1:t;
 	t = (t>UINT_MAX)?UINT_MAX:t;
-	x->x_t = t;
+	x->x_t = t; // best to set x->x_t directly, because x->x_tBlockStart grabs that at the beginning of the next block
 
 	// keep bounded within 0 and 1
 	m = (m<0)?0:m;
@@ -125,7 +125,7 @@ static void OUTPUT_tilde_setTimeRand(OUTPUT_tilde *x)
 	randDoubleFloat = rand()/(double)RAND_MAX;
 
 	// note: on this machine, UINT_MAX is twice the size of RAND_MAX
-	x->x_t = floor(randDoubleFloat * UINT_MAX);
+	x->x_t = floor(randDoubleFloat * UINT_MAX); // best to set x->x_t directly, because x->x_tBlockStart grabs that at the beginning of the next block
 }
 
 static void OUTPUT_tilde_interpSwitch(OUTPUT_tilde *x, t_floatarg i)
@@ -349,8 +349,8 @@ static t_int *OUTPUT_tilde_perform(t_int *w)
     t_sample *out = (t_float *)(w[2]);
     n = w[3];
 	
-	// the rough number of algo samples to compute (m) is the blocksize (n) scaled by the tempo factor (increment). we round to make sure we generate more than needed
-	m = round(n*x->x_incr);
+	// the rough number of algo samples to compute (m) is the blocksize (n) scaled by the tempo factor (increment). we take the ceiling to make sure we generate more than needed
+	m = ceil(n*x->x_incr);
 	
 	// note the current time index at the start of the block
 	x->x_tBlockStart = x->x_t;
@@ -430,7 +430,7 @@ static t_int *OUTPUT_tilde_perform(t_int *w)
 		// at this point, if we take floor of x_sampIdx - 1, we know how many samples we have moved through in the interpolation loop of n samples above. this is how much we should move forward in time, and this is also the sample in the signal buffer we should move to the head (index 0) of the next signal block.
 		hop = floor(x->x_sampIdx - 1.0);
 
-		// store the final sample of the algo signal block to index 0 of the signal buffer for next time. since we generated extra samples past the m samples we actually want to hear, we need to rewind the time index. the time index for next block should be m samples past the time index from the start of this block. remember to wrap at UINT_MAX as our maximum time index.
+		// store the final sample of the algo signal block to index 0 of the signal buffer for next time. since we generated extra samples past the m samples we actually want to hear, we need to rewind the time index. the time index for next block should be hop samples past the time index from the start of this block. remember to wrap at UINT_MAX as our maximum time index.
 		x->x_signalBuffer[0] = x->x_signalBuffer[hop];
 		x->x_t = (x->x_tBlockStart+hop) % UINT_MAX;
 		x->x_tBlockEnd = x->x_t;

@@ -488,7 +488,7 @@ echodel-B phaser-A pitch-shift-A pulser-A ring-mod-A sr-decimator-A
 #X msg 18 221 \; pd-direct-outs vis 1 \;;
 #X obj 18 121 bng 15 250 50 0 drfx-matrix empty DRFX-matrix 17 7 0
 10 -262144 -1 -1;
-#N canvas 1100 97 457 386 client-init 0;
+#N canvas 1100 97 580 374 client-init 0;
 #X obj 71 34 r lb1;
 #X msg 71 58 \; netprep-init bang \;;
 #X text 37 124 This initializes all of the netprep parameter names
@@ -613,44 +613,33 @@ to have -set appended, f 27;
 so that 102/103 will always be accessible on controller as player A/B
 gains and mutes, f 33;
 #X obj 288 54 r lb1;
-#X msg 288 83 \; num-algos 113 \;;
+#X obj 288 115 OUTPUT~;
+#X obj 340 149 list split 14;
+#X obj 377 211 s num-algos;
+#X floatatom 401 180 5 0 0 0 - - -;
+#X msg 288 83 getAlgoSettings;
 #X connect 0 0 1 0;
-#X connect 6 0 7 0;
+#X connect 6 0 11 0;
+#X connect 7 3 8 0;
+#X connect 8 1 9 0;
+#X connect 8 1 10 0;
+#X connect 11 0 7 0;
 #X restore 483 52 pd client-init;
-#N canvas 348 272 769 666 client-side-netreceive 0;
+#N canvas 348 272 760 440 client-side-netreceive 0;
 #X obj 121 23 r client-netsend-data-hub;
-#X obj 121 310 list split 4;
-#X obj 45 350 list split 1;
-#X obj 79 375 list split 2;
-#X obj 162 446 s;
-#X obj 79 396 list trim;
-#X obj 215 350 list split 1;
-#X obj 249 396 list trim;
-#X obj 249 375 list split 1;
-#X obj 520 466 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+#X obj 121 160 list split 4;
+#X obj 249 280 s;
+#X obj 215 200 list split 1;
+#X obj 249 246 list trim;
+#X obj 249 225 list split 1;
+#X obj 119 205 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
-#X obj 479 500 spigot;
-#X obj 479 521 print;
-#X text 375 391 send 2.34983e+08 player-0-current-time-index;
-#X text 375 411 send 5 player-0-params-per-algo;
-#X text 355 361 This processes commands that have fewer than 4 elements
+#X obj 78 239 spigot;
+#X obj 78 260 print;
+#X text 207 361 send 2.34983e+08 player-0-current-time-index;
+#X text 207 381 send 5 player-0-params-per-algo;
+#X text 187 331 This processes commands that have fewer than 4 elements
 in the list \, e.g.:;
-#X text 40 502 This processes commands that have 4 elements in the
-list \, e.g.:;
-#X text 60 532 send set 2.34983e+08 player-0-set-time-index-set;
-#X text 114 564 This isn't needed \, because algo-player.pd/sub-block
-has a local send to player-0-set-time-index-set \, so it would be redundant
-;
-#X obj 151 96 list length;
-#X obj 151 71 t l l;
-#X obj 151 49 list;
-#X obj 151 117 > 4;
-#X obj 151 138 list append;
-#X obj 151 159 route 0 1;
-#X obj 324 260 list split 14;
-#X obj 324 281 s;
-#X obj 364 281 symbol;
-#X obj 324 230 list split 1;
 #X text 317 29 This subpatch is necessary to imitate the master-client
 data sending that exists for the main patch. That way \, only this
 OUTPUT-solo-practice.pd patch needs to be edited \, and the core abstractions
@@ -660,33 +649,14 @@ send:;
 abstraction.;
 #X text 337 139 the player-0-current-time-index value for storage in
 algo-param-interface-client.pd;
-#X text 337 179 the algo-settings data for storage in algo-param-interface-client.pd
-;
-#X text 423 250 For algo-settings data (14 numbers);
 #X connect 0 0 1 0;
-#X connect 1 2 6 0;
-#X connect 2 1 3 0;
-#X connect 3 0 5 0;
-#X connect 3 1 4 1;
+#X connect 1 2 3 0;
+#X connect 3 1 5 0;
+#X connect 4 0 2 0;
 #X connect 5 0 4 0;
-#X connect 6 1 8 0;
-#X connect 7 0 4 0;
-#X connect 8 0 7 0;
-#X connect 8 1 4 1;
-#X connect 9 0 10 1;
-#X connect 10 0 11 0;
-#X connect 18 0 21 0;
-#X connect 19 0 18 0;
-#X connect 19 1 22 1;
-#X connect 20 0 19 0;
-#X connect 21 0 22 0;
-#X connect 22 0 23 0;
-#X connect 23 0 1 0;
-#X connect 23 1 27 0;
-#X connect 24 0 25 0;
-#X connect 24 1 26 0;
-#X connect 26 0 25 1;
-#X connect 27 1 24 0;
+#X connect 5 1 2 1;
+#X connect 6 0 7 1;
+#X connect 7 0 8 0;
 #X restore 483 132 pd client-side-netreceive;
 #X obj 145 132 bng 20 250 50 0 empty empty A 6 10 0 14 -204786 -1 -1
 ;

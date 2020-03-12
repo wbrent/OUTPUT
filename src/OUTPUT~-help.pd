@@ -29,7 +29,7 @@
 #X connect 10 0 3 0;
 #X coords 0 -1 1 1 85 45 1 100 100;
 #X restore 54 646 pd volume;
-#N canvas 790 431 716 550 current-settings 0;
+#N canvas 790 431 828 550 current-settings 0;
 #X obj 51 42 inlet;
 #X obj 51 136 list split 10;
 #X obj 51 350 unpack f f f f f f f f f f;
@@ -44,7 +44,6 @@
 #X floatatom 451 438 5 0 0 0 - - -;
 #X floatatom 501 438 5 0 0 0 - - -;
 #X text 48 473 Parameters 0 - 9;
-#X obj 139 197 unpack f f f f;
 #X floatatom 139 261 5 0 0 3 bit-depth - -;
 #X floatatom 229 261 5 0 0 3 tempo - -;
 #X floatatom 319 261 15 0 0 3 time - -;
@@ -53,10 +52,12 @@
 #X text 245 50 Send settings out so that GUI controls can be updated
 to [OUTPUT~]'s current internal state after loading a preset., f 45
 ;
+#X obj 139 197 unpack f f f f f;
+#X floatatom 589 261 5 0 0 3 total-number-of-algorithms - -;
 #X connect 0 0 1 0;
-#X connect 0 0 19 0;
+#X connect 0 0 18 0;
 #X connect 1 0 2 0;
-#X connect 1 1 14 0;
+#X connect 1 1 20 0;
 #X connect 2 0 3 0;
 #X connect 2 1 4 0;
 #X connect 2 2 5 0;
@@ -67,10 +68,11 @@ to [OUTPUT~]'s current internal state after loading a preset., f 45
 #X connect 2 7 10 0;
 #X connect 2 8 11 0;
 #X connect 2 9 12 0;
-#X connect 14 0 15 0;
-#X connect 14 1 16 0;
-#X connect 14 2 17 0;
-#X connect 14 3 18 0;
+#X connect 20 0 14 0;
+#X connect 20 1 15 0;
+#X connect 20 2 16 0;
+#X connect 20 3 17 0;
+#X connect 20 4 21 0;
 #X restore 289 490 pd current-settings;
 #N canvas 237 72 1383 550 set-parameters 0;
 #X floatatom 110 229 5 1 16384 0 - - -;
@@ -316,8 +318,8 @@ control is available using the unsigned int data type for an algorithm's
 time variable and associated parameters. Different interpolation methods
 can also be explored \, and the code can run more efficiently as an
 external., f 69;
-#N canvas 602 222 872 421 presets 0;
-#X obj 80 356 outlet;
+#N canvas 602 222 872 520 presets 0;
+#X obj 80 466 outlet;
 #X msg 200 244 load preset77.txt;
 #X msg 156 100 save;
 #X text 255 133 If you omit the file name with a save message \, [OUTPUT~]
@@ -338,12 +340,19 @@ loaded preset data.;
 #X msg 220 274 load preset78.txt;
 #X msg 180 214 load preset76.txt;
 #X msg 80 44 save preset79.txt;
+#X obj 280 340 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 280 360 openpanel;
+#X msg 280 384 load \$1;
 #X connect 1 0 0 0;
 #X connect 2 0 0 0;
 #X connect 4 0 0 0;
 #X connect 7 0 0 0;
 #X connect 8 0 0 0;
 #X connect 9 0 0 0;
+#X connect 10 0 11 0;
+#X connect 11 0 12 0;
+#X connect 12 0 0 0;
 #X restore 210 290 pd presets;
 #X text 371 363 NOTE: because the raw output of bytebeat algorithms
 can have intense DC offsets \, a high-pass filter is recommended.,

@@ -10,9 +10,9 @@
 #define BASETEMPO 60
 #define MAXTEMPO 240
 #define MAXBITDEPTH 32
-#define NUMALGOSETTINGS 14 // 10 params, bit-depth, tempo, time, algo
+#define NUMALGOSETTINGS 15 // 10 params, bit-depth, tempo, time, algo, NUMALGOS
 #define ARRAY36364689SIZE 256
-#define OUTPUTVERSION "0.8.1"
+#define OUTPUTVERSION "0.8.2"
 
 static const unsigned int paramsPerAlgo[NUMALGOS] =
 {
