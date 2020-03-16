@@ -9,6 +9,7 @@
 107: time point
 108: dry-wet balance
 109: liveness
+101: tempo
 
 110: p0
 111: p1

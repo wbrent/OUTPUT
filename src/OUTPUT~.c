@@ -10,7 +10,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-version 0.8.1, March 11, 2020
+version 0.8.3, March 13, 2020
 
 */
 
@@ -36,6 +36,9 @@ static void OUTPUT_tilde_print(OUTPUT_tilde *x)
 
 	post("%s version %s", x->x_objSymbol->s_name, OUTPUTVERSION);
 	post("%s: number of algorithms: %u", x->x_objSymbol->s_name, NUMALGOS);
+
+	post("%s: algorithm choice: %u", x->x_objSymbol->s_name, x->x_algoChoice);
+
 	startpost("%s: params: [", x->x_objSymbol->s_name);
 	
 	for(i=0; i<MAXALGOPARAMS-1; i++)
@@ -48,8 +51,8 @@ static void OUTPUT_tilde_print(OUTPUT_tilde *x)
 	post("%s: bitDepth: %0.6f", x->x_objSymbol->s_name, x->x_bitDepth);
 	post("%s: tempo: %0.2f", x->x_objSymbol->s_name, x->x_tempo);
 	post("%s: tempoFactor: %0.6f", x->x_objSymbol->s_name, x->x_incr);
-	post("%s: algo choice: %u", x->x_objSymbol->s_name, x->x_algoChoice);
 	post("%s: t: %u", x->x_objSymbol->s_name, x->x_t);
+	post("%s: time loop points: [%u, %u]", x->x_objSymbol->s_name, x->x_tLoopPoints[0], x->x_tLoopPoints[1]);
 	post("%s: interpolation: %u", x->x_objSymbol->s_name, x->x_interpSwitch);
 	post("%s: sampling rate: %i", x->x_objSymbol->s_name, (int)x->x_sr);
 	post("%s: block size: %i", x->x_objSymbol->s_name, (int)x->x_n);
@@ -63,14 +66,17 @@ static void OUTPUT_tilde_getAlgoSettings(OUTPUT_tilde *x)
 
 	listOut = (t_atom *)t_getbytes(NUMALGOSETTINGS*sizeof(t_atom));
 
-	for(i=0; i<MAXALGOPARAMS; i++)
-		SETFLOAT(listOut+i, x->x_params[i]);
+	SETFLOAT(listOut, x->x_algoChoice);
 
-	SETFLOAT(listOut+10, x->x_bitDepth);
-	SETFLOAT(listOut+11, x->x_tempo);
-	SETFLOAT(listOut+12, x->x_tBlockEnd);
-	SETFLOAT(listOut+13, x->x_algoChoice);
-	SETFLOAT(listOut+14, NUMALGOS);
+	for(i=0; i<MAXALGOPARAMS; i++)
+		SETFLOAT(listOut+1+i, x->x_params[i]);
+
+	SETFLOAT(listOut+11, x->x_bitDepth);
+	SETFLOAT(listOut+12, x->x_tempo);
+	SETFLOAT(listOut+13, x->x_tBlockEnd);
+	SETFLOAT(listOut+14, x->x_tLoopPoints[0]);
+	SETFLOAT(listOut+15, x->x_tLoopPoints[1]);
+	SETFLOAT(listOut+16, NUMALGOS);
 
 	outlet_list(x->x_outletAlgoSettings, 0, NUMALGOSETTINGS, listOut);
 	
@@ -128,6 +134,36 @@ static void OUTPUT_tilde_setTimeRand(OUTPUT_tilde *x)
 	x->x_t = floor(randDoubleFloat * UINT_MAX); // best to set x->x_t directly, because x->x_tBlockStart grabs that at the beginning of the next block
 }
 
+static void OUTPUT_tilde_setTimeLoopPoints(OUTPUT_tilde *x, t_floatarg t0, t_floatarg t1)
+{
+	// if any time points are negative, set loop to full range
+	// if t1 == t2, set loop to full time range
+	if(t0 < 0 || t1 < 0 || t0 == t1)
+	{
+		x->x_tLoopPoints[0] = 0;
+		x->x_tLoopPoints[1] = UINT_MAX;	
+		return;
+	}
+
+	// keep bounded within 0 and UINT_MAX
+	t0 = (t0<0)?0:t0;
+	t0 = (t0>UINT_MAX)?UINT_MAX:t0;
+	t1 = (t1<0)?0:t1;
+	t1 = (t1>UINT_MAX)?UINT_MAX:t1;
+	
+	// ensure that t2 > t1
+	if(t0 > t1)
+	{
+		unsigned int tmp;
+		tmp = t0;
+		t0 = t1;
+		t1 = tmp;
+	}
+	
+	x->x_tLoopPoints[0] = t0;
+	x->x_tLoopPoints[1] = t1;
+}
+
 static void OUTPUT_tilde_interpSwitch(OUTPUT_tilde *x, t_floatarg i)
 {
 	// keep bounded within 0 and 1
@@ -152,15 +188,15 @@ static void OUTPUT_tilde_parameters(OUTPUT_tilde *x, t_symbol *s, int argc, t_at
 	for(i=0; i<argc; i++)
 	{
 		p = atom_getfloat(argv+i);
-		// don't allow parameters to be zero, which causes undefined behavior with division and modulus
-		p = (p<1)?1:p;
+		// if incoming float parameter is negative, set it to zero
+		p = (p<0)?0:p;
 		p = (p>UINT_MAX)?UINT_MAX:p;		
 		x->x_params[i] = p;
 	}
 		
-	// if there weren't enough arguments, fill remaining params with 1
+	// if there weren't enough arguments, fill remaining params with 0
 	for(; i<MAXALGOPARAMS; i++)
-		x->x_params[i] = 1;
+		x->x_params[i] = 0;
 }
 
 static void OUTPUT_tilde_bitDepth(OUTPUT_tilde *x, t_floatarg b)
@@ -227,14 +263,20 @@ static void OUTPUT_tilde_savePreset(OUTPUT_tilde *x, t_symbol *f)
         pd_error(x, "%s: failed to create %s", x->x_objSymbol->s_name, fileNameBuf);
         return;
     }
-    
-    for(i=0; i<MAXALGOPARAMS; i++)
-    	fprintf(filePtr, "%u\n", x->x_params[i]);
 
-	fprintf(filePtr, "%0.6f\n", x->x_bitDepth);
-	fprintf(filePtr, "%0.6f\n", x->x_tempo);
-	fprintf(filePtr, "%u\n", x->x_t);
-	fprintf(filePtr, "%u\n", x->x_algoChoice);
+	fprintf(filePtr, "algorithm: %u\n", x->x_algoChoice);
+
+    fprintf(filePtr, "parameters: ");
+    
+    for(i=0; i<MAXALGOPARAMS-1; i++)
+    	fprintf(filePtr, "%u ", x->x_params[i]);
+    
+    fprintf(filePtr, "%u\n", x->x_params[MAXALGOPARAMS-1]);
+
+	fprintf(filePtr, "bit-depth: %0.6f\n", x->x_bitDepth);
+	fprintf(filePtr, "tempo: %0.6f\n", x->x_tempo);
+	fprintf(filePtr, "time: %u\n", x->x_t);
+	fprintf(filePtr, "loop-points: %u %u\n", x->x_tLoopPoints[0], x->x_tLoopPoints[1]);
 
     fclose(filePtr);
 }
@@ -242,9 +284,9 @@ static void OUTPUT_tilde_savePreset(OUTPUT_tilde *x, t_symbol *f)
 static void OUTPUT_tilde_loadPreset(OUTPUT_tilde *x, t_symbol *f)
 {
 	FILE *filePtr;
-    char fileNameBuf[MAXPDSTRING];
+    char fileNameBuf[MAXPDSTRING], stringIdBuf[MAXPDSTRING];
     t_float bitDepth, tempo;
-    unsigned int t, algo, params[MAXALGOPARAMS];
+    unsigned int t, algo, params[MAXALGOPARAMS], tLoopPoints[2];
     unsigned char i;
     
     canvas_makefilename(x->x_canvas, f->s_name, fileNameBuf, MAXPDSTRING);
@@ -257,29 +299,56 @@ static void OUTPUT_tilde_loadPreset(OUTPUT_tilde *x, t_symbol *f)
         return;
     }
     
-    for(i=0; i<MAXALGOPARAMS; i++)
-    	fscanf(filePtr, "%u", (params)+i);
-    
-    fscanf(filePtr, "%f", &bitDepth);
-    fscanf(filePtr, "%f", &tempo);
-    fscanf(filePtr, "%u", &t);
+    fscanf(filePtr, "%s", stringIdBuf);
     fscanf(filePtr, "%u", &algo);
+    
+   	fscanf(filePtr, "%s", stringIdBuf);
+    
+    for(i=0; i<MAXALGOPARAMS; i++)
+    	fscanf(filePtr, "%u", params+i);
+    
+    fscanf(filePtr, "%s", stringIdBuf);
+    fscanf(filePtr, "%f", &bitDepth);
+    fscanf(filePtr, "%s", stringIdBuf);
+    fscanf(filePtr, "%f", &tempo);
+    fscanf(filePtr, "%s", stringIdBuf);
+    fscanf(filePtr, "%u", &t);
+    fscanf(filePtr, "%s", stringIdBuf);
+    fscanf(filePtr, "%u", tLoopPoints);
+    fscanf(filePtr, "%u", tLoopPoints+1);
 
 	// assign the values to the object dataspace
 	for(i=0; i<MAXALGOPARAMS; i++)
 	{
 		unsigned int p;
 		p = params[i];
-		p = (p<1)?1:p;
+		p = (p<0)?0:p;
 		p = (p>UINT_MAX)?UINT_MAX:p;		
 		x->x_params[i] = p;
 	}
+
+	// assign time loop points directly since _setTimeLoopPoints() takes floating point arguments. note that -1 won't work since the data type is unsigned int. could improve this later
+	if(tLoopPoints[0] == tLoopPoints[1]) // if t1 ==t2, set loop to full time range
+	{
+		tLoopPoints[0] = 0;
+		tLoopPoints[1] = UINT_MAX;
+	}
+	else if(tLoopPoints[0] > tLoopPoints[1]) // ensure that t2 > t1
+	{
+		unsigned int tmp;
+		tmp = tLoopPoints[0];
+		tLoopPoints[0] = tLoopPoints[1];
+		tLoopPoints[1] = tmp;
+	}
+	
+	x->x_tLoopPoints[0] = tLoopPoints[0];
+	x->x_tLoopPoints[1] = tLoopPoints[1];
 
 	// use existing functions for remaining assignments since they have safety checks
 	OUTPUT_tilde_bitDepth(x, bitDepth);
 	OUTPUT_tilde_tempo(x, tempo);
 	OUTPUT_tilde_setTimeIndex(x, t, 0); // set mu to 0
-	OUTPUT_tilde_algoChoice(x, algo);
+	OUTPUT_tilde_algoChoice(x, algo); // do algo last since it causes output from an an output (x_outletParamsPerAlgo)
 
     fclose(filePtr);
 }
@@ -311,6 +380,8 @@ static void *OUTPUT_tilde_new(t_symbol *s, int argc, t_atom *argv)
 	x->x_t = 0;
 	x->x_tBlockStart = 0;
 	x->x_tBlockEnd = 0;
+	x->x_tLoopPoints[0] = 0;
+	x->x_tLoopPoints[1] = UINT_MAX; // loop points default to full time range
 	x->x_mu = 0.0f;
 	x->x_incr = 0.0f;
 	x->x_sampIdx = 0.0f;
@@ -389,8 +460,12 @@ static t_int *OUTPUT_tilde_perform(t_int *w)
 				// don't decrement debug until end of perform routine
 			}
 
-			// advance the time variable t, which maxes out at UINT_MAX
-			x->x_t = (x->x_t + 1) % UINT_MAX;
+			// advance the time variable t, wrapping via x_tLoopPoints if needed
+			x->x_t += 1;
+			
+			// loop bounds are INCLUSIVE, so only wrap if we go beyond the loop end
+			if(x->x_t > x->x_tLoopPoints[1])
+				x->x_t = x->x_tLoopPoints[0];
 		}
 	
 		// to start the block, sampIdx should be 1.mu from last time
@@ -432,7 +507,19 @@ static t_int *OUTPUT_tilde_perform(t_int *w)
 
 		// store the final sample of the algo signal block to index 0 of the signal buffer for next time. since we generated extra samples past the m samples we actually want to hear, we need to rewind the time index. the time index for next block should be hop samples past the time index from the start of this block. remember to wrap at UINT_MAX as our maximum time index.
 		x->x_signalBuffer[0] = x->x_signalBuffer[hop];
-		x->x_t = (x->x_tBlockStart+hop) % UINT_MAX;
+		
+		x->x_t = x->x_tBlockStart+hop;
+
+		// loop bounds are INCLUSIVE, so only wrap if we go beyond the loop end
+		if(x->x_t > x->x_tLoopPoints[1])
+		{
+			unsigned int diff;
+			diff = x->x_t - x->x_tLoopPoints[1];
+			
+			// move (diff-1) samples forward from the loop start
+			x->x_t = x->x_tLoopPoints[0] + diff - 1;
+		}
+		
 		x->x_tBlockEnd = x->x_t;
 
 		if(x->x_debug)
@@ -553,6 +640,15 @@ void OUTPUT_tilde_setup(void)
 		0
 	);
 
+	class_addmethod(
+		OUTPUT_tilde_class,
+		(t_method)OUTPUT_tilde_setTimeLoopPoints,
+		gensym("setTimeLoopPoints"),
+		A_DEFFLOAT,
+		A_DEFFLOAT,
+		0
+	);
+	
 	class_addmethod(
 		OUTPUT_tilde_class,
 		(t_method)OUTPUT_tilde_interpSwitch,

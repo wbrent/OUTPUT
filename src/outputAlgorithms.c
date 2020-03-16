@@ -10,17 +10,17 @@ static unsigned long int OUTPUT_tilde_getSample(OUTPUT_tilde *x)
 	// avoid t==0, which would cause division or modulus by zero in some algos
 	t=(t==0)?1:t;
 	
-	// grab the params from the array before the for loop to simplify algos
-	p0 = x->x_params[0];
-	p1 = x->x_params[1];
-	p2 = x->x_params[2];
-	p3 = x->x_params[3];
-	p4 = x->x_params[4];
-	p5 = x->x_params[5];
-	p6 = x->x_params[6];
-	p7 = x->x_params[7];
-	p8 = x->x_params[8];
-	p9 = x->x_params[9];
+	// grab the params from the array before the for loop to simplify algos. for now, do not allow params to be 0, which could cause division or modulus by zero in some algos
+	p0 = (x->x_params[0] < 1) ? 1 : x->x_params[0];
+	p1 = (x->x_params[1] < 1) ? 1 : x->x_params[1];
+	p2 = (x->x_params[2] < 1) ? 1 : x->x_params[2];
+	p3 = (x->x_params[3] < 1) ? 1 : x->x_params[3];
+	p4 = (x->x_params[4] < 1) ? 1 : x->x_params[4];
+	p5 = (x->x_params[5] < 1) ? 1 : x->x_params[5];
+	p6 = (x->x_params[6] < 1) ? 1 : x->x_params[6];
+	p7 = (x->x_params[7] < 1) ? 1 : x->x_params[7];
+	p8 = (x->x_params[8] < 1) ? 1 : x->x_params[8];
+	p9 = (x->x_params[9] < 1) ? 1 : x->x_params[9];
 	
 	idx36364689 = 0;
 	

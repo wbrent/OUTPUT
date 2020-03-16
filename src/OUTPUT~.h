@@ -10,9 +10,9 @@
 #define BASETEMPO 60
 #define MAXTEMPO 240
 #define MAXBITDEPTH 32
-#define NUMALGOSETTINGS 15 // 10 params, bit-depth, tempo, time, algo, NUMALGOS
+#define NUMALGOSETTINGS 17 // algo, 10 params, bit-depth, tempo, time, time loop start, time loop end, NUMALGOS
 #define ARRAY36364689SIZE 256
-#define OUTPUTVERSION "0.8.2"
+#define OUTPUTVERSION "0.8.3"
 
 static const unsigned int paramsPerAlgo[NUMALGOS] =
 {
@@ -155,6 +155,7 @@ typedef struct _OUTPUT_tilde
     unsigned int x_t;
     unsigned int x_tBlockStart;
     unsigned int x_tBlockEnd;
+    unsigned int x_tLoopPoints[2];
     double x_mu;
     double x_incr;
     double x_sampIdx;
