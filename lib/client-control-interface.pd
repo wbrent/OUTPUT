@@ -15,7 +15,7 @@
 #X obj 98 318 netprep player-\$1-algo-param-9;
 #X restore 463 179 pd player-\$1-algo-netpreps;
 #X obj 435 225 netprep player-\$1-spat-lfo-ctrl-color;
-#X obj 435 345 netprep player-\$1-pitch-bend-display;
+#X obj 435 315 netprep player-\$1-pitch-bend-display;
 #X obj 56 554 netprep player-\$1-interpolation 1;
 #X obj 56 524 netprep player-\$1-time-sync 1;
 #X obj 57 493 netprep player-\$1-tempo-sync 1;
@@ -32,9 +32,9 @@
 #X obj 57 75 netprep player-\$1-spat-pos 1;
 #X obj 57 51 netprep player-\$1-mute 1;
 #X obj 57 26 netprep player-\$1-gain 1;
-#X obj 435 495 netprep player-\$1-asr-env;
-#X obj 435 465 netprep player-\$1-asr-kbd 1;
-#X text 432 400 Just "set" this toggle on the master side so that it
+#X obj 435 465 netprep player-\$1-asr-env;
+#X obj 435 435 netprep player-\$1-asr-kbd 1;
+#X text 432 370 Just "set" this toggle on the master side so that it
 can be seen if other players are using ASR kbd, f 37;
 #X obj 57 373 netprep player-\$1-set-time-random;
 #X text 387 65 netprep player-\$1-current-time-index;
@@ -43,6 +43,7 @@ can be seen if other players are using ASR kbd, f 37;
 #X text 367 45 NO LONGER NEEDED?:;
 #X obj 435 525 netprep player-\$1-save-preset;
 #X obj 435 555 netprep player-\$1-load-preset;
+#X obj 435 495 netprep player-\$1-asr-time;
 #X restore 20 201 pd netpreps;
 #N canvas 1214 498 583 462 algo-cache-stuff 0;
 #X msg 43 116 0;
@@ -290,6 +291,11 @@ most recent value from [pd detect-no-keys] \, then allow 1 or 0 out
 of detect-no keys to player-\$1-asr-env thereafter. \; When player-\$1-asr-kbd
 is OFF \, we suppress values from detect-no-keys \, then send a solid
 1 to asr-env to keep it on.;
+#X obj 456 340 s player-\$1-asr-time;
+#X msg 456 310 50;
+#X text 526 214 when manually turning off the ASR keyboard toggle \,
+set the ASR time to a quick 50ms so the change happens quickly regardless
+of the current MIDI velocity fade time setting, f 27;
 #X connect 1 0 7 0;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
@@ -297,18 +303,51 @@ is OFF \, we suppress values from detect-no-keys \, then send a solid
 #X connect 5 0 2 1;
 #X connect 6 0 3 0;
 #X connect 6 1 5 0;
+#X connect 6 1 13 0;
 #X connect 7 0 6 0;
 #X connect 7 1 8 0;
 #X connect 8 0 4 0;
 #X connect 8 1 9 0;
+#X connect 8 1 13 0;
 #X connect 9 0 0 0;
 #X connect 10 0 2 0;
 #X connect 10 0 9 1;
+#X connect 13 0 12 0;
 #X restore 271 141 pd set-ASR-keyboard;
+#N canvas 639 465 443 348 set-ASR-fade-time 0;
+#X obj 41 48 inlet;
+#X obj 41 299 s player-\$1-asr-time;
+#X obj 41 142 t b f;
+#X msg 41 166 127;
+#X obj 41 190 -;
+#X obj 41 214 / 127;
+#X obj 41 268 * 1000;
+#X text 151 145 flip the MIDI velocity data \, then normalize and scale
+to 1000ms as the maximum fade duration. May need to play with this
+and try a nonlinear curve, f 23;
+#X obj 41 112 select 0;
+#X obj 111 72 r player-\$1-asr-kbd;
+#X obj 41 72 spigot;
+#X text 130 16 only enable ASR fade time control via MIDI velocity
+if the ASR keyboard feature is turned on., f 35;
+#X obj 41 238 pow 2;
+#X connect 0 0 10 0;
+#X connect 2 0 3 0;
+#X connect 2 1 4 1;
+#X connect 3 0 4 0;
+#X connect 4 0 5 0;
+#X connect 5 0 12 0;
+#X connect 6 0 1 0;
+#X connect 8 1 2 0;
+#X connect 9 0 10 1;
+#X connect 10 0 8 0;
+#X connect 12 0 6 0;
+#X restore 345 60 pd set-ASR-fade-time;
 #X connect 0 0 13 0;
 #X connect 0 0 48 0;
 #X connect 0 1 9 1;
 #X connect 0 1 48 1;
+#X connect 0 1 51 0;
 #X connect 1 0 14 0;
 #X connect 2 0 3 0;
 #X connect 2 1 4 0;
