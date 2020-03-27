@@ -10,7 +10,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-version 0.8.3, March 13, 2020
+version 0.9.0, March 27, 2020
 
 */
 
@@ -353,6 +353,15 @@ static void OUTPUT_tilde_loadPreset(OUTPUT_tilde *x, t_symbol *f)
     fclose(filePtr);
 }
 
+double my_and(double a, double b)
+{
+	unsigned int x, y;
+	x = a;
+	y = b;
+	
+	return(x & y);
+}
+	
 static void *OUTPUT_tilde_new(t_symbol *s, int argc, t_atom *argv)
 {
     OUTPUT_tilde *x = (OUTPUT_tilde *)pd_new(OUTPUT_tilde_class);
@@ -407,6 +416,42 @@ static void *OUTPUT_tilde_new(t_symbol *s, int argc, t_atom *argv)
     x->x_canvas = canvas_getcurrent();
 
 	post("%s version %s", x->x_objSymbol->s_name, OUTPUTVERSION);
+
+////////////////////////////////
+//
+
+	double a, b, c;
+	int err;
+	te_expr* expr;
+    
+    /* Store variable names and pointers. */
+//     te_variable vars[] = {{"b", &b}, {"c", &c}};
+	te_variable vars[] = {
+		{"my_and", my_and, TE_FUNCTION2}, /* TE_FUNCTION2 used because myAND takes two arguments. */
+		{"b", &b},
+		{"c", &c}
+	};
+
+    /* Compile the expression with variables. */
+    expr = te_compile("my_and(b, c)", vars, 3, &err);
+    
+    if(expr)
+    {
+		b = 3; c = 2;
+		
+		a = te_eval(expr);
+		
+		post("my_and(b, c) = %f", a);
+		
+		te_free(expr);   
+    }
+    else
+    {
+    	post("Parse error at %d", err);
+    }
+
+//
+////////////////////////////////
 
     return(x);
 }

@@ -5,7 +5,7 @@
 
 lib.name = OUTPUT~
 
-$(lib.name).class.sources = OUTPUT~.c outputAlgorithms.c
+$(lib.name).class.sources = OUTPUT~.c outputAlgorithms.c tinyexpr.c
 
 datafiles = $(lib.name)-help.pd
 

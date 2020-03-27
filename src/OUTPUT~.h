@@ -1,4 +1,5 @@
 #include "m_pd.h"
+#include "tinyexpr.h"
 #include <math.h>
 #include <float.h>
 #include <limits.h>
@@ -12,7 +13,7 @@
 #define MAXBITDEPTH 32
 #define NUMALGOSETTINGS 17 // algo, 10 params, bit-depth, tempo, time, time loop start, time loop end, NUMALGOS
 #define ARRAY36364689SIZE 256
-#define OUTPUTVERSION "0.8.3"
+#define OUTPUTVERSION "0.9.0"
 
 static const unsigned int paramsPerAlgo[NUMALGOS] =
 {
