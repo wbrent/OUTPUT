@@ -19,7 +19,7 @@
 #X obj 438 60 r player-\$1-algo-dec-param-\$2;
 #X obj 62 36 r player-\$1-algo-randomize-param-\$2;
 #X obj 132 176 r player-\$1-algo-param-\$2-range;
-#X obj 511 216 moses 1;
+#X obj 511 216 moses 0;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;

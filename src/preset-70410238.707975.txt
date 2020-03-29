@@ -1,5 +1,5 @@
 algorithm: t&(t/p1)^(t/p0)
-parameters: 255 10 20 30 40 50 60 70 80 90
+parameters: 255 10 20 30 40 50 60 70 80 90 0 0 0 0 0 0 0 0 0 0
 bit-depth: 8.000000
 tempo: 10.884000
 time: 37649

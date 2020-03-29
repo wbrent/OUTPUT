@@ -1,4 +1,4 @@
-#N canvas 142 526 535 279 10;
+#N canvas 142 525 535 279 10;
 #X declare -path ./lib;
 #X declare -path ./src;
 #X declare -path DRFX;
@@ -487,7 +487,7 @@ echodel-B phaser-A pitch-shift-A pulser-A ring-mod-A sr-decimator-A
 #X msg 18 221 \; pd-direct-outs vis 1 \;;
 #X obj 18 121 bng 15 250 50 0 drfx-matrix empty DRFX-matrix 17 7 0
 10 -262144 -1 -1;
-#N canvas 1100 97 580 374 client-init 0;
+#N canvas 667 274 580 374 client-init 0;
 #X obj 71 34 r lb1;
 #X msg 71 58 \; netprep-init bang \;;
 #X text 37 124 This initializes all of the netprep parameter names
@@ -612,17 +612,17 @@ to have -set appended, f 27;
 so that 102/103 will always be accessible on controller as player A/B
 gains and mutes, f 33;
 #X obj 288 54 r lb1;
-#X obj 288 115 OUTPUT~;
-#X obj 377 211 s num-algos;
-#X floatatom 401 180 5 0 0 0 - - -;
-#X msg 288 83 getAlgoSettings;
-#X obj 340 149 list split 16;
+#X obj 288 197 s num-algos;
+#X obj 288 75 t b b;
+#X msg 329 108 read -c ./data/outputAlgorithms.txt;
+#X obj 288 166 text size outputAlgorithms;
+#X obj 329 129 text define outputAlgorithms;
 #X connect 0 0 1 0;
-#X connect 6 0 10 0;
-#X connect 7 3 11 0;
+#X connect 6 0 8 0;
+#X connect 8 0 10 0;
+#X connect 8 1 9 0;
+#X connect 9 0 11 0;
 #X connect 10 0 7 0;
-#X connect 11 1 8 0;
-#X connect 11 1 9 0;
 #X restore 483 52 pd client-init;
 #N canvas 140 461 760 440 client-side-netreceive 0;
 #X obj 121 23 r client-netsend-data-hub;

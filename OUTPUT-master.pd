@@ -1,9 +1,9 @@
-#N canvas 83 164 854 808 10;
+#N canvas 68 90 773 829 10;
 #X declare -path ./lib;
 #X declare -path ./src;
 #X declare -path DRFX;
 #X declare -path ./plugins;
-#N canvas 58 25 946 837 control-panel 0;
+#N canvas 58 25 1499 837 control-panel 0;
 #N canvas 323 229 686 380 init 0;
 #X obj 31 24 loadbang;
 #X obj 31 56 t b b b b;
@@ -22,6 +22,9 @@
 #X obj 444 143 r lb1;
 #X msg 444 172 read -c ./data/midiNoteNames.txt;
 #X obj 444 193 text define midiNoteNames;
+#X obj 323 241 r lb1;
+#X msg 323 262 read -c ./data/outputAlgorithms.txt;
+#X obj 323 283 text define outputAlgorithms;
 #X connect 0 0 1 0;
 #X connect 1 0 5 0;
 #X connect 1 1 4 0;
@@ -31,6 +34,8 @@
 #X connect 10 0 11 0;
 #X connect 14 0 15 0;
 #X connect 15 0 16 0;
+#X connect 17 0 18 0;
+#X connect 18 0 19 0;
 #X restore 822 273 pd init;
 #N canvas 611 146 371 176 players 0;
 #X obj 32 28 algo-player 0;
@@ -41,17 +46,17 @@
 #X obj 32 128 algo-player 5;
 #X obj 202 28 clone spat-LFO-abs 6;
 #X restore 822 293 pd players;
-#X obj 21 590 hsl 300 45 40 100 0 0 master-volume master-volume-set
+#X obj 21 680 hsl 300 45 40 100 0 0 master-volume master-volume-set
 master-volume 8 24 0 32 -262144 -1 -1 24917 1;
-#X obj 18 641 bng 15 250 50 0 reset-all-player-clocks empty reset-all-player-clocks
+#X obj 18 731 bng 15 250 50 0 reset-all-player-clocks empty reset-all-player-clocks
 17 7 0 12 -262144 -1 -1;
-#X obj 615 711 cpumeter;
-#X obj 18 220 control-panel-abs 2;
+#X obj 615 761 cpumeter;
+#X obj 18 250 control-panel-abs 2;
 #X obj 388 40 control-panel-abs 1;
 #X obj 18 40 control-panel-abs 0;
-#X obj 388 220 control-panel-abs 3;
-#X obj 18 400 control-panel-abs 4;
-#X obj 388 400 control-panel-abs 5;
+#X obj 388 250 control-panel-abs 3;
+#X obj 18 460 control-panel-abs 4;
+#X obj 388 460 control-panel-abs 5;
 #N canvas 294 309 761 477 netreceive 0;
 #X obj 496 354 s;
 #X obj 64 119 netreceive 57120;
@@ -119,14 +124,14 @@ followed by the send symbol, f 17;
 #X msg 1242 154 0;
 #X obj 1242 62 r master-volume;
 #X obj 58 16 catch~ out-1;
-#X obj 71 428 vu 15 120 empty empty -1 -8 0 10 -66577 -1 0 0;
-#X obj 101 428 vu 15 120 empty empty -1 -8 0 10 -66577 -1 0 0;
-#X obj 131 428 vu 15 120 empty empty -1 -8 0 10 -66577 -1 0 0;
-#X obj 161 428 vu 15 120 empty empty -1 -8 0 10 -66577 -1 0 0;
-#X obj 191 428 vu 15 120 empty empty -1 -8 0 10 -66577 -1 0 0;
-#X obj 221 428 vu 15 120 empty empty -1 -8 0 10 -66577 -1 0 0;
-#X obj 251 428 vu 15 120 empty empty -1 -8 0 10 -66577 -1 0 0;
-#X obj 281 428 vu 15 120 empty empty -1 -8 0 10 -66577 -1 0 0;
+#X obj 71 428 vu 15 80 empty empty -1 -8 0 10 -66577 -1 0 0;
+#X obj 101 428 vu 15 80 empty empty -1 -8 0 10 -66577 -1 0 0;
+#X obj 131 428 vu 15 80 empty empty -1 -8 0 10 -66577 -1 0 0;
+#X obj 161 428 vu 15 80 empty empty -1 -8 0 10 -66577 -1 0 0;
+#X obj 191 428 vu 15 80 empty empty -1 -8 0 10 -66577 -1 0 0;
+#X obj 221 428 vu 15 80 empty empty -1 -8 0 10 -66577 -1 0 0;
+#X obj 251 428 vu 15 80 empty empty -1 -8 0 10 -66577 -1 0 0;
+#X obj 281 428 vu 15 80 empty empty -1 -8 0 10 -66577 -1 0 0;
 #X obj 58 210 dac~ 1 2 3 4 5 6 7 8;
 #X obj 178 141 *~;
 #X obj 238 141 *~;
@@ -601,8 +606,8 @@ the difference between the measured and desired level, f 27;
 #X connect 55 0 37 0;
 #X connect 56 0 24 0;
 #X connect 56 0 39 0;
-#X coords 0 -1 1 1 250 160 1 60 400;
-#X restore 355 591 pd output;
+#X coords 0 -1 1 1 250 120 1 60 400;
+#X restore 345 681 pd output;
 #X floatatom 615 651 5 0 0 2 clients connected-clients -;
 #N canvas 364 130 492 440 interface 0;
 #X obj 87 374 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
@@ -809,20 +814,20 @@ phaser-A pitch-shift-A pulser-A ring-mod-A sr-decimator-A;
 #X connect 17 0 13 0;
 #X connect 19 0 0 0;
 #X restore 822 353 pd DRFX;
-#X obj 18 731 bng 15 250 50 0 empty empty FX 17 7 0 10 -262144 -1 -1
-;
-#X obj 18 711 bng 15 250 50 0 empty empty reverbs 17 7 0 10 -262144
+#X obj 826 632 bng 15 250 50 0 empty empty FX 17 7 0 10 -262144 -1
+-1;
+#X obj 826 612 bng 15 250 50 0 empty empty reverbs 17 7 0 10 -262144
 -1 -1;
-#X obj 18 691 bng 15 250 50 0 empty empty directs 17 7 0 10 -262144
+#X obj 826 592 bng 15 250 50 0 empty empty directs 17 7 0 10 -262144
 -1 -1;
-#X msg 508 781 \; pd-FX-plugins vis 1 \;;
-#X msg 268 781 \; pd-reverbs vis 1 \;;
-#X msg 18 781 \; pd-direct-outs vis 1 \;;
-#X obj 18 671 bng 15 250 50 0 drfx-matrix empty DRFX-matrix 17 7 0
+#X msg 1316 682 \; pd-FX-plugins vis 1 \;;
+#X msg 1076 682 \; pd-reverbs vis 1 \;;
+#X msg 826 682 \; pd-direct-outs vis 1 \;;
+#X obj 826 572 bng 15 250 50 0 drfx-matrix empty DRFX-matrix 17 7 0
 10 -262144 -1 -1;
 #X connect 16 0 19 0;
 #X connect 17 0 20 0;
 #X connect 18 0 21 0;
-#X coords 0 -1 1 1 750 750 1 10 10;
-#X restore 45 27 pd control-panel;
-#X coords 0 808 1 807 1100 600 0;
+#X coords 0 -1 1 1 750 800 1 10 10;
+#X restore 11 12 pd control-panel;
+#X coords 0 829 1 828 1100 600 0;

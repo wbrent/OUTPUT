@@ -1,5 +1,5 @@
 algorithm: (((t%p0)*(t>>p1)|(357052691)-(t>>p2))/(t>>p3))^(t|(t>>p4))
-parameters: 512 6 383 2145 1 1 1 1 1 1
+parameters: 512 6 383 2145 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0
 bit-depth: 8.000000
 tempo: 30.000000
 time: 0
