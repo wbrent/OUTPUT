@@ -40,11 +40,19 @@ static void OUTPUT_tilde_print(OUTPUT_tilde *x)
 
 	startpost("%s: params: [", x->x_objSymbol->s_name);
 	
-	for(i=0; i<MAXALGOPARAMS-1; i++)
-		startpost("%u, ", x->x_params[i]);
+	if(x->x_numAlgoParams > 0)
+	{
+		for(i=0; i<x->x_numAlgoParams-1; i++)
+			startpost("%u, ", x->x_params[i]);
 	
-	startpost("%u]", x->x_params[MAXALGOPARAMS-1]);
-	endpost();
+		startpost("%u]", x->x_params[x->x_numAlgoParams-1]);
+		endpost();
+	}
+	else
+	{
+		startpost("]");
+		endpost();
+	}
 		
 	post("%s: numAlgoParams: %u", x->x_objSymbol->s_name, x->x_numAlgoParams);
 	post("%s: bitDepth: %0.6f", x->x_objSymbol->s_name, x->x_bitDepth);
@@ -71,11 +79,14 @@ static void OUTPUT_tilde_getAlgoSettings(OUTPUT_tilde *x)
 	for(i=0; i<MAXALGOPARAMS; i++)
 		SETFLOAT(listOut+1+i, x->x_params[i]);
 
-	SETFLOAT(listOut+11, x->x_bitDepth);
-	SETFLOAT(listOut+12, x->x_tempo);
-	SETFLOAT(listOut+13, x->x_tBlockEnd);
-	SETFLOAT(listOut+14, x->x_tLoopPoints[0]);
-	SETFLOAT(listOut+15, x->x_tLoopPoints[1]);
+	// i is 20 here
+	
+	// using post-for-loop value of i adapts to whatever MAXALGOPARAMS is
+	SETFLOAT(listOut+i+1, x->x_bitDepth);
+	SETFLOAT(listOut+i+2, x->x_tempo);
+	SETFLOAT(listOut+i+3, x->x_tBlockEnd);
+	SETFLOAT(listOut+i+4, x->x_tLoopPoints[0]);
+	SETFLOAT(listOut+i+5, x->x_tLoopPoints[1]);
 
 	outlet_list(x->x_outletAlgoSettings, 0, NUMALGOSETTINGS, listOut);
 	
@@ -252,7 +263,7 @@ static void OUTPUT_tilde_bitDepth(OUTPUT_tilde *x, t_floatarg b)
 	b = (b<1)?1:b;
 	b = (b>MAXBITDEPTH)?MAXBITDEPTH:b;
 	x->x_bitDepth = b;
- 	x->x_quantSteps = pow(2, x->x_bitDepth);
+ 	x->x_quantSteps = pow(2.0f, x->x_bitDepth);
 }
 
 static void OUTPUT_tilde_tempo(OUTPUT_tilde *x, t_floatarg t)
@@ -263,7 +274,7 @@ static void OUTPUT_tilde_tempo(OUTPUT_tilde *x, t_floatarg t)
 	x->x_tempo = t;
 	
 	// calculate the interpolation increment (tempo factor) relative to BASETEMPO BPM
-	x->x_incr = (x->x_tempo/(double)BASETEMPO);
+	x->x_incr = (x->x_tempo/BASETEMPO);
 }
 
 static void OUTPUT_tilde_debug(OUTPUT_tilde *x, t_floatarg d)
@@ -304,6 +315,7 @@ static void OUTPUT_tilde_savePreset(OUTPUT_tilde *x, t_symbol *f)
 
     fprintf(filePtr, "parameters: ");
     
+    // TODO: could use x->x_numAlgoParams as the limit instead. this change would require appropriate update to _loadPreset()
     for(i=0; i<MAXALGOPARAMS-1; i++)
     	fprintf(filePtr, "%u ", x->x_params[i]);
     
@@ -323,6 +335,7 @@ static void OUTPUT_tilde_loadPreset(OUTPUT_tilde *x, t_symbol *f)
     char fileNameBuf[MAXPDSTRING], stringIdBuf[MAXPDSTRING], algo[MAXPDSTRING];
     t_float bitDepth, tempo;
     unsigned int t, params[MAXALGOPARAMS], tLoopPoints[2];
+    t_atom *paramAtoms;
     unsigned char i;
     
     canvas_makefilename(x->x_canvas, f->s_name, fileNameBuf, MAXPDSTRING);
@@ -340,6 +353,7 @@ static void OUTPUT_tilde_loadPreset(OUTPUT_tilde *x, t_symbol *f)
     
    	fscanf(filePtr, "%s", stringIdBuf);
     
+    // TODO: could keep reading until encountering "bitDepth" string. otherwise, all preset files must have MAXALGOPARAMS parameters listed
     for(i=0; i<MAXALGOPARAMS; i++)
     	fscanf(filePtr, "%u", params+i);
     
@@ -357,21 +371,26 @@ static void OUTPUT_tilde_loadPreset(OUTPUT_tilde *x, t_symbol *f)
 	OUTPUT_tilde_setAlgo(x, gensym(algo));
 
 	// assign the values to the object dataspace
-	// TODO: should call OUTPUT_tilde_parameters() here, but would have to create a list of atoms to pass in
+
+	paramAtoms = (t_atom *)t_getbytes(MAXALGOPARAMS*sizeof(t_atom));
+
 	for(i=0; i<MAXALGOPARAMS; i++)
 	{
-		struct expr_var *v;
 		unsigned int p;
 
 		p = params[i];
 		p = (p<0)?0:p;
 		p = (p>UINT_MAX)?UINT_MAX:p;		
-		x->x_params[i] = p;
 		
-		v = expr_var(&(x->x_exprVars), x->x_paramStrings[i], strlen(x->x_paramStrings[i]));
-		v->value = x->x_params[i];
+		SETFLOAT(paramAtoms+i, p);
 	}
 
+	// x_exprArgs will be updated via this function call, as if the params came in as a "parameters" message
+	OUTPUT_tilde_parameters(x, gensym("parameters"), MAXALGOPARAMS, paramAtoms);
+
+	// free local memory
+	t_freebytes(paramAtoms, MAXALGOPARAMS * sizeof(t_atom));
+	
 	// assign time loop points directly since _setTimeLoopPoints() takes floating point arguments. note that -1 won't work since the data type is unsigned int. could improve this later
 	if(tLoopPoints[0] == tLoopPoints[1]) // if t1 ==t2, set loop to full time range
 	{
@@ -401,6 +420,7 @@ static void *OUTPUT_tilde_new(t_symbol *s, int argc, t_atom *argv)
 {
     OUTPUT_tilde *x = (OUTPUT_tilde *)pd_new(OUTPUT_tilde_class);
 	t_symbol *exprArg;
+	struct expr_var *v;
 	int i;
 		
 	outlet_new(&x->x_obj, &s_signal);
@@ -414,9 +434,10 @@ static void *OUTPUT_tilde_new(t_symbol *s, int argc, t_atom *argv)
 
 	x->x_sr = 44100.0f;
 	x->x_n = 64.0f;
-
-	x->x_bitDepth = 8.0f;
-	x->x_quantSteps = pow(2, x->x_bitDepth);
+	
+	// this function sets x_tempo and handles calculation of x_quantSteps
+	OUTPUT_tilde_bitDepth(x, 8.0f);
+	
 	x->x_interpSwitch = 1;
 	x->x_computeSwitch = 1;
 	x->x_debug = 0;
@@ -431,8 +452,7 @@ static void *OUTPUT_tilde_new(t_symbol *s, int argc, t_atom *argv)
 	x->x_sampIdx = 0.0f;
 	
 	// this tempo recreates results of 8kHz sampling rate when running at 44.1kHz 
-	x->x_tempo = 10.884f;
-	OUTPUT_tilde_tempo(x, x->x_tempo);
+	OUTPUT_tilde_tempo(x, 10.884f);
 
 	x->x_signalBuffer = (double *)t_getbytes((x->x_n*4+EXTRAPOINTS) * sizeof(double));
 	
@@ -449,22 +469,26 @@ static void *OUTPUT_tilde_new(t_symbol *s, int argc, t_atom *argv)
 		case 0:
 			exprArg = gensym("t*p0");
 			OUTPUT_tilde_setAlgo(x, exprArg);
-			OUTPUT_tilde_parameters(x, s, argc, argv);
+			OUTPUT_tilde_parameters(x, gensym("parameters"), argc, argv);
 			break;
 			
 		case 1:	
 			exprArg = atom_getsymbol(argv);
 			OUTPUT_tilde_setAlgo(x, exprArg);
-			OUTPUT_tilde_parameters(x, s, 0, NULL);
+			OUTPUT_tilde_parameters(x, gensym("parameters"), 0, argv);
 			break;
 
 		default:
 			exprArg = atom_getsymbol(argv);
 			OUTPUT_tilde_setAlgo(x, exprArg);
-			OUTPUT_tilde_parameters(x, s, argc-1, argv+1);
+			OUTPUT_tilde_parameters(x, gensym("parameters"), argc-1, argv+1);
 			break;
 	}
 
+	// now that expr_create() has been called, initialize "t" in exprVars
+	v = expr_var(&(x->x_exprVars), "t", strlen("t"));
+	v->value = x->x_t;
+	
 	// seed randomness via current time
 	srand(clock_getlogicaltime());
 
@@ -474,7 +498,6 @@ static void *OUTPUT_tilde_new(t_symbol *s, int argc, t_atom *argv)
 	
     return(x);
 }
-
 
 static t_int *OUTPUT_tilde_perform(t_int *w)
 {
@@ -506,7 +529,7 @@ static t_int *OUTPUT_tilde_perform(t_int *w)
 		for(i=1; i<m+EXTRAPOINTS; i++)
 		{
 			double thisSampleDouble;
-			unsigned long int thisSample;
+			unsigned int thisSample;
 			struct expr_var *v;
 			
 			// only update t in arg list and evaluate expression if one exists
@@ -516,15 +539,14 @@ static t_int *OUTPUT_tilde_perform(t_int *w)
 				v = expr_var(&(x->x_exprVars), "t", strlen("t"));
 				v->value = x->x_t;
 			
-				// perform the algorithm in unsigned int precision. Bitwise operators MUST BE used in UINT precision. we store the result in higher precision - unsigned long int
-	// 			thisSample = OUTPUT_tilde_getSample(x);
+				// perform the algorithm via expr_eval() in double precision. we store the result in unsigned long int, which truncates any fractional part. note that double has the precision to reference all integers in 32-bit UINT data type, so we lose nothing.
 				thisSample = expr_eval(x->x_exprExp);
 			}
 			else
 				thisSample = 0;
 				
-			// convert the unsigned long long int-ranged sample into a double precision float sample
-			thisSampleDouble = thisSample/(double)x->x_quantSteps;
+			// convert the unsigned int sample into a double precision float sample
+			thisSampleDouble = thisSample/x->x_quantSteps;
 			thisSample = floor(thisSampleDouble);
 			thisSampleDouble = thisSampleDouble - thisSample;
 			thisSampleDouble = thisSampleDouble*2.0-1.0;
@@ -629,7 +651,6 @@ static t_int *OUTPUT_tilde_perform(t_int *w)
     return (w+4);
 }
 
-
 static void OUTPUT_tilde_dsp(OUTPUT_tilde *x, t_signal **sp)
 {
 	dsp_add(
@@ -660,7 +681,6 @@ static void OUTPUT_tilde_free(OUTPUT_tilde *x)
 	// free the expression
 	expr_destroy(x->x_exprExp, &(x->x_exprVars));
 };
-
 
 void OUTPUT_tilde_setup(void)
 {		
