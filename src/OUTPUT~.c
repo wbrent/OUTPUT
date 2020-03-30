@@ -416,6 +416,11 @@ static void OUTPUT_tilde_loadPreset(OUTPUT_tilde *x, t_symbol *f)
     fclose(filePtr);
 }
 
+static void OUTPUT_tilde_initClock(OUTPUT_tilde *x)
+{
+	x->x_startupFlag = 1;
+}
+
 static void *OUTPUT_tilde_new(t_symbol *s, int argc, t_atom *argv)
 {
     OUTPUT_tilde *x = (OUTPUT_tilde *)pd_new(OUTPUT_tilde_class);
@@ -431,6 +436,8 @@ static void *OUTPUT_tilde_new(t_symbol *s, int argc, t_atom *argv)
 
 	// store the pointer to the symbol containing the object name. Can access it for error and post functions via s->s_name
 	x->x_objSymbol = s;
+	x->x_startupFlag = 0; // keep track of whether the object creation process has completed
+    x->x_clock = clock_new(x, (t_method)OUTPUT_tilde_initClock);	
 
 	x->x_sr = 44100.0f;
 	x->x_n = 64.0f;
@@ -495,6 +502,8 @@ static void *OUTPUT_tilde_new(t_symbol *s, int argc, t_atom *argv)
     x->x_canvas = canvas_getcurrent();
 
 	post("%s version %s", x->x_objSymbol->s_name, OUTPUTVERSION);
+
+	clock_delay(x->x_clock, 0); // wait 0ms to give a control cycle for expr_create() to be called
 	
     return(x);
 }
@@ -680,6 +689,9 @@ static void OUTPUT_tilde_free(OUTPUT_tilde *x)
 
 	// free the expression
 	expr_destroy(x->x_exprExp, &(x->x_exprVars));
+
+	// free the clock
+	clock_free(x->x_clock);
 };
 
 void OUTPUT_tilde_setup(void)

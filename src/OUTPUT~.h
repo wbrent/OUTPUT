@@ -1,5 +1,5 @@
 #include "m_pd.h"
-#include "exprDouble.h"
+#include "exprDouble.h" // modified from expr.h at https://github.com/zserge/expr
 // #include <math.h> // already included with exprDouble.h
 // #include <limits.h> // already included with exprDouble.h
 // #include <stdlib.h> // for rand() // already included with exprDouble.h
@@ -32,6 +32,8 @@ typedef struct _OUTPUT_tilde
     t_object x_obj;
 	t_symbol *x_objSymbol;
     t_canvas *x_canvas;
+	t_clock *x_clock;
+    unsigned char x_startupFlag;
     t_float x_sr;
     t_float x_n;
     double x_bitDepth;
