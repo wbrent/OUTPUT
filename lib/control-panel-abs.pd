@@ -83,7 +83,7 @@ on the keyboard., f 23;
 #X connect 12 0 11 0;
 #X restore 437 68 pd find-MIDI-note;
 #X symbolatom 296 174 7 0 0 1 note player-#1-midi-note-display -;
-#X floatatom 206 124 5 0 112 2 algo-select player-#1-algo-select-set
+#X floatatom 206 124 5 0 74 2 algo-select player-#1-algo-select-set
 player-#1-algo-select;
 #X obj 296 154 tgl 15 0 player-\$1-asr-kbd player-\$1-asr-kbd-set ASR-kbd
 17 7 0 10 -262144 -1 -1 0 1;
