@@ -224,7 +224,7 @@ empty 17 7 0 10 -262144 -1 -1;
 here on the client side \, which reflects the state of the player's
 GUI control panel via algo-param-interface-client.pd. In cases where
 the time \, tempo \, bitDepth \, and params checkboxes are OFF \, the
-internal settings of [OUTPUT~] on the master side will differ from
+internal settings of [algo~] on the master side will differ from
 what is stored in the local client side cache. Thus \, the cache saving
 feature really only works when those checkboxes are ON.;
 #X connect 0 0 19 0;
@@ -273,7 +273,7 @@ feature really only works when those checkboxes are ON.;
 #X msg 301 134 dir 0 ../;
 #X obj 265 303 s player-\$1-load-preset;
 #X msg 241 420 load \$1;
-#X obj 178 455 OUTPUT~;
+#X obj 178 455 algo~;
 #X msg 178 355 getAlgoSettings;
 #N canvas 540 541 1056 396 send-to-params-table 0;
 #X obj 62 20 inlet;
@@ -288,7 +288,7 @@ and 16th elements in this list), f 44;
 #X obj 182 182 list split 10;
 #X obj 136 254 list append;
 #X obj 136 278 list append;
-#X text 539 40 this is an attempt at an update for OUTPUT~ v 0.9 \;
+#X text 539 40 this is an attempt at an update for algo~ v 0.9 \;
 \; 0) algo is a symbol \, so look up its idx and use that \; 1-10)
 the next 20 are params. trim the first 10 and use those \; 11) bit
 depth \; 12) tempo \; 13) time \; 14) loop point start \; 15) loop
@@ -335,7 +335,7 @@ point end \; \; this is 16 total;
 #X msg 572 98 symbol cache;
 #X obj 241 393 symbol;
 #X text 71 258 must delay by a control cycle in order for preset time
-data to be updated and properly reported from [OUTPUT~]., f 12;
+data to be updated and properly reported from [algo~]., f 12;
 #X obj 731 340 symbol;
 #X obj 461 161 select preset cache;
 #X obj 178 207 symbol;

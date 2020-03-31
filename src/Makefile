@@ -1,11 +1,11 @@
-# Makefile for [OUTPUT~]
+# Makefile for [algo~]
 
 # specify a location for Pd if desired
 # PDDIR = /home/yourname/somedirectory/pd-0.50-2
 
-lib.name = OUTPUT~
+lib.name = algo~
 
-$(lib.name).class.sources = OUTPUT~.c
+$(lib.name).class.sources = algo~.c
 
 datafiles = $(lib.name)-help.pd
 

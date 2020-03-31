@@ -1,6 +1,6 @@
 /*
 
-OUTPUT~
+algo~
 
 Copyright 2019 William Brent
 
@@ -14,10 +14,10 @@ version 0.9.0, March 27, 2020
 
 */
 
-#include "OUTPUT~.h"
+#include "algo~.h"
 
-/* ------------------------ OUTPUT~ -------------------------------- */
-static double OUTPUT_tilde_cubicInterpolate(double y0, double y1, double y2, double y3, double mu)
+/* ------------------------ algo~ -------------------------------- */
+static double algo_tilde_cubicInterpolate(double y0, double y1, double y2, double y3, double mu)
 {
    double a0, a1, a2, a3, mu2;
 
@@ -30,11 +30,11 @@ static double OUTPUT_tilde_cubicInterpolate(double y0, double y1, double y2, dou
    return(a0*mu*mu2+a1*mu2+a2*mu+a3);
 }
 
-static void OUTPUT_tilde_print(OUTPUT_tilde *x)
+static void algo_tilde_print(algo_tilde *x)
 {
 	int i;
 
-	post("%s version %s", x->x_objSymbol->s_name, OUTPUTVERSION);
+	post("%s version %s", x->x_objSymbol->s_name, ALGOTILDEVERSION);
 
 	post("%s: algorithm: %s", x->x_objSymbol->s_name, x->x_exprStr);
 
@@ -61,12 +61,13 @@ static void OUTPUT_tilde_print(OUTPUT_tilde *x)
 	post("%s: t: %u", x->x_objSymbol->s_name, x->x_t);
 	post("%s: time loop points: [%u, %u]", x->x_objSymbol->s_name, x->x_tLoopPoints[0], x->x_tLoopPoints[1]);
 	post("%s: interpolation: %s", x->x_objSymbol->s_name, (x->x_interpSwitch > 0) ? "ON" : "OFF");
+	post("%s: compute: %s", x->x_objSymbol->s_name, (x->x_computeSwitch > 0) ? "ON" : "OFF");
 	post("%s: sampling rate: %i", x->x_objSymbol->s_name, (int)x->x_sr);
 	post("%s: block size: %i", x->x_objSymbol->s_name, (int)x->x_n);
 	post("");
 }
 
-static void OUTPUT_tilde_getAlgoSettings(OUTPUT_tilde *x)
+static void algo_tilde_getAlgoSettings(algo_tilde *x)
 {
 	int i;
 	t_atom *listOut;
@@ -94,7 +95,7 @@ static void OUTPUT_tilde_getAlgoSettings(OUTPUT_tilde *x)
 	t_freebytes(listOut, NUMALGOSETTINGS * sizeof(t_atom));
 }
 
-static void OUTPUT_tilde_getTimeIndex(OUTPUT_tilde *x)
+static void algo_tilde_getTimeIndex(algo_tilde *x)
 {
 	t_atom *listOut;
 	float mu;
@@ -116,12 +117,12 @@ static void OUTPUT_tilde_getTimeIndex(OUTPUT_tilde *x)
 	t_freebytes(listOut, 2 * sizeof(t_atom));
 }
 
-static void OUTPUT_tilde_getNumAlgoParams(OUTPUT_tilde *x)
+static void algo_tilde_getNumAlgoParams(algo_tilde *x)
 {
 	outlet_float(x->x_outletNumAlgoParams, x->x_numAlgoParams);
 }
 
-static void OUTPUT_tilde_setTimeIndex(OUTPUT_tilde *x, t_floatarg t, t_floatarg m)
+static void algo_tilde_setTimeIndex(algo_tilde *x, t_floatarg t, t_floatarg m)
 {
 	// keep bounded within 1 and UINT_MAX
 	t = (t<1)?1:t;
@@ -134,7 +135,7 @@ static void OUTPUT_tilde_setTimeIndex(OUTPUT_tilde *x, t_floatarg t, t_floatarg 
 	x->x_sampIdx = m;
 }
 
-static void OUTPUT_tilde_setTimeRand(OUTPUT_tilde *x)
+static void algo_tilde_setTimeRand(algo_tilde *x)
 {
 	double randDoubleFloat;
 
@@ -144,7 +145,7 @@ static void OUTPUT_tilde_setTimeRand(OUTPUT_tilde *x)
 	x->x_t = floor(randDoubleFloat * UINT_MAX); // best to set x->x_t directly, because x->x_tBlockStart grabs that at the beginning of the next block
 }
 
-static void OUTPUT_tilde_setTimeLoopPoints(OUTPUT_tilde *x, t_floatarg t0, t_floatarg t1)
+static void algo_tilde_setTimeLoopPoints(algo_tilde *x, t_floatarg t0, t_floatarg t1)
 {
 	// if any time points are negative, set loop to full range
 	// if t1 == t2, set loop to full time range
@@ -174,7 +175,7 @@ static void OUTPUT_tilde_setTimeLoopPoints(OUTPUT_tilde *x, t_floatarg t0, t_flo
 	x->x_tLoopPoints[1] = t1;
 }
 
-static void OUTPUT_tilde_interpSwitch(OUTPUT_tilde *x, t_floatarg i)
+static void algo_tilde_interpSwitch(algo_tilde *x, t_floatarg i)
 {
 	// keep bounded within 0 and 1
 	i = (i<0)?0:i;
@@ -182,7 +183,7 @@ static void OUTPUT_tilde_interpSwitch(OUTPUT_tilde *x, t_floatarg i)
 	x->x_interpSwitch = i;
 }
 
-static void OUTPUT_tilde_computeSwitch(OUTPUT_tilde *x, t_floatarg c)
+static void algo_tilde_computeSwitch(algo_tilde *x, t_floatarg c)
 {
 	// keep bounded within 0 and 1
 	c = (c<0)?0:c;
@@ -190,7 +191,7 @@ static void OUTPUT_tilde_computeSwitch(OUTPUT_tilde *x, t_floatarg c)
 	x->x_computeSwitch = c;
 }
 
-static void OUTPUT_tilde_setAlgo(OUTPUT_tilde *x, t_symbol *exprArg)
+static void algo_tilde_setAlgo(algo_tilde *x, t_symbol *exprArg)
 {
 	int i, count;
 // 	static struct expr_func user_funcs[] = {{NULL, NULL, NULL, 0}}; // declare this locally every time we need to call expr_create(). we have no custom functions at this point. but is it ok
@@ -210,7 +211,7 @@ static void OUTPUT_tilde_setAlgo(OUTPUT_tilde *x, t_symbol *exprArg)
 	x->x_numAlgoParams = count;
 	
 	// call _getNumAlgoParams so updated value goes out outlet
-	OUTPUT_tilde_getNumAlgoParams(x);
+	algo_tilde_getNumAlgoParams(x);
 	
 	x->x_exprExp = expr_create(x->x_exprStr, strlen(x->x_exprStr), &(x->x_exprVars), exprUserfuncs);
 
@@ -228,7 +229,7 @@ static void OUTPUT_tilde_setAlgo(OUTPUT_tilde *x, t_symbol *exprArg)
 // 	}
 }
 
-static void OUTPUT_tilde_parameters(OUTPUT_tilde *x, t_symbol *s, int argc, t_atom *argv)
+static void algo_tilde_parameters(algo_tilde *x, t_symbol *s, int argc, t_atom *argv)
 {
 	int i;
 	
@@ -257,7 +258,7 @@ static void OUTPUT_tilde_parameters(OUTPUT_tilde *x, t_symbol *s, int argc, t_at
 	}
 }
 
-static void OUTPUT_tilde_bitDepth(OUTPUT_tilde *x, t_floatarg b)
+static void algo_tilde_bitDepth(algo_tilde *x, t_floatarg b)
 {
 	// keep bounded within 1 and MAXBITDEPTH
 	b = (b<1)?1:b;
@@ -266,7 +267,7 @@ static void OUTPUT_tilde_bitDepth(OUTPUT_tilde *x, t_floatarg b)
  	x->x_quantSteps = pow(2.0f, x->x_bitDepth);
 }
 
-static void OUTPUT_tilde_tempo(OUTPUT_tilde *x, t_floatarg t)
+static void algo_tilde_tempo(algo_tilde *x, t_floatarg t)
 {	
 	// keep bounded within 1 and MAXTEMPO
 	t = (t<1.0)?1.0:t;
@@ -277,7 +278,7 @@ static void OUTPUT_tilde_tempo(OUTPUT_tilde *x, t_floatarg t)
 	x->x_incr = (x->x_tempo/BASETEMPO);
 }
 
-static void OUTPUT_tilde_debug(OUTPUT_tilde *x, t_floatarg d)
+static void algo_tilde_debug(algo_tilde *x, t_floatarg d)
 {
 	// keep bounded within 0 and 255
 	d = (d<0)?0:d;
@@ -285,7 +286,7 @@ static void OUTPUT_tilde_debug(OUTPUT_tilde *x, t_floatarg d)
 	x->x_debug = d;
 }
 
-static void OUTPUT_tilde_savePreset(OUTPUT_tilde *x, t_symbol *f)
+static void algo_tilde_savePreset(algo_tilde *x, t_symbol *f)
 {
 	FILE *filePtr;
     char fileNameBuf[MAXPDSTRING];
@@ -329,7 +330,7 @@ static void OUTPUT_tilde_savePreset(OUTPUT_tilde *x, t_symbol *f)
     fclose(filePtr);
 }
 
-static void OUTPUT_tilde_loadPreset(OUTPUT_tilde *x, t_symbol *f)
+static void algo_tilde_loadPreset(algo_tilde *x, t_symbol *f)
 {
 	FILE *filePtr;
     char fileNameBuf[MAXPDSTRING], stringIdBuf[MAXPDSTRING], algo[MAXPDSTRING];
@@ -368,7 +369,7 @@ static void OUTPUT_tilde_loadPreset(OUTPUT_tilde *x, t_symbol *f)
     fscanf(filePtr, "%u", tLoopPoints+1);
 
 	// load the algo. need to convert the string to a symbol
-	OUTPUT_tilde_setAlgo(x, gensym(algo));
+	algo_tilde_setAlgo(x, gensym(algo));
 
 	// assign the values to the object dataspace
 
@@ -386,7 +387,7 @@ static void OUTPUT_tilde_loadPreset(OUTPUT_tilde *x, t_symbol *f)
 	}
 
 	// x_exprArgs will be updated via this function call, as if the params came in as a "parameters" message
-	OUTPUT_tilde_parameters(x, gensym("parameters"), MAXALGOPARAMS, paramAtoms);
+	algo_tilde_parameters(x, gensym("parameters"), MAXALGOPARAMS, paramAtoms);
 
 	// free local memory
 	t_freebytes(paramAtoms, MAXALGOPARAMS * sizeof(t_atom));
@@ -409,21 +410,21 @@ static void OUTPUT_tilde_loadPreset(OUTPUT_tilde *x, t_symbol *f)
 	x->x_tLoopPoints[1] = tLoopPoints[1];
 
 	// use existing functions for remaining assignments since they have safety checks
-	OUTPUT_tilde_bitDepth(x, bitDepth);
-	OUTPUT_tilde_tempo(x, tempo);
-	OUTPUT_tilde_setTimeIndex(x, t, 0); // set mu to 0
+	algo_tilde_bitDepth(x, bitDepth);
+	algo_tilde_tempo(x, tempo);
+	algo_tilde_setTimeIndex(x, t, 0); // set mu to 0
 
     fclose(filePtr);
 }
 
-static void OUTPUT_tilde_initClock(OUTPUT_tilde *x)
+static void algo_tilde_initClock(algo_tilde *x)
 {
 	x->x_startupFlag = 1;
 }
 
-static void *OUTPUT_tilde_new(t_symbol *s, int argc, t_atom *argv)
+static void *algo_tilde_new(t_symbol *s, int argc, t_atom *argv)
 {
-    OUTPUT_tilde *x = (OUTPUT_tilde *)pd_new(OUTPUT_tilde_class);
+    algo_tilde *x = (algo_tilde *)pd_new(algo_tilde_class);
 	t_symbol *exprArg;
 	struct expr_var *v;
 	int i;
@@ -437,13 +438,13 @@ static void *OUTPUT_tilde_new(t_symbol *s, int argc, t_atom *argv)
 	// store the pointer to the symbol containing the object name. Can access it for error and post functions via s->s_name
 	x->x_objSymbol = s;
 	x->x_startupFlag = 0; // keep track of whether the object creation process has completed
-    x->x_clock = clock_new(x, (t_method)OUTPUT_tilde_initClock);	
+    x->x_clock = clock_new(x, (t_method)algo_tilde_initClock);	
 
 	x->x_sr = 44100.0f;
 	x->x_n = 64.0f;
 	
 	// this function sets x_tempo and handles calculation of x_quantSteps
-	OUTPUT_tilde_bitDepth(x, 8.0f);
+	algo_tilde_bitDepth(x, 8.0f);
 	
 	x->x_interpSwitch = 1;
 	x->x_computeSwitch = 1;
@@ -459,7 +460,7 @@ static void *OUTPUT_tilde_new(t_symbol *s, int argc, t_atom *argv)
 	x->x_sampIdx = 0.0f;
 	
 	// this tempo recreates results of 8kHz sampling rate when running at 44.1kHz 
-	OUTPUT_tilde_tempo(x, 10.884f);
+	algo_tilde_tempo(x, 10.884f);
 
 	x->x_signalBuffer = (double *)t_getbytes((x->x_n*4+EXTRAPOINTS) * sizeof(double));
 	
@@ -475,20 +476,20 @@ static void *OUTPUT_tilde_new(t_symbol *s, int argc, t_atom *argv)
 	{
 		case 0:
 			exprArg = gensym("t*p0");
-			OUTPUT_tilde_setAlgo(x, exprArg);
-			OUTPUT_tilde_parameters(x, gensym("parameters"), argc, argv);
+			algo_tilde_setAlgo(x, exprArg);
+			algo_tilde_parameters(x, gensym("parameters"), argc, argv);
 			break;
 			
 		case 1:	
 			exprArg = atom_getsymbol(argv);
-			OUTPUT_tilde_setAlgo(x, exprArg);
-			OUTPUT_tilde_parameters(x, gensym("parameters"), 0, argv);
+			algo_tilde_setAlgo(x, exprArg);
+			algo_tilde_parameters(x, gensym("parameters"), 0, argv);
 			break;
 
 		default:
 			exprArg = atom_getsymbol(argv);
-			OUTPUT_tilde_setAlgo(x, exprArg);
-			OUTPUT_tilde_parameters(x, gensym("parameters"), argc-1, argv+1);
+			algo_tilde_setAlgo(x, exprArg);
+			algo_tilde_parameters(x, gensym("parameters"), argc-1, argv+1);
 			break;
 	}
 
@@ -501,18 +502,18 @@ static void *OUTPUT_tilde_new(t_symbol *s, int argc, t_atom *argv)
 
     x->x_canvas = canvas_getcurrent();
 
-	post("%s version %s", x->x_objSymbol->s_name, OUTPUTVERSION);
+	post("%s version %s", x->x_objSymbol->s_name, ALGOTILDEVERSION);
 
 	clock_delay(x->x_clock, 0); // wait 0ms to give a control cycle for expr_create() to be called
 	
     return(x);
 }
 
-static t_int *OUTPUT_tilde_perform(t_int *w)
+static t_int *algo_tilde_perform(t_int *w)
 {
     unsigned int i, j, n, m, hop;
 
-    OUTPUT_tilde *x = (OUTPUT_tilde *)(w[1]);
+    algo_tilde *x = (algo_tilde *)(w[1]);
     t_sample *out = (t_float *)(w[2]);
     n = w[3];
 	
@@ -591,7 +592,7 @@ static t_int *OUTPUT_tilde_perform(t_int *w)
 				
 			j = floor(x->x_sampIdx);
 		
-			out[i] = OUTPUT_tilde_cubicInterpolate(x->x_signalBuffer[j-1], x->x_signalBuffer[j], x->x_signalBuffer[j+1], x->x_signalBuffer[j+2], x->x_mu);
+			out[i] = algo_tilde_cubicInterpolate(x->x_signalBuffer[j-1], x->x_signalBuffer[j], x->x_signalBuffer[j+1], x->x_signalBuffer[j+2], x->x_mu);
 
 			if(x->x_debug)
 			{
@@ -660,10 +661,10 @@ static t_int *OUTPUT_tilde_perform(t_int *w)
     return (w+4);
 }
 
-static void OUTPUT_tilde_dsp(OUTPUT_tilde *x, t_signal **sp)
+static void algo_tilde_dsp(algo_tilde *x, t_signal **sp)
 {
 	dsp_add(
-		OUTPUT_tilde_perform,
+		algo_tilde_perform,
 		3,
 		x,
 		sp[0]->s_vec,
@@ -682,7 +683,7 @@ static void OUTPUT_tilde_dsp(OUTPUT_tilde *x, t_signal **sp)
 };
 
 
-static void OUTPUT_tilde_free(OUTPUT_tilde *x)
+static void algo_tilde_free(algo_tilde *x)
 {	
 	// free the signalBuffer memory
 	t_freebytes(x->x_signalBuffer,  (x->x_n*4+EXTRAPOINTS)*sizeof(double));
@@ -694,58 +695,58 @@ static void OUTPUT_tilde_free(OUTPUT_tilde *x)
 	clock_free(x->x_clock);
 };
 
-void OUTPUT_tilde_setup(void)
+void algo_tilde_setup(void)
 {		
-    OUTPUT_tilde_class = 
+    algo_tilde_class = 
     class_new(
-    	gensym("OUTPUT~"),
-    	(t_newmethod)OUTPUT_tilde_new,
-    	(t_method)OUTPUT_tilde_free,
-        sizeof(OUTPUT_tilde),
+    	gensym("algo~"),
+    	(t_newmethod)algo_tilde_new,
+    	(t_method)algo_tilde_free,
+        sizeof(algo_tilde),
         CLASS_DEFAULT,
         A_GIMME,
 		0
     );
 
 	class_addmethod(
-		OUTPUT_tilde_class,
-		(t_method)OUTPUT_tilde_setAlgo,
+		algo_tilde_class,
+		(t_method)algo_tilde_setAlgo,
 		gensym("algo"),
 		A_DEFSYMBOL,
 		0
 	);
 		
 	class_addmethod(
-		OUTPUT_tilde_class,
-		(t_method)OUTPUT_tilde_print,
+		algo_tilde_class,
+		(t_method)algo_tilde_print,
 		gensym("print"),
 		0
 	);
 
 	class_addmethod(
-		OUTPUT_tilde_class,
-		(t_method)OUTPUT_tilde_getAlgoSettings,
+		algo_tilde_class,
+		(t_method)algo_tilde_getAlgoSettings,
 		gensym("getAlgoSettings"),
 		0
 	);
 	
 	class_addmethod(
-		OUTPUT_tilde_class,
-		(t_method)OUTPUT_tilde_getTimeIndex,
+		algo_tilde_class,
+		(t_method)algo_tilde_getTimeIndex,
 		gensym("getTimeIndex"),
 		0
 	);
 	
 	class_addmethod(
-		OUTPUT_tilde_class,
-		(t_method)OUTPUT_tilde_getNumAlgoParams,
+		algo_tilde_class,
+		(t_method)algo_tilde_getNumAlgoParams,
 		gensym("getNumAlgoParams"),
 		0
 	);
 
 	class_addmethod(
-		OUTPUT_tilde_class,
-		(t_method)OUTPUT_tilde_setTimeIndex,
+		algo_tilde_class,
+		(t_method)algo_tilde_setTimeIndex,
 		gensym("setTimeIndex"),
 		A_DEFFLOAT,
 		A_DEFFLOAT,
@@ -753,15 +754,15 @@ void OUTPUT_tilde_setup(void)
 	);
 	
 	class_addmethod(
-		OUTPUT_tilde_class,
-		(t_method)OUTPUT_tilde_setTimeRand,
+		algo_tilde_class,
+		(t_method)algo_tilde_setTimeRand,
 		gensym("setTimeRand"),
 		0
 	);
 
 	class_addmethod(
-		OUTPUT_tilde_class,
-		(t_method)OUTPUT_tilde_setTimeLoopPoints,
+		algo_tilde_class,
+		(t_method)algo_tilde_setTimeLoopPoints,
 		gensym("setTimeLoopPoints"),
 		A_DEFFLOAT,
 		A_DEFFLOAT,
@@ -769,48 +770,48 @@ void OUTPUT_tilde_setup(void)
 	);
 	
 	class_addmethod(
-		OUTPUT_tilde_class,
-		(t_method)OUTPUT_tilde_interpSwitch,
+		algo_tilde_class,
+		(t_method)algo_tilde_interpSwitch,
 		gensym("interpolate"),
 		A_DEFFLOAT,
 		0
 	);
 
 	class_addmethod(
-		OUTPUT_tilde_class,
-		(t_method)OUTPUT_tilde_computeSwitch,
+		algo_tilde_class,
+		(t_method)algo_tilde_computeSwitch,
 		gensym("compute"),
 		A_DEFFLOAT,
 		0
 	);
 	
 	class_addmethod(
-		OUTPUT_tilde_class,
-		(t_method)OUTPUT_tilde_parameters,
+		algo_tilde_class,
+		(t_method)algo_tilde_parameters,
 		gensym("parameters"),
 		A_GIMME,
 		0
 	);
 	
 	class_addmethod(
-		OUTPUT_tilde_class,
-		(t_method)OUTPUT_tilde_bitDepth,
+		algo_tilde_class,
+		(t_method)algo_tilde_bitDepth,
 		gensym("bitDepth"),
 		A_DEFFLOAT,
 		0
 	);
 	
 	class_addmethod(
-		OUTPUT_tilde_class,
-		(t_method)OUTPUT_tilde_tempo,
+		algo_tilde_class,
+		(t_method)algo_tilde_tempo,
 		gensym("tempo"),
 		A_DEFFLOAT,
 		0
 	);
 
 	class_addmethod(
-		OUTPUT_tilde_class,
-		(t_method)OUTPUT_tilde_debug,
+		algo_tilde_class,
+		(t_method)algo_tilde_debug,
 		gensym("debug"),
 		A_DEFFLOAT,
 		0
@@ -818,24 +819,24 @@ void OUTPUT_tilde_setup(void)
 
 	// it looks like changing the number of class_addmethod() function calls here in _setup() changes the output of algorithms involving the 36364689 char array as well. even their ORDER listed here changes it. additional code elsewhere (like the _loadPreset function definition) don't seem to affect this. nor does additional memory (even large amounts!) declared in the object's data struct. it is only within the _setup() function. it would be excellent to figure out how this works, and perhaps find a way to work toward a modulo value other than 256 for the index into the char array (which invokes undefined behavior since the max index should be 7). the two issues may be interrelated
 	class_addmethod(
-		OUTPUT_tilde_class,
-		(t_method)OUTPUT_tilde_loadPreset,
+		algo_tilde_class,
+		(t_method)algo_tilde_loadPreset,
 		gensym("load"),
 		A_DEFSYMBOL,
 		0
 	);
 
 	class_addmethod(
-		OUTPUT_tilde_class,
-		(t_method)OUTPUT_tilde_savePreset,
+		algo_tilde_class,
+		(t_method)algo_tilde_savePreset,
 		gensym("save"),
 		A_DEFSYMBOL,
 		0
 	);
 	
     class_addmethod(
-    	OUTPUT_tilde_class,
-    	(t_method)OUTPUT_tilde_dsp,
+    	algo_tilde_class,
+    	(t_method)algo_tilde_dsp,
     	gensym("dsp"),
     	0
     );

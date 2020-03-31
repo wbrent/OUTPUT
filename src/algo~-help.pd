@@ -48,7 +48,7 @@
 #X floatatom 379 281 15 0 0 3 time - -;
 #X obj 217 110 s \$0-output-current-settings;
 #X text 245 50 Send settings out so that GUI controls can be updated
-to [OUTPUT~]'s current internal state after loading a preset., f 45
+to [algo~]'s current internal state after loading a preset., f 45
 ;
 #X obj 11 96 list split 1;
 #X floatatom 519 281 15 0 0 3 time-loop-start - -;
@@ -261,7 +261,7 @@ the sampling rate to go from "minutes" (at tempo 60) to raw time index.
 #N canvas 816 131 805 612 presets 0;
 #X obj 39 547 outlet;
 #X msg 75 141 save;
-#X text 164 127 If you omit the file name with a save message \, [OUTPUT~]
+#X text 164 127 If you omit the file name with a save message \, [algo~]
 will generate a unique file name based on the current logical time.
 , f 47;
 #X msg 239 385 getAlgoSettings;
@@ -310,7 +310,7 @@ can have intense DC offsets \, a high-pass filter is recommended.,
 f 44;
 #N canvas 837 100 805 558 more-messages 0;
 #X msg 287 419 print;
-#X obj 50 88 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1 1
+#X obj 50 88 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0 1
 ;
 #X msg 50 108 interpolate \$1;
 #X obj 123 155 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
@@ -326,16 +326,16 @@ outlet and the internal time variable ceases to be incremented.;
 #X text 383 320 Get the number of parameters used in the active algorithm.
 This is just a count of all the "p" terms \, and may be useful in designing
 GUIs, f 43;
-#X text 89 16 The object has an internal 4-point cubic interpolation
-function to smooth out the signal. This is especially useful at slow
-tempos \, and often sounds as if the signal has been low-pass filtered.
-The default state has interpolation active. Turn it off for a more
-harsh and raw bytebeat sound.;
 #X text 337 216 Report all internal settings as a list of one symbol
 (the active algorithm) and 25 numbers (20 parameters \, bit-depth \,
 tempo \, time \, and time start/end loop points). Data is sent out
 the 4th outlet. Use this information to populate GUI controls to keep
 them in sync with the object's internal state.;
+#X text 89 16 [algo~] has an internal 4-point cubic interpolation function
+to smooth out the signal. This is especially useful at slow tempos
+\, and often sounds as if the signal has been low-pass filtered. The
+default state has interpolation active. Turn it off for a more harsh
+and raw bytebeat sound.;
 #X connect 0 0 5 0;
 #X connect 1 0 2 0;
 #X connect 2 0 5 0;
@@ -380,54 +380,57 @@ can be updated., f 37;
 #X connect 14 0 2 0;
 #X coords 0 -1 1 1 125 80 1 65 200;
 #X restore 54 43 pd settings;
-#X obj 54 394 OUTPUT~ t&(t/p0) 255;
-#N canvas 702 40 870 455 algorithms 0;
-#X obj 75 407 outlet;
+#X obj 54 394 algo~ t&(t/p0) 255;
+#N canvas 702 40 870 573 algorithms 0;
+#X obj 75 527 outlet;
 #X msg 75 22 algo ((t>>10)&42)*t;
 #X msg 155 183 algo (((t%p0)*(t>>p1)|(357052691)-(t>>p2))/(t>>p3))^(t|(t>>p4))
 ;
 #X msg 105 53 algo ((t>>p0)&42)*t;
 #X msg 125 83 algo ((t>>p0)&p1)*t;
-#X text 295 53 << Add free variables starting with p0 \, and as high
-as p19. Change the value of p0-p19 via the "parameters" message to
-affect the algorithm output on the fly.;
-#X text 587 187 << Algorithm with 5 free variables;
 #X msg 145 113 parameters 11 187;
-#X text 183 321 Note that "t" increments by 1 on each time step and
-wraps within the range 0 through UINT_MAX. This time incrementing depends
-on the object's internal timing system \, which is tied to the tempo
-setting. At a tempo setting of 60 \, t will increment by 1 in step
-with Pd's sampling rate. At a tempo setting of 30 \, t will increment
-by 0.5 for every sample., f 78;
-#X text 251 18 << Fixed algorithm with no free variables \, and "t"
-\, which represents time., f 83;
-#X text 183 251 Algorithms must be valid expressions and MUST NOT CONTAIN
+#X text 183 371 Algorithms must be valid expressions and MUST NOT CONTAIN
 SPACES. The standard arithmetic \, bitwise \, and logical operators
 are available. Valid variables are "t" (time) \, and "p0" through "p19"
 for a maximum of 20 free variables adjusted via the "parameters" message.
 , f 78;
 #X msg 165 223 parameters 8192 33 23 8 6 \, setTimeIndex 1.05879e+07
 ;
+#X text 183 441 Note that "t" increments by 1 on each time step and
+wraps within the range 0 through UINT_MAX. This process depends on
+the object's internal timing system \, which is tied to the tempo setting.
+At a tempo setting of 60 \, t will increment by 1 - in step with Pd's
+sampling rate. At a tempo setting of 30 \, t will increment by 0.5
+for every sample \, etc., f 78;
+#X symbolatom 194 289 80 0 0 0 - - -;
+#X text 192 264 Try one of your own...;
+#X text 587 187 Algorithm with 5 free variables;
+#X text 295 53 Add free variables starting with p0 \, and as high as
+p19. Change the value of p0-p19 via the "parameters" message to affect
+the algorithm output on the fly.;
+#X text 251 18 Fixed algorithm with no free variables \, and "t" \,
+which represents time., f 83;
 #X connect 1 0 0 0;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
 #X connect 4 0 0 0;
+#X connect 5 0 0 0;
 #X connect 7 0 0 0;
-#X connect 11 0 0 0;
+#X connect 9 0 0 0;
 #X restore 150 238 pd algorithms;
-#X text 206 24 [OUTPUT~] crunches the output of algorithmic "bytebeat"
+#X text 545 669 [algo~] v0.9.0;
+#X text 206 24 [algo~] crunches the output of algorithmic "bytebeat"
 code to produce signal. Although bytebeat algorithms can be explored
 in Pd natively using [expr~] or even bitwise operation control objects
 \, there are some advantages to implementing them in an external. For
 instance \, Pd uses floating point precision for its data \, but greater
 control is available using the unsigned int and double data types for
 an algorithm's time variable and associated parameters. Different interpolation
-methods can also be explored \, a number of convenient features can
-be managed \, and the code can run more efficiently., f 69;
-#X text 545 669 [OUTPUT~] v0.9.0;
+methods can also be explored \, a number of features can be managed
+conveniently \, and the code can run more efficiently., f 69;
 #X text 371 243 Explore the possibilities by trying various algorithms
 \, bit-depths \, and tempi \, while tuning available parameters. Creation
-arguments are a symbolic algorithm followed by up to 20 free variable
+arguments are: a symbolic algorithm followed by up to 20 free variable
 values., f 44;
 #X connect 4 0 1 0;
 #X connect 4 1 2 0;
