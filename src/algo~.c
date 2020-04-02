@@ -10,7 +10,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-version 0.9.0, March 27, 2020
+version 0.9.1, April 2, 2020
 
 */
 
@@ -62,6 +62,7 @@ static void algo_tilde_print(algo_tilde *x)
 	post("%s: time loop points: [%u, %u]", x->x_objSymbol->s_name, x->x_tLoopPoints[0], x->x_tLoopPoints[1]);
 	post("%s: interpolation: %s", x->x_objSymbol->s_name, (x->x_interpSwitch > 0) ? "ON" : "OFF");
 	post("%s: compute: %s", x->x_objSymbol->s_name, (x->x_computeSwitch > 0) ? "ON" : "OFF");
+	post("%s: time direction: %s", x->x_objSymbol->s_name, (x->x_timeDirection==forward) ? "forward" : "backward");
 	post("%s: sampling rate: %i", x->x_objSymbol->s_name, (int)x->x_sr);
 	post("%s: block size: %i", x->x_objSymbol->s_name, (int)x->x_n);
 	post("");
@@ -191,10 +192,16 @@ static void algo_tilde_computeSwitch(algo_tilde *x, t_floatarg c)
 	x->x_computeSwitch = c;
 }
 
+static void algo_tilde_timeDirection(algo_tilde *x, t_floatarg d)
+{
+	d = (d<-1)?-1:d;
+	d = (d>=0)?1:d;
+	x->x_timeDirection = d;
+}
+
 static void algo_tilde_setAlgo(algo_tilde *x, t_symbol *exprArg)
 {
 	int i, count;
-// 	static struct expr_func user_funcs[] = {{NULL, NULL, NULL, 0}}; // declare this locally every time we need to call expr_create(). we have no custom functions at this point. but is it ok
 	
 	// DEBUG: surprisingly, destroying the expression before creating it again causes crashes
 	// destroy the old expression first
@@ -448,6 +455,7 @@ static void *algo_tilde_new(t_symbol *s, int argc, t_atom *argv)
 	
 	x->x_interpSwitch = 1;
 	x->x_computeSwitch = 1;
+	x->x_timeDirection = forward;
 	x->x_debug = 0;
 	
 	x->x_t = 0;
@@ -511,7 +519,7 @@ static void *algo_tilde_new(t_symbol *s, int argc, t_atom *argv)
 
 static t_int *algo_tilde_perform(t_int *w)
 {
-    unsigned int i, j, n, m, hop;
+    unsigned int i, n, m, hop;
 
     algo_tilde *x = (algo_tilde *)(w[1]);
     t_sample *out = (t_float *)(w[2]);
@@ -526,6 +534,12 @@ static t_int *algo_tilde_perform(t_int *w)
 	if(x->x_computeSwitch)
 	{
 		double sampIdxBlockEnd;
+		unsigned char wrapFlag;
+		unsigned int wrapIdx;
+
+		// clear the wrap flag for this block
+		wrapFlag = 0;
+		wrapIdx = UINT_MAX;
 			
 		if(x->x_debug)
 		{
@@ -554,7 +568,7 @@ static t_int *algo_tilde_perform(t_int *w)
 			}
 			else
 				thisSample = 0;
-				
+			
 			// convert the unsigned int sample into a double precision float sample
 			thisSampleDouble = thisSample/x->x_quantSteps;
 			thisSample = floor(thisSampleDouble);
@@ -569,13 +583,45 @@ static t_int *algo_tilde_perform(t_int *w)
 			}
 
 			// advance the time variable t, wrapping via x_tLoopPoints if needed
-			x->x_t += 1;
-			
-			// loop bounds are INCLUSIVE, so only wrap if we go beyond the loop end
-			if(x->x_t > x->x_tLoopPoints[1])
-				x->x_t = x->x_tLoopPoints[0];
+			// turn the wrap flag on if this happens
+			switch(x->x_timeDirection)
+			{
+				case forward:
+					x->x_t++;
+					// wrap if we hit the end point of the loop
+					// this means that x_t will never be assigned x_tLoopPoints[1]
+					if(x->x_t >= x->x_tLoopPoints[1])
+					{
+						x->x_t = x->x_tLoopPoints[0];
+						// note the sample where the wrapping occurred
+						wrapIdx = i;
+					}
+					break;
+				case backward:
+					x->x_t--;
+					if(x->x_t <= x->x_tLoopPoints[0])
+					{
+						x->x_t = x->x_tLoopPoints[1];
+						wrapIdx = i;
+					}
+					break;
+				default:
+					x->x_t++;
+					if(x->x_t >= x->x_tLoopPoints[1])
+					{
+						x->x_t = x->x_tLoopPoints[0];
+						wrapIdx = i;
+					}
+					break;			
+			}
 		}
 	
+	////////////////////////////////
+	//	DO INTERPOLATION
+	//	note that this is not affected by time direction
+	//	once x_signalBuffer is filled based on time direction, the job here
+	//	is just to pull interpolated samples from that buffer
+	//
 		// to start the block, sampIdx should be 1.mu from last time
 		x->x_sampIdx = (x->x_sampIdx - floor(x->x_sampIdx)) + 1.0;
 		
@@ -585,6 +631,8 @@ static t_int *algo_tilde_perform(t_int *w)
 		// interpolate and output
 		for(i=0; i<n; i++)
 		{
+			unsigned int j;
+
 			if(x->x_interpSwitch)
 				x->x_mu = x->x_sampIdx - floor(x->x_sampIdx);
 			else
@@ -600,10 +648,19 @@ static t_int *algo_tilde_perform(t_int *w)
 				// don't decrement debug until end of perform routine
 			}
 
+			// before incrementing x_sampIdx, turn on the wrap flag if we actually got to the sample where the wrapping occurred. need to subtract 2 because x_sampIdx starts at 1.mu. otherwise it's possible to get two wrap bangs in a row in borderline cases
+			if(x->x_sampIdx-2 > wrapIdx)
+				wrapFlag = 1;
+				
 			sampIdxBlockEnd = x->x_sampIdx;
 			x->x_sampIdx += x->x_incr;
 		}
-
+	//
+	//
+	//
+	//	END INTERPOLATION
+	////////////////////////////////
+	
 		if(x->x_debug)
 		{
 			post("sampIdxBlockEnd: %f", sampIdxBlockEnd);
@@ -615,17 +672,41 @@ static t_int *algo_tilde_perform(t_int *w)
 
 		// store the final sample of the algo signal block to index 0 of the signal buffer for next time. since we generated extra samples past the m samples we actually want to hear, we need to rewind the time index. the time index for next block should be hop samples past the time index from the start of this block. remember to wrap at UINT_MAX as our maximum time index.
 		x->x_signalBuffer[0] = x->x_signalBuffer[hop];
-		
-		x->x_t = x->x_tBlockStart+hop;
 
-		// loop bounds are INCLUSIVE, so only wrap if we go beyond the loop end
-		if(x->x_t > x->x_tLoopPoints[1])
+		// rewind x_t to x_tBlockStart to prepare for wrap check below
+		x->x_t = x->x_tBlockStart;
+		
+		if(x->x_timeDirection==forward)
 		{
-			unsigned int diff;
-			diff = x->x_t - x->x_tLoopPoints[1];
+			unsigned int tmpHop;
 			
-			// move (diff-1) samples forward from the loop start
-			x->x_t = x->x_tLoopPoints[0] + diff - 1;
+			tmpHop = hop;
+			
+			// move forward by hop samples, wrapping if needed
+			while(tmpHop--)
+			{				
+				// if we hit the loop end, jump back to loop start
+				if(x->x_t >= x->x_tLoopPoints[1])
+					x->x_t = x->x_tLoopPoints[0];
+				else
+					x->x_t++;			
+			}
+		}
+		else if(x->x_timeDirection==backward)
+		{
+			unsigned int tmpHop;
+			
+			tmpHop = hop;
+			
+			// move backward by hop samples, wrapping if needed
+			while(tmpHop--)
+			{
+				// if we hit the loop start, jump to loop end
+				if(x->x_t <= x->x_tLoopPoints[0])
+					x->x_t = x->x_tLoopPoints[1];
+				else
+					x->x_t--;
+			}
 		}
 		
 		x->x_tBlockEnd = x->x_t;
@@ -644,9 +725,8 @@ static t_int *algo_tilde_perform(t_int *w)
 			// don't decrement debug until end of perform routine
 		}
 
-		// bang if the next time point has wrapped, indicating pattern reset
-		// this can double-trigger if the wrap point happens to align in a certain way relative to block size. would have to add a flag variable to the object dataspace to prevent this
-		if(x->x_t < x->x_tBlockStart)
+		// bang if time has wrapped, indicating pattern reset
+		if(wrapFlag)
 			outlet_bang(x->x_outletWrapBang);
  	}
  	else
@@ -781,6 +861,14 @@ void algo_tilde_setup(void)
 		algo_tilde_class,
 		(t_method)algo_tilde_computeSwitch,
 		gensym("compute"),
+		A_DEFFLOAT,
+		0
+	);
+
+	class_addmethod(
+		algo_tilde_class,
+		(t_method)algo_tilde_timeDirection,
+		gensym("timeDirection"),
 		A_DEFFLOAT,
 		0
 	);

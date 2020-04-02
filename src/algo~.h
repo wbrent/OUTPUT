@@ -12,7 +12,7 @@
 #define MAXBITDEPTH 32
 #define NUMALGOSETTINGS 26 // algo, 20 params, bit-depth, tempo, time, time loop start, time loop end. NOTE: if MAXALGOPARAMS changes, this must change accordingly
 #define ARRAY36364689SIZE 256
-#define ALGOTILDEVERSION "0.9.0"
+#define ALGOTILDEVERSION "0.9.1"
 
 // this was the output of "36364689"[i] for i=0:255 one day on my computer. it's undefined what comes out past i=7, but I liked the results so I'm recording them here in a specific array that can produce defined behavior.
 static const unsigned int array36364689[ARRAY36364689SIZE] = 
@@ -24,6 +24,8 @@ static const unsigned int array36364689[ARRAY36364689SIZE] =
 const char *paramStrings[MAXALGOPARAMS] = {"p0", "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8", "p9", "p10", "p11", "p12", "p13", "p14", "p15", "p16", "p17", "p18", "p19"};
 
 static struct expr_func exprUserfuncs[] = {{NULL, NULL, NULL, 0}};
+
+typedef enum {backward = -1, forward = 1} t_timeDir;
 
 static t_class *algo_tilde_class;
 
@@ -40,6 +42,7 @@ typedef struct _algo_tilde
     double x_quantSteps;
     unsigned char x_interpSwitch;
     unsigned char x_computeSwitch;
+	t_timeDir x_timeDirection;
     unsigned char x_debug;
 
     unsigned int x_t;
