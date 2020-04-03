@@ -56,7 +56,7 @@ static void algo_tilde_print(algo_tilde *x)
 		
 	post("%s: numAlgoParams: %u", x->x_objSymbol->s_name, x->x_numAlgoParams);
 	post("%s: bitDepth: %0.6f", x->x_objSymbol->s_name, x->x_bitDepth);
-	post("%s: tempo: %0.2f", x->x_objSymbol->s_name, x->x_tempo);
+	post("%s: tempo: %0.6f", x->x_objSymbol->s_name, x->x_tempo);
 	post("%s: tempoFactor: %0.6f", x->x_objSymbol->s_name, x->x_incr);
 	post("%s: t: %u", x->x_objSymbol->s_name, x->x_t);
 	post("%s: time loop points: [%u, %u]", x->x_objSymbol->s_name, x->x_tLoopPoints[0], x->x_tLoopPoints[1]);
