@@ -1,6 +1,7 @@
 0: toggle controls for player A/B ("toggle" mode: 0/127)
 
 (all other CCs in "momentary" mode: 0/127)
+101: tempo
 102: player A gain
 103: player B gain
 104: spat position
@@ -9,7 +10,6 @@
 107: time point
 108: dry-wet balance
 109: liveness
-101: tempo
 
 110: p0
 111: p1
@@ -18,9 +18,12 @@
 114: p4
 115: p5
 116: p6
-117: spat LFO freq
+117: p7
+118: p8
+119: p9
 
-52: timeSync to most recently tempoSync'd player
+120: spat LFO freq
+
 21: algo choice dec
 22: algo choice inc
 23: toggle compute
@@ -41,6 +44,9 @@
 
 50: tempo sync to player 4
 51: tempo sync to player 5
+
+52: timeSync to most recently tempoSync'd player
+56: reverse time
 
 16: active param choice dec
 17: active param choice inc
@@ -70,4 +76,33 @@
 
 UNMAPPED:
 
+1
+2
+3
+4
+5
+6
+7
+8
+
 13
+
+25
+26
+27
+28
+29
+
+36
+37
+38
+39
+
+46
+47
+48
+49
+
+57-100
+
+121-127
