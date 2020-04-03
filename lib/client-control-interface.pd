@@ -1582,6 +1582,9 @@ player-\$1-spat-lfo-freq-set 0 1];
 #X obj 36 76 buttonToggleMap player-\$1-asr-kbd 15 \$1 0 1 player-\$1-asr-kbd-set
 ;
 #X restore 43 64 pd keyboard-ASR;
+#N canvas 291 352 450 300 time-reverse 0;
+#X obj 55 81 buttonBangMap player-\$1-time-reverse-set 56 \$1;
+#X restore 413 154 pd time-reverse;
 #X restore 20 331 pd MIDI;
 #X obj 400 20 algo-param-interface-client \$1;
 #X coords 0 -1 1 1 1030 210 2 20 20;
