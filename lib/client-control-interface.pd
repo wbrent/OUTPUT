@@ -21,7 +21,7 @@
 #X obj 57 493 netprep player-\$1-tempo-sync 1;
 #X obj 57 463 netprep player-\$1-compute 1;
 #X obj 57 433 netprep player-\$1-tempo 1;
-#X obj 57 323 netprep player-\$1-set-time-index 1;
+#X obj 57 303 netprep player-\$1-set-time-index 1;
 #X obj 435 273 netprep player-\$1-rvb-damping 1;
 #X obj 435 249 netprep player-\$1-rvb-xover 1;
 #X obj 435 225 netprep player-\$1-rvb-liveness 1;
@@ -36,7 +36,7 @@
 #X obj 435 435 netprep player-\$1-asr-kbd 1;
 #X text 432 370 Just "set" this toggle on the master side so that it
 can be seen if other players are using ASR kbd, f 37;
-#X obj 57 293 netprep player-\$1-set-time-random;
+#X obj 57 273 netprep player-\$1-set-time-random;
 #X text 387 65 netprep player-\$1-current-time-index;
 #X obj 57 235 netprep player-\$1-dry-wet 1;
 #X text 387 85 netprep player-\$1-wet 1;
@@ -44,9 +44,10 @@ can be seen if other players are using ASR kbd, f 37;
 #X obj 435 525 netprep player-\$1-save-preset;
 #X obj 435 555 netprep player-\$1-load-preset;
 #X obj 435 495 netprep player-\$1-asr-time;
-#X obj 57 349 netprep player-\$1-loop-point-start 1;
-#X obj 57 375 netprep player-\$1-loop-point-end 1;
+#X obj 57 329 netprep player-\$1-loop-point-start 1;
+#X obj 57 355 netprep player-\$1-loop-point-end 1;
 #X obj 435 345 netprep player-\$1-algo-direct 1;
+#X obj 57 381 netprep player-\$1-time-reverse 1;
 #X restore 20 241 pd netpreps;
 #N canvas 1214 498 583 462 algo-cache-stuff 0;
 #X msg 43 116 0;

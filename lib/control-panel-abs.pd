@@ -26,7 +26,7 @@ intrp 17 7 0 10 -262144 -1 -1 0 1;
 #X floatatom 65 194 15 0 0 1 t player-#1-set-time-index-set player-#1-set-time-index
 ;
 #X obj 653 61 r lb4;
-#X obj 386 194 tgl 15 0 player-\$1-kbd-control player-\$1-kbd-control-set
+#X obj 298 456 tgl 15 0 player-\$1-kbd-control player-\$1-kbd-control-set
 k 5 7 0 10 -262144 -1 -1 0 1;
 #X text 63 379 Taking these out of GUI \, not used much. Leaving them
 in the abstraction though \, so that they can be set in the same way.
@@ -175,9 +175,9 @@ player-\$1-rvb-xover-set 3000 \; player-\$1-rvb-damping-set 30 \; player-\$1-spa
 player-\$1-kbd-control-set 0 \; player-\$1-asr-kbd-set 0 \;;
 #X floatatom 65 174 7 0 1623 1 minutes player-#1-time-point-set player-#1-time-point
 ;
-#X floatatom 65 214 15 0 1623 1 loop-start player-#1-loop-point-start-set
+#X floatatom 65 214 10 0 1623 1 loop-start player-#1-loop-point-start-set
 player-#1-loop-point-start;
-#X floatatom 245 214 15 0 1623 1 loop-end player-#1-loop-point-end-set
+#X floatatom 205 214 10 0 1623 1 loop-end player-#1-loop-point-end-set
 player-#1-loop-point-end;
 #X symbolatom 65 234 55 0 0 0 - player-#1-algo-direct-set player-#1-algo-direct
 ;
@@ -185,6 +185,10 @@ player-#1-loop-point-end;
 #X obj 366 348 r player-\$1-algo-select;
 #X msg 366 390 set \$1;
 #X obj 366 411 s player-\$1-algo-direct-set;
+#X obj 346 214 tgl 15 0 player-\$1-time-reverse player-\$1-time-reverse-set
+t-rev 17 7 0 10 -262144 -1 -1 0 1;
+#X text 331 456 << for computer keyboard control. may bring back in
+\, but just not needed in a crowded space at this point;
 #X connect 0 0 38 0;
 #X connect 1 0 19 0;
 #X connect 2 0 1 0;
