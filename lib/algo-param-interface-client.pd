@@ -15,117 +15,133 @@ player-#1-algo-param-range;
 empty 17 7 0 10 -262144 -1 -1;
 #X floatatom 109 482 5 0 0 0 - player-#1-algo-param-0-range-set player-#1-algo-param-0-range
 ;
-#N canvas 264 23 1010 895 populate 0;
-#X obj 140 487 t f b;
-#X obj 140 539 until;
-#X obj 140 605 f;
-#X obj 140 629 t f f;
-#X msg 140 456 10;
-#X obj 140 52 inlet;
-#X msg 265 613 \; player-\$2-bitDepth-set \$1 \;;
-#X obj 265 577 pack f \$1;
-#X obj 345 460 pack f \$1;
-#X obj 413 333 pack f \$1;
-#X msg 345 496 \; player-\$2-tempo-set \$1 \;;
-#X text 669 372 is this a safe send name to use for setting time?,
-f 26;
-#X obj 488 200 pack f \$1;
-#X obj 140 732 pack f f \$1;
-#X obj 140 680 tabread player-\$1-algo-params;
-#X obj 265 553 tabread player-\$1-algo-params;
-#X obj 345 436 tabread player-\$1-algo-params;
-#X obj 413 309 tabread player-\$1-algo-params;
-#X obj 488 176 tabread player-\$1-algo-params;
-#X msg 488 224 \; player-\$2-algo-select-retrigger-suppress-spigot
+#N canvas 706 399 977 464 populate 0;
+#X obj 60 42 inlet;
+#X obj 408 190 pack f \$1;
+#X obj 408 166 tabread player-\$1-algo-params;
+#X msg 408 214 \; player-\$2-algo-select-retrigger-suppress-spigot
 0 \; player-\$2-algo-select-set \$1;
-#X text 445 809 re-open flow of player-\$1-algo-select value in [pd
+#X text 431 353 re-open flow of player-\$1-algo-select value in [pd
 algo-cache-stuff] so that manual algo-select works again;
-#X text 553 96 NOTE: must suppress appearance of player-\$1-algo-select
+#X text 473 86 NOTE: must suppress appearance of player-\$1-algo-select
 value in [pd algo-cache-stuff] to avoid a stack overflow. this momentarily
 disables manual algo-select during the cache or preset loading process.
 ;
-#X msg 74 812 \; player-\$1-algo-select-retrigger-suppress-spigot 1
+#X msg 60 356 \; player-\$1-algo-select-retrigger-suppress-spigot 1
 \;;
-#X obj 140 85 t b b b b b b;
-#X obj 74 782 f \$1;
-#X msg 140 760 \; player-\$3-algo-param-\$2-set \$1 \;;
-#X obj 180 609 - 1;
-#X text 238 704 populate params starting at 9 and counting down to
+#X obj 60 75 t b b b b b b;
+#X obj 60 326 f \$1;
+#X msg 408 124 0;
+#N canvas 650 211 587 607 load-time-elements 0;
+#X obj 98 188 pack f \$1;
+#X text 354 227 is this a safe send name to use for setting time?,
+f 26;
+#X obj 98 164 tabread player-\$1-algo-params;
+#X obj 38 68 spigot;
+#X obj 98 68 r player-\$1-load-time;
+#X msg 98 224 \; player-\$2-set-time-index-set \$1 \;;
+#X msg 98 122 13;
+#X obj 68 350 pack f \$1;
+#X obj 68 326 tabread player-\$1-algo-params;
+#X msg 68 294 14;
+#X msg 68 376 \; player-\$2-loop-point-start-set \$1 \;;
+#X obj 38 480 pack f \$1;
+#X obj 38 456 tabread player-\$1-algo-params;
+#X msg 38 424 15;
+#X msg 38 506 \; player-\$2-loop-point-end-set \$1 \;;
+#X obj 38 29 inlet;
+#X connect 0 0 5 0;
+#X connect 2 0 0 0;
+#X connect 3 0 6 0;
+#X connect 3 0 9 0;
+#X connect 3 0 13 0;
+#X connect 4 0 3 1;
+#X connect 6 0 2 0;
+#X connect 7 0 10 0;
+#X connect 8 0 7 0;
+#X connect 9 0 8 0;
+#X connect 11 0 14 0;
+#X connect 12 0 11 0;
+#X connect 13 0 12 0;
+#X connect 15 0 3 0;
+#X restore 227 205 pd load-time-elements;
+#N canvas 529 359 335 339 load-tempo 0;
+#X obj 45 35 inlet;
+#X obj 45 181 pack f \$1;
+#X msg 45 217 \; player-\$2-tempo-set \$1 \;;
+#X obj 45 157 tabread player-\$1-algo-params;
+#X obj 45 79 spigot;
+#X obj 105 79 r player-\$1-load-tempo;
+#X msg 45 115 12;
+#X connect 0 0 4 0;
+#X connect 1 0 2 0;
+#X connect 3 0 1 0;
+#X connect 4 0 6 0;
+#X connect 5 0 4 1;
+#X connect 6 0 3 0;
+#X restore 197 235 pd load-tempo;
+#N canvas 581 367 366 355 load-bitDepth 0;
+#X obj 44 40 inlet;
+#X msg 44 243 \; player-\$2-bitDepth-set \$1 \;;
+#X obj 44 207 pack f \$1;
+#X obj 44 183 tabread player-\$1-algo-params;
+#X obj 44 108 spigot;
+#X obj 104 78 r player-\$1-load-bitDepth;
+#X msg 44 141 11;
+#X connect 0 0 4 0;
+#X connect 2 0 1 0;
+#X connect 3 0 2 0;
+#X connect 4 0 6 0;
+#X connect 5 0 4 1;
+#X connect 6 0 3 0;
+#X restore 167 265 pd load-bitDepth;
+#N canvas 482 254 805 555 load-params 0;
+#X obj 42 30 inlet;
+#X obj 42 147 t f b;
+#X obj 42 199 until;
+#X obj 42 265 f;
+#X obj 42 289 t f f;
+#X msg 42 116 10;
+#X obj 42 412 pack f f \$1;
+#X obj 42 340 tabread player-\$1-algo-params;
+#X msg 42 460 \; player-\$3-algo-param-\$2-set \$1 \;;
+#X obj 82 269 - 1;
+#X text 140 384 populate params starting at 9 and counting down to
 0 so that param 0 is the last one changed. that way \, controller buttons
 for inc/dec/rand of most recently adjusted param will bet set up to
 work on param 0 directly after preset load., f 86;
-#X obj 140 345 spigot;
-#X obj 200 345 r player-\$1-load-params;
-#X obj 194 269 spigot;
-#X obj 236 213 spigot;
-#X obj 274 157 spigot;
-#X obj 334 157 r player-\$1-load-time;
-#X obj 296 213 r player-\$1-load-tempo;
-#X obj 254 239 r player-\$1-load-bitDepth;
-#X msg 413 369 \; player-\$2-set-time-index-set \$1 \;;
-#X msg 488 134 0;
-#X msg 413 267 13;
-#X msg 345 394 12;
-#X msg 265 511 11;
-#X msg 192 563 10;
-#X obj 180 706 - 1;
-#X obj 576 483 pack f \$1;
-#X obj 576 459 tabread player-\$1-algo-params;
-#X msg 576 427 14;
-#X msg 576 509 \; player-\$2-loop-point-start-set \$1 \;;
-#X obj 576 613 pack f \$1;
-#X obj 576 589 tabread player-\$1-algo-params;
-#X msg 576 557 15;
-#X msg 576 639 \; player-\$2-loop-point-end-set \$1 \;;
-#X connect 0 0 1 0;
-#X connect 0 1 41 0;
+#X obj 42 75 spigot;
+#X obj 102 75 r player-\$1-load-params;
+#X msg 94 223 10;
+#X obj 82 386 - 1;
+#X connect 0 0 11 0;
 #X connect 1 0 2 0;
+#X connect 1 1 13 0;
 #X connect 2 0 3 0;
-#X connect 2 0 26 0;
-#X connect 3 0 14 0;
-#X connect 3 1 42 0;
-#X connect 4 0 0 0;
-#X connect 5 0 23 0;
+#X connect 3 0 4 0;
+#X connect 3 0 9 0;
+#X connect 4 0 7 0;
+#X connect 4 1 14 0;
+#X connect 5 0 1 0;
+#X connect 6 0 8 0;
 #X connect 7 0 6 0;
-#X connect 8 0 10 0;
-#X connect 9 0 36 0;
-#X connect 12 0 19 0;
-#X connect 13 0 25 0;
-#X connect 14 0 13 0;
-#X connect 15 0 7 0;
-#X connect 16 0 8 0;
-#X connect 17 0 9 0;
-#X connect 18 0 12 0;
-#X connect 23 0 24 0;
-#X connect 23 1 28 0;
-#X connect 23 2 30 0;
-#X connect 23 3 31 0;
-#X connect 23 4 32 0;
-#X connect 23 4 45 0;
-#X connect 23 4 49 0;
-#X connect 23 5 37 0;
-#X connect 24 0 22 0;
-#X connect 26 0 2 1;
-#X connect 28 0 4 0;
-#X connect 29 0 28 1;
-#X connect 30 0 40 0;
-#X connect 31 0 39 0;
-#X connect 32 0 38 0;
-#X connect 33 0 32 1;
-#X connect 34 0 31 1;
-#X connect 35 0 30 1;
-#X connect 37 0 18 0;
-#X connect 38 0 17 0;
-#X connect 39 0 16 0;
-#X connect 40 0 15 0;
-#X connect 41 0 2 1;
-#X connect 42 0 13 1;
-#X connect 43 0 46 0;
-#X connect 44 0 43 0;
-#X connect 45 0 44 0;
-#X connect 47 0 50 0;
-#X connect 48 0 47 0;
-#X connect 49 0 48 0;
+#X connect 9 0 3 1;
+#X connect 11 0 5 0;
+#X connect 12 0 11 1;
+#X connect 13 0 3 1;
+#X connect 14 0 6 1;
+#X restore 137 295 pd load-params;
+#X connect 0 0 7 0;
+#X connect 1 0 3 0;
+#X connect 2 0 1 0;
+#X connect 7 0 8 0;
+#X connect 7 1 13 0;
+#X connect 7 2 12 0;
+#X connect 7 3 11 0;
+#X connect 7 4 10 0;
+#X connect 7 5 9 0;
+#X connect 8 0 6 0;
+#X connect 9 0 2 0;
 #X restore 798 475 pd populate;
 #X obj 159 382 bng 15 250 50 0 player-\$1-algo-dec-param-1 player-\$1-algo-dec-param-1-set
 - 4 8 0 12 -241291 -1 -1;
@@ -224,8 +240,8 @@ empty 17 7 0 10 -262144 -1 -1;
 here on the client side \, which reflects the state of the player's
 GUI control panel via algo-param-interface-client.pd. In cases where
 the time \, tempo \, bitDepth \, and params checkboxes are OFF \, the
-internal settings of [algo~] on the master side will differ from
-what is stored in the local client side cache. Thus \, the cache saving
+internal settings of [algo~] on the master side will differ from what
+is stored in the local client side cache. Thus \, the cache saving
 feature really only works when those checkboxes are ON.;
 #X connect 0 0 19 0;
 #X connect 1 0 6 0;
@@ -275,24 +291,24 @@ feature really only works when those checkboxes are ON.;
 #X msg 241 420 load \$1;
 #X obj 178 455 algo~;
 #X msg 178 355 getAlgoSettings;
-#N canvas 540 541 1056 396 send-to-params-table 0;
+#N canvas 549 348 992 552 send-to-params-table 0;
 #X obj 62 20 inlet;
-#X obj 136 311 list prepend 0;
-#X obj 136 335 s player-\$1-algo-params;
+#X obj 136 461 list prepend 0;
+#X obj 136 485 s player-\$1-algo-params;
 #X obj 62 218 outlet;
 #X obj 62 44 t b l;
 #X text 177 44 for now \, leaving out loop start/end points (the 15th
 and 16th elements in this list), f 44;
 #X obj 122 97 list split 1;
-#X obj 182 138 list split 20;
-#X obj 182 182 list split 10;
-#X obj 136 254 list append;
-#X obj 136 278 list append;
-#X text 539 40 this is an attempt at an update for algo~ v 0.9 \;
-\; 0) algo is a symbol \, so look up its idx and use that \; 1-10)
-the next 20 are params. trim the first 10 and use those \; 11) bit
-depth \; 12) tempo \; 13) time \; 14) loop point start \; 15) loop
-point end \; \; this is 16 total;
+#X obj 210 138 list split 20;
+#X obj 210 182 list split 10;
+#X obj 136 404 list append;
+#X obj 136 428 list append;
+#X text 539 40 this is an attempt at an update for algo~ v 0.9 \; \;
+0) algo is a symbol \, so look up its idx and use that \; 1-10) the
+next 20 are params. trim the first 10 and use those \; 11) bit depth
+\; 12) tempo \; 13) time \; 14) loop point start \; 15) loop point
+end \; \; this is 16 total;
 #X obj 136 230 text search outputAlgorithms;
 #X obj 359 178 list split 3;
 #X obj 425 226 unpack f f;
@@ -304,6 +320,10 @@ point end \; \; this is 16 total;
 #X obj 359 352 list append;
 #X obj 425 298 min 1623;
 #X obj 505 298 min 1623;
+#X obj 76 300 select -1;
+#X obj 19 406 print -n;
+#X msg 19 352 OUTPUT error: requested algo not found in outputAlgorithms.txt
+;
 #X connect 0 0 4 0;
 #X connect 1 0 2 0;
 #X connect 4 0 3 0;
@@ -315,7 +335,7 @@ point end \; \; this is 16 total;
 #X connect 8 0 9 1;
 #X connect 9 0 10 0;
 #X connect 10 0 1 0;
-#X connect 12 0 9 0;
+#X connect 12 0 23 0;
 #X connect 13 0 20 0;
 #X connect 13 1 14 0;
 #X connect 14 0 15 0;
@@ -328,6 +348,9 @@ point end \; \; this is 16 total;
 #X connect 20 0 10 1;
 #X connect 21 0 19 0;
 #X connect 22 0 19 1;
+#X connect 23 0 25 0;
+#X connect 23 1 9 0;
+#X connect 25 0 24 0;
 #X restore 222 494 pd send-to-params-table;
 #X obj 178 313 delay 2;
 #X obj 461 106 list prepend;
