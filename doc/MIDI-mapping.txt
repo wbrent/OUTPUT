@@ -24,6 +24,10 @@
 
 120: spat LFO freq
 
+121: loop point start
+122: loop point end
+
+25: algo select
 21: algo choice dec
 22: algo choice inc
 23: toggle compute
@@ -71,6 +75,7 @@
 54: load parameters with preset toggle
 
 15: toggle ASR keyboard mode
+13: ASR fade time
 
 
 
@@ -85,9 +90,6 @@ UNMAPPED:
 7
 8
 
-13
-
-25
 26
 27
 28
@@ -105,4 +107,4 @@ UNMAPPED:
 
 57-100
 
-121-127
+123-127

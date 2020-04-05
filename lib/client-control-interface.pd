@@ -32,7 +32,7 @@
 #X obj 57 75 netprep player-\$1-spat-pos 1;
 #X obj 57 51 netprep player-\$1-mute 1;
 #X obj 57 26 netprep player-\$1-gain 1;
-#X obj 435 465 netprep player-\$1-asr-env;
+#X obj 435 495 netprep player-\$1-asr-env;
 #X obj 435 435 netprep player-\$1-asr-kbd 1;
 #X text 432 370 Just "set" this toggle on the master side so that it
 can be seen if other players are using ASR kbd, f 37;
@@ -43,11 +43,11 @@ can be seen if other players are using ASR kbd, f 37;
 #X text 367 45 NO LONGER NEEDED?:;
 #X obj 435 525 netprep player-\$1-save-preset;
 #X obj 435 555 netprep player-\$1-load-preset;
-#X obj 435 495 netprep player-\$1-asr-time;
 #X obj 57 329 netprep player-\$1-loop-point-start 1;
 #X obj 57 355 netprep player-\$1-loop-point-end 1;
 #X obj 435 345 netprep player-\$1-algo-direct 1;
 #X obj 57 381 netprep player-\$1-time-reverse 1;
+#X obj 435 465 netprep player-\$1-asr-time 1;
 #X restore 20 241 pd netpreps;
 #N canvas 1214 498 583 462 algo-cache-stuff 0;
 #X msg 43 116 0;
@@ -295,11 +295,14 @@ most recent value from [pd detect-no-keys] \, then allow 1 or 0 out
 of detect-no keys to player-\$1-asr-env thereafter. \; When player-\$1-asr-kbd
 is OFF \, we suppress values from detect-no-keys \, then send a solid
 1 to asr-env to keep it on.;
-#X obj 456 340 s player-\$1-asr-time;
-#X msg 456 310 50;
-#X text 526 214 when manually turning off the ASR keyboard toggle \,
+#X text 557 200 when manually turning off the ASR keyboard toggle \,
 set the ASR time to a quick 50ms so the change happens quickly regardless
 of the current MIDI velocity fade time setting, f 27;
+#X obj 466 332 t b b;
+#X obj 516 332 t b b;
+#X obj 576 463 s player-\$1-asr-time;
+#X msg 576 433 50;
+#X text 457 380 DISABLED VELOCITY/FADE TIME MAPPING;
 #X connect 1 0 7 0;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
@@ -307,16 +310,16 @@ of the current MIDI velocity fade time setting, f 27;
 #X connect 5 0 2 1;
 #X connect 6 0 3 0;
 #X connect 6 1 5 0;
-#X connect 6 1 13 0;
 #X connect 7 0 6 0;
 #X connect 7 1 8 0;
 #X connect 8 0 4 0;
 #X connect 8 1 9 0;
-#X connect 8 1 13 0;
 #X connect 9 0 0 0;
 #X connect 10 0 2 0;
 #X connect 10 0 9 1;
-#X connect 13 0 12 0;
+#X connect 13 1 16 0;
+#X connect 14 1 16 0;
+#X connect 16 0 15 0;
 #X restore 271 141 pd set-ASR-keyboard;
 #N canvas 639 465 443 348 set-ASR-fade-time 0;
 #X obj 41 48 inlet;
@@ -347,11 +350,11 @@ if the ASR keyboard feature is turned on., f 35;
 #X connect 10 0 8 0;
 #X connect 12 0 6 0;
 #X restore 345 60 pd set-ASR-fade-time;
+#X text 299 25 DISABLED VELOCITY/FADE TIME MAPPING;
 #X connect 0 0 13 0;
 #X connect 0 0 48 0;
 #X connect 0 1 9 1;
 #X connect 0 1 48 1;
-#X connect 0 1 51 0;
 #X connect 1 0 14 0;
 #X connect 2 0 3 0;
 #X connect 2 1 4 0;
@@ -519,7 +522,7 @@ configured, f 23;
 #X connect 44 0 45 0;
 #X connect 48 0 44 0;
 #X restore 43 124 pd timeSync;
-#N canvas 609 445 765 367 algoChoice 0;
+#N canvas 609 445 765 481 algoChoice 0;
 #X obj 86 66 spigot;
 #X obj 86 120 t b;
 #X obj 346 198 f;
@@ -545,6 +548,8 @@ configured, f 23;
 #X obj 86 90 select 127;
 #X obj 275 260 moses 20;
 #X obj 355 260 r num-algos;
+#X obj 101 369 fadermap player-\$1-algo-select 25 \$1 0 74 player-\$1-algo-select-set
+1;
 #X connect 0 0 22 0;
 #X connect 1 0 4 0;
 #X connect 2 0 3 0;
@@ -1450,26 +1455,6 @@ their ranges need to change according to controls in [algo-param-interface-clien
 #X connect 22 0 0 0;
 #X connect 23 0 4 0;
 #X restore 413 94 pd bitDepth;
-#N canvas 396 317 991 375 faders 0;
-#X text 38 61 Leave a gap so that fader 103 can be the "other" player
-gain;
-#X text 537 290 [fadermap player-\$1-spat-lfo-freq 118 \$1 -3.2 6.35
-player-\$1-spat-lfo-freq-set 0 1];
-#X obj 41 99 fadermap player-\$1-spat-pos 104 \$1 0 1 player-\$1-spat-pos-set
-0;
-#X obj 41 139 fadermap player-\$1-spat-width 105 \$1 0 1 player-\$1-spat-width-set
-0;
-#X obj 41 189 fadermap player-\$1-bitDepth 106 \$1 1 31 player-\$1-bitDepth-set
-1;
-#X obj 541 249 fadermap player-\$1-rvb-liveness 109 \$1 50 50 player-\$1-rvb-liveness-set
-1;
-#X obj 541 199 fadermap player-\$1-dry-wet 108 \$1 0 100 player-\$1-dry-wet-set
-1;
-#X obj 541 159 fadermap player-\$1-time-point 107 \$1 0 1623 player-\$1-time-point-set
-1;
-#X obj 41 239 fadermap player-\$1-tempo 101 \$1 1 239 player-\$1-tempo-set
-1;
-#X restore 43 154 pd faders;
 #N canvas 738 392 488 228 compute-interp-rand 0;
 #X obj 36 126 buttonToggleMap player-\$1-interpolation 24 \$1 0 1 player-\$1-interpolation-set
 ;
@@ -1581,10 +1566,36 @@ player-\$1-spat-lfo-freq-set 0 1];
 #N canvas 0 23 450 300 keyboard-ASR 0;
 #X obj 36 76 buttonToggleMap player-\$1-asr-kbd 15 \$1 0 1 player-\$1-asr-kbd-set
 ;
+#X obj 36 136 fadermap player-\$1-asr-time 13 \$1 0 1000 player-\$1-asr-time-set
+0;
 #X restore 43 64 pd keyboard-ASR;
-#N canvas 291 352 450 300 time-reverse 0;
+#N canvas 778 392 450 300 time 0;
 #X obj 55 81 buttonBangMap player-\$1-time-reverse-set 56 \$1;
-#X restore 413 154 pd time-reverse;
+#X obj 55 121 fadermap player-\$1-time-point 107 \$1 0 1623 player-\$1-time-point-set
+1;
+#X obj 55 211 fadermap player-\$1-loop-point-end 122 \$1 0 1623 player-\$1-loop-point-end-set
+0;
+#X obj 55 171 fadermap player-\$1-loop-point-start 121 \$1 0 1623 player-\$1-loop-point-start-set
+0;
+#X restore 413 154 pd time;
+#N canvas 450 366 991 375 main-faders 0;
+#X text 38 61 Leave a gap so that fader 103 can be the "other" player
+gain;
+#X text 537 290 [fadermap player-\$1-spat-lfo-freq 118 \$1 -3.2 6.35
+player-\$1-spat-lfo-freq-set 0 1];
+#X obj 41 99 fadermap player-\$1-spat-pos 104 \$1 0 1 player-\$1-spat-pos-set
+0;
+#X obj 41 139 fadermap player-\$1-spat-width 105 \$1 0 1 player-\$1-spat-width-set
+0;
+#X obj 41 189 fadermap player-\$1-bitDepth 106 \$1 1 31 player-\$1-bitDepth-set
+1;
+#X obj 541 249 fadermap player-\$1-rvb-liveness 109 \$1 50 50 player-\$1-rvb-liveness-set
+1;
+#X obj 541 199 fadermap player-\$1-dry-wet 108 \$1 0 100 player-\$1-dry-wet-set
+1;
+#X obj 41 239 fadermap player-\$1-tempo 101 \$1 1 239 player-\$1-tempo-set
+1;
+#X restore 43 154 pd main-faders;
 #X restore 20 331 pd MIDI;
 #X obj 400 20 algo-param-interface-client \$1;
 #X coords 0 -1 1 1 1030 210 2 20 20;

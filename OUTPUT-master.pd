@@ -1,7 +1,7 @@
 #N canvas 68 90 773 829 10;
 #X declare -path ./lib;
 #X declare -path ./src;
-#N canvas 58 25 960 837 control-panel 1;
+#N canvas 58 25 960 837 control-panel 0;
 #N canvas 323 229 686 380 init 0;
 #X obj 31 24 loadbang;
 #X obj 123 115 s lb1;
