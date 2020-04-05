@@ -1,13 +1,12 @@
-#N canvas 142 525 535 279 10;
+#N canvas 142 525 367 262 10;
 #X declare -path ./lib;
 #X declare -path ./src;
-#N canvas 618 494 779 414 control-panel 0;
+#N canvas 618 494 527 395 control-panel 0;
 #N canvas 682 501 686 380 init 0;
 #X obj 31 24 loadbang;
-#X obj 264 33 r lb4;
+#X obj 224 33 r lb4;
 #X obj 85 278 declare -path ./lib;
 #X obj 85 298 declare -path ./src;
-#X msg 264 76 \; pd dsp 1 \; master-volume-set 90 \;;
 #X obj 464 33 r lb1;
 #X msg 464 62 \; masterBlockSize 2048 \;;
 #X obj 464 143 r lb1;
@@ -19,45 +18,47 @@
 #X obj 71 195 s lb4;
 #X obj 31 56 t b b b b b;
 #X obj 31 225 s lb5;
-#X obj 264 153 r lb5;
-#X obj 264 174 delay 2000;
+#X obj 224 153 r lb5;
+#X obj 224 174 delay 2000;
 #X text 286 269 Override spat width/pos settings that load on lb4 in
 control-panel-abs so that they're suitable for stereo. For some reason
 \, this needs to be delayed at least 2sec for it to actually take effect.
 Not sure why and it doesn't matter much for this so I'll leave it as
 a hack.;
-#X msg 264 196 \; player-0-spat-width-set 0.75 \; player-0-spat-pos-set
+#X msg 224 196 \; player-0-spat-width-set 0.75 \; player-0-spat-pos-set
 0 \; player-1-spat-width-set 0.75 \; player-1-spat-pos-set 1 \;;
-#X connect 0 0 14 0;
-#X connect 1 0 4 0;
-#X connect 5 0 6 0;
+#X msg 224 76 \; pd dsp 1 \; master-volume-set 90 \; master-output-stereo-mode
+1 \;;
+#X connect 0 0 13 0;
+#X connect 1 0 19 0;
+#X connect 4 0 5 0;
+#X connect 6 0 7 0;
 #X connect 7 0 8 0;
-#X connect 8 0 9 0;
-#X connect 14 0 15 0;
-#X connect 14 1 13 0;
-#X connect 14 2 12 0;
-#X connect 14 3 11 0;
-#X connect 14 4 10 0;
-#X connect 16 0 17 0;
-#X connect 17 0 19 0;
-#X restore 483 72 pd init;
+#X connect 13 0 14 0;
+#X connect 13 1 12 0;
+#X connect 13 2 11 0;
+#X connect 13 3 10 0;
+#X connect 13 4 9 0;
+#X connect 15 0 16 0;
+#X connect 16 0 18 0;
+#X restore 323 72 pd init;
 #N canvas 611 146 371 176 players 0;
 #X obj 32 28 algo-player 0;
 #X obj 32 48 algo-player 1;
 #X obj 202 28 clone spat-LFO-abs 2;
 #X obj 202 68 spat-abs-2 player-0;
 #X obj 202 88 spat-abs-2 player-1;
-#X restore 483 92 pd players;
-#X obj 21 40 hsl 300 45 40 100 0 0 master-volume master-volume-set
-master-volume 8 24 0 32 -262144 -1 -1 24917 1;
-#X obj 18 91 bng 15 250 50 0 reset-all-player-clocks empty reset-all-player-clocks
+#X restore 323 92 pd players;
+#X obj 20 40 hsl 250 40 40 100 0 0 master-volume master-volume-set
+master-volume 8 24 0 24 -262144 -1 -1 20750 1;
+#X obj 107 100 bng 15 250 50 0 reset-all-player-clocks empty reset-clocks
 17 7 0 12 -262144 -1 -1;
-#X obj 223 161 cpumeter;
+#X obj 172 160 cpumeter;
 #N canvas 294 309 528 194 netreceive 0;
 #X text 70 91 This is not used for the solo patch \, but leaving the
 [receive] above to avoid errors;
 #X obj 72 40 r netsend-data-hub;
-#X restore 483 112 pd netreceive;
+#X restore 323 112 pd netreceive;
 #N canvas 818 150 516 629 output 0;
 #X obj 58 141 *~;
 #X obj 338 157 dbtorms;
@@ -69,8 +70,8 @@ master-volume 8 24 0 32 -262144 -1 -1 24917 1;
 #X msg 338 117 0;
 #X obj 338 25 r master-volume;
 #X obj 58 16 catch~ out-1;
-#X obj 71 428 vu 15 120 empty empty -1 -8 0 10 -66577 -1 0 0;
-#X obj 101 428 vu 15 120 empty empty -1 -8 0 10 -66577 -1 0 0;
+#X obj 71 421 vu 15 80 empty empty -1 -8 0 10 -66577 -1 0 0;
+#X obj 101 421 vu 15 80 empty empty -1 -8 0 10 -66577 -1 0 0;
 #X obj 220 327 env~;
 #X obj 220 356 - 100;
 #X obj 360 327 env~;
@@ -293,8 +294,8 @@ the difference between the measured and desired level, f 27;
 #X connect 18 0 0 0;
 #X connect 19 0 4 0;
 #X connect 19 0 14 0;
-#X coords 0 -1 1 1 70 160 1 60 400;
-#X restore 355 41 pd output;
+#X coords 0 -1 1 1 70 110 1 60 400;
+#X restore 17 90 pd output;
 #N canvas 364 130 492 440 interface 0;
 #X obj 87 374 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
@@ -334,7 +335,7 @@ the difference between the measured and desired level, f 27;
 #X connect 15 0 17 0;
 #X connect 16 0 8 0;
 #X connect 17 0 2 0;
-#X restore 483 152 pd interface;
+#X restore 323 152 pd interface;
 #N canvas 667 274 580 374 client-init 0;
 #X obj 71 34 r lb1;
 #X msg 71 58 \; netprep-init bang \;;
@@ -471,7 +472,7 @@ gains and mutes, f 33;
 #X connect 8 1 9 0;
 #X connect 9 0 11 0;
 #X connect 10 0 7 0;
-#X restore 483 52 pd client-init;
+#X restore 323 52 pd client-init;
 #N canvas 140 461 760 440 client-side-netreceive 0;
 #X obj 121 23 r client-netsend-data-hub;
 #X obj 121 160 list split 4;
@@ -504,20 +505,18 @@ abstraction.;
 #X connect 5 1 2 1;
 #X connect 6 0 7 1;
 #X connect 7 0 8 0;
-#X restore 483 132 pd client-side-netreceive;
-#X obj 18 141 bng 20 250 50 0 empty empty A 6 10 0 14 -204786 -1 -1
+#X restore 323 132 pd client-side-netreceive;
+#X obj 107 150 bng 20 250 50 0 empty empty A 6 10 0 14 -204786 -1 -1
 ;
-#X msg 466 275 vis \$1 1;
-#X obj 18 171 bng 20 250 50 0 empty empty B 6 10 0 14 -204786 -1 -1
+#X obj 107 180 bng 20 250 50 0 empty empty B 6 10 0 14 -204786 -1 -1
 ;
-#X obj 466 315 clone -s 0 client-control-interface 2;
-#X obj 466 241 f 0;
-#X obj 576 241 f 1;
-#X connect 10 0 14 0;
-#X connect 11 0 13 0;
-#X connect 12 0 15 0;
-#X connect 14 0 11 0;
-#X connect 15 0 11 0;
-#X coords 0 -1 1 1 430 200 1 10 10;
-#X restore 45 38 pd control-panel;
-#X coords 0 279 1 278 1100 600 0;
+#X obj 108 327 clone -s 0 client-control-interface 2;
+#X msg 108 287 vis 0 1;
+#X msg 188 287 vis 1 1;
+#X connect 10 0 13 0;
+#X connect 11 0 14 0;
+#X connect 13 0 12 0;
+#X connect 14 0 12 0;
+#X coords 0 -1 1 1 270 200 1 10 10;
+#X restore 45 41 pd control-panel;
+#X coords 0 262 1 261 1100 600 0;
