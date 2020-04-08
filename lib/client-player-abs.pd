@@ -216,6 +216,7 @@ bang \;;
 ;
 #X obj 240 231 clone -s \$1 client-control-interface 2;
 #X obj 350 157 f \$2;
+#X obj 366 73 clone -s \$1 algo-player-client 2;
 #X connect 2 0 4 0;
 #X connect 3 0 6 0;
 #X connect 4 0 3 0;

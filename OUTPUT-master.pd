@@ -66,36 +66,45 @@ master-volume 8 24 0 32 -262144 -1 -1 24917 1;
 #X obj 388 250 control-panel-abs 3;
 #X obj 18 460 control-panel-abs 4;
 #X obj 388 460 control-panel-abs 5;
-#N canvas 294 309 761 477 netreceive 0;
-#X obj 496 354 s;
-#X obj 64 119 netreceive 57120;
-#X obj 213 162 s connected-clients;
-#X obj 64 246 spigot;
-#X obj 64 275 print;
-#X obj 148 253 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+#N canvas 294 309 742 576 netreceive 0;
+#X obj 496 434 s;
+#X obj 64 199 netreceive 57120;
+#X obj 213 242 s connected-clients;
+#X obj 64 326 spigot;
+#X obj 64 355 print;
+#X obj 148 333 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 64 12 r client-netsend-data-hub;
-#X obj 199 285 list split 3;
-#X obj 199 384 s;
-#X obj 249 384 symbol;
-#X text 175 409 << special case for spat LFO freq nbx color, f 23
+#X obj 199 365 list split 3;
+#X obj 199 464 s;
+#X obj 249 464 symbol;
+#X text 175 489 << special case for spat LFO freq nbx color, f 23
 ;
-#X obj 199 324 list prepend color;
-#X obj 199 353 list trim;
-#X obj 199 241 route color;
-#X obj 420 194 t l l;
-#X obj 420 224 list length;
-#X obj 420 245 list append;
-#X obj 420 266 route 1 2;
-#X obj 374 320 t b a;
-#X obj 374 341 s;
-#X obj 414 341 symbol;
-#X obj 420 169 list;
-#X text 361 366 special case for "bang" sent to a send symbol \, where
+#X obj 199 404 list prepend color;
+#X obj 199 433 list trim;
+#X obj 199 321 route color;
+#X obj 420 274 t l l;
+#X obj 420 304 list length;
+#X obj 420 325 list append;
+#X obj 420 346 route 1 2;
+#X obj 374 400 t b a;
+#X obj 374 421 s;
+#X obj 414 421 symbol;
+#X obj 420 249 list;
+#X text 361 446 special case for "bang" sent to a send symbol \, where
 the only data transmitted is the send symbol itself, f 18;
-#X obj 496 312 list split 1;
-#X text 560 347 << all other incoming data is a single float or symbol
+#X obj 496 392 list split 1;
+#X text 560 427 << all other incoming data is a single float or symbol
 followed by the send symbol, f 17;
+#X obj 313 33 r connected-clients;
+#X obj 313 54 change;
+#X obj 313 75 t b;
+#X obj 313 96 f;
+#X obj 313 117 list append masterBlockSize;
+#X obj 313 138 list prepend send;
+#X obj 313 159 list trim;
+#X obj 313 180 s client-netsend-data-hub;
+#X obj 353 96 r masterBlockSize;
 #X connect 1 0 3 0;
 #X connect 1 0 13 0;
 #X connect 1 1 2 0;
@@ -121,6 +130,14 @@ followed by the send symbol, f 17;
 #X connect 21 0 14 0;
 #X connect 23 0 0 0;
 #X connect 23 1 0 1;
+#X connect 25 0 26 0;
+#X connect 26 0 27 0;
+#X connect 27 0 28 0;
+#X connect 28 0 29 0;
+#X connect 29 0 30 0;
+#X connect 30 0 31 0;
+#X connect 31 0 32 0;
+#X connect 33 0 28 1;
 #X restore 822 313 pd netreceive;
 #N canvas 35 50 1405 612 output 0;
 #X obj 58 141 *~;
