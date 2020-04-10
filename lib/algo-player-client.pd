@@ -1,9 +1,9 @@
-#N canvas 299 193 786 513 10;
+#N canvas 893 402 786 513 10;
 #X text 401 402 \$1: player ID number;
 #X obj 542 127 r masterBlockSize;
 #X msg 542 148 set \$1 1 1;
 #X obj 542 169 block~ 2048 1 1;
-#N canvas 980 153 741 605 settings 0;
+#N canvas 481 165 741 605 settings 0;
 #X obj 168 159 r player-\$1-algo-select;
 #X msg 230 277 bitDepth \$1;
 #X msg 294 339 tempo \$1;
@@ -23,6 +23,12 @@
 #X obj 168 180 text get outputAlgorithms;
 #X obj 293 376 r player-\$1-algo-direct;
 #X msg 293 397 algo \$1;
+#X obj 114 109 r player-\$1-save-preset;
+#X msg 114 132 save \$1;
+#X text 279 90 NOTE: when using a client connected to master on the
+same machine via loopback address \, this save command will be issued
+to the client's [algo~] instance as well as the master's [algo~] instance.
+so far this doesn't seem to cause problems.;
 #X connect 0 0 16 0;
 #X connect 1 0 3 0;
 #X connect 2 0 3 0;
@@ -41,6 +47,8 @@
 #X connect 16 0 14 0;
 #X connect 17 0 18 0;
 #X connect 18 0 3 0;
+#X connect 19 0 20 0;
+#X connect 20 0 3 0;
 #X restore 77 93 pd settings;
 #N canvas 564 83 754 594 getSetTime 0;
 #X obj 67 443 outlet;
@@ -167,12 +175,13 @@
 #X obj 329 201 -;
 #X obj 329 222 pack f 40;
 #X obj 329 243 line~;
-#X obj 77 224 algo~;
+#X obj 77 224 algo~, f 12;
 #X text 187 18 this version of the algo player exists to plot signal
 on the remote client. it could be further developed to get information
 from [algo~] outlets so that data updates from master to client are
 no longer needed. updating of numAlgoParams is a good candidate for
 this.;
+#X obj 179 322 s player-\$1-params-per-algo;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
 #X connect 4 0 19 0;
@@ -189,3 +198,4 @@ this.;
 #X connect 17 0 18 0;
 #X connect 18 0 13 1;
 #X connect 19 0 13 0;
+#X connect 19 2 21 0;
