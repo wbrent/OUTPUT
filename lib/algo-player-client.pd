@@ -4,7 +4,7 @@
 #X msg 542 148 set \$1 1 1;
 #X obj 542 169 block~ 2048 1 1;
 #N canvas 481 165 803 752 settings 0;
-#X obj 214 232 r player-\$1-algo-select;
+#X obj 186 256 r player-\$1-algo-select;
 #X msg 374 467 bitDepth \$1;
 #X msg 438 529 tempo \$1;
 #X obj 64 522 outlet;
@@ -18,16 +18,15 @@
 #X obj 341 622 r all-player-print;
 #X msg 64 62 getAlgoSettings;
 #X obj 64 39 r player-\$1-get-algo-settings;
-#X obj 214 274 list prepend algo;
-#X obj 214 295 list trim;
-#X obj 214 253 text get outputAlgorithms;
+#X obj 186 298 list prepend algo;
+#X obj 186 319 list trim;
+#X obj 186 277 text get outputAlgorithms;
 #X obj 437 566 r player-\$1-algo-direct;
 #X msg 437 587 algo \$1;
-#X obj 114 109 r player-\$1-save-preset;
-#X msg 114 132 save \$1;
+#X obj 114 110 r player-\$1-save-preset;
+#X msg 114 133 save \$1;
 #X obj 200 136 r connected-ip-address;
 #X obj 200 157 select localhost 127.0.0.1;
-#X obj 114 153 spigot 1;
 #X msg 200 198 0;
 #X text 366 57 NOTE: when using a client connected to master on the
 same machine via loopback address \, this save command will be issued
@@ -35,6 +34,9 @@ to the client's [algo~] instance as well as the master's [algo~] instance.
 this detects a localhost connection and suppresses save preset commands
 to the client [algo~] instance. the save preset command still goes
 through to the master.;
+#X obj 371 178 t b;
+#X msg 371 198 1;
+#X obj 114 243 spigot;
 #X connect 0 0 16 0;
 #X connect 1 0 3 0;
 #X connect 2 0 3 0;
@@ -54,12 +56,15 @@ through to the master.;
 #X connect 17 0 18 0;
 #X connect 18 0 3 0;
 #X connect 19 0 20 0;
-#X connect 20 0 23 0;
+#X connect 20 0 27 0;
 #X connect 21 0 22 0;
-#X connect 22 0 24 0;
-#X connect 22 1 24 0;
-#X connect 23 0 3 0;
-#X connect 24 0 23 1;
+#X connect 22 0 23 0;
+#X connect 22 1 23 0;
+#X connect 22 2 25 0;
+#X connect 23 0 27 1;
+#X connect 25 0 26 0;
+#X connect 26 0 27 1;
+#X connect 27 0 3 0;
 #X restore 77 93 pd settings;
 #N canvas 564 83 754 594 getSetTime 0;
 #X obj 67 443 outlet;
