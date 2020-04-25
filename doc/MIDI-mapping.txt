@@ -52,6 +52,15 @@
 52: timeSync to most recently tempoSync'd player
 56: reverse time
 
+26: clone player 0
+27: clone player 1
+
+28: clone player 2
+29: clone player 3
+
+36: clone player 4
+37: clone player 5
+
 16: active param choice dec
 17: active param choice inc
 
@@ -90,13 +99,6 @@ UNMAPPED:
 7
 8
 
-26
-27
-28
-29
-
-36
-37
 38
 39
 

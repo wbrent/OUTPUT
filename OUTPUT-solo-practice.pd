@@ -1,4 +1,4 @@
-#N canvas 142 525 367 262 10;
+#N canvas 195 542 367 262 10;
 #X declare -path ./lib;
 #X declare -path ./src;
 #N canvas 618 494 527 395 control-panel 0;
@@ -50,7 +50,7 @@ a hack.;
 #X obj 202 88 spat-abs-2 player-1;
 #X restore 323 92 pd players;
 #X obj 20 40 hsl 250 40 40 100 0 0 master-volume master-volume-set
-master-volume 8 24 0 24 -262144 -1 -1 20750 1;
+master-volume 8 24 0 24 -262144 -1 -1 23050 1;
 #X obj 107 100 bng 15 250 50 0 reset-all-player-clocks empty reset-clocks
 17 7 0 12 -262144 -1 -1;
 #X obj 172 160 cpumeter;
@@ -336,7 +336,7 @@ the difference between the measured and desired level, f 27;
 #X connect 15 0 7 0;
 #X connect 16 0 2 0;
 #X restore 323 152 pd interface;
-#N canvas 667 274 580 374 client-init 0;
+#N canvas 696 307 989 482 client-init 0;
 #X obj 71 34 r lb1;
 #X msg 71 58 \; netprep-init bang \;;
 #X text 37 124 This initializes all of the netprep parameter names
@@ -466,45 +466,65 @@ gains and mutes, f 33;
 #X msg 329 108 read -c ./data/outputAlgorithms.txt;
 #X obj 288 166 text size outputAlgorithms;
 #X obj 329 129 text define outputAlgorithms;
+#X obj 582 58 t b b b;
+#X obj 582 232 f;
+#X obj 582 266 t f b;
+#X obj 582 300 until;
+#X obj 622 338 + 1;
+#X obj 582 334 f;
+#X msg 645 300 0;
+#X obj 582 15 r lb2;
+#X obj 693 136 text define preset-file-names;
+#X obj 641 187 text size preset-file-names;
+#X obj 582 375 text get preset-file-names;
+#X obj 582 404 s preset-dropdown-items;
+#X msg 693 91 read -c ./algo-presets/preset-file-names.txt;
 #X connect 0 0 1 0;
 #X connect 6 0 8 0;
 #X connect 8 0 10 0;
 #X connect 8 1 9 0;
 #X connect 9 0 11 0;
 #X connect 10 0 7 0;
+#X connect 12 0 13 0;
+#X connect 12 1 21 0;
+#X connect 12 2 24 0;
+#X connect 13 0 14 0;
+#X connect 14 0 15 0;
+#X connect 14 1 18 0;
+#X connect 15 0 17 0;
+#X connect 16 0 17 1;
+#X connect 17 0 16 0;
+#X connect 17 0 22 0;
+#X connect 18 0 17 1;
+#X connect 19 0 12 0;
+#X connect 21 0 13 1;
+#X connect 22 0 23 0;
+#X connect 24 0 20 0;
 #X restore 323 52 pd client-init;
-#N canvas 140 461 760 440 client-side-netreceive 0;
+#N canvas 481 347 607 284 client-side-netreceive 0;
 #X obj 121 23 r client-netsend-data-hub;
-#X obj 121 160 list split 4;
-#X obj 249 280 s;
-#X obj 215 200 list split 1;
-#X obj 249 246 list trim;
-#X obj 249 225 list split 1;
-#X obj 119 205 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X obj 78 239 spigot;
-#X obj 78 260 print;
-#X text 207 361 send 2.34983e+08 player-0-current-time-index;
-#X text 207 381 send 5 player-0-params-per-algo;
-#X text 187 331 This processes commands that have fewer than 4 elements
-in the list \, e.g.:;
+#X obj 168 94 t l l;
+#X obj 280 136 list length;
+#X obj 168 143 list split;
+#X obj 280 165 - 1;
+#X obj 168 172 list trim;
+#X obj 168 201 s;
+#X obj 121 44 list split 1;
 #X text 317 29 This subpatch is necessary to imitate the master-client
 data sending that exists for the main patch. That way \, only this
 OUTPUT-solo-practice.pd patch needs to be edited \, and the core abstractions
-for the main project can be used as-is. Particularly \, we need to
-send:;
-#X text 337 139 the player-0-current-time-index value for storage in
-algo-param-interface-client.pd;
-#X text 337 99 the params per algo data from [OUTPUT~] to the algo-param-interface-client.pd
-abstraction.;
-#X connect 0 0 1 0;
-#X connect 1 2 3 0;
-#X connect 3 1 5 0;
-#X connect 4 0 2 0;
-#X connect 5 0 4 0;
-#X connect 5 1 2 1;
-#X connect 6 0 7 1;
-#X connect 7 0 8 0;
+for the main project can be used as-is., f 37;
+#X text 22 77 remove the "send" tag intended for use with [netsend]
+in the master patch, f 17;
+#X connect 0 0 7 0;
+#X connect 1 0 3 0;
+#X connect 1 1 2 0;
+#X connect 2 0 4 0;
+#X connect 3 0 5 0;
+#X connect 3 1 6 1;
+#X connect 4 0 3 1;
+#X connect 5 0 6 0;
+#X connect 7 1 1 0;
 #X restore 323 132 pd client-side-netreceive;
 #X obj 107 150 bng 20 250 50 0 empty empty A 6 10 0 14 -204786 -1 -1
 ;
