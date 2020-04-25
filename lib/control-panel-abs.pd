@@ -9,16 +9,16 @@ player-#1-rvb-liveness;
 ;
 #X obj 296 124 tgl 15 0 player-\$1-compute player-\$1-compute-set comp
 17 7 0 10 -262144 -1 -1 0 1;
-#X obj 181 174 hradio 15 1 0 6 player-\$1-tempo-sync player-\$1-tempo-sync-set
+#X obj 175 174 hradio 15 1 0 6 player-\$1-tempo-sync player-\$1-tempo-sync-set
 tempoSync 16 8 0 10 -262144 -1 -1 4;
-#X obj 181 194 hradio 15 1 0 6 player-\$1-time-sync player-\$1-time-sync-set
+#X obj 175 194 hradio 15 1 0 6 player-\$1-time-sync player-\$1-time-sync-set
 timeSync 16 8 0 10 -262144 -1 -1 0;
 #X obj 346 124 tgl 15 0 player-\$1-interpolation player-\$1-interpolation-set
 intrp 17 7 0 10 -262144 -1 -1 0 1;
 #X floatatom 65 194 15 0 0 1 t player-#1-time-index-set player-#1-time-index
 ;
 #X obj 653 61 r lb4;
-#X obj 286 176 vsl 8 30 -1 1 0 0 empty player-\$1-pitch-bend-display
+#X obj 276 176 vsl 8 30 -1 1 0 0 empty player-\$1-pitch-bend-display
 empty 0 -9 0 10 -262144 -1 -1 0 1;
 #X msg 25 320 \; pd-player-\$2-raw-output-plot vis \$1 \;;
 #X obj 60 70 cnv 15 230 95 empty player-\$1-active-canvas-set empty
@@ -165,15 +165,7 @@ player-#1-algo-select;
 t-rev 17 7 0 10 -262144 -1 -1 0 1;
 #X obj 299 144 hsl 60 8 0 1000 0 0 player-\$1-asr-time player-\$1-asr-time-set
 empty -2 -8 0 10 -262144 -1 -1 0 1;
-#X msg 653 117 \; player-\$1-mute-set 0 \; player-\$1-bitDepth-set
-24 \; player-\$1-dry-wet-set 50 \; player-\$1-rvb-liveness-set 90 \;
-player-\$1-rvb-xover-set 3000 \; player-\$1-rvb-damping-set 30 \; player-\$1-spat-width-set
-0.35 \; player-\$1-spat-pos-set 0 \; player-\$1-spat-lfo-freq-set 0
-\; player-\$1-compute-set 1 \; player-\$1-interpolation-set 1 \; player-\$1-algo-select-set
-0 \; player-\$1-tempo-set 30 \; player-\$1-pitch-bend-display 0 \;
-player-\$1-kbd-control-set 0 \; player-\$1-asr-kbd-set 0 \; player-\$1-asr-time-set
-50 \;;
-#X obj 181 214 hradio 15 1 0 6 player-\$1-clone player-\$1-clone-set
+#X obj 175 214 hradio 15 1 0 6 player-\$1-clone player-\$1-clone-set
 clone 16 8 0 10 -262144 -1 -1 0;
 #X obj 65 214 bng 15 250 50 0 empty empty misc 17 7 0 10 -262144 -1
 -1;
@@ -205,7 +197,17 @@ their parameters can be set in the same way. do not remove., f 72
 #X coords 0 -1 1 1 210 105 2 60 110;
 #X restore 1 2 pd hidden;
 #X restore 85 399 pd player-\$1-misc-gui-elements;
-#X connect 0 0 40 0;
+#X obj 286 176 vsl 8 30 0 127 0 0 player-\$1-pitch-bend-range player-\$1-pitch-bend-range-set
+empty 0 -9 0 10 -262144 -1 -1 0 1;
+#X msg 653 117 \; player-\$1-mute-set 0 \; player-\$1-bitDepth-set
+24 \; player-\$1-dry-wet-set 50 \; player-\$1-rvb-liveness-set 90 \;
+player-\$1-rvb-xover-set 3000 \; player-\$1-rvb-damping-set 30 \; player-\$1-spat-width-set
+0.35 \; player-\$1-spat-pos-set 0 \; player-\$1-spat-lfo-freq-set 0
+\; player-\$1-compute-set 1 \; player-\$1-interpolation-set 1 \; player-\$1-algo-select-set
+0 \; player-\$1-tempo-set 30 \; player-\$1-pitch-bend-display 0 \;
+player-\$1-pitch-bend-range-set 16 \; player-\$1-kbd-control-set 0
+\; player-\$1-asr-kbd-set 0 \; player-\$1-asr-time-set 50 \;;
+#X connect 0 0 47 0;
 #X connect 1 0 13 0;
 #X connect 2 0 1 0;
 #X connect 11 0 0 0;
@@ -213,7 +215,7 @@ their parameters can be set in the same way. do not remove., f 72
 #X connect 34 0 36 0;
 #X connect 35 0 34 0;
 #X connect 36 0 37 0;
+#X connect 41 0 43 0;
 #X connect 42 0 44 0;
-#X connect 43 0 45 0;
-#X connect 44 0 43 0;
+#X connect 43 0 42 0;
 #X coords 0 -1 1 1 360 210 1 50 50;

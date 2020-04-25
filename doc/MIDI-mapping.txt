@@ -24,6 +24,8 @@
 
 120: spat LFO freq
 123: pitch bend modifier for p7 CC
+1: pitch bend range
+pitch bend wheel: pitch bend
 
 121: loop point start
 122: loop point end
@@ -91,7 +93,6 @@
 
 UNMAPPED:
 
-1
 2
 3
 4
