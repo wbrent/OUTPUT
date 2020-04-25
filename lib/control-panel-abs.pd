@@ -1,18 +1,10 @@
-#N canvas 437 260 899 503 10;
+#N canvas 46 464 899 503 10;
 #X obj 653 86 f \$1;
 #X obj 25 295 pack f \$1;
 #X msg 25 268 1;
-#X floatatom 195 443 5 40 100 1 dry player-#1-dry-set player-#1-dry
-;
 #X text 293 62 REVERB;
-#X floatatom 195 463 5 40 100 1 wet player-#1-wet-set player-#1-wet
-;
 #X floatatom 296 104 5 50 100 1 liveness player-#1-rvb-liveness-set
 player-#1-rvb-liveness;
-#X floatatom 65 443 10 0 20000 1 xover player-#1-rvb-xover-set player-#1-rvb-xover
-;
-#X floatatom 65 463 5 0 100 1 damping player-#1-rvb-damping-set player-#1-rvb-damping
-;
 #X floatatom 296 194 7 1 240 1 tempo player-#1-tempo-set player-#1-tempo
 ;
 #X obj 296 124 tgl 15 0 player-\$1-compute player-\$1-compute-set comp
@@ -26,11 +18,6 @@ intrp 17 7 0 10 -262144 -1 -1 0 1;
 #X floatatom 65 194 15 0 0 1 t player-#1-time-index-set player-#1-time-index
 ;
 #X obj 653 61 r lb4;
-#X obj 298 456 tgl 15 0 player-\$1-kbd-control player-\$1-kbd-control-set
-k 5 7 0 10 -262144 -1 -1 0 1;
-#X text 63 379 Taking these out of GUI \, not used much. Leaving them
-in the abstraction though \, so that they can be set in the same way.
-, f 30;
 #X obj 286 176 vsl 8 30 -1 1 0 0 empty player-\$1-pitch-bend-display
 empty 0 -9 0 10 -262144 -1 -1 0 1;
 #X msg 25 320 \; pd-player-\$2-raw-output-plot vis \$1 \;;
@@ -168,20 +155,14 @@ player-#1-algo-select;
 ;
 #X floatatom 65 174 7 0 1623 1 minutes player-#1-time-point-set player-#1-time-point
 ;
-#X floatatom 65 214 10 0 1623 1 loop-start player-#1-loop-point-start-set
-player-#1-loop-point-start;
-#X floatatom 205 214 10 0 1623 1 loop-end player-#1-loop-point-end-set
-player-#1-loop-point-end;
 #X symbolatom 65 234 55 0 0 0 - player-#1-algo-direct-set player-#1-algo-direct
 ;
-#X obj 366 369 text get outputAlgorithms;
-#X obj 366 348 r player-\$1-algo-select;
-#X msg 366 390 set \$1;
-#X obj 366 411 s player-\$1-algo-direct-set;
+#X obj 592 382 text get outputAlgorithms;
+#X obj 592 361 r player-\$1-algo-select;
+#X msg 592 403 set \$1;
+#X obj 592 424 s player-\$1-algo-direct-set;
 #X obj 346 214 tgl 15 0 player-\$1-time-reverse player-\$1-time-reverse-set
 t-rev 17 7 0 10 -262144 -1 -1 0 1;
-#X text 331 456 << for computer keyboard control. may bring back in
-\, but just not needed in a crowded space at this point;
 #X obj 299 144 hsl 60 8 0 1000 0 0 player-\$1-asr-time player-\$1-asr-time-set
 empty -2 -8 0 10 -262144 -1 -1 0 1;
 #X msg 653 117 \; player-\$1-mute-set 0 \; player-\$1-bitDepth-set
@@ -192,12 +173,47 @@ player-\$1-rvb-xover-set 3000 \; player-\$1-rvb-damping-set 30 \; player-\$1-spa
 0 \; player-\$1-tempo-set 30 \; player-\$1-pitch-bend-display 0 \;
 player-\$1-kbd-control-set 0 \; player-\$1-asr-kbd-set 0 \; player-\$1-asr-time-set
 50 \;;
-#X connect 0 0 49 0;
-#X connect 1 0 19 0;
+#X obj 181 214 hradio 15 1 0 6 player-\$1-clone player-\$1-clone-set
+clone 16 8 0 10 -262144 -1 -1 0;
+#X obj 65 214 bng 15 250 50 0 empty empty misc 17 7 0 10 -262144 -1
+-1;
+#X obj 305 295 pack f \$1;
+#X msg 305 268 1;
+#X msg 305 320 \; pd-player-\$2-misc-gui-elements vis \$1;
+#N canvas 177 552 234 126 player-\$1-misc-gui-elements 0;
+#N canvas 836 517 750 301 hidden 0;
+#X floatatom 208 123 5 40 100 1 dry player-#1-dry-set player-#1-dry
+;
+#X floatatom 208 143 5 40 100 1 wet player-#1-wet-set player-#1-wet
+;
+#X floatatom 68 123 10 0 20000 1 xover player-#1-rvb-xover-set player-#1-rvb-xover
+;
+#X floatatom 68 143 5 0 100 1 damping player-#1-rvb-damping-set player-#1-rvb-damping
+;
+#X obj 208 193 tgl 15 0 player-\$1-kbd-control player-\$1-kbd-control-set
+k 5 7 0 10 -262144 -1 -1 0 1;
+#X floatatom 68 173 10 0 1623 1 loop-start player-#1-loop-point-start-set
+player-#1-loop-point-start;
+#X floatatom 68 193 10 0 1623 1 loop-end player-#1-loop-point-end-set
+player-#1-loop-point-end;
+#X text 301 213 << for computer keyboard control. may bring back in
+\, but just not needed in a crowded space at this point;
+#X text 66 39 these GUI controls were removed from the main GOP control
+panel in order to save space. they remain in the abstraction so that
+their parameters can be set in the same way. do not remove., f 72
+;
+#X coords 0 -1 1 1 210 105 2 60 110;
+#X restore 1 2 pd hidden;
+#X restore 85 399 pd player-\$1-misc-gui-elements;
+#X connect 0 0 40 0;
+#X connect 1 0 13 0;
 #X connect 2 0 1 0;
-#X connect 15 0 0 0;
-#X connect 26 0 2 0;
+#X connect 11 0 0 0;
+#X connect 20 0 2 0;
+#X connect 34 0 36 0;
+#X connect 35 0 34 0;
+#X connect 36 0 37 0;
 #X connect 42 0 44 0;
-#X connect 43 0 42 0;
-#X connect 44 0 45 0;
+#X connect 43 0 45 0;
+#X connect 44 0 43 0;
 #X coords 0 -1 1 1 360 210 1 50 50;
