@@ -18,11 +18,12 @@
 114: p4
 115: p5
 116: p6
-117: p7
+117: p7/pitch bend
 118: p8
 119: p9
 
 120: spat LFO freq
+123: pitch bend modifier for p7 CC
 
 121: loop point start
 122: loop point end
@@ -109,4 +110,4 @@ UNMAPPED:
 
 57-100
 
-123-127
+124-127
