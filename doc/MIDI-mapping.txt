@@ -23,6 +23,7 @@
 119: p9
 
 120: spat LFO freq
+124: automation record
 
 1: pitch bend range
 pitch bend wheel: pitch bend
@@ -112,4 +113,4 @@ UNMAPPED:
 
 57-100
 
-124-127
+125-127

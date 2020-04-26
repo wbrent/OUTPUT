@@ -1,4 +1,4 @@
-#N canvas 853 38 1003 602 12;
+#N canvas 432 171 1003 602 12;
 #X obj 109 512 bng 15 250 50 0 player-\$1-algo-randomize player-\$1-algo-randomize-set
 randomize 24 7 0 12 -262144 -1 -1;
 #X obj 643 408 bng 15 250 50 0 player-\$1-algo-load-params player-\$1-algo-load-params-set
@@ -97,7 +97,7 @@ f 26;
 #X connect 5 0 4 1;
 #X connect 6 0 3 0;
 #X restore 167 265 pd load-bitDepth;
-#N canvas 482 254 805 555 load-params 0;
+#N canvas 889 221 805 555 load-params 0;
 #X obj 42 30 inlet;
 #X obj 42 147 t f b;
 #X obj 42 199 until;
@@ -887,11 +887,11 @@ tempo 17 7 0 10 -262144 -1 -1 0 1;
 #X obj 693 408 bng 15 250 50 0 player-\$1-algo-refresh-params player-\$1-algo-refresh-params-set
 r 4 7 0 10 -262130 -1 -1;
 #X obj 109 402 cnv 15 37 18 empty player-\$1-algo-param-0-canvas-set
-empty 20 12 0 14 -196608 -66577 0;
+empty 20 12 0 14 -262144 -66577 0;
 #X obj 159 402 cnv 15 37 18 empty player-\$1-algo-param-1-canvas-set
 empty 20 12 0 14 -262144 -66577 0;
 #X obj 209 402 cnv 15 37 18 empty player-\$1-algo-param-2-canvas-set
-empty 20 12 0 14 -262144 -66577 0;
+empty 20 12 0 14 -196608 -66577 0;
 #X obj 259 402 cnv 15 37 18 empty player-\$1-algo-param-3-canvas-set
 empty 20 12 0 14 -262144 -66577 0;
 #X obj 309 402 cnv 15 37 18 empty player-\$1-algo-param-4-canvas-set
