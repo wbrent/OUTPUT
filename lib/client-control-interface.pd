@@ -33,8 +33,6 @@
 #X obj 57 26 netprep player-\$1-gain 1;
 #X obj 435 495 netprep player-\$1-asr-env;
 #X obj 435 435 netprep player-\$1-asr-kbd 1;
-#X text 432 370 Just "set" this toggle on the master side so that it
-can be seen if other players are using ASR kbd, f 37;
 #X obj 57 273 netprep player-\$1-set-time-random;
 #X obj 57 235 netprep player-\$1-dry-wet 1;
 #X obj 435 525 netprep player-\$1-save-preset;

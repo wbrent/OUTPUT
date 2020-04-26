@@ -23,9 +23,10 @@
 119: p9
 
 120: spat LFO freq
-123: pitch bend modifier for p7 CC
+
 1: pitch bend range
 pitch bend wheel: pitch bend
+123: pitch bend modifier for p7 CC
 
 121: loop point start
 122: loop point end
