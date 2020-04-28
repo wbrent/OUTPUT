@@ -18,16 +18,21 @@
 114: p4
 115: p5
 116: p6
-117: p7/pitch bend
+117: p7
 118: p8
 119: p9
 
 120: spat LFO freq
 124: automation record
 
+XX: reverb crossover
+XX: reverb hi-frequency damping
+XX: reverb dry level
+XX: reverb wet level
+
 1: pitch bend range
 pitch bend wheel: pitch bend
-123: pitch bend modifier for p7 CC
+123: pitch bend
 
 121: loop point start
 122: loop point end

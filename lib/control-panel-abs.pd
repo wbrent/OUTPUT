@@ -18,7 +18,7 @@ intrp 17 7 0 10 -262144 -1 -1 0 1;
 #X floatatom 65 194 15 0 0 1 t player-#1-time-index-set player-#1-time-index
 ;
 #X obj 653 61 r lb4;
-#X obj 276 176 vsl 8 30 -1 1 0 0 empty player-\$1-pitch-bend-display
+#X obj 276 176 vsl 8 30 -1 1 0 0 player-\$1-pitch-bend player-\$1-pitch-bend-set
 empty 0 -9 0 10 -262144 -1 -1 0 1;
 #X msg 25 320 \; pd-player-\$2-raw-output-plot vis \$1 \;;
 #X obj 60 70 cnv 15 230 95 empty player-\$1-active-canvas-set empty
@@ -204,9 +204,9 @@ empty 0 -9 0 10 -262144 -1 -1 0 1;
 player-\$1-rvb-xover-set 3000 \; player-\$1-rvb-damping-set 30 \; player-\$1-spat-width-set
 0.35 \; player-\$1-spat-pos-set 0 \; player-\$1-spat-lfo-freq-set 0
 \; player-\$1-compute-set 1 \; player-\$1-interpolation-set 1 \; player-\$1-algo-select-set
-0 \; player-\$1-tempo-set 30 \; player-\$1-pitch-bend-display 0 \;
-player-\$1-pitch-bend-range-set 16 \; player-\$1-kbd-control-set 0
-\; player-\$1-asr-kbd-set 0 \; player-\$1-asr-time-set 50 \;;
+0 \; player-\$1-pitch-bend-set 0 \; player-\$1-tempo-set 30 \; player-\$1-pitch-bend-range-set
+16 \; player-\$1-kbd-control-set 0 \; player-\$1-asr-kbd-set 0 \; player-\$1-asr-time-set
+50 \;;
 #X connect 0 0 47 0;
 #X connect 1 0 13 0;
 #X connect 2 0 1 0;
