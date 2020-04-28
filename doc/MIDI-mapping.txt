@@ -11,6 +11,9 @@
 108: dry-wet balance
 109: liveness
 
+99: reverb crossover
+100: reverb hi-frequency damping
+
 110: p0
 111: p1
 112: p2
@@ -24,11 +27,6 @@
 
 120: spat LFO freq
 124: automation record
-
-XX: reverb crossover
-XX: reverb hi-frequency damping
-XX: reverb dry level
-XX: reverb wet level
 
 1: pitch bend range
 pitch bend wheel: pitch bend
@@ -116,6 +114,6 @@ UNMAPPED:
 48
 49
 
-57-100
+57-98
 
 125-127
