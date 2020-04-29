@@ -1,5 +1,5 @@
-#N canvas 46 464 899 503 10;
-#X obj 653 86 f \$1;
+#N canvas 46 464 899 442 10;
+#X obj 625 81 f \$1;
 #X obj 25 295 pack f \$1;
 #X msg 25 268 1;
 #X text 293 62 REVERB;
@@ -17,7 +17,7 @@ timeSync 16 8 0 10 -262144 -1 -1 0;
 intrp 17 7 0 10 -262144 -1 -1 0 1;
 #X floatatom 65 194 15 0 0 1 t player-#1-time-index-set player-#1-time-index
 ;
-#X obj 653 61 r lb4;
+#X obj 625 56 r lb4;
 #X obj 276 176 vsl 8 30 -1 1 0 0 player-\$1-pitch-bend player-\$1-pitch-bend-set
 empty 0 -9 0 10 -262144 -1 -1 0 1;
 #X msg 25 320 \; pd-player-\$2-raw-output-plot vis \$1 \;;
@@ -157,10 +157,6 @@ player-#1-algo-select;
 ;
 #X symbolatom 65 234 55 0 0 0 - player-#1-algo-direct-set player-#1-algo-direct
 ;
-#X obj 592 382 text get outputAlgorithms;
-#X obj 592 361 r player-\$1-algo-select;
-#X msg 592 403 set \$1;
-#X obj 592 424 s player-\$1-algo-direct-set;
 #X obj 346 214 tgl 15 0 player-\$1-time-reverse player-\$1-time-reverse-set
 t-rev 17 7 0 10 -262144 -1 -1 0 1;
 #X obj 299 144 hsl 60 8 0 1000 0 0 player-\$1-asr-time player-\$1-asr-time-set
@@ -199,7 +195,7 @@ their parameters can be set in the same way. do not remove., f 72
 #X restore 85 399 pd player-\$1-misc-gui-elements;
 #X obj 286 176 vsl 8 30 0 127 0 0 player-\$1-pitch-bend-range player-\$1-pitch-bend-range-set
 empty 0 -9 0 10 -262144 -1 -1 0 1;
-#X msg 653 117 \; player-\$1-mute-set 0 \; player-\$1-bitDepth-set
+#X msg 625 112 \; player-\$1-mute-set 0 \; player-\$1-bitDepth-set
 24 \; player-\$1-dry-wet-set 50 \; player-\$1-rvb-liveness-set 90 \;
 player-\$1-rvb-xover-set 3000 \; player-\$1-rvb-damping-set 30 \; player-\$1-spat-width-set
 0.35 \; player-\$1-spat-pos-set 0 \; player-\$1-spat-lfo-freq-set 0
@@ -207,15 +203,33 @@ player-\$1-rvb-xover-set 3000 \; player-\$1-rvb-damping-set 30 \; player-\$1-spa
 0 \; player-\$1-pitch-bend-set 0 \; player-\$1-tempo-set 30 \; player-\$1-pitch-bend-range-set
 16 \; player-\$1-kbd-control-set 0 \; player-\$1-asr-kbd-set 0 \; player-\$1-asr-time-set
 50 \;;
-#X connect 0 0 47 0;
+#X obj 246 124 bng 15 250 50 0 player-\$1-rand-algo player-\$1-rand-algo-set
+r 4 7 0 10 -262130 -1 -1;
+#N canvas 515 401 494 226 algo-selection 0;
+#X obj 42 82 text get outputAlgorithms;
+#X obj 42 61 r player-\$1-algo-select;
+#X msg 42 103 set \$1;
+#X obj 42 124 s player-\$1-algo-direct-set;
+#X obj 232 43 r player-\$1-rand-algo;
+#X obj 232 64 t b b;
+#X obj 272 84 text size outputAlgorithms;
+#X obj 232 146 s player-\$1-algo-select-set;
+#X obj 232 115 random;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X connect 2 0 3 0;
+#X connect 4 0 5 0;
+#X connect 5 0 8 0;
+#X connect 5 1 6 0;
+#X connect 6 0 8 1;
+#X connect 8 0 7 0;
+#X restore 437 188 pd algo-selection;
+#X connect 0 0 43 0;
 #X connect 1 0 13 0;
 #X connect 2 0 1 0;
 #X connect 11 0 0 0;
 #X connect 20 0 2 0;
-#X connect 34 0 36 0;
-#X connect 35 0 34 0;
-#X connect 36 0 37 0;
-#X connect 41 0 43 0;
-#X connect 42 0 44 0;
-#X connect 43 0 42 0;
+#X connect 37 0 39 0;
+#X connect 38 0 40 0;
+#X connect 39 0 38 0;
 #X coords 0 -1 1 1 360 210 1 50 50;
