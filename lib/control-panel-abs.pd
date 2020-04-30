@@ -224,6 +224,8 @@ r 4 7 0 10 -262130 -1 -1;
 #X connect 6 0 8 1;
 #X connect 8 0 7 0;
 #X restore 437 188 pd algo-selection;
+#X obj 276 214 bng 15 250 50 0 player-\$1-pitch-bend-zero player-\$1-pitch-bend-zero-set
+0 5 8 0 10 -204800 -1 -1;
 #X connect 0 0 43 0;
 #X connect 1 0 13 0;
 #X connect 2 0 1 0;
