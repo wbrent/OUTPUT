@@ -153,17 +153,17 @@ player-#1-algo-select;
 #X restore 437 158 pd dry-wet;
 #X floatatom 296 84 5 0 100 1 dry-wet player-#1-dry-wet-set player-#1-dry-wet
 ;
-#X floatatom 65 174 7 0 1623 1 minutes player-#1-time-point-set player-#1-time-point
+#X floatatom 65 174 7 0 1623 1 m player-#1-time-point-set player-#1-time-point
 ;
 #X symbolatom 65 234 55 0 0 0 - player-#1-algo-direct-set player-#1-algo-direct
 ;
-#X obj 346 214 tgl 15 0 player-\$1-time-reverse player-\$1-time-reverse-set
-t-rev 17 7 0 10 -262144 -1 -1 0 1;
+#X obj 132 174 tgl 15 0 player-\$1-time-reverse player-\$1-time-reverse-set
+t-rev 5 7 0 10 -262144 -1 -1 0 1;
 #X obj 299 144 hsl 60 8 0 1000 0 0 player-\$1-asr-time player-\$1-asr-time-set
 empty -2 -8 0 10 -262144 -1 -1 0 1;
 #X obj 175 214 hradio 15 1 0 6 player-\$1-clone player-\$1-clone-set
 clone 16 8 0 10 -262144 -1 -1 0;
-#X obj 65 214 bng 15 250 50 0 empty empty misc 17 7 0 10 -262144 -1
+#X obj 355 214 bng 15 250 50 0 empty empty misc 17 7 0 10 -262144 -1
 -1;
 #X obj 305 295 pack f \$1;
 #X msg 305 268 1;
@@ -226,6 +226,10 @@ r 4 7 0 10 -262130 -1 -1;
 #X restore 437 188 pd algo-selection;
 #X obj 276 214 bng 15 250 50 0 player-\$1-pitch-bend-zero player-\$1-pitch-bend-zero-set
 0 5 8 0 10 -204800 -1 -1;
+#X obj 65 214 tgl 15 0 player-\$1-loop-record player-\$1-loop-record-set
+loop 17 7 0 10 -262144 -1 -1 0 1;
+#X obj 132 214 bng 15 250 50 0 player-\$1-loop-reset player-\$1-loop-reset-set
+empty 5 8 0 10 -232576 -1 -1;
 #X connect 0 0 43 0;
 #X connect 1 0 13 0;
 #X connect 2 0 1 0;

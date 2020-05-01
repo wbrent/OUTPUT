@@ -114,6 +114,8 @@ through to the master.;
 #X obj 141 195 r player-\$1-set-time-random;
 #X text 100 220 this must be set on the master side only \, since they're
 two separate objects and time is randomly set internally, f 30;
+#X obj 172 510 r player-\$1-loop-record;
+#X msg 172 531 loopRecord \$1;
 #X connect 1 0 0 0;
 #X connect 3 0 1 0;
 #X connect 5 0 0 0;
@@ -140,6 +142,8 @@ two separate objects and time is randomly set internally, f 30;
 #X connect 23 0 8 0;
 #X connect 24 0 6 0;
 #X connect 26 0 25 0;
+#X connect 28 0 29 0;
+#X connect 29 0 0 0;
 #X restore 202 161 pd getSetTime;
 #N canvas 430 213 595 497 algo-param-receives 0;
 #X obj 55 333 list prepend parameters;
