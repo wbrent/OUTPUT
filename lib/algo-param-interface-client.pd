@@ -933,5 +933,7 @@ empty 20 12 0 14 -262144 -66577 0;
 r 4 8 0 10 -262144 -1 -1;
 #X obj 503 108 table player-\$1-algo-params 16;
 #X text 326 512 zero/random time;
+#X obj 529 532 bng 15 250 50 0 player-\$1-automation-killall player-\$1-automation-killall-set
+auto-killall 24 7 0 12 -262144 -1 -1;
 #X connect 46 0 8 0;
 #X coords 0 -1 1 1 650 210 1 100 350;
