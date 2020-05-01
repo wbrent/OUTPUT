@@ -162,15 +162,15 @@ at the 3rd outlet. The "getNumAlgoParams" will also produce this output.
 #X connect 27 0 23 0;
 #X coords 0 -1 1 1 510 45 1 100 210;
 #X restore 100 168 pd set-parameters;
-#N canvas 627 63 881 774 get-and-set-time 0;
+#N canvas 627 63 875 774 get-and-set-time 0;
 #X msg 102 110 0;
 #X msg 43 33 getTimeIndex;
 #X obj 43 703 outlet;
-#X msg 232 527 setTimeRand;
+#X msg 312 587 setTimeRand;
 #X text 154 18 Poll the object to get the current time index and interpolation
 mu from the 2nd outlet. This is useful for sync'ing one instance to
 another.;
-#X text 341 493 The internal time variable in this object is an unsigned
+#X text 421 553 The internal time variable in this object is an unsigned
 int. Pd's [random] uses floating point numbers and cannot produce random
 numbers large enough to accomodate that range. Instead \, use this
 method to have the object choose its own random time internally.,
@@ -217,9 +217,15 @@ are more tightly in sync., f 67;
 range than raw time indices. One option is to multiply by 60 then by
 the sampling rate to go from "minutes" (at tempo 60) to raw time index.
 ;
-#X msg 272 607 timeDirection -1;
-#X msg 282 637 timeDirection 1;
-#X text 428 620 Make time flow backwards or forwards.;
+#X msg 352 667 timeDirection -1;
+#X msg 362 697 timeDirection 1;
+#X text 508 680 Make time flow backwards or forwards.;
+#X obj 220 497 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X msg 240 497 loopRecord \$1;
+#X text 358 482 Send 1 to start record \, and 0 to stop. Upon stop
+\, the loop immediately starts repeating. This sets the internal time
+loop points.;
 #X connect 0 0 6 0;
 #X connect 1 0 2 0;
 #X connect 3 0 2 0;
@@ -232,6 +238,8 @@ the sampling rate to go from "minutes" (at tempo 60) to raw time index.
 #X connect 14 0 2 0;
 #X connect 17 0 2 0;
 #X connect 18 0 2 0;
+#X connect 20 0 21 0;
+#X connect 21 0 2 0;
 #X restore 170 268 pd get-and-set-time;
 #X obj 54 598 hip~ 3;
 #N canvas 0 23 450 300 plotting 0;
@@ -311,7 +319,7 @@ loaded preset data.;
 #X text 371 333 NOTE: because the raw output of bytebeat algorithms
 can have intense DC offsets \, a high-pass filter is recommended.,
 f 44;
-#N canvas 837 100 805 558 more-messages 0;
+#N canvas 575 142 805 558 more-messages 0;
 #X msg 287 419 print;
 #X obj 50 88 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0 1
 ;

@@ -10,7 +10,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-version 0.9.1, April 2, 2020
+version 0.9.2, May 1, 2020
 
 */
 
@@ -163,7 +163,7 @@ static void algo_tilde_setTimeLoopPoints(algo_tilde *x, t_floatarg t0, t_floatar
 	t1 = (t1<0)?0:t1;
 	t1 = (t1>UINT_MAX)?UINT_MAX:t1;
 	
-	// ensure that t2 > t1
+	// ensure that t1 > t0
 	if(t0 > t1)
 	{
 		unsigned int tmp;
@@ -174,6 +174,27 @@ static void algo_tilde_setTimeLoopPoints(algo_tilde *x, t_floatarg t0, t_floatar
 	
 	x->x_tLoopPoints[0] = t0;
 	x->x_tLoopPoints[1] = t1;
+}
+
+static void algo_tilde_loopRecord(algo_tilde *x, t_floatarg record)
+{
+	if(record > 0)
+	{
+		// first, reset the loop points to MIN/MAX to erase any previously recorded loop
+		algo_tilde_setTimeLoopPoints(x, -1, -1);
+		
+		if(x->x_timeDirection == forward)
+			x->x_tLoopPoints[0] = x->x_t;
+		else
+			x->x_tLoopPoints[1] = x->x_t;	
+	}
+	else
+	{
+		if(x->x_timeDirection == forward)
+			x->x_tLoopPoints[1] = x->x_t;
+		else
+			x->x_tLoopPoints[0] = x->x_t;
+	}
 }
 
 static void algo_tilde_interpSwitch(algo_tilde *x, t_floatarg i)
@@ -845,6 +866,14 @@ void algo_tilde_setup(void)
 		(t_method)algo_tilde_setTimeLoopPoints,
 		gensym("setTimeLoopPoints"),
 		A_DEFFLOAT,
+		A_DEFFLOAT,
+		0
+	);
+
+	class_addmethod(
+		algo_tilde_class,
+		(t_method)algo_tilde_loopRecord,
+		gensym("loopRecord"),
 		A_DEFFLOAT,
 		0
 	);
