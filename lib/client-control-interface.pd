@@ -1308,5 +1308,4 @@ loop end point, f 18;
 #X restore 264 254 pd last-MIDI-control-moved;
 #X coords 0 -1 1 1 1030 210 2 20 20;
 #X restore 15 13 pd panel;
-#X obj 1079 81 inlet;
-#X text 1077 105 for use with [clone] messages;
+#X obj 1006 204 inlet;
