@@ -17,7 +17,6 @@ to route all MIDI data to send names that incorporate player ID \$3.
 #X obj 181 88 select 0 1 2 3 4 5;
 #X msg 221 129 127;
 #X obj 181 66 f \$3;
-#X obj 201 37 r player-\$3-param-interface-init;
 #X text 288 239 \$1: send name \; \$2: CC num \; \$3: player ID \;
 ;
 #X connect 0 0 3 0;
@@ -36,4 +35,3 @@ to route all MIDI data to send names that incorporate player ID \$3.
 #X connect 11 5 12 0;
 #X connect 12 0 8 1;
 #X connect 13 0 11 0;
-#X connect 14 0 13 0;
