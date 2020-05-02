@@ -3,35 +3,20 @@
 #X obj 28 186 t b;
 #X obj 28 219 s \$1;
 #X obj 28 162 select 127;
-#X text 108 160 << with "momentary" button modes \, we just want one
+#X text 118 160 << with "momentary" button modes \, we just want one
 bang per button press \, so we only look for the button on state and
 filter out the release.;
-#X text 322 82 Use the button state of CC 0 (which is in "toggle" mode)
+#X text 274 82 Use the button state of CC 0 (which is in "toggle" mode)
 to route all MIDI data to send names that incorporate player ID \$3.
 , f 44;
-#X obj 28 80 ctlin \$2;
-#X obj 181 11 loadbang;
-#X obj 109 85 ==;
-#X msg 181 129 0;
-#X obj 109 55 ctlin 0;
-#X obj 181 88 select 0 1 2 3 4 5;
-#X msg 221 129 127;
-#X obj 181 66 f \$3;
+#X obj 28 50 ctlin \$2;
+#X obj 109 79 loadbang;
 #X text 288 239 \$1: send name \; \$2: CC num \; \$3: player ID \;
 ;
+#X obj 109 104 active-player-abs \$3;
 #X connect 0 0 3 0;
 #X connect 1 0 2 0;
 #X connect 3 0 1 0;
 #X connect 6 0 0 0;
-#X connect 7 0 13 0;
-#X connect 8 0 0 1;
-#X connect 9 0 8 1;
-#X connect 10 0 8 0;
-#X connect 11 0 9 0;
-#X connect 11 1 12 0;
-#X connect 11 2 9 0;
-#X connect 11 3 12 0;
-#X connect 11 4 9 0;
-#X connect 11 5 12 0;
-#X connect 12 0 8 1;
-#X connect 13 0 11 0;
+#X connect 7 0 9 0;
+#X connect 9 0 0 1;
