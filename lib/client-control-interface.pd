@@ -1,4 +1,5 @@
-#N canvas 743 291 1066 248 12;
+#N canvas 743 291 1051 221 12;
+#X obj 988 189 inlet;
 #N canvas 583 389 1222 370 panel 0;
 #X obj 20 20 control-panel-abs \$1;
 #N canvas 266 248 768 641 netpreps 0;
@@ -1306,8 +1307,7 @@ loop end point, f 18;
 #X restore 49 195 pd time-reverse;
 #X connect 5 0 1 0;
 #X restore 264 254 pd last-MIDI-control-moved;
-#X coords 0 -1 1 1 1030 210 2 20 20;
-#X restore 15 6 pd panel;
-#X obj 1006 216 inlet;
-#X obj 948 217 cnv 15 100 30 empty empty empty 20 12 0 14 -262144 -66577
+#X obj 949 199 cnv 15 100 30 empty empty empty 20 12 0 14 -262144 -66577
 0;
+#X coords 0 -1 1 1 1030 210 2 20 20;
+#X restore 10 6 pd panel;
