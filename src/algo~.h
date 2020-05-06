@@ -37,8 +37,8 @@ typedef struct _algo_tilde
     t_canvas *x_canvas;
 	t_clock *x_clock;
     unsigned char x_startupFlag;
-    t_float x_sr;
-    t_float x_n;
+    double x_sr;
+    double x_n;
     double x_bitDepth;
     double x_quantSteps;
     unsigned char x_interpSwitch;
