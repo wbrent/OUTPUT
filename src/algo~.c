@@ -10,7 +10,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-version 0.9.2, May 1, 2020
+version 0.9.3, May 6, 2020
 
 */
 
@@ -304,6 +304,7 @@ static void algo_tilde_tempo(algo_tilde *x, t_floatarg t)
 	
 	// calculate the interpolation increment (tempo factor) relative to BASETEMPO BPM
 	x->x_incr = (x->x_tempo/BASETEMPO);
+	x->x_incr *= DEFAULTSAMPLERATE/x->x_sr;
 }
 
 static void algo_tilde_debug(algo_tilde *x, t_floatarg d)
@@ -468,7 +469,7 @@ static void *algo_tilde_new(t_symbol *s, int argc, t_atom *argv)
 	x->x_startupFlag = 0; // keep track of whether the object creation process has completed
     x->x_clock = clock_new(x, (t_method)algo_tilde_initClock);	
 
-	x->x_sr = 44100.0f;
+	x->x_sr = DEFAULTSAMPLERATE;
 	x->x_n = 64.0f;
 	
 	// this function sets x_tempo and handles calculation of x_quantSteps
@@ -780,7 +781,11 @@ static void algo_tilde_dsp(algo_tilde *x, t_signal **sp)
 	}
 	
 	if(x->x_sr != sp[0]->s_sr)
+	{
 		x->x_sr = sp[0]->s_sr;
+		// update tempo increment based on new samplerate
+		algo_tilde_tempo(x, x->x_tempo);
+	}
 };
 
 
