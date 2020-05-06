@@ -1,10 +1,10 @@
-#N canvas 432 171 1003 602 12;
+#N canvas 432 171 980 655 12;
 #X obj 109 512 bng 15 250 50 0 player-\$1-algo-randomize player-\$1-algo-randomize-set
-randomize 24 7 0 12 -262144 -1 -1;
+randomize 20 7 0 12 -262144 -1 -1;
 #X obj 643 408 bng 15 250 50 0 player-\$1-algo-load-params player-\$1-algo-load-params-set
-load 17 7 0 10 -204786 -1 -1;
+load 17 7 0 12 -204786 -1 -1;
 #X obj 643 388 bng 15 250 50 0 player-\$1-algo-save-params player-\$1-algo-save-params-set
-save 17 7 0 10 -261234 -1 -1;
+save 17 7 0 12 -261234 -1 -1;
 #X floatatom 109 532 7 0 0 1 random-range player-#1-algo-param-range-set
 player-#1-algo-param-range;
 #X obj 109 382 bng 15 250 50 0 player-\$1-algo-dec-param-0 player-\$1-algo-dec-param-0-set
@@ -867,13 +867,13 @@ upon init;
 #X text 109 35 \$1: parent player ID number \;;
 #X obj 673 198 clone last-param-changed-abs 10 \$1;
 #X obj 643 488 tgl 15 0 player-\$1-load-params player-\$1-load-params-set
-params 17 7 0 10 -262144 -1 -1 0 1;
+params 17 7 0 12 -262144 -1 -1 0 1;
 #X obj 643 428 tgl 15 0 player-\$1-load-bitDepth player-\$1-load-bitDepth-set
-bit 17 7 0 10 -262144 -1 -1 0 1;
+bit 17 7 0 12 -262144 -1 -1 0 1;
 #X obj 643 448 tgl 15 0 player-\$1-load-time player-\$1-load-time-set
-time 17 7 0 10 -262144 -1 -1 0 1;
+time 17 7 0 12 -262144 -1 -1 0 1;
 #X obj 643 468 tgl 15 0 player-\$1-load-tempo player-\$1-load-tempo-set
-tempo 17 7 0 10 -262144 -1 -1 0 1;
+tempo 17 7 0 12 -262144 -1 -1 0 1;
 #X obj 110 112 param-changer \$1 0;
 #X obj 110 142 param-changer \$1 1;
 #X obj 110 172 param-changer \$1 2;
@@ -884,8 +884,8 @@ tempo 17 7 0 10 -262144 -1 -1 0 1;
 #X obj 110 232 param-changer \$1 4;
 #X obj 310 202 param-changer \$1 8;
 #X obj 310 232 param-changer \$1 9;
-#X obj 693 408 bng 15 250 50 0 player-\$1-algo-refresh-params player-\$1-algo-refresh-params-set
-r 4 7 0 10 -262130 -1 -1;
+#X obj 703 408 bng 15 250 50 0 player-\$1-algo-refresh-params player-\$1-algo-refresh-params-set
+r 4 8 0 12 -262130 -1 -1;
 #X obj 109 402 cnv 15 37 18 empty player-\$1-algo-param-0-canvas-set
 empty 20 12 0 14 -262144 -66577 0;
 #X obj 159 402 cnv 15 37 18 empty player-\$1-algo-param-1-canvas-set
@@ -928,14 +928,17 @@ empty 20 12 0 14 -262144 -66577 0;
 ;
 #X obj 503 138 clone algo-param-writer 10 \$1;
 #X obj 329 532 bng 15 250 50 0 player-\$1-algo-time-zero player-\$1-algo-time-zero-set
-0 4 8 0 10 -262144 -1 -1;
+0 4 8 0 12 -262144 -1 -1;
 #X obj 359 532 bng 15 250 50 0 player-\$1-algo-time-rand player-\$1-algo-time-rand-set
-r 4 8 0 10 -262144 -1 -1;
+r 4 8 0 12 -262144 -1 -1;
 #X obj 503 108 table player-\$1-algo-params 16;
 #X text 326 512 zero/random time;
 #X obj 529 532 bng 15 250 50 0 player-\$1-automation-killall player-\$1-automation-killall-set
-auto-killall 24 7 0 12 -262144 -1 -1;
+auto-killall 20 7 0 12 -262144 -1 -1;
 #X obj 649 529 cnv 15 100 30 empty empty empty 20 12 0 14 -262144 -66577
 0;
+#X text 652 564 ^ there is an invisible white [canvas] here to hide
+the [inlet] needed in the parent abstraction \, client-control-interface.pd
+, f 33;
 #X connect 46 0 8 0;
 #X coords 0 -1 1 1 650 210 1 100 350;

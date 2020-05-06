@@ -195,14 +195,6 @@ their parameters can be set in the same way. do not remove., f 72
 #X restore 85 399 pd player-\$1-misc-gui-elements;
 #X obj 286 176 vsl 8 30 0 127 0 0 player-\$1-pitch-bend-range player-\$1-pitch-bend-range-set
 empty 0 -9 0 10 -262144 -1 -1 0 1;
-#X msg 625 112 \; player-\$1-mute-set 0 \; player-\$1-bitDepth-set
-24 \; player-\$1-dry-wet-set 50 \; player-\$1-rvb-liveness-set 90 \;
-player-\$1-rvb-xover-set 3000 \; player-\$1-rvb-damping-set 30 \; player-\$1-spat-width-set
-0.35 \; player-\$1-spat-pos-set 0 \; player-\$1-spat-lfo-freq-set 0
-\; player-\$1-compute-set 1 \; player-\$1-interpolation-set 1 \; player-\$1-algo-select-set
-0 \; player-\$1-pitch-bend-set 0 \; player-\$1-tempo-set 30 \; player-\$1-pitch-bend-range-set
-16 \; player-\$1-kbd-control-set 0 \; player-\$1-asr-kbd-set 0 \; player-\$1-asr-time-set
-50 \;;
 #X obj 246 124 bng 15 250 50 0 player-\$1-rand-algo player-\$1-rand-algo-set
 r 4 7 0 10 -262130 -1 -1;
 #N canvas 515 401 494 226 algo-selection 0;
@@ -230,7 +222,16 @@ r 4 7 0 10 -262130 -1 -1;
 loop 17 7 0 10 -262144 -1 -1 0 1;
 #X obj 132 214 bng 15 250 50 0 player-\$1-loop-reset player-\$1-loop-reset-set
 empty 5 8 0 10 -232576 -1 -1;
-#X connect 0 0 43 0;
+#X msg 625 112 \; player-\$1-gain-set 40 \; player-\$1-mute-set 0 \;
+player-\$1-bitDepth-set 8 \; player-\$1-dry-wet-set 50 \; player-\$1-rvb-liveness-set
+80 \; player-\$1-rvb-xover-set 3000 \; player-\$1-rvb-damping-set 30
+\; player-\$1-spat-width-set 0.35 \; player-\$1-spat-pos-set 0 \; player-\$1-spat-lfo-freq-set
+0 \; player-\$1-compute-set 1 \; player-\$1-interpolation-set 1 \;
+player-\$1-algo-select-set 0 \; player-\$1-pitch-bend-range-set 16
+\; player-\$1-pitch-bend-set 0 \; player-\$1-tempo-set 30 \; player-\$1-time-reverse-set
+0 \; player-\$1-time-index-set 0 \; player-\$1-kbd-control-set 0 \;
+player-\$1-asr-kbd-set 0 \; player-\$1-asr-time-set 50 \;;
+#X connect 0 0 48 0;
 #X connect 1 0 13 0;
 #X connect 2 0 1 0;
 #X connect 11 0 0 0;
