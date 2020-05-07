@@ -24,7 +24,7 @@
 #X obj 435 243 netprep player-\$1-rvb-damping 1;
 #X obj 435 219 netprep player-\$1-rvb-xover 1;
 #X obj 435 195 netprep player-\$1-rvb-liveness 1;
-#X obj 57 231 netprep player-\$1-bitDepth 1;
+#X obj 57 231 netprep player-\$1-bit-depth 1;
 #X obj 57 165 netprep player-\$1-algo-select 1;
 #X obj 57 125 netprep player-\$1-spat-lfo-freq 1;
 #X obj 57 100 netprep player-\$1-spat-width 1;
@@ -48,44 +48,17 @@
 #X obj 435 147 netprep player-\$1-wet 1;
 #X obj 57 379 netprep player-\$1-loop-record 1;
 #X restore 20 241 pd netpreps;
-#N canvas 1214 498 583 426 algo-cache-stuff 0;
-#X msg 43 116 0;
-#X obj 163 37 r player-\$1-algo-select;
-#X obj 219 271 pack f \$1;
-#X obj 111 334 pack f \$1;
-#X msg 219 301 \; player-\$2-algo-save-cache \$1 \;;
-#X obj 163 71 spigot;
-#X obj 223 71 r player-\$1-algo-select-retrigger-suppress-spigot;
-#X obj 219 243 tabread player-\$1-algo-params;
-#X obj 163 113 t f b;
-#X floatatom 121 79 5 0 0 0 - - -;
-#X obj 43 83 r lb2;
-#X msg 219 221 0;
-#X msg 111 361 \; player-\$2-algo-load-cache \$1 \;;
-#X connect 0 0 3 0;
-#X connect 1 0 5 0;
-#X connect 1 0 9 0;
-#X connect 2 0 4 0;
-#X connect 3 0 12 0;
-#X connect 5 0 8 0;
-#X connect 6 0 5 1;
-#X connect 7 0 2 0;
-#X connect 8 0 3 0;
-#X connect 8 1 11 0;
-#X connect 10 0 0 0;
-#X connect 11 0 7 0;
-#X restore 20 271 pd algo-cache-stuff;
 #N canvas 821 23 516 566 keyboard-commands 0;
 #X obj 105 152 key;
 #X obj 182 176 r player-\$1-kbd-control;
-#N canvas 327 384 615 322 bitDepth 0;
+#N canvas 327 384 615 322 bit-depth 0;
 #X obj 346 168 f;
 #X obj 386 172 + 1;
 #X obj 86 168 f;
 #X obj 126 172 - 1;
-#X obj 120 120 r player-\$1-bitDepth;
-#X obj 380 120 r player-\$1-bitDepth;
-#X obj 275 266 s player-\$1-bitDepth-set;
+#X obj 120 120 r player-\$1-bit-depth;
+#X obj 380 120 r player-\$1-bit-depth;
+#X obj 275 266 s player-\$1-bit-depth-set;
 #X obj 86 48 inlet;
 #X obj 86 72 select 44 46;
 #X obj 216 72 outlet;
@@ -105,7 +78,7 @@
 #X connect 8 2 9 0;
 #X connect 10 1 11 0;
 #X connect 11 0 6 0;
-#X restore 105 208 pd bitDepth;
+#X restore 105 208 pd bit-depth;
 #N canvas 413 349 615 322 compute 0;
 #X obj 86 168 f;
 #X obj 86 48 inlet;
@@ -179,7 +152,7 @@
 #X connect 4 0 5 0;
 #X restore 105 328 pd timeSync;
 #X obj 105 176 spigot;
-#X text 90 31 </>: bitDepth inc/dec \; z: compute toggle \; x: interp
+#X text 90 31 </>: bit-depth inc/dec \; z: compute toggle \; x: interp
 toggle \; c \, v \, b \, n \, m: tempoSync to 0-4 \; space: time sync
 to most recently tempoSync'd payer \;;
 #X text 91 404 =: randomize all \; [ \, ]: load \, save \; 1/q/a: inc/dec/rand
@@ -348,7 +321,7 @@ Works in parallel with pitch bend wheel if one is present., f 29;
 #X obj 482 463 r player-\$1-pitch-bend-zero;
 #X msg 482 487 0;
 #X obj 482 511 s player-\$1-pitch-bend-set;
-#X obj 353 65 buttonBangMap player-\$1-pitch-bend-zero-set 2 \$1;
+#X obj 353 65 button-bang-map player-\$1-pitch-bend-zero-set 2 \$1;
 #X obj 412 222 active-player-abs \$1;
 #X connect 0 0 4 0;
 #X connect 0 0 20 0;
@@ -402,7 +375,7 @@ Works in parallel with pitch bend wheel if one is present., f 29;
 #X obj 355 260 r num-algos;
 #X obj 101 369 fadermap player-\$1-algo-select 25 \$1 0 74 player-\$1-algo-select-set
 1;
-#X obj 101 409 buttonBangMap player-\$1-rand-algo-set 38 \$1;
+#X obj 101 409 button-bang-map player-\$1-rand-algo-set 38 \$1;
 #X obj 479 109 active-player-abs \$1;
 #X obj 275 260 moses;
 #X connect 0 0 16 0;
@@ -435,7 +408,7 @@ Works in parallel with pitch bend wheel if one is present., f 29;
 #X obj 39 14 r player-\$1-latest-param-dec;
 #X obj 39 204 r player-\$1-latest-param-inc;
 #X obj 429 14 r player-\$1-latest-param-rand;
-#X obj 402 292 buttonBangMap player-\$1-latest-param-rand 18 \$1 1
+#X obj 402 292 button-bang-map player-\$1-latest-param-rand 18 \$1 1
 ;
 #X msg 429 146 \; player-\$1-algo-randomize-param-\$2-set bang \;;
 #X msg 39 296 \; player-\$1-algo-inc-param-\$2-set bang \;;
@@ -444,10 +417,10 @@ Works in parallel with pitch bend wheel if one is present., f 29;
 #X obj 429 116 pack \$1 f;
 #X obj 39 266 pack \$1 f;
 #X floatatom 149 98 5 0 0 0 - - -;
-#X obj 402 232 buttonBangMap player-\$1-latest-param-dec 19 \$1 1;
-#X obj 402 262 buttonBangMap player-\$1-latest-param-inc 20 \$1 1;
-#X obj 402 362 buttonBangMap player-\$1-active-param-dec 16 \$1 1;
-#X obj 402 392 buttonBangMap player-\$1-active-param-inc 17 \$1 1;
+#X obj 402 232 button-bang-map player-\$1-latest-param-dec 19 \$1 1;
+#X obj 402 262 button-bang-map player-\$1-latest-param-inc 20 \$1 1;
+#X obj 402 362 button-bang-map player-\$1-active-param-dec 16 \$1 1;
+#X obj 402 392 button-bang-map player-\$1-active-param-inc 17 \$1 1;
 #X obj 162 413 r player-\$1-last-param-changed;
 #X obj 131 454 f;
 #X obj 171 458 + 1;
@@ -495,12 +468,12 @@ Works in parallel with pitch bend wheel if one is present., f 29;
 #X obj 528 159 r player-\$1-tempo-sync-3;
 #X obj 488 129 r player-\$1-tempo-sync-2;
 #X obj 448 99 r player-\$1-tempo-sync-1;
-#X obj 37 37 buttonBangMap player-\$1-tempo-sync-0 30 \$1;
-#X obj 37 187 buttonBangMap player-\$1-tempo-sync-5 51 \$1;
-#X obj 37 67 buttonBangMap player-\$1-tempo-sync-1 31 \$1;
-#X obj 37 97 buttonBangMap player-\$1-tempo-sync-2 40 \$1;
-#X obj 37 127 buttonBangMap player-\$1-tempo-sync-3 41 \$1;
-#X obj 37 157 buttonBangMap player-\$1-tempo-sync-4 50 \$1;
+#X obj 37 37 button-bang-map player-\$1-tempo-sync-0 30 \$1;
+#X obj 37 187 button-bang-map player-\$1-tempo-sync-5 51 \$1;
+#X obj 37 67 button-bang-map player-\$1-tempo-sync-1 31 \$1;
+#X obj 37 97 button-bang-map player-\$1-tempo-sync-2 40 \$1;
+#X obj 37 127 button-bang-map player-\$1-tempo-sync-3 41 \$1;
+#X obj 37 157 button-bang-map player-\$1-tempo-sync-4 50 \$1;
 #X connect 1 0 2 0;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
@@ -601,9 +574,9 @@ scale from 0 to 4 \, but also log scale going from 0 down to -4;
 #X obj 390 346 t b f;
 #X msg 390 370 2;
 #X obj 390 394 pow;
-#X obj 505 318 buttonBangMap player-\$1-algo-param-range-dec 12 \$1
+#X obj 505 318 button-bang-map player-\$1-algo-param-range-dec 12 \$1
 1;
-#X obj 505 288 buttonBangMap player-\$1-algo-param-range-inc 10 \$1
+#X obj 505 288 button-bang-map player-\$1-algo-param-range-inc 10 \$1
 1;
 #X obj 327 323 moses 3;
 #X obj 390 322 moses 17;
@@ -638,16 +611,16 @@ their ranges need to change according to controls in [algo-param-interface-clien
 #X connect 14 1 15 0;
 #X connect 15 0 9 0;
 #X restore 413 34 pd param-knobs;
-#N canvas 559 236 860 389 bitDepth 0;
+#N canvas 559 236 860 389 bit-depth 0;
 #X obj 113 93 spigot;
 #X obj 113 157 t b;
 #X obj 373 235 f;
 #X obj 113 235 f;
 #X obj 373 93 spigot;
 #X obj 373 157 t b;
-#X obj 147 187 r player-\$1-bitDepth;
-#X obj 407 187 r player-\$1-bitDepth;
-#X obj 302 333 s player-\$1-bitDepth-set;
+#X obj 147 187 r player-\$1-bit-depth;
+#X obj 407 187 r player-\$1-bit-depth;
+#X obj 302 333 s player-\$1-bit-depth-set;
 #X obj 232 297 moses 1;
 #X obj 302 297 moses 33;
 #X obj 153 239 + 1;
@@ -679,26 +652,26 @@ their ranges need to change according to controls in [algo-param-interface-clien
 #X connect 17 0 4 0;
 #X connect 18 0 4 1;
 #X connect 18 0 0 1;
-#X restore 413 94 pd bitDepth;
+#X restore 413 94 pd bit-depth;
 #N canvas 738 392 488 228 compute-interp-rand 0;
-#X obj 36 126 buttonToggleMap player-\$1-interpolation 24 \$1 0 1 player-\$1-interpolation-set
+#X obj 36 126 button-toggle-map player-\$1-interpolation 24 \$1 0 1 player-\$1-interpolation-set
 ;
-#X obj 36 76 buttonToggleMap player-\$1-compute 23 \$1 0 1 player-\$1-compute-set
+#X obj 36 76 button-toggle-map player-\$1-compute 23 \$1 0 1 player-\$1-compute-set
 ;
-#X obj 36 46 buttonBangMap player-\$1-algo-randomize-set 9 \$1;
+#X obj 36 46 button-bang-map player-\$1-algo-randomize-set 9 \$1;
 #X restore 413 124 pd compute-interp-rand;
 #N canvas 950 219 542 406 preset-loading 0;
-#X obj 37 97 buttonBangMap player-\$1-algo-refresh-params-set 55 \$1
+#X obj 37 97 button-bang-map player-\$1-algo-refresh-params-set 55 \$1
 ;
-#X obj 37 37 buttonBangMap player-\$1-algo-save-params-set 35 \$1;
-#X obj 37 67 buttonBangMap player-\$1-algo-load-params-set 45 \$1;
-#X obj 37 147 buttonToggleMap player-\$1-load-bitDepth 33 \$1 0 1 player-\$1-load-bitDepth-set
+#X obj 37 37 button-bang-map player-\$1-algo-save-params-set 35 \$1;
+#X obj 37 67 button-bang-map player-\$1-algo-load-params-set 45 \$1;
+#X obj 37 147 button-toggle-map player-\$1-load-bit-depth 33 \$1 0 1 player-\$1-load-bit-depth-set
 ;
-#X obj 37 297 buttonToggleMap player-\$1-load-params 54 \$1 0 1 player-\$1-load-params-set
+#X obj 37 297 button-toggle-map player-\$1-load-params 54 \$1 0 1 player-\$1-load-params-set
 ;
-#X obj 37 247 buttonToggleMap player-\$1-load-tempo 53 \$1 0 1 player-\$1-load-tempo-set
+#X obj 37 247 button-toggle-map player-\$1-load-tempo 53 \$1 0 1 player-\$1-load-tempo-set
 ;
-#X obj 37 197 buttonToggleMap player-\$1-load-time 43 \$1 0 1 player-\$1-load-time-set
+#X obj 37 197 button-toggle-map player-\$1-load-time 43 \$1 0 1 player-\$1-load-time-set
 ;
 #X restore 413 64 pd preset-loading;
 #N canvas 723 423 368 415 active-player-sensing 0;
@@ -774,7 +747,7 @@ their ranges need to change according to controls in [algo-param-interface-clien
 #X connect 9 0 8 0;
 #X restore 212 124 pd active-player-sensing;
 #N canvas 0 23 450 300 keyboard-ASR 0;
-#X obj 36 76 buttonToggleMap player-\$1-asr-kbd 15 \$1 0 1 player-\$1-asr-kbd-set
+#X obj 36 76 button-toggle-map player-\$1-asr-kbd 15 \$1 0 1 player-\$1-asr-kbd-set
 ;
 #X obj 36 136 fadermap player-\$1-asr-time 13 \$1 0 1000 player-\$1-asr-time-set
 0;
@@ -786,7 +759,7 @@ gain;
 0;
 #X obj 41 139 fadermap player-\$1-spat-width 105 \$1 0 1 player-\$1-spat-width-set
 0;
-#X obj 41 189 fadermap player-\$1-bitDepth 106 \$1 1 31 player-\$1-bitDepth-set
+#X obj 41 189 fadermap player-\$1-bit-depth 106 \$1 1 31 player-\$1-bit-depth-set
 1;
 #X obj 541 209 fadermap player-\$1-rvb-liveness 109 \$1 50 50 player-\$1-rvb-liveness-set
 1;
@@ -817,12 +790,12 @@ gain;
 #X obj 528 159 r player-\$1-clone-3;
 #X obj 568 189 r player-\$1-clone-4;
 #X obj 408 285 s player-\$1-clone-set;
-#X obj 37 37 buttonBangMap player-\$1-clone-0 26 \$1;
-#X obj 37 67 buttonBangMap player-\$1-clone-1 27 \$1;
-#X obj 37 97 buttonBangMap player-\$1-clone-2 28 \$1;
-#X obj 37 127 buttonBangMap player-\$1-clone-3 29 \$1;
-#X obj 37 157 buttonBangMap player-\$1-clone-4 36 \$1;
-#X obj 37 187 buttonBangMap player-\$1-clone-5 37 \$1;
+#X obj 37 37 button-bang-map player-\$1-clone-0 26 \$1;
+#X obj 37 67 button-bang-map player-\$1-clone-1 27 \$1;
+#X obj 37 97 button-bang-map player-\$1-clone-2 28 \$1;
+#X obj 37 127 button-bang-map player-\$1-clone-3 29 \$1;
+#X obj 37 157 button-bang-map player-\$1-clone-4 36 \$1;
+#X obj 37 187 button-bang-map player-\$1-clone-5 37 \$1;
 #X connect 0 0 12 0;
 #X connect 1 0 12 0;
 #X connect 2 0 12 0;
@@ -837,7 +810,7 @@ gain;
 #X connect 11 0 4 0;
 #X restore 43 184 pd cloning;
 #N canvas 337 246 1117 652 time 0;
-#X obj 55 81 buttonBangMap player-\$1-time-reverse-set 56 \$1;
+#X obj 55 81 button-bang-map player-\$1-time-reverse-set 56 \$1;
 #X obj 55 121 fadermap player-\$1-time-point 107 \$1 0 1623 player-\$1-time-point-set
 1;
 #X obj 55 211 fadermap player-\$1-loop-point-end 122 \$1 0 1623 player-\$1-loop-point-end-set
@@ -1213,7 +1186,7 @@ loop end point, f 18;
 #X obj 49 195 symbol;
 #X obj 49 26 ctlin 106;
 #X obj 49 219 s player-\$1-last-MIDI-trig-send-name;
-#X msg 49 154 player-\$1-bitDepth-set;
+#X msg 49 154 player-\$1-bit-depth-set;
 #X obj 49 58 spigot;
 #X obj 160 76 active-player-abs \$1;
 #X obj 160 46 r lb1;
@@ -1296,5 +1269,32 @@ loop end point, f 18;
 #X restore 264 254 pd last-MIDI-control-moved;
 #X obj 929 199 cnv 15 100 30 empty empty empty 20 12 0 14 -262144 -66577
 0;
+#N canvas 1214 498 583 426 save-and-load-caches 0;
+#X msg 43 116 0;
+#X obj 163 37 r player-\$1-algo-select;
+#X obj 219 271 pack f \$1;
+#X obj 111 334 pack f \$1;
+#X msg 219 301 \; player-\$2-algo-save-cache \$1 \;;
+#X obj 163 71 spigot;
+#X obj 223 71 r player-\$1-algo-select-retrigger-suppress-spigot;
+#X obj 219 243 tabread player-\$1-algo-params;
+#X obj 163 113 t f b;
+#X floatatom 121 79 5 0 0 0 - - -;
+#X obj 43 83 r lb2;
+#X msg 219 221 0;
+#X msg 111 361 \; player-\$2-algo-load-cache \$1 \;;
+#X connect 0 0 3 0;
+#X connect 1 0 5 0;
+#X connect 1 0 9 0;
+#X connect 2 0 4 0;
+#X connect 3 0 12 0;
+#X connect 5 0 8 0;
+#X connect 6 0 5 1;
+#X connect 7 0 2 0;
+#X connect 8 0 3 0;
+#X connect 8 1 11 0;
+#X connect 10 0 0 0;
+#X connect 11 0 7 0;
+#X restore 20 271 pd save-and-load-caches;
 #X coords 0 -1 1 1 1010 210 2 20 20;
 #X restore 10 6 pd panel;

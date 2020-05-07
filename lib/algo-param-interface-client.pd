@@ -82,13 +82,13 @@ f 26;
 #X connect 5 0 4 1;
 #X connect 6 0 3 0;
 #X restore 197 235 pd load-tempo;
-#N canvas 581 367 366 355 load-bitDepth 0;
+#N canvas 581 367 366 355 load-bit-depth 0;
 #X obj 44 40 inlet;
-#X msg 44 243 \; player-\$2-bitDepth-set \$1 \;;
+#X msg 44 243 \; player-\$2-bit-depth-set \$1 \;;
 #X obj 44 207 pack f \$1;
 #X obj 44 183 tabread player-\$1-algo-params;
 #X obj 44 108 spigot;
-#X obj 104 78 r player-\$1-load-bitDepth;
+#X obj 104 78 r player-\$1-load-bit-depth;
 #X msg 44 141 11;
 #X connect 0 0 4 0;
 #X connect 2 0 1 0;
@@ -96,7 +96,7 @@ f 26;
 #X connect 4 0 6 0;
 #X connect 5 0 4 1;
 #X connect 6 0 3 0;
-#X restore 167 265 pd load-bitDepth;
+#X restore 167 265 pd load-bit-depth;
 #N canvas 889 221 805 555 load-params 0;
 #X obj 42 30 inlet;
 #X obj 42 147 t f b;
@@ -241,7 +241,7 @@ empty 17 7 0 10 -262144 -1 -1;
 #X text 412 392 Note that the cache is only saving what's stored locally
 here on the client side \, which reflects the state of the player's
 GUI control panel via algo-param-interface-client.pd. In cases where
-the time \, tempo \, bitDepth \, and params checkboxes are OFF \, the
+the time \, tempo \, bit-depth \, and params checkboxes are OFF \, the
 internal settings of [algo~] on the master side will differ from what
 is stored in the local client side cache. Thus \, the cache saving
 feature really only works when those checkboxes are ON.;
@@ -568,7 +568,7 @@ side \; 11) bit depth \; 12) tempo \; 13) time \; 14) loop point start
 #X text 277 237 =: randomize all \; [ \, ]: load \, save \; 1/q/a:
 inc/dec/rand for p0 \; 2/w/s: inc/dec/rand for p1 \; etc \;;
 #X obj 182 176 r player-\$1-kbd-control;
-#X text 90 31 </>: bitDepth inc/dec \; z: compute toggle \; x: interp
+#X text 90 31 </>: bit-depth inc/dec \; z: compute toggle \; x: interp
 toggle \; c \, v \, b \, n \, m: tempoSync to 0-4 \; space: timeSync
 to most recently tempoSync'd player;
 #X obj 105 176 spigot;
@@ -772,7 +772,7 @@ doesn't, f 31;
 #X msg 871 263 write ../caches/\$2-\$1-cache.txt cr;
 #X obj 871 229 t l l b;
 #X obj 66 19 r player-\$1-params-per-algo;
-#X msg 479 102 \; player-\$1-load-params-set 1 \; player-\$1-load-bitDepth-set
+#X msg 479 102 \; player-\$1-load-params-set 1 \; player-\$1-load-bit-depth-set
 1 \; player-\$1-load-time-set 1 \; player-\$1-load-tempo-set 1 \; player-\$1-algo-param-range-set
 256 \;;
 #X msg 928 297 add \$1 16 32 16 32 16 32 16 32 16 32 8 30 0 0 1623
@@ -823,7 +823,7 @@ success, f 38;
 #X restore 503 48 pd init;
 #N canvas 200 552 1102 420 store-other-info 0;
 #X obj 75 87 t f b;
-#X obj 75 53 r player-\$1-bitDepth;
+#X obj 75 53 r player-\$1-bit-depth;
 #X obj 365 87 t f b;
 #X obj 365 53 r player-\$1-tempo;
 #X obj 75 125 tabwrite player-\$1-algo-params;
@@ -869,7 +869,7 @@ from a cache or preset file, f 39;
 #X obj 110 172 clone last-param-changed-abs 10 \$1;
 #X obj 653 478 tgl 15 0 player-\$1-load-params player-\$1-load-params-set
 params 17 7 0 12 -262144 -1 -1 1 1;
-#X obj 653 418 tgl 15 0 player-\$1-load-bitDepth player-\$1-load-bitDepth-set
+#X obj 653 418 tgl 15 0 player-\$1-load-bit-depth player-\$1-load-bit-depth-set
 bit 17 7 0 12 -262144 -1 -1 1 1;
 #X obj 653 438 tgl 15 0 player-\$1-load-time player-\$1-load-time-set
 time 17 7 0 12 -262144 -1 -1 1 1;

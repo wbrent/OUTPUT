@@ -30,7 +30,7 @@ player-\$1-gain 4 8 0 10 -262144 -1 -1 0 1;
 #X floatatom 206 84 5 0 0 1 dB player-#1-gain -;
 #X obj 68 144 hsl 128 15 0.01 1 0 0 player-\$1-spat-width player-\$1-spat-width-set
 player-\$1-spat-width 4 8 0 10 -262144 -1 -1 0 1;
-#X floatatom 206 144 5 1 32 1 bitDepth player-#1-bitDepth-set player-#1-bitDepth
+#X floatatom 206 144 5 1 32 1 bit player-#1-bit-depth-set player-#1-bit-depth
 ;
 #X obj 65 104 bng 15 250 50 0 empty empty plot 17 7 0 10 -262144 -1
 -1;
@@ -223,7 +223,7 @@ loop 17 7 0 10 -262144 -1 -1 0 1;
 #X obj 132 214 bng 15 250 50 0 player-\$1-loop-reset player-\$1-loop-reset-set
 empty 5 8 0 10 -232576 -1 -1;
 #X msg 625 112 \; player-\$1-gain-set 40 \; player-\$1-mute-set 0 \;
-player-\$1-bitDepth-set 8 \; player-\$1-dry-wet-set 50 \; player-\$1-rvb-liveness-set
+player-\$1-bit-depth-set 8 \; player-\$1-dry-wet-set 50 \; player-\$1-rvb-liveness-set
 80 \; player-\$1-rvb-xover-set 3000 \; player-\$1-rvb-damping-set 30
 \; player-\$1-spat-width-set 0.35 \; player-\$1-spat-pos-set 0 \; player-\$1-spat-lfo-freq-set
 0 \; player-\$1-compute-set 1 \; player-\$1-interpolation-set 1 \;
