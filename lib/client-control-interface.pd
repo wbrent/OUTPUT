@@ -780,9 +780,9 @@ gain;
 1;
 #X obj 541 249 fadermap player-\$1-rvb-xover 99 \$1 500 9500 player-\$1-rvb-xover-set
 1;
-#X obj 541 79 fadermap player-\$1-dry 70 \$1 0 100 player-\$1-dry-set
+#X obj 541 119 fadermap player-\$1-wet 71 \$1 40 60 player-\$1-wet-set
 1;
-#X obj 541 119 fadermap player-\$1-wet 71 \$1 0 100 player-\$1-wet-set
+#X obj 541 79 fadermap player-\$1-dry 70 \$1 40 60 player-\$1-dry-set
 1;
 #X restore 212 154 pd main-faders;
 #N canvas 398 386 834 332 cloning 0;
