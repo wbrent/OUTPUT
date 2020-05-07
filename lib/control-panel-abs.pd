@@ -197,16 +197,19 @@ their parameters can be set in the same way. do not remove., f 72
 empty 0 -9 0 10 -262144 -1 -1 0 1;
 #X obj 246 124 bng 15 250 50 0 player-\$1-rand-algo player-\$1-rand-algo-set
 r 4 7 0 10 -262130 -1 -1;
-#N canvas 515 401 494 226 algo-selection 0;
+#N canvas 515 401 558 226 algo-selection 0;
 #X obj 42 82 text get outputAlgorithms;
 #X obj 42 61 r player-\$1-algo-select;
 #X msg 42 103 set \$1;
 #X obj 42 124 s player-\$1-algo-direct-set;
-#X obj 232 43 r player-\$1-rand-algo;
-#X obj 232 64 t b b;
-#X obj 272 84 text size outputAlgorithms;
-#X obj 232 146 s player-\$1-algo-select-set;
-#X obj 232 115 random;
+#X obj 312 43 r player-\$1-rand-algo;
+#X obj 312 64 t b b;
+#X obj 352 84 text size outputAlgorithms;
+#X obj 312 146 s player-\$1-algo-select-set;
+#X obj 312 115 random;
+#X obj 227 48 f \$0;
+#X msg 227 72 seed \$1;
+#X obj 227 24 r lb1;
 #X connect 0 0 2 0;
 #X connect 1 0 0 0;
 #X connect 2 0 3 0;
@@ -215,6 +218,9 @@ r 4 7 0 10 -262130 -1 -1;
 #X connect 5 1 6 0;
 #X connect 6 0 8 1;
 #X connect 8 0 7 0;
+#X connect 9 0 10 0;
+#X connect 10 0 8 0;
+#X connect 11 0 9 0;
 #X restore 437 188 pd algo-selection;
 #X obj 276 214 bng 15 250 50 0 player-\$1-pitch-bend-zero player-\$1-pitch-bend-zero-set
 0 5 8 0 10 -204800 -1 -1;
