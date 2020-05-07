@@ -1,19 +1,19 @@
 #N canvas 432 171 980 655 12;
-#X obj 119 512 bng 15 250 50 0 player-\$1-algo-randomize player-\$1-algo-randomize-set
+#X obj 119 502 bng 15 250 50 0 player-\$1-algo-randomize player-\$1-algo-randomize-set
 randomize 20 7 0 12 -262144 -1 -1;
-#X obj 653 408 bng 15 250 50 0 player-\$1-algo-load-params player-\$1-algo-load-params-set
+#X obj 653 398 bng 15 250 50 0 player-\$1-algo-load-params player-\$1-algo-load-params-set
 load 17 7 0 12 -204786 -1 -1;
-#X obj 653 388 bng 15 250 50 0 player-\$1-algo-save-params player-\$1-algo-save-params-set
+#X obj 653 378 bng 15 250 50 0 player-\$1-algo-save-params player-\$1-algo-save-params-set
 save 17 7 0 12 -261234 -1 -1;
-#X floatatom 119 532 7 0 0 1 random-range player-#1-algo-param-range-set
+#X floatatom 119 522 7 0 0 1 random-range player-#1-algo-param-range-set
 player-#1-algo-param-range;
-#X obj 119 382 bng 15 250 50 0 player-\$1-algo-dec-param-0 player-\$1-algo-dec-param-0-set
+#X obj 119 372 bng 15 250 50 0 player-\$1-algo-dec-param-0 player-\$1-algo-dec-param-0-set
 - 4 8 0 12 -241291 -1 -1;
-#X obj 139 382 bng 15 250 50 0 player-\$1-algo-inc-param-0 player-\$1-algo-inc-param-0-set
+#X obj 139 372 bng 15 250 50 0 player-\$1-algo-inc-param-0 player-\$1-algo-inc-param-0-set
 + 4 8 0 12 -241291 -1 -1;
-#X obj 119 462 bng 15 250 50 0 player-\$1-algo-randomize-param-0 player-\$1-algo-randomize-param-0-set
+#X obj 119 452 bng 15 250 50 0 player-\$1-algo-randomize-param-0 player-\$1-algo-randomize-param-0-set
 empty 17 7 0 10 -262144 -1 -1;
-#X floatatom 119 482 5 0 0 0 - player-#1-algo-param-0-range-set player-#1-algo-param-0-range
+#X floatatom 119 472 5 0 0 0 - player-#1-algo-param-0-range-set player-#1-algo-param-0-range
 ;
 #N canvas 706 399 977 464 populate 0;
 #X obj 60 42 inlet;
@@ -145,77 +145,77 @@ work on param 0 directly after preset load., f 86;
 #X connect 8 0 6 0;
 #X connect 9 0 2 0;
 #X restore 798 475 pd populate;
-#X obj 169 382 bng 15 250 50 0 player-\$1-algo-dec-param-1 player-\$1-algo-dec-param-1-set
+#X obj 169 372 bng 15 250 50 0 player-\$1-algo-dec-param-1 player-\$1-algo-dec-param-1-set
 - 4 8 0 12 -241291 -1 -1;
-#X obj 189 382 bng 15 250 50 0 player-\$1-algo-inc-param-1 player-\$1-algo-inc-param-1-set
+#X obj 189 372 bng 15 250 50 0 player-\$1-algo-inc-param-1 player-\$1-algo-inc-param-1-set
 + 4 8 0 12 -241291 -1 -1;
-#X obj 169 462 bng 15 250 50 0 player-\$1-algo-randomize-param-1 player-\$1-algo-randomize-param-1-set
+#X obj 169 452 bng 15 250 50 0 player-\$1-algo-randomize-param-1 player-\$1-algo-randomize-param-1-set
 empty 17 7 0 10 -262144 -1 -1;
-#X floatatom 169 482 5 0 0 0 - player-#1-algo-param-1-range-set player-#1-algo-param-1-range
+#X floatatom 169 472 5 0 0 0 - player-#1-algo-param-1-range-set player-#1-algo-param-1-range
 ;
-#X obj 219 382 bng 15 250 50 0 player-\$1-algo-dec-param-2 player-\$1-algo-dec-param-2-set
+#X obj 219 372 bng 15 250 50 0 player-\$1-algo-dec-param-2 player-\$1-algo-dec-param-2-set
 - 4 8 0 12 -241291 -1 -1;
-#X obj 239 382 bng 15 250 50 0 player-\$1-algo-inc-param-2 player-\$1-algo-inc-param-2-set
+#X obj 239 372 bng 15 250 50 0 player-\$1-algo-inc-param-2 player-\$1-algo-inc-param-2-set
 + 4 8 0 12 -241291 -1 -1;
-#X obj 219 462 bng 15 250 50 0 player-\$1-algo-randomize-param-2 player-\$1-algo-randomize-param-2-set
+#X obj 219 452 bng 15 250 50 0 player-\$1-algo-randomize-param-2 player-\$1-algo-randomize-param-2-set
 empty 17 7 0 10 -262144 -1 -1;
-#X floatatom 219 482 5 0 0 0 - player-#1-algo-param-2-range-set player-#1-algo-param-2-range
+#X floatatom 219 472 5 0 0 0 - player-#1-algo-param-2-range-set player-#1-algo-param-2-range
 ;
-#X obj 269 382 bng 15 250 50 0 player-\$1-algo-dec-param-3 player-\$1-algo-dec-param-3-set
+#X obj 269 372 bng 15 250 50 0 player-\$1-algo-dec-param-3 player-\$1-algo-dec-param-3-set
 - 4 8 0 12 -241291 -1 -1;
-#X obj 289 382 bng 15 250 50 0 player-\$1-algo-inc-param-3 player-\$1-algo-inc-param-3-set
+#X obj 289 372 bng 15 250 50 0 player-\$1-algo-inc-param-3 player-\$1-algo-inc-param-3-set
 + 4 8 0 12 -241291 -1 -1;
-#X obj 269 462 bng 15 250 50 0 player-\$1-algo-randomize-param-3 player-\$1-algo-randomize-param-3-set
+#X obj 269 452 bng 15 250 50 0 player-\$1-algo-randomize-param-3 player-\$1-algo-randomize-param-3-set
 empty 17 7 0 10 -262144 -1 -1;
-#X floatatom 269 482 5 0 0 0 - player-#1-algo-param-3-range-set player-#1-algo-param-3-range
+#X floatatom 269 472 5 0 0 0 - player-#1-algo-param-3-range-set player-#1-algo-param-3-range
 ;
-#X obj 319 382 bng 15 250 50 0 player-\$1-algo-dec-param-4 player-\$1-algo-dec-param-4-set
+#X obj 319 372 bng 15 250 50 0 player-\$1-algo-dec-param-4 player-\$1-algo-dec-param-4-set
 - 4 8 0 12 -262140 -1 -1;
-#X obj 339 382 bng 15 250 50 0 player-\$1-algo-inc-param-4 player-\$1-algo-inc-param-4-set
+#X obj 339 372 bng 15 250 50 0 player-\$1-algo-inc-param-4 player-\$1-algo-inc-param-4-set
 + 4 8 0 12 -262140 -1 -1;
-#X obj 319 462 bng 15 250 50 0 player-\$1-algo-randomize-param-4 player-\$1-algo-randomize-param-4-set
+#X obj 319 452 bng 15 250 50 0 player-\$1-algo-randomize-param-4 player-\$1-algo-randomize-param-4-set
 empty 17 7 0 10 -262144 -1 -1;
-#X floatatom 319 482 5 0 0 0 - player-#1-algo-param-4-range-set player-#1-algo-param-4-range
+#X floatatom 319 472 5 0 0 0 - player-#1-algo-param-4-range-set player-#1-algo-param-4-range
 ;
-#X obj 369 382 bng 15 250 50 0 player-\$1-algo-dec-param-5 player-\$1-algo-dec-param-5-set
+#X obj 369 372 bng 15 250 50 0 player-\$1-algo-dec-param-5 player-\$1-algo-dec-param-5-set
 - 4 8 0 12 -262140 -1 -1;
-#X obj 389 382 bng 15 250 50 0 player-\$1-algo-inc-param-5 player-\$1-algo-inc-param-5-set
+#X obj 389 372 bng 15 250 50 0 player-\$1-algo-inc-param-5 player-\$1-algo-inc-param-5-set
 + 4 8 0 12 -262140 -1 -1;
-#X obj 369 462 bng 15 250 50 0 player-\$1-algo-randomize-param-5 player-\$1-algo-randomize-param-5-set
+#X obj 369 452 bng 15 250 50 0 player-\$1-algo-randomize-param-5 player-\$1-algo-randomize-param-5-set
 empty 17 7 0 10 -262144 -1 -1;
-#X floatatom 369 482 5 0 0 0 - player-#1-algo-param-5-range-set player-#1-algo-param-5-range
+#X floatatom 369 472 5 0 0 0 - player-#1-algo-param-5-range-set player-#1-algo-param-5-range
 ;
-#X obj 419 382 bng 15 250 50 0 player-\$1-algo-dec-param-6 player-\$1-algo-dec-param-6-set
+#X obj 419 372 bng 15 250 50 0 player-\$1-algo-dec-param-6 player-\$1-algo-dec-param-6-set
 - 4 8 0 12 -262140 -1 -1;
-#X obj 439 382 bng 15 250 50 0 player-\$1-algo-inc-param-6 player-\$1-algo-inc-param-6-set
+#X obj 439 372 bng 15 250 50 0 player-\$1-algo-inc-param-6 player-\$1-algo-inc-param-6-set
 + 4 8 0 12 -262140 -1 -1;
-#X obj 419 462 bng 15 250 50 0 player-\$1-algo-randomize-param-6 player-\$1-algo-randomize-param-6-set
+#X obj 419 452 bng 15 250 50 0 player-\$1-algo-randomize-param-6 player-\$1-algo-randomize-param-6-set
 empty 17 7 0 10 -262144 -1 -1;
-#X floatatom 419 482 5 0 0 0 - player-#1-algo-param-6-range-set player-#1-algo-param-6-range
+#X floatatom 419 472 5 0 0 0 - player-#1-algo-param-6-range-set player-#1-algo-param-6-range
 ;
-#X obj 469 382 bng 15 250 50 0 player-\$1-algo-dec-param-7 player-\$1-algo-dec-param-7-set
+#X obj 469 372 bng 15 250 50 0 player-\$1-algo-dec-param-7 player-\$1-algo-dec-param-7-set
 - 4 8 0 12 -262140 -1 -1;
-#X obj 489 382 bng 15 250 50 0 player-\$1-algo-inc-param-7 player-\$1-algo-inc-param-7-set
+#X obj 489 372 bng 15 250 50 0 player-\$1-algo-inc-param-7 player-\$1-algo-inc-param-7-set
 + 4 8 0 12 -262140 -1 -1;
-#X obj 469 462 bng 15 250 50 0 player-\$1-algo-randomize-param-7 player-\$1-algo-randomize-param-7-set
+#X obj 469 452 bng 15 250 50 0 player-\$1-algo-randomize-param-7 player-\$1-algo-randomize-param-7-set
 empty 17 7 0 10 -262144 -1 -1;
-#X floatatom 469 482 5 0 0 0 - player-#1-algo-param-7-range-set player-#1-algo-param-7-range
+#X floatatom 469 472 5 0 0 0 - player-#1-algo-param-7-range-set player-#1-algo-param-7-range
 ;
-#X obj 519 382 bng 15 250 50 0 player-\$1-algo-dec-param-8 player-\$1-algo-dec-param-8-set
+#X obj 519 372 bng 15 250 50 0 player-\$1-algo-dec-param-8 player-\$1-algo-dec-param-8-set
 - 4 8 0 12 -262140 -1 -1;
-#X obj 539 382 bng 15 250 50 0 player-\$1-algo-inc-param-8 player-\$1-algo-inc-param-8-set
+#X obj 539 372 bng 15 250 50 0 player-\$1-algo-inc-param-8 player-\$1-algo-inc-param-8-set
 + 4 8 0 12 -262140 -1 -1;
-#X obj 519 462 bng 15 250 50 0 player-\$1-algo-randomize-param-8 player-\$1-algo-randomize-param-8-set
+#X obj 519 452 bng 15 250 50 0 player-\$1-algo-randomize-param-8 player-\$1-algo-randomize-param-8-set
 empty 17 7 0 10 -262144 -1 -1;
-#X floatatom 519 482 5 0 0 0 - player-#1-algo-param-8-range-set player-#1-algo-param-8-range
+#X floatatom 519 472 5 0 0 0 - player-#1-algo-param-8-range-set player-#1-algo-param-8-range
 ;
-#X obj 569 382 bng 15 250 50 0 player-\$1-algo-dec-param-9 player-\$1-algo-dec-param-9-set
+#X obj 569 372 bng 15 250 50 0 player-\$1-algo-dec-param-9 player-\$1-algo-dec-param-9-set
 - 4 8 0 12 -262140 -1 -1;
-#X obj 589 382 bng 15 250 50 0 player-\$1-algo-inc-param-9 player-\$1-algo-inc-param-9-set
+#X obj 589 372 bng 15 250 50 0 player-\$1-algo-inc-param-9 player-\$1-algo-inc-param-9-set
 + 4 8 0 12 -262140 -1 -1;
-#X obj 569 462 bng 15 250 50 0 player-\$1-algo-randomize-param-9 player-\$1-algo-randomize-param-9-set
+#X obj 569 452 bng 15 250 50 0 player-\$1-algo-randomize-param-9 player-\$1-algo-randomize-param-9-set
 empty 17 7 0 10 -262144 -1 -1;
-#X floatatom 569 482 5 0 0 0 - player-#1-algo-param-9-range-set player-#1-algo-param-9-range
+#X floatatom 569 472 5 0 0 0 - player-#1-algo-param-9-range-set player-#1-algo-param-9-range
 ;
 #N canvas 775 209 905 584 save-parameters 0;
 #X obj 76 309 savepanel;
@@ -738,7 +738,7 @@ doesn't, f 31;
 #X connect 14 0 15 0;
 #X connect 15 0 5 0;
 #X restore 503 198 pd keyboard-commands;
-#N canvas 444 233 1371 515 init 0;
+#N canvas 333 112 1371 515 init 0;
 #X obj 66 263 t f b;
 #X obj 66 287 until;
 #X obj 66 351 f;
@@ -756,9 +756,7 @@ doesn't, f 31;
 #X obj 289 305 pack f \$1;
 #X obj 66 395 pack f \$1;
 #X obj 66 43 t f b;
-#X obj 479 54 r lb1;
-#X text 529 44 << sent from OUTPUT-client-player upon TCP/IP connection
-success, f 33;
+#X obj 479 44 r lb1;
 #X obj 479 78 f \$1;
 #X msg 66 419 \; player-\$2-algo-dec-param-\$1-set color 255 -1 -1
 \; player-\$2-algo-inc-param-\$1-set color 255 -1 -1 \;;
@@ -769,12 +767,9 @@ success, f 33;
 #X msg 893 126 0;
 #X obj 871 43 r num-algos;
 #X obj 871 205 pack f \$1;
-#X text 988 130 10 params \; bit-depth \; tempo \; time \; algo ID
-;
 #X obj 871 402 textfile;
 #X msg 1003 332 clear \, rewind;
 #X msg 871 263 write ../caches/\$2-\$1-cache.txt cr;
-#X text 970 40 << this is sent via lb1;
 #X obj 871 229 t l l b;
 #X obj 66 19 r player-\$1-params-per-algo;
 #X msg 479 102 \; player-\$1-load-params-set 1 \; player-\$1-load-bitDepth-set
@@ -782,6 +777,12 @@ success, f 33;
 256 \;;
 #X msg 928 297 add \$1 16 32 16 32 16 32 16 32 16 32 8 30 0 0 1623
 ;
+#X text 970 40 << this is sent via lb1 in client-player-abs.pd/init
+, f 28;
+#X text 529 43 << sent from client-player-abs.pd/init upon TCP/IP connection
+success, f 38;
+#X text 988 130 algo ID \; 10 params \; bit-depth \; tempo \; time
+\; loop point start (minutes) \; loop point end (minutes) \;;
 #X connect 0 0 1 0;
 #X connect 0 1 4 0;
 #X connect 1 0 2 0;
@@ -798,27 +799,27 @@ success, f 33;
 #X connect 9 0 7 1;
 #X connect 10 0 5 0;
 #X connect 12 0 11 0;
-#X connect 13 0 18 0;
+#X connect 13 0 17 0;
 #X connect 14 0 0 0;
 #X connect 14 1 10 0;
-#X connect 15 0 17 0;
-#X connect 17 0 33 0;
+#X connect 15 0 16 0;
+#X connect 16 0 30 0;
+#X connect 18 0 19 0;
+#X connect 18 1 22 0;
 #X connect 19 0 20 0;
-#X connect 19 1 23 0;
 #X connect 20 0 21 0;
-#X connect 21 0 22 0;
-#X connect 21 0 25 0;
-#X connect 22 0 21 1;
-#X connect 23 0 21 1;
-#X connect 24 0 19 0;
-#X connect 25 0 31 0;
+#X connect 20 0 24 0;
+#X connect 21 0 20 1;
+#X connect 22 0 20 1;
+#X connect 23 0 18 0;
+#X connect 24 0 28 0;
+#X connect 26 0 25 0;
+#X connect 27 0 25 0;
 #X connect 28 0 27 0;
-#X connect 29 0 27 0;
-#X connect 31 0 29 0;
-#X connect 31 1 34 0;
-#X connect 31 2 28 0;
-#X connect 32 0 14 0;
-#X connect 34 0 27 0;
+#X connect 28 1 31 0;
+#X connect 28 2 26 0;
+#X connect 29 0 14 0;
+#X connect 31 0 25 0;
 #X restore 503 48 pd init;
 #N canvas 200 552 1102 420 store-other-info 0;
 #X obj 75 87 t f b;
@@ -833,8 +834,6 @@ success, f 33;
 #X msg 303 87 11;
 #X msg 593 87 12;
 #X msg 903 87 13;
-#X text 122 353 The algo number is stored at index 0 \, but loaded
-upon init;
 #X obj 75 227 t f b;
 #X obj 365 227 t f b;
 #X obj 75 265 tabwrite player-\$1-algo-params;
@@ -843,6 +842,8 @@ upon init;
 #X obj 365 193 r player-\$1-loop-point-end;
 #X msg 303 227 14;
 #X msg 593 227 15;
+#X text 672 202 The algo number is stored at index 0 \, but loaded
+from a cache or preset file, f 39;
 #X connect 0 0 4 0;
 #X connect 0 1 9 0;
 #X connect 1 0 0 0;
@@ -855,90 +856,81 @@ upon init;
 #X connect 9 0 4 1;
 #X connect 10 0 5 1;
 #X connect 11 0 7 1;
+#X connect 12 0 14 0;
+#X connect 12 1 18 0;
 #X connect 13 0 15 0;
 #X connect 13 1 19 0;
-#X connect 14 0 16 0;
-#X connect 14 1 20 0;
+#X connect 16 0 12 0;
 #X connect 17 0 13 0;
-#X connect 18 0 14 0;
+#X connect 18 0 14 1;
 #X connect 19 0 15 1;
-#X connect 20 0 16 1;
 #X restore 503 168 pd store-other-info;
 #X text 109 35 \$1: parent player ID number \;;
-#X obj 673 198 clone last-param-changed-abs 10 \$1;
-#X obj 653 488 tgl 15 0 player-\$1-load-params player-\$1-load-params-set
-params 17 7 0 12 -262144 -1 -1 0 1;
-#X obj 653 428 tgl 15 0 player-\$1-load-bitDepth player-\$1-load-bitDepth-set
-bit 17 7 0 12 -262144 -1 -1 0 1;
-#X obj 653 448 tgl 15 0 player-\$1-load-time player-\$1-load-time-set
-time 17 7 0 12 -262144 -1 -1 0 1;
-#X obj 653 468 tgl 15 0 player-\$1-load-tempo player-\$1-load-tempo-set
-tempo 17 7 0 12 -262144 -1 -1 0 1;
-#X obj 110 112 param-changer \$1 0;
-#X obj 110 142 param-changer \$1 1;
-#X obj 110 172 param-changer \$1 2;
-#X obj 110 202 param-changer \$1 3;
-#X obj 310 172 param-changer \$1 7;
-#X obj 310 142 param-changer \$1 6;
-#X obj 310 112 param-changer \$1 5;
-#X obj 110 232 param-changer \$1 4;
-#X obj 310 202 param-changer \$1 8;
-#X obj 310 232 param-changer \$1 9;
-#X obj 713 408 bng 15 250 50 0 player-\$1-algo-refresh-params player-\$1-algo-refresh-params-set
+#X obj 110 172 clone last-param-changed-abs 10 \$1;
+#X obj 653 478 tgl 15 0 player-\$1-load-params player-\$1-load-params-set
+params 17 7 0 12 -262144 -1 -1 1 1;
+#X obj 653 418 tgl 15 0 player-\$1-load-bitDepth player-\$1-load-bitDepth-set
+bit 17 7 0 12 -262144 -1 -1 1 1;
+#X obj 653 438 tgl 15 0 player-\$1-load-time player-\$1-load-time-set
+time 17 7 0 12 -262144 -1 -1 1 1;
+#X obj 653 458 tgl 15 0 player-\$1-load-tempo player-\$1-load-tempo-set
+tempo 17 7 0 12 -262144 -1 -1 1 1;
+#X obj 713 398 bng 15 250 50 0 player-\$1-algo-refresh-params player-\$1-algo-refresh-params-set
 r 4 8 0 12 -262130 -1 -1;
-#X obj 119 402 cnv 15 37 18 empty player-\$1-algo-param-0-canvas-set
+#X obj 119 392 cnv 15 37 18 empty player-\$1-algo-param-0-canvas-set
 empty 20 12 0 14 -262144 -66577 0;
-#X obj 169 402 cnv 15 37 18 empty player-\$1-algo-param-1-canvas-set
+#X obj 169 392 cnv 15 37 18 empty player-\$1-algo-param-1-canvas-set
 empty 20 12 0 14 -262144 -66577 0;
-#X obj 219 402 cnv 15 37 18 empty player-\$1-algo-param-2-canvas-set
+#X obj 219 392 cnv 15 37 18 empty player-\$1-algo-param-2-canvas-set
+empty 20 12 0 14 -262144 -66577 0;
+#X obj 269 392 cnv 15 37 18 empty player-\$1-algo-param-3-canvas-set
+empty 20 12 0 14 -262144 -66577 0;
+#X obj 319 392 cnv 15 37 18 empty player-\$1-algo-param-4-canvas-set
+empty 20 12 0 14 -262144 -66577 0;
+#X obj 369 392 cnv 15 37 18 empty player-\$1-algo-param-5-canvas-set
 empty 20 12 0 14 -196608 -66577 0;
-#X obj 269 402 cnv 15 37 18 empty player-\$1-algo-param-3-canvas-set
+#X obj 419 392 cnv 15 37 18 empty player-\$1-algo-param-6-canvas-set
 empty 20 12 0 14 -262144 -66577 0;
-#X obj 319 402 cnv 15 37 18 empty player-\$1-algo-param-4-canvas-set
+#X obj 469 392 cnv 15 37 18 empty player-\$1-algo-param-7-canvas-set
 empty 20 12 0 14 -262144 -66577 0;
-#X obj 369 402 cnv 15 37 18 empty player-\$1-algo-param-5-canvas-set
+#X obj 519 392 cnv 15 37 18 empty player-\$1-algo-param-8-canvas-set
 empty 20 12 0 14 -262144 -66577 0;
-#X obj 419 402 cnv 15 37 18 empty player-\$1-algo-param-6-canvas-set
+#X obj 569 392 cnv 15 37 18 empty player-\$1-algo-param-9-canvas-set
 empty 20 12 0 14 -262144 -66577 0;
-#X obj 469 402 cnv 15 37 18 empty player-\$1-algo-param-7-canvas-set
-empty 20 12 0 14 -262144 -66577 0;
-#X obj 519 402 cnv 15 37 18 empty player-\$1-algo-param-8-canvas-set
-empty 20 12 0 14 -262144 -66577 0;
-#X obj 569 402 cnv 15 37 18 empty player-\$1-algo-param-9-canvas-set
-empty 20 12 0 14 -262144 -66577 0;
-#X floatatom 119 402 5 0 65535 3 p0 player-#1-algo-param-0-set player-#1-algo-param-0
+#X floatatom 119 392 5 0 65535 3 p0 player-#1-algo-param-0-set player-#1-algo-param-0
 ;
-#X floatatom 169 402 5 0 65535 3 p1 player-#1-algo-param-1-set player-#1-algo-param-1
+#X floatatom 169 392 5 0 65535 3 p1 player-#1-algo-param-1-set player-#1-algo-param-1
 ;
-#X floatatom 219 402 5 0 65535 3 p2 player-#1-algo-param-2-set player-#1-algo-param-2
+#X floatatom 219 392 5 0 65535 3 p2 player-#1-algo-param-2-set player-#1-algo-param-2
 ;
-#X floatatom 269 402 5 0 65535 3 p3 player-#1-algo-param-3-set player-#1-algo-param-3
+#X floatatom 269 392 5 0 65535 3 p3 player-#1-algo-param-3-set player-#1-algo-param-3
 ;
-#X floatatom 319 402 5 0 65535 3 p4 player-#1-algo-param-4-set player-#1-algo-param-4
+#X floatatom 319 392 5 0 65535 3 p4 player-#1-algo-param-4-set player-#1-algo-param-4
 ;
-#X floatatom 369 402 5 0 65535 3 p5 player-#1-algo-param-5-set player-#1-algo-param-5
+#X floatatom 369 392 5 0 65535 3 p5 player-#1-algo-param-5-set player-#1-algo-param-5
 ;
-#X floatatom 419 402 5 0 65535 3 p6 player-#1-algo-param-6-set player-#1-algo-param-6
+#X floatatom 419 392 5 0 65535 3 p6 player-#1-algo-param-6-set player-#1-algo-param-6
 ;
-#X floatatom 469 402 5 0 65535 3 p7 player-#1-algo-param-7-set player-#1-algo-param-7
+#X floatatom 469 392 5 0 65535 3 p7 player-#1-algo-param-7-set player-#1-algo-param-7
 ;
-#X floatatom 519 402 5 0 65535 3 p8 player-#1-algo-param-8-set player-#1-algo-param-8
+#X floatatom 519 392 5 0 65535 3 p8 player-#1-algo-param-8-set player-#1-algo-param-8
 ;
-#X floatatom 569 402 5 0 65535 3 p9 player-#1-algo-param-9-set player-#1-algo-param-9
+#X floatatom 569 392 5 0 65535 3 p9 player-#1-algo-param-9-set player-#1-algo-param-9
 ;
-#X obj 503 138 clone algo-param-writer 10 \$1;
-#X obj 339 532 bng 15 250 50 0 player-\$1-algo-time-zero player-\$1-algo-time-zero-set
+#X obj 110 142 clone algo-param-writer 10 \$1;
+#X obj 339 522 bng 15 250 50 0 player-\$1-algo-time-zero player-\$1-algo-time-zero-set
 0 4 8 0 12 -262144 -1 -1;
-#X obj 369 532 bng 15 250 50 0 player-\$1-algo-time-rand player-\$1-algo-time-rand-set
+#X obj 369 522 bng 15 250 50 0 player-\$1-algo-time-rand player-\$1-algo-time-rand-set
 r 4 8 0 12 -262144 -1 -1;
 #X obj 503 108 table player-\$1-algo-params 16;
-#X text 336 512 zero/random time;
-#X obj 539 532 bng 15 250 50 0 player-\$1-automation-killall player-\$1-automation-killall-set
+#X text 336 502 zero/random time;
+#X obj 539 522 bng 15 250 50 0 player-\$1-automation-killall player-\$1-automation-killall-set
 auto-killall 20 7 0 12 -262144 -1 -1;
 #X obj 649 529 cnv 15 100 30 empty empty empty 20 12 0 14 -262144 -66577
 0;
 #X text 652 564 ^ there is an invisible white [canvas] here to hide
 the [inlet] needed in the parent abstraction \, client-control-interface.pd
 , f 33;
+#X obj 110 112 clone param-changer 10 \$1;
 #X connect 46 0 8 0;
-#X coords 0 -1 1 1 650 210 1 100 350;
+#X coords 0 -1 1 1 650 210 2 100 350;
