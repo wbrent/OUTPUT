@@ -34,7 +34,6 @@
 #X obj 435 495 netprep player-\$1-asr-env;
 #X obj 435 435 netprep player-\$1-asr-kbd 1;
 #X obj 57 273 netprep player-\$1-set-time-random;
-#X obj 435 525 netprep player-\$1-save-preset;
 #X obj 57 329 netprep player-\$1-loop-point-start 1;
 #X obj 57 355 netprep player-\$1-loop-point-end 1;
 #X obj 57 190 netprep player-\$1-algo-direct 1;
@@ -47,6 +46,9 @@
 #X obj 435 123 netprep player-\$1-dry 1;
 #X obj 435 147 netprep player-\$1-wet 1;
 #X obj 57 379 netprep player-\$1-loop-record 1;
+#X text 435 535 netprep player-\$1-save-preset;
+#X text 435 565 no need to send this request to the master instance
+\, which may not be on the same machine anyway., f 34;
 #X restore 20 241 pd netpreps;
 #N canvas 821 23 516 566 keyboard-commands 0;
 #X obj 105 152 key;
