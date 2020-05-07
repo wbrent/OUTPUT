@@ -321,7 +321,8 @@ Works in parallel with pitch bend wheel if one is present., f 29;
 #X obj 482 463 r player-\$1-pitch-bend-zero;
 #X msg 482 487 0;
 #X obj 482 511 s player-\$1-pitch-bend-set;
-#X obj 353 65 button-bang-map player-\$1-pitch-bend-zero-set 2 \$1;
+#X obj 353 65 button-bang-map player-\$1-pitch-bend-zero-set 2 \$1
+;
 #X obj 412 222 active-player-abs \$1;
 #X connect 0 0 4 0;
 #X connect 0 0 20 0;
@@ -408,8 +409,8 @@ Works in parallel with pitch bend wheel if one is present., f 29;
 #X obj 39 14 r player-\$1-latest-param-dec;
 #X obj 39 204 r player-\$1-latest-param-inc;
 #X obj 429 14 r player-\$1-latest-param-rand;
-#X obj 402 292 button-bang-map player-\$1-latest-param-rand 18 \$1 1
-;
+#X obj 402 292 button-bang-map player-\$1-latest-param-rand 18 \$1
+1;
 #X msg 429 146 \; player-\$1-algo-randomize-param-\$2-set bang \;;
 #X msg 39 296 \; player-\$1-algo-inc-param-\$2-set bang \;;
 #X msg 39 146 \; player-\$1-algo-dec-param-\$2-set bang \;;
@@ -417,10 +418,14 @@ Works in parallel with pitch bend wheel if one is present., f 29;
 #X obj 429 116 pack \$1 f;
 #X obj 39 266 pack \$1 f;
 #X floatatom 149 98 5 0 0 0 - - -;
-#X obj 402 232 button-bang-map player-\$1-latest-param-dec 19 \$1 1;
-#X obj 402 262 button-bang-map player-\$1-latest-param-inc 20 \$1 1;
-#X obj 402 362 button-bang-map player-\$1-active-param-dec 16 \$1 1;
-#X obj 402 392 button-bang-map player-\$1-active-param-inc 17 \$1 1;
+#X obj 402 232 button-bang-map player-\$1-latest-param-dec 19 \$1 1
+;
+#X obj 402 262 button-bang-map player-\$1-latest-param-inc 20 \$1 1
+;
+#X obj 402 362 button-bang-map player-\$1-active-param-dec 16 \$1 1
+;
+#X obj 402 392 button-bang-map player-\$1-active-param-inc 17 \$1 1
+;
 #X obj 162 413 r player-\$1-last-param-changed;
 #X obj 131 454 f;
 #X obj 171 458 + 1;
@@ -654,19 +659,21 @@ their ranges need to change according to controls in [algo-param-interface-clien
 #X connect 18 0 0 1;
 #X restore 413 94 pd bit-depth;
 #N canvas 738 392 488 228 compute-interp-rand 0;
-#X obj 36 126 button-toggle-map player-\$1-interpolation 24 \$1 0 1 player-\$1-interpolation-set
-;
+#X obj 36 126 button-toggle-map player-\$1-interpolation 24 \$1 0 1
+player-\$1-interpolation-set;
 #X obj 36 76 button-toggle-map player-\$1-compute 23 \$1 0 1 player-\$1-compute-set
 ;
 #X obj 36 46 button-bang-map player-\$1-algo-randomize-set 9 \$1;
 #X restore 413 124 pd compute-interp-rand;
 #N canvas 950 219 542 406 preset-loading 0;
-#X obj 37 97 button-bang-map player-\$1-algo-refresh-params-set 55 \$1
+#X obj 37 97 button-bang-map player-\$1-algo-refresh-params-set 55
+\$1;
+#X obj 37 37 button-bang-map player-\$1-algo-save-params-set 35 \$1
 ;
-#X obj 37 37 button-bang-map player-\$1-algo-save-params-set 35 \$1;
-#X obj 37 67 button-bang-map player-\$1-algo-load-params-set 45 \$1;
-#X obj 37 147 button-toggle-map player-\$1-load-bit-depth 33 \$1 0 1 player-\$1-load-bit-depth-set
+#X obj 37 67 button-bang-map player-\$1-algo-load-params-set 45 \$1
 ;
+#X obj 37 147 button-toggle-map player-\$1-load-bit-depth 33 \$1 0
+1 player-\$1-load-bit-depth-set;
 #X obj 37 297 button-toggle-map player-\$1-load-params 54 \$1 0 1 player-\$1-load-params-set
 ;
 #X obj 37 247 button-toggle-map player-\$1-load-tempo 53 \$1 0 1 player-\$1-load-tempo-set
@@ -828,11 +835,8 @@ gain;
 can't go higher than this \, even though [outputAlgo~]'s time paramter
 goes to UINT_MAX, f 31;
 #X obj 533 515 s player-\$1-set-time-random;
-#X msg 533 488 1;
-#X text 580 458 since we can't send a bang over [netsend] as currently
-configured, f 23;
 #X obj 533 393 s player-\$1-algo-time-rand-set;
-#X obj 533 425 r player-\$1-algo-time-rand;
+#X obj 533 475 r player-\$1-algo-time-rand;
 #X msg 863 151 0;
 #X text 883 178 Jump to time zero;
 #X obj 533 161 s player-\$1-algo-time-zero-set;
@@ -859,31 +863,30 @@ loop end point, f 18;
 #X obj 624 75 active-player-abs \$1;
 #X obj 624 45 r lb1;
 #X connect 4 0 5 0;
-#X connect 5 0 19 0;
+#X connect 5 0 17 0;
 #X connect 6 0 7 0;
-#X connect 7 0 15 0;
-#X connect 8 0 22 0;
+#X connect 7 0 13 0;
+#X connect 8 0 20 0;
 #X connect 9 0 4 0;
 #X connect 10 0 6 0;
-#X connect 13 0 12 0;
-#X connect 16 0 13 0;
-#X connect 17 0 21 0;
-#X connect 20 0 17 0;
-#X connect 23 0 25 0;
-#X connect 24 0 36 0;
-#X connect 25 0 26 0;
-#X connect 27 0 23 0;
-#X connect 29 0 32 0;
+#X connect 14 0 12 0;
+#X connect 15 0 19 0;
+#X connect 18 0 15 0;
+#X connect 21 0 23 0;
+#X connect 22 0 34 0;
+#X connect 23 0 24 0;
+#X connect 25 0 21 0;
+#X connect 27 0 30 0;
+#X connect 28 0 27 0;
 #X connect 30 0 29 0;
-#X connect 32 0 31 0;
-#X connect 33 0 34 0;
-#X connect 35 0 33 0;
-#X connect 36 0 23 1;
-#X connect 36 0 29 1;
-#X connect 37 0 6 1;
+#X connect 31 0 32 0;
+#X connect 33 0 31 0;
+#X connect 34 0 21 1;
+#X connect 34 0 27 1;
+#X connect 35 0 6 1;
+#X connect 36 0 35 0;
+#X connect 37 0 4 1;
 #X connect 38 0 37 0;
-#X connect 39 0 4 1;
-#X connect 40 0 39 0;
 #X restore 43 154 pd time;
 #N canvas 348 243 680 266 timeSync 0;
 #X obj 123 153 r player-\$1-tempo-sync;
