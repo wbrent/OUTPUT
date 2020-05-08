@@ -44,7 +44,7 @@
 #X floatatom 561 458 5 0 0 0 - - -;
 #X text 108 493 Parameters 0 - 9;
 #X floatatom 199 281 5 0 0 3 bit-depth - -;
-#X floatatom 289 281 5 0 0 3 samplerate - -;
+#X floatatom 289 281 10 0 0 3 samplerate - -;
 #X floatatom 379 281 15 0 0 3 time - -;
 #X obj 217 110 s \$0-output-current-settings;
 #X text 245 50 Send settings out so that GUI controls can be updated
@@ -355,19 +355,14 @@ keep them in sync with the object's internal state.;
 #X connect 8 0 5 0;
 #X restore 190 298 pd more-messages;
 #X obj 54 394 algo~ t&(t/p0) 255;
-#N canvas 702 40 870 573 algorithms 0;
-#X obj 75 527 outlet;
+#N canvas 702 40 870 614 algorithms 0;
+#X obj 75 567 outlet;
 #X msg 75 22 algo ((t>>10)&42)*t;
 #X msg 155 183 algo (((t%p0)*(t>>p1)|(357052691)-(t>>p2))/(t>>p3))^(t|(t>>p4))
 ;
 #X msg 105 53 algo ((t>>p0)&42)*t;
 #X msg 125 83 algo ((t>>p0)&p1)*t;
 #X msg 145 113 parameters 11 187;
-#X text 233 371 Algorithms must be valid expressions and MUST NOT CONTAIN
-SPACES. The standard arithmetic \, bitwise \, and logical operators
-are available. Valid variables are "t" (time) \, and "p0" through "p19"
-for a maximum of 20 free variables adjusted via the "parameters" message.
-, f 78;
 #X msg 165 223 parameters 8192 33 23 8 6 \, setTimeIndex 1.05879e+07
 ;
 #X symbolatom 194 289 80 0 0 0 - - -;
@@ -379,20 +374,29 @@ the algorithm output on the fly.;
 #X text 251 18 Fixed algorithm with no free variables \, and "t" \,
 which represents time., f 83;
 #X msg 194 312 algo \$1;
-#X text 233 441 Note that "t" increments by 1 on each time step and
+#X text 233 501 Note that "t" increments by 1 on each time step and
 wraps within the range 0 through UINT_MAX. This process depends on
 the object's internal timing system \, which is tied to the sampleRate
 setting. At a sampling rate of 44100 \, t will increment by 1 - in
 step with Pd's sampling rate. At a rate of 22050 \, t will increment
 by 0.5 for every sample \, etc., f 78;
+#X msg 204 442 algo d=(t*(t&t>>12)*8/11025)|0\\\,((d&16)/8-1)*(d*(d^15)+d+127)
+\, sampleRate 44100 \, setTimeIndex 0;
+#X text 233 351 Algorithms must be valid expressions and MUST NOT CONTAIN
+SPACES. The standard arithmetic \, bitwise \, and logical operators
+are available. Valid variables are "t" (time) \, and "p0" through "p19"
+for a maximum of 20 free variables adjusted via the "parameters" message.
+Variable assignments and multi-line expressions are possible \, with
+lines sparated by a backslash-escaped comma \, e.g.:, f 78;
 #X connect 1 0 0 0;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
 #X connect 4 0 0 0;
 #X connect 5 0 0 0;
-#X connect 7 0 0 0;
-#X connect 8 0 13 0;
-#X connect 13 0 0 0;
+#X connect 6 0 0 0;
+#X connect 7 0 12 0;
+#X connect 12 0 0 0;
+#X connect 14 0 0 0;
 #X restore 150 238 pd algorithms;
 #X text 206 24 [algo~] crunches the output of algorithmic "bytebeat"
 code to produce signal. Although bytebeat algorithms can be explored
@@ -443,7 +447,7 @@ can be updated., f 37;
 #X connect 15 0 2 0;
 #X coords 0 -1 1 1 125 80 1 65 200;
 #X restore 54 43 pd main-settings;
-#X text 545 669 [algo~] v0.9.1;
+#X text 545 669 [algo~] v0.9.4;
 #X connect 4 0 1 0;
 #X connect 4 1 2 0;
 #X connect 7 0 18 0;
