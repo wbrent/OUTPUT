@@ -10,7 +10,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-version 0.9.3, May 6, 2020
+version 0.9.4, May 8, 2020
 
 */
 
@@ -55,15 +55,15 @@ static void algo_tilde_print(algo_tilde *x)
 	}
 		
 	post("%s: numAlgoParams: %u", x->x_objSymbol->s_name, x->x_numAlgoParams);
-	post("%s: bitDepth: %0.6f", x->x_objSymbol->s_name, x->x_bitDepth);
-	post("%s: tempo: %0.6f", x->x_objSymbol->s_name, x->x_tempo);
-	post("%s: tempoFactor: %0.6f", x->x_objSymbol->s_name, x->x_incr);
+	post("%s: bitDepth: %0.15f", x->x_objSymbol->s_name, x->x_bitDepth);
+	post("%s: samplerate: %0.15f", x->x_objSymbol->s_name, x->x_samplerate);
+	post("%s: sample increment: %0.15f", x->x_objSymbol->s_name, x->x_incr);
 	post("%s: t: %u", x->x_objSymbol->s_name, x->x_t);
 	post("%s: time loop points: [%u, %u]", x->x_objSymbol->s_name, x->x_tLoopPoints[0], x->x_tLoopPoints[1]);
 	post("%s: interpolation: %s", x->x_objSymbol->s_name, (x->x_interpSwitch > 0) ? "ON" : "OFF");
 	post("%s: compute: %s", x->x_objSymbol->s_name, (x->x_computeSwitch > 0) ? "ON" : "OFF");
 	post("%s: time direction: %s", x->x_objSymbol->s_name, (x->x_timeDirection==forward) ? "forward" : "backward");
-	post("%s: sampling rate: %i", x->x_objSymbol->s_name, (int)x->x_sr);
+	post("%s: Pd sampling rate: %i", x->x_objSymbol->s_name, (int)x->x_sr);
 	post("%s: block size: %i", x->x_objSymbol->s_name, (int)x->x_n);
 	post("");
 }
@@ -85,7 +85,7 @@ static void algo_tilde_getAlgoSettings(algo_tilde *x)
 	
 	// using post-for-loop value of i adapts to whatever MAXALGOPARAMS is
 	SETFLOAT(listOut+i+1, x->x_bitDepth);
-	SETFLOAT(listOut+i+2, x->x_tempo);
+	SETFLOAT(listOut+i+2, x->x_samplerate);
 	SETFLOAT(listOut+i+3, x->x_tBlockEnd);
 	SETFLOAT(listOut+i+4, x->x_tLoopPoints[0]);
 	SETFLOAT(listOut+i+5, x->x_tLoopPoints[1]);
@@ -295,16 +295,14 @@ static void algo_tilde_bitDepth(algo_tilde *x, t_floatarg b)
  	x->x_quantSteps = pow(2.0f, x->x_bitDepth);
 }
 
-static void algo_tilde_tempo(algo_tilde *x, t_floatarg t)
+static void algo_tilde_samplerate(algo_tilde *x, t_floatarg t)
 {	
-	// keep bounded within 1 and MAXTEMPO
+	// keep bounded within 1 and FLT_MAX
 	t = (t<1.0)?1.0:t;
-	t = (t>MAXTEMPO)?MAXTEMPO:t;
-	x->x_tempo = t;
+	t = (t>FLT_MAX)?FLT_MAX:t;
+	x->x_samplerate = t;
 	
-	// calculate the interpolation increment (tempo factor) relative to BASETEMPO BPM
-	x->x_incr = (x->x_tempo/BASETEMPO);
-	x->x_incr *= DEFAULTSAMPLERATE/x->x_sr;
+	x->x_incr = x->x_samplerate/x->x_sr;
 }
 
 static void algo_tilde_debug(algo_tilde *x, t_floatarg d)
@@ -351,8 +349,9 @@ static void algo_tilde_savePreset(algo_tilde *x, t_symbol *f)
     
     fprintf(filePtr, "%u\n", x->x_params[MAXALGOPARAMS-1]);
 
-	fprintf(filePtr, "bit-depth: %0.6f\n", x->x_bitDepth);
-	fprintf(filePtr, "tempo: %0.6f\n", x->x_tempo);
+	// seems like %0.55f is the max number of relevant digits beyond the decimal point for a double precision float, but %0.15f should be good enough and keeps the preset file easy to read
+	fprintf(filePtr, "bit-depth: %0.15f\n", x->x_bitDepth);
+	fprintf(filePtr, "samplerate: %0.15f\n", x->x_samplerate);
 	fprintf(filePtr, "time: %u\n", x->x_t);
 	fprintf(filePtr, "loop-points: %u %u\n", x->x_tLoopPoints[0], x->x_tLoopPoints[1]);
 
@@ -363,7 +362,7 @@ static void algo_tilde_loadPreset(algo_tilde *x, t_symbol *f)
 {
 	FILE *filePtr;
     char fileNameBuf[MAXPDSTRING], stringIdBuf[MAXPDSTRING], algo[MAXPDSTRING];
-    t_float bitDepth, tempo;
+    t_float bitDepth, samplerate;
     unsigned int t, params[MAXALGOPARAMS], tLoopPoints[2];
     t_atom *paramAtoms;
     unsigned char i;
@@ -390,7 +389,7 @@ static void algo_tilde_loadPreset(algo_tilde *x, t_symbol *f)
     fscanf(filePtr, "%s", stringIdBuf);
     fscanf(filePtr, "%f", &bitDepth);
     fscanf(filePtr, "%s", stringIdBuf);
-    fscanf(filePtr, "%f", &tempo);
+    fscanf(filePtr, "%f", &samplerate);
     fscanf(filePtr, "%s", stringIdBuf);
     fscanf(filePtr, "%u", &t);
     fscanf(filePtr, "%s", stringIdBuf);
@@ -440,7 +439,7 @@ static void algo_tilde_loadPreset(algo_tilde *x, t_symbol *f)
 
 	// use existing functions for remaining assignments since they have safety checks
 	algo_tilde_bitDepth(x, bitDepth);
-	algo_tilde_tempo(x, tempo);
+	algo_tilde_samplerate(x, samplerate);
 	algo_tilde_setTimeIndex(x, t, 0); // set mu to 0
 
     fclose(filePtr);
@@ -471,8 +470,10 @@ static void *algo_tilde_new(t_symbol *s, int argc, t_atom *argv)
 
 	x->x_sr = DEFAULTSAMPLERATE;
 	x->x_n = 64.0f;
+
+	x->x_samplerate = DEFAULTSAMPLERATE;
 	
-	// this function sets x_tempo and handles calculation of x_quantSteps
+	// this function handles calculation of x_quantSteps
 	algo_tilde_bitDepth(x, 8.0f);
 	
 	x->x_interpSwitch = 1;
@@ -489,8 +490,8 @@ static void *algo_tilde_new(t_symbol *s, int argc, t_atom *argv)
 	x->x_incr = 0.0f;
 	x->x_sampIdx = 0.0f;
 	
-	// this tempo recreates results of 8kHz sampling rate when running at 44.1kHz 
-	algo_tilde_tempo(x, 10.884f);
+	// this recreates results of 8kHz sampling rate when running at 44.1kHz 
+	algo_tilde_samplerate(x, 8000.0f);
 
 	x->x_signalBuffer = (double *)t_getbytes((x->x_n*4+EXTRAPOINTS) * sizeof(double));
 	
@@ -547,7 +548,7 @@ static t_int *algo_tilde_perform(t_int *w)
     t_sample *out = (t_float *)(w[2]);
     n = w[3];
 	
-	// the rough number of algo samples to compute (m) is the blocksize (n) scaled by the tempo factor (increment). we take the ceiling to make sure we generate more than needed
+	// the rough number of algo samples to compute (m) is the blocksize (n) scaled by the increment. we take the ceiling to make sure we generate more than needed
 	m = ceil(n*x->x_incr);
 	
 	// note the current time index at the start of the block
@@ -783,8 +784,8 @@ static void algo_tilde_dsp(algo_tilde *x, t_signal **sp)
 	if(x->x_sr != sp[0]->s_sr)
 	{
 		x->x_sr = sp[0]->s_sr;
-		// update tempo increment based on new samplerate
-		algo_tilde_tempo(x, x->x_tempo);
+		// update x->x_incr via the _samplerate() method
+		algo_tilde_samplerate(x, x->x_samplerate);
 	}
 };
 
@@ -925,8 +926,8 @@ void algo_tilde_setup(void)
 	
 	class_addmethod(
 		algo_tilde_class,
-		(t_method)algo_tilde_tempo,
-		gensym("tempo"),
+		(t_method)algo_tilde_samplerate,
+		gensym("sampleRate"),
 		A_DEFFLOAT,
 		0
 	);

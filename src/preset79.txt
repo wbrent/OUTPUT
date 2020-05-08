@@ -1,6 +1,6 @@
 algorithm: ((t/p0*(p1&(591751328>>(t>>p2&p3))))|t/p4>>(t>>p5)^t>>p6)+(t/p7&t&p8)
 parameters: 2 15 8 28 2 11 12 16 24 0 0 0 0 0 0 0 0 0 0 0
 bit-depth: 8.000000
-tempo: 10.884000
+samplerate: 8000.000000
 time: 0
 loop-points: 0 4294967295

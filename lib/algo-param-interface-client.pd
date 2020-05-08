@@ -241,9 +241,9 @@ empty 17 7 0 10 -262144 -1 -1;
 #X text 412 392 Note that the cache is only saving what's stored locally
 here on the client side \, which reflects the state of the player's
 GUI control panel via algo-param-interface-client.pd. In cases where
-the time \, tempo \, bit-depth \, and params checkboxes are OFF \, the
-internal settings of [algo~] on the master side will differ from what
-is stored in the local client side cache. Thus \, the cache saving
+the time \, tempo \, bit-depth \, and params checkboxes are OFF \,
+the internal settings of [algo~] on the master side will differ from
+what is stored in the local client side cache. Thus \, the cache saving
 feature really only works when those checkboxes are ON.;
 #X connect 0 0 19 0;
 #X connect 1 0 6 0;
@@ -304,16 +304,16 @@ feature really only works when those checkboxes are ON.;
 #X obj 136 404 list append;
 #X obj 136 428 list append;
 #X obj 136 230 text search outputAlgorithms;
-#X obj 359 178 list split 3;
-#X obj 425 226 unpack f f;
-#X obj 425 250 / 44100;
-#X obj 425 274 / 60;
-#X obj 505 250 / 44100;
-#X obj 505 274 / 60;
-#X obj 425 328 pack f f;
-#X obj 359 352 list append;
-#X obj 425 298 min 1623;
-#X obj 505 298 min 1623;
+#X obj 429 178 list split 3;
+#X obj 495 226 unpack f f;
+#X obj 495 250 / 44100;
+#X obj 495 274 / 60;
+#X obj 575 250 / 44100;
+#X obj 575 274 / 60;
+#X obj 495 328 pack f f;
+#X obj 429 352 list append;
+#X obj 495 298 min 1623;
+#X obj 575 298 min 1623;
 #X obj 76 300 select -1;
 #X obj 19 406 print -n;
 #X msg 19 352 OUTPUT error: requested algo not found in outputAlgorithms.txt
@@ -322,6 +322,9 @@ feature really only works when those checkboxes are ON.;
 \; 1-10) the next 20 are params. trim the first 10 and use those \;
 11) bit depth \; 12) tempo \; 13) time \; 14) loop point start \; 15)
 loop point end \; \; this is 16 total;
+#X obj 359 222 unpack f f f;
+#X obj 399 262 sr-to-tempo;
+#X obj 359 296 pack f f f;
 #X connect 0 0 4 0;
 #X connect 1 0 2 0;
 #X connect 4 0 3 0;
@@ -334,7 +337,7 @@ loop point end \; \; this is 16 total;
 #X connect 8 0 9 0;
 #X connect 9 0 1 0;
 #X connect 10 0 21 0;
-#X connect 11 0 18 0;
+#X connect 11 0 25 0;
 #X connect 11 1 12 0;
 #X connect 12 0 13 0;
 #X connect 12 1 15 0;
@@ -349,6 +352,11 @@ loop point end \; \; this is 16 total;
 #X connect 21 0 23 0;
 #X connect 21 1 8 0;
 #X connect 23 0 22 0;
+#X connect 25 0 27 0;
+#X connect 25 1 26 0;
+#X connect 25 2 27 2;
+#X connect 26 0 27 1;
+#X connect 27 0 18 0;
 #X restore 315 514 pd send-to-params-table;
 #X obj 178 313 delay 2;
 #X obj 461 106 list prepend;
@@ -390,6 +398,9 @@ data to be updated and properly reported from [algo~]., f 12;
 the next 10 are params. already dropped params 10-19 on the master
 side \; 11) bit depth \; 12) tempo \; 13) time \; 14) loop point start
 \; 15) loop point end \; \; this is 16 total;
+#X obj 289 222 unpack f f f;
+#X obj 329 262 sr-to-tempo;
+#X obj 289 296 pack f f f;
 #X connect 0 0 4 0;
 #X connect 1 0 2 0;
 #X connect 4 0 3 0;
@@ -398,7 +409,7 @@ side \; 11) bit depth \; 12) tempo \; 13) time \; 14) loop point start
 #X connect 5 1 21 0;
 #X connect 6 0 7 0;
 #X connect 7 0 1 0;
-#X connect 8 0 15 0;
+#X connect 8 0 23 0;
 #X connect 8 1 9 0;
 #X connect 9 0 10 0;
 #X connect 9 1 12 0;
@@ -415,6 +426,11 @@ side \; 11) bit depth \; 12) tempo \; 13) time \; 14) loop point start
 #X connect 20 0 19 0;
 #X connect 21 0 6 1;
 #X connect 21 1 8 0;
+#X connect 23 0 25 0;
+#X connect 23 1 24 0;
+#X connect 23 2 25 2;
+#X connect 24 0 25 1;
+#X connect 25 0 15 0;
 #X restore 394 374 pd send-to-params-table;
 #X obj 394 331 r player-\$1-algo-settings-for-client;
 #N canvas 770 145 574 586 setup-dropdown-menu 0;
@@ -868,13 +884,13 @@ from a cache or preset file, f 39;
 #X text 109 35 \$1: parent player ID number \;;
 #X obj 110 172 clone last-param-changed-abs 10 \$1;
 #X obj 653 478 tgl 15 0 player-\$1-load-params player-\$1-load-params-set
-params 17 7 0 12 -262144 -1 -1 1 1;
+params 17 7 0 12 -262144 -1 -1 0 1;
 #X obj 653 418 tgl 15 0 player-\$1-load-bit-depth player-\$1-load-bit-depth-set
-bit 17 7 0 12 -262144 -1 -1 1 1;
+bit 17 7 0 12 -262144 -1 -1 0 1;
 #X obj 653 438 tgl 15 0 player-\$1-load-time player-\$1-load-time-set
-time 17 7 0 12 -262144 -1 -1 1 1;
+time 17 7 0 12 -262144 -1 -1 0 1;
 #X obj 653 458 tgl 15 0 player-\$1-load-tempo player-\$1-load-tempo-set
-tempo 17 7 0 12 -262144 -1 -1 1 1;
+tempo 17 7 0 12 -262144 -1 -1 0 1;
 #X obj 713 398 bng 15 250 50 0 player-\$1-algo-refresh-params player-\$1-algo-refresh-params-set
 r 4 8 0 12 -262130 -1 -1;
 #X obj 119 392 cnv 15 37 18 empty player-\$1-algo-param-0-canvas-set

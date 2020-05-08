@@ -44,7 +44,7 @@
 #X floatatom 561 458 5 0 0 0 - - -;
 #X text 108 493 Parameters 0 - 9;
 #X floatatom 199 281 5 0 0 3 bit-depth - -;
-#X floatatom 289 281 5 0 0 3 tempo - -;
+#X floatatom 289 281 5 0 0 3 samplerate - -;
 #X floatatom 379 281 15 0 0 3 time - -;
 #X obj 217 110 s \$0-output-current-settings;
 #X text 245 50 Send settings out so that GUI controls can be updated
@@ -208,15 +208,6 @@ as normal until the end point is hit.;
 through UINT_MAX) \, send a -1 or two identical values for the start/end
 points.;
 #X msg 190 447 setTimeLoopPoints 0 0;
-#X text 252 92 Set the current time index to any value between zero
-and UINT_MAX. The second value in the list is an optional interpolation
-mu. In rare cases \, such as with an extremely slow tempo \, you may
-also want to synchronize the interpolation mu so that two instances
-are more tightly in sync., f 67;
-#X text 360 186 It can be convenient to use a time unit with a smaller
-range than raw time indices. One option is to multiply by 60 then by
-the sampling rate to go from "minutes" (at tempo 60) to raw time index.
-;
 #X msg 352 667 timeDirection -1;
 #X msg 362 697 timeDirection 1;
 #X text 508 680 Make time flow backwards or forwards.;
@@ -226,6 +217,14 @@ the sampling rate to go from "minutes" (at tempo 60) to raw time index.
 #X text 358 482 Send 1 to start record \, and 0 to stop. Upon stop
 \, the loop immediately starts repeating. This sets the internal time
 loop points.;
+#X text 252 92 Set the current time index to any value between zero
+and UINT_MAX. The second value in the list is an optional interpolation
+mu. In rare cases \, such as with an extremely low sampling rate \,
+you may also want to synchronize the interpolation mu so that two instances
+are more tightly in sync., f 67;
+#X text 360 186 It can be convenient to use a time unit with a smaller
+range than raw time indices. One option is to multiply by 60 then by
+the sampling rate to go from "minutes" to raw time index.;
 #X connect 0 0 6 0;
 #X connect 1 0 2 0;
 #X connect 3 0 2 0;
@@ -236,10 +235,10 @@ loop points.;
 #X connect 10 0 2 0;
 #X connect 11 0 2 0;
 #X connect 14 0 2 0;
-#X connect 17 0 2 0;
-#X connect 18 0 2 0;
-#X connect 20 0 21 0;
-#X connect 21 0 2 0;
+#X connect 15 0 2 0;
+#X connect 16 0 2 0;
+#X connect 18 0 19 0;
+#X connect 19 0 2 0;
 #X restore 170 268 pd get-and-set-time;
 #X obj 54 598 hip~ 3;
 #N canvas 0 23 450 300 plotting 0;
@@ -282,11 +281,6 @@ will generate a unique file name based on the current logical time.
 #X obj 239 461 openpanel;
 #X msg 239 485 load \$1;
 #X msg 39 45 save preset80.txt;
-#X text 214 24 Save preset files containing the current algorithm \,
-20 parameters \, bit depth \, tempo \, time index \, and loop points.
-This is the same information that is reported from the 4th outlet in
-response to an "getAlgoSettings" message. Presets are saved as plain
-text files so they can be easily edited.;
 #X text 322 228 The file loading message expects plain text files containing
 information in the same format. After you have loaded a preset \, you
 can get the object's internal settings via a "getAlgoSettings" message
@@ -301,6 +295,11 @@ loaded preset data.;
 #X msg 139 305 load preset78.txt;
 #X msg 109 215 load preset75.txt;
 #X msg 129 275 load preset77.txt;
+#X text 214 24 Save preset files containing the current algorithm \,
+20 parameters \, bit depth \, sampling rate \, time index \, and loop
+points. This is the same information that is reported from the 4th
+outlet in response to an "getAlgoSettings" message. Presets are saved
+as plain text files so they can be easily edited.;
 #X connect 1 0 0 0;
 #X connect 3 0 0 0;
 #X connect 4 0 0 0;
@@ -308,13 +307,13 @@ loaded preset data.;
 #X connect 6 0 7 0;
 #X connect 7 0 0 0;
 #X connect 8 0 0 0;
-#X connect 11 0 13 0;
-#X connect 12 0 0 0;
-#X connect 13 0 12 0;
+#X connect 10 0 12 0;
+#X connect 11 0 0 0;
+#X connect 12 0 11 0;
+#X connect 13 0 0 0;
 #X connect 14 0 0 0;
 #X connect 15 0 0 0;
 #X connect 16 0 0 0;
-#X connect 17 0 0 0;
 #X restore 210 328 pd presets;
 #X text 371 333 NOTE: because the raw output of bytebeat algorithms
 can have intense DC offsets \, a high-pass filter is recommended.,
@@ -334,19 +333,19 @@ f 44;
 #X text 383 320 Get the number of parameters used in the active algorithm.
 This is just a count of all the "p" terms \, and may be useful in designing
 GUIs, f 43;
-#X text 337 216 Report all internal settings as a list of one symbol
-(the active algorithm) and 25 numbers (20 parameters \, bit-depth \,
-tempo \, time \, and time start/end loop points). Data is sent out
-the 4th outlet. Use this information to populate GUI controls to keep
-them in sync with the object's internal state.;
-#X text 89 16 [algo~] has an internal 4-point cubic interpolation function
-to smooth out the signal. This is especially useful at slow tempos
-\, and often sounds as if the signal has been low-pass filtered. The
-default state has interpolation active. Turn it off for a more harsh
-and raw bytebeat sound.;
 #X text 225 140 Turn algorithm output computation on/off. Default state
 is on. When computation is off \, silence is output from the signal
 outlet and the internal time variable ceases to change.;
+#X text 89 16 [algo~] has an internal 4-point cubic interpolation function
+to smooth out the signal. This is especially useful at low sampling
+rates \, and often sounds as if the signal has been low-pass filtered.
+The default state has interpolation active. Turn it off for a more
+harsh and raw bytebeat sound.;
+#X text 337 216 Report all internal settings as a list of one symbol
+(the active algorithm) and 25 numbers (20 parameters \, bit-depth \,
+sampling rate \, time \, and time start/end loop points). Data is sent
+out the 4th outlet. Use this information to populate GUI controls to
+keep them in sync with the object's internal state.;
 #X connect 0 0 5 0;
 #X connect 1 0 2 0;
 #X connect 2 0 5 0;
@@ -371,12 +370,6 @@ for a maximum of 20 free variables adjusted via the "parameters" message.
 , f 78;
 #X msg 165 223 parameters 8192 33 23 8 6 \, setTimeIndex 1.05879e+07
 ;
-#X text 233 441 Note that "t" increments by 1 on each time step and
-wraps within the range 0 through UINT_MAX. This process depends on
-the object's internal timing system \, which is tied to the tempo setting.
-At a tempo setting of 60 \, t will increment by 1 - in step with Pd's
-sampling rate. At a tempo setting of 30 \, t will increment by 0.5
-for every sample \, etc., f 78;
 #X symbolatom 194 289 80 0 0 0 - - -;
 #X text 192 264 Try one of your own...;
 #X text 587 187 Algorithm with 5 free variables;
@@ -386,14 +379,20 @@ the algorithm output on the fly.;
 #X text 251 18 Fixed algorithm with no free variables \, and "t" \,
 which represents time., f 83;
 #X msg 194 312 algo \$1;
+#X text 233 441 Note that "t" increments by 1 on each time step and
+wraps within the range 0 through UINT_MAX. This process depends on
+the object's internal timing system \, which is tied to the sampleRate
+setting. At a sampling rate of 44100 \, t will increment by 1 - in
+step with Pd's sampling rate. At a rate of 22050 \, t will increment
+by 0.5 for every sample \, etc., f 78;
 #X connect 1 0 0 0;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
 #X connect 4 0 0 0;
 #X connect 5 0 0 0;
 #X connect 7 0 0 0;
-#X connect 9 0 14 0;
-#X connect 14 0 0 0;
+#X connect 8 0 13 0;
+#X connect 13 0 0 0;
 #X restore 150 238 pd algorithms;
 #X text 206 24 [algo~] crunches the output of algorithmic "bytebeat"
 code to produce signal. Although bytebeat algorithms can be explored
@@ -409,11 +408,10 @@ conveniently \, and the code can run more efficiently., f 69;
 arguments are: a symbolic algorithm followed by up to 20 free variable
 values., f 44;
 #N canvas 89 48 735 534 main-settings 0;
-#X floatatom 70 255 9 1 240 1 tempo - -;
+#X floatatom 70 255 9 1 192000 1 sr - -;
 #X floatatom 70 225 5 1 32 1 bit-depth - -;
 #X obj 70 466 outlet;
 #X msg 70 342 bitDepth \$1;
-#X msg 170 342 tempo \$1;
 #X msg 320 122 set \$1;
 #X msg 390 122 set \$1;
 #X text 462 74 Update the GUI controls here if a preset is loaded,
@@ -421,27 +419,28 @@ f 32;
 #X obj 320 14 r \$0-output-current-settings;
 #X obj 320 38 list split 1;
 #X obj 320 98 unpack f f;
-#X text 250 230 Change the tempo (1-240) \, and bit-depth (1-32) via
-the "tempo" \, and "bitDepth" messages, f 37;
 #X obj 323 353 loadbang;
 #X obj 320 68 list split 20;
 #X msg 323 407 getAlgoSettings \, getNumAlgoParams;
 #X text 412 329 Once the object has loaded and creation arguments are
 processed \, request algo settings so that the patch's GUI controls
 can be updated., f 37;
-#X connect 0 0 4 0;
+#X text 250 230 Change the samplerate (1-FLT_MAX) \, and bit-depth
+(1-32) via the "sampleRate" \, and "bitDepth" messages, f 37;
+#X msg 170 342 sampleRate \$1;
+#X connect 0 0 15 0;
 #X connect 1 0 3 0;
 #X connect 3 0 2 0;
-#X connect 4 0 2 0;
-#X connect 5 0 1 0;
-#X connect 6 0 0 0;
-#X connect 8 0 9 0;
-#X connect 9 1 13 0;
-#X connect 10 0 5 0;
-#X connect 10 1 6 0;
-#X connect 12 0 14 0;
-#X connect 13 1 10 0;
-#X connect 14 0 2 0;
+#X connect 4 0 1 0;
+#X connect 5 0 0 0;
+#X connect 7 0 8 0;
+#X connect 8 1 11 0;
+#X connect 9 0 4 0;
+#X connect 9 1 5 0;
+#X connect 10 0 12 0;
+#X connect 11 1 9 0;
+#X connect 12 0 2 0;
+#X connect 15 0 2 0;
 #X coords 0 -1 1 1 125 80 1 65 200;
 #X restore 54 43 pd main-settings;
 #X text 545 669 [algo~] v0.9.1;

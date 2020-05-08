@@ -1,5 +1,6 @@
 #include "m_pd.h"
 #include "exprDouble.h" // modified from expr.h at https://github.com/zserge/expr
+#include <float.h>
 // #include <math.h> // already included with exprDouble.h
 // #include <limits.h> // already included with exprDouble.h
 // #include <stdlib.h> // for rand() // already included with exprDouble.h
@@ -7,13 +8,11 @@
 
 #define EXTRAPOINTS 8 // after careful testing, 8 guard points seems safe
 #define MAXALGOPARAMS 20
-#define BASETEMPO 60
 #define DEFAULTSAMPLERATE 44100
-#define MAXTEMPO 240
 #define MAXBITDEPTH 32
 #define NUMALGOSETTINGS 26 // algo, 20 params, bit-depth, tempo, time, time loop start, time loop end. NOTE: if MAXALGOPARAMS changes, this must change accordingly
 #define ARRAY36364689SIZE 256
-#define ALGOTILDEVERSION "0.9.3"
+#define ALGOTILDEVERSION "0.9.4"
 
 // this was the output of "36364689"[i] for i=0:255 one day on my computer. it's undefined what comes out past i=7, but I liked the results so I'm recording them here in a specific array that can produce defined behavior.
 static const unsigned int array36364689[ARRAY36364689SIZE] = 
@@ -52,8 +51,8 @@ typedef struct _algo_tilde
     unsigned int x_tLoopPoints[2];
     double x_mu;
     double x_incr;
+    double x_samplerate;
     double x_sampIdx;
-    double x_tempo;
     char *x_paramStrings[MAXALGOPARAMS];
     unsigned int x_params[MAXALGOPARAMS];
     unsigned int x_numAlgoParams;

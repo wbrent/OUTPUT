@@ -1,0 +1,15 @@
+#N canvas 540 97 341 300 12;
+#X obj 37 37 inlet;
+#X obj 37 74 t f b;
+#X obj 37 175 *;
+#X obj 87 148 / 60;
+#X msg 87 107 44100;
+#X obj 37 229 outlet;
+#X text 172 66 convert tempo to a samplerate for [algo~]. this is centered
+on a default sample rate of 44100 and base tempo of 60, f 17;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 1 1 4 0;
+#X connect 2 0 5 0;
+#X connect 3 0 2 1;
+#X connect 4 0 3 0;

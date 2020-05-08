@@ -1,6 +1,6 @@
 algorithm: (((t%p0)*(t>>p1)|(357052691)-(t>>p2))/(t>>p3))^(t|(t>>p4))
 parameters: 16 32 16 32 16 32 16 32 16 32 0 0 0 0 0 0 0 0 0 0
 bit-depth: 8.000000
-tempo: 30.000000
+samplerate: 22050.000000
 time: 0
 loop-points: 0 4294967295
