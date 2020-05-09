@@ -443,11 +443,11 @@ can be updated., f 37;
 #X connect 15 0 2 0;
 #X coords 0 -1 1 1 125 80 1 65 200;
 #X restore 54 43 pd main-settings;
-#X text 545 669 [algo~] v0.9.4;
 #X text 371 243 Explore the possibilities by trying various algorithms
 \, bit-depths \, and sample rates \, while tuning available parameters.
 Creation arguments are: a symbolic algorithm followed by up to 20 free
 variable values., f 44;
+#X text 545 669 [algo~] v0.9.5;
 #X connect 4 0 1 0;
 #X connect 4 1 2 0;
 #X connect 7 0 18 0;
