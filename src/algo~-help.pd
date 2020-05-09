@@ -407,10 +407,6 @@ control is available using the unsigned int and double data types for
 an algorithm's time variable and associated parameters. Different interpolation
 methods can also be explored \, a number of features can be managed
 conveniently \, and the code can run more efficiently., f 69;
-#X text 371 243 Explore the possibilities by trying various algorithms
-\, bit-depths \, and tempi \, while tuning available parameters. Creation
-arguments are: a symbolic algorithm followed by up to 20 free variable
-values., f 44;
 #N canvas 89 48 735 534 main-settings 0;
 #X floatatom 70 255 9 1 192000 1 sr - -;
 #X floatatom 70 225 5 1 32 1 bit-depth - -;
@@ -448,6 +444,10 @@ can be updated., f 37;
 #X coords 0 -1 1 1 125 80 1 65 200;
 #X restore 54 43 pd main-settings;
 #X text 545 669 [algo~] v0.9.4;
+#X text 371 243 Explore the possibilities by trying various algorithms
+\, bit-depths \, and sample rates \, while tuning available parameters.
+Creation arguments are: a symbolic algorithm followed by up to 20 free
+variable values., f 44;
 #X connect 4 0 1 0;
 #X connect 4 1 2 0;
 #X connect 7 0 18 0;
@@ -462,4 +462,4 @@ can be updated., f 37;
 #X connect 18 3 6 0;
 #X connect 18 4 0 0;
 #X connect 19 0 18 0;
-#X connect 22 0 18 0;
+#X connect 21 0 18 0;

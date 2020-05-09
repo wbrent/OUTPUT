@@ -10,7 +10,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-version 0.9.4, May 8, 2020
+version 0.9.5, May 9, 2020
 
 */
 
@@ -73,7 +73,7 @@ static void algo_tilde_getAlgoSettings(algo_tilde *x)
 	int i;
 	t_atom *listOut;
 
-	listOut = (t_atom *)t_getbytes(NUMALGOSETTINGS*sizeof(t_atom));
+	listOut = (t_atom *)t_getbytes((MAXALGOPARAMS+NUMALGOSETTINGS)*sizeof(t_atom));
 
 	// exprStr is a char*, but must be a t_symbol* for SETSYMBOL. use gensym()
 	SETSYMBOL(listOut, gensym(x->x_exprStr));
@@ -90,10 +90,10 @@ static void algo_tilde_getAlgoSettings(algo_tilde *x)
 	SETFLOAT(listOut+i+4, x->x_tLoopPoints[0]);
 	SETFLOAT(listOut+i+5, x->x_tLoopPoints[1]);
 
-	outlet_list(x->x_outletAlgoSettings, 0, NUMALGOSETTINGS, listOut);
+	outlet_list(x->x_outletAlgoSettings, 0, MAXALGOPARAMS+NUMALGOSETTINGS, listOut);
 	
 	// free local memory
-	t_freebytes(listOut, NUMALGOSETTINGS * sizeof(t_atom));
+	t_freebytes(listOut, (MAXALGOPARAMS+NUMALGOSETTINGS) * sizeof(t_atom));
 }
 
 static void algo_tilde_getTimeIndex(algo_tilde *x)
