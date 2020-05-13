@@ -4,11 +4,5 @@
 4 5), f 28;
 #N canvas 1146 194 669 298 init 0;
 #X obj 78 194 declare -path ./lib;
-#X obj 78 106 loadbang;
-#X msg 78 130 \; pd dsp 1;
-#X text 188 93 DSP must be on for the client in order for the local
-dummy [OUTPUT~] objects to compute time properly when loading presets.
-;
-#X connect 1 0 2 0;
 #X restore 24 179 pd init;
 #X obj 24 59 client-player-abs 2 3;

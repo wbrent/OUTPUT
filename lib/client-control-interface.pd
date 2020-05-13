@@ -1,6 +1,6 @@
-#N canvas 743 291 1051 221 12;
+#N canvas 711 260 1051 221 12;
 #X obj 978 189 inlet;
-#N canvas 583 389 1222 370 panel 0;
+#N canvas 582 389 1222 370 panel 0;
 #X obj 20 20 control-panel-abs \$1;
 #N canvas 266 248 768 641 netpreps 0;
 #N canvas 852 206 436 431 player-\$1-algo-netpreps 0;
@@ -46,9 +46,8 @@
 #X obj 435 123 netprep player-\$1-dry 1;
 #X obj 435 147 netprep player-\$1-wet 1;
 #X obj 57 379 netprep player-\$1-loop-record 1;
-#X text 435 535 netprep player-\$1-save-preset;
-#X text 435 565 no need to send this request to the master instance
-\, which may not be on the same machine anyway., f 34;
+#X obj 435 545 netprep player-\$1-load-preset;
+#X obj 435 575 netprep player-\$1-get-algo-settings;
 #X restore 20 241 pd netpreps;
 #N canvas 821 23 516 566 keyboard-commands 0;
 #X obj 105 152 key;
@@ -1335,36 +1334,26 @@ loop end point, f 18;
 #X restore 264 254 pd last-MIDI-control-moved;
 #X obj 929 199 cnv 15 100 30 empty empty empty 20 12 0 14 -262144 -66577
 0;
-#N canvas 303 193 810 455 save-and-load-caches 0;
+#N canvas 303 193 529 455 save-and-load-caches 0;
 #X msg 43 116 0;
 #X obj 163 37 r player-\$1-algo-select;
 #X obj 249 277 pack f \$1;
 #X obj 111 334 pack f \$1;
 #X msg 249 307 \; player-\$2-algo-save-cache \$1 \;;
-#X obj 163 71 spigot;
-#X obj 223 71 r player-\$1-algo-select-retrigger-suppress-spigot;
 #X obj 249 249 tabread player-\$1-algo-params;
 #X obj 163 113 t f b;
 #X obj 43 83 r lb2;
 #X msg 249 227 0;
 #X msg 111 361 \; player-\$2-algo-load-cache \$1 \;;
-#X text 315 113 it's tempting to consider redesigning this algo select
-retrigger suppress strategy. however \, the current method may actually
-be the most elegant solution. when loading from a preset \, there is
-no way to send the algo ID number to algo-player.pd other than player-\$1-algo-select
-\, which causes a stack overflow. one option would be an additional
-parallel send name. is that worth it?;
 #X connect 0 0 3 0;
-#X connect 1 0 5 0;
+#X connect 1 0 6 0;
 #X connect 2 0 4 0;
-#X connect 3 0 11 0;
-#X connect 5 0 8 0;
-#X connect 6 0 5 1;
-#X connect 7 0 2 0;
-#X connect 8 0 3 0;
-#X connect 8 1 10 0;
-#X connect 9 0 0 0;
-#X connect 10 0 7 0;
+#X connect 3 0 9 0;
+#X connect 5 0 2 0;
+#X connect 6 0 3 0;
+#X connect 6 1 8 0;
+#X connect 7 0 0 0;
+#X connect 8 0 5 0;
 #X restore 20 271 pd save-and-load-caches;
 #X coords 0 -1 1 1 1010 210 2 20 20;
 #X restore 10 6 pd panel;

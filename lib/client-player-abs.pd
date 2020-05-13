@@ -1,4 +1,4 @@
-#N canvas 759 425 786 286 16;
+#N canvas 947 531 786 286 16;
 #X declare -path ../src;
 #N canvas 122 175 1647 694 init 0;
 #X obj 30 52 t b b b b;
@@ -203,6 +203,11 @@ gains and mutes, f 33;
 #X msg 1168 168 \; player-\$1-automation-killall bang \;;
 #X msg 1238 118 \; player-\$1-automation-killall bang \;;
 #X obj 1168 128 f \$2;
+#X obj 668 468 r lb4;
+#X msg 668 497 \; pd dsp 1 \;;
+#X text 534 565 DSP must be on for the client in order for the local
+[algo~] objects to compute time properly when loading presets., f
+37;
 #X connect 0 0 1 0;
 #X connect 0 1 4 0;
 #X connect 0 2 3 0;
@@ -235,6 +240,7 @@ gains and mutes, f 33;
 #X connect 37 0 38 0;
 #X connect 38 0 40 0;
 #X connect 41 0 39 0;
+#X connect 42 0 43 0;
 #X restore 47 161 pd init;
 #N canvas 153 112 883 711 netsend 0;
 #X obj 368 342 r netsend-data-hub;
