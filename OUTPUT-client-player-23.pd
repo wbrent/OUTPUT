@@ -1,8 +1,4 @@
-#N canvas 1170 531 345 231 12;
-#X declare -path ./lib;
+#N canvas 1146 580 345 186 12;
 #X text 21 14 Enter sequential player ID numbers (0 1 \, 2 3 \, or
 4 5), f 28;
-#N canvas 1146 194 669 298 init 0;
-#X obj 78 194 declare -path ./lib;
-#X restore 24 179 pd init;
-#X obj 24 59 client-player-abs 2 3;
+#X obj 24 59 ./lib/client-player-abs 2 3;
