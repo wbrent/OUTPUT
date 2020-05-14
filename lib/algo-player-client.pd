@@ -241,13 +241,13 @@ set \$2 \;;
 #X msg 284 282 set \$1;
 #X obj 85 92 unpack f f;
 #X obj 284 302 s player-\$1-time-index-set;
-#X obj 368 257 s player-\$1-current-time-index;
+#X obj 363 249 s player-\$1-current-time-index;
 #X text 388 171 as long as this player is computing \, update time
 GUI at a lazy rate. this is received in algo-param-interface-client.pd
 for use in preset storage., f 49;
+#X text 137 248 not needed in loadpreset branch? >>;
 #X connect 0 0 5 0;
 #X connect 1 0 4 0;
-#X connect 1 0 7 0;
 #X connect 2 0 1 0;
 #X connect 3 0 2 0;
 #X connect 4 0 6 0;
