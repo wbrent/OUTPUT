@@ -1,8 +1,8 @@
-#N canvas 1261 762 272 153 10;
+#N canvas 1261 762 345 209 10;
 #X declare -lib ofelia;
-#X obj 38 70 ofelia;
-#X obj 119 95 declare -lib ofelia;
-#X msg 38 38 read -c plot-players-0123.lua;
-#X obj 38 15 loadbang;
+#X obj 38 160 ofelia;
+#X obj 180 155 declare -lib ofelia;
+#X msg 68 78 read -c plot-players-0123.lua;
+#X msg 38 48 read -c plot-players-01.lua;
 #X connect 2 0 0 0;
-#X connect 3 0 2 0;
+#X connect 3 0 0 0;
