@@ -1,0 +1,44 @@
+#N canvas 384 214 977 543 12;
+#X obj 62 20 inlet;
+#X obj 136 461 list prepend 0;
+#X obj 136 485 s player-\$1-algo-params;
+#X obj 62 218 outlet;
+#X obj 62 44 t b l;
+#X obj 122 97 list split 1;
+#X obj 136 404 list append;
+#X obj 136 428 list append;
+#X obj 359 352 list append;
+#X obj 76 300 select -1;
+#X obj 19 406 print -n;
+#X msg 19 352 OUTPUT error: requested algo not found in outputAlgorithms.txt
+;
+#X obj 210 138 list split 10;
+#X text 539 39 0) algo is already an ID# \, no need to search \; 1-10)
+the next 10 are params. already dropped params 10-19 on the master
+side \; 11) bit depth \; 12) tempo \; 13) time \; 14) loop point start
+\; 15) loop point end \; \; this is 16 total;
+#X obj 356 258 sr-to-tempo;
+#X obj 359 178 list split 2;
+#X obj 289 222 unpack f f;
+#X obj 289 296 pack f f;
+#X text 567 352 \$1: player ID \;;
+#X connect 0 0 4 0;
+#X connect 1 0 2 0;
+#X connect 4 0 3 0;
+#X connect 4 1 5 0;
+#X connect 5 0 9 0;
+#X connect 5 1 12 0;
+#X connect 6 0 7 0;
+#X connect 7 0 1 0;
+#X connect 8 0 7 1;
+#X connect 9 0 11 0;
+#X connect 9 1 6 0;
+#X connect 11 0 10 0;
+#X connect 12 0 6 1;
+#X connect 12 1 15 0;
+#X connect 14 0 17 1;
+#X connect 15 0 16 0;
+#X connect 15 1 8 1;
+#X connect 16 0 17 0;
+#X connect 16 1 14 0;
+#X connect 17 0 8 0;
