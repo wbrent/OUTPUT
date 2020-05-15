@@ -6,22 +6,26 @@ local clock = ofClock(this, "setup")
 
 -- Pd [table] array is 500x300. using that as the default size
 local winWidth = 1000
-local winHeight = 300
+local winHeight = 600
 
 local array0 = ofArray("player-0-raw-output-plot")
 local array1 = ofArray("player-1-raw-output-plot")
+local array2 = ofArray("player-2-raw-output-plot")
+local array3 = ofArray("player-3-raw-output-plot")
 
 local player0brightness = ofValue("player-0-draw-brightness")
 local player1brightness = ofValue("player-1-draw-brightness")
+local player2brightness = ofValue("player-2-draw-brightness")
+local player3brightness = ofValue("player-3-draw-brightness")
 
 -- only need to check the size of array0 since they're all the same
 local arraySize = array0:getSize()
-local tableIncr = arraySize/winWidth
+local tableIncr = arraySize/winHeight
 
 -- declare data structures?
 -- size of each array is the same as the width of the window. we'll draw one value per pixel
-M.num = winWidth
-M.a0, M.a1 = ofTable(), ofTable()
+M.num = winHeight
+M.a0, M.a1, M.a2, M.a3 = ofTable(), ofTable(), ofTable(), ofTable()
 
 -- window setup constructor
 function M.new()
@@ -47,7 +51,7 @@ end
 
 -- framerate, background color, etc
 function M.setup()
-  ofSetWindowTitle("players 01")
+  ofSetWindowTitle("players 0123")
   ofSetFrameRate(40)
   ofBackground(0, 0, 0, 255)
 --  ofDisableSmoothing()
@@ -59,37 +63,44 @@ function M.update()
 	for i=0, M.num do
 		-- floor to the nearest valid Pd array index using i and tableIncr
 		local arrayIdx = math.floor(i*tableIncr + 0.5)
-		-- set a scale variable relative to window height
-		local ampScale = 0.4 * winHeight -- 0.5 is full range
+		-- set a scale variable relative to window width
+		local ampScale = 0.1 * winWidth -- 0.125 is full range
 		-- get the value in the table, multiply by ampScale
-		-- using -1 to flip the vertical axis, which draws relative to top
-		-- offset by a half the window height
-		M.a0[i] = (-1 * array0:getAt(arrayIdx) * ampScale) + (0.5*winHeight)
-		M.a1[i] = (-1 * array1:getAt(arrayIdx) * ampScale) + (0.5*winHeight)
+		-- 
+		-- 
+		M.a0[i] = (array0:getAt(arrayIdx) * ampScale) + (0.125*winWidth)
+		M.a1[i] = (array1:getAt(arrayIdx) * ampScale) + (0.375*winWidth)
+		
+		-- 
+		M.a2[i] = (array2:getAt(arrayIdx) * ampScale) + (0.625*winWidth)
+		M.a3[i] = (array3:getAt(arrayIdx) * ampScale) + (0.875*winWidth)
 	end
 	
 end
 
 function M.draw()
-	
-	local halfWinWidth = winWidth * 0.5
-	
+		
 	ofSetLineWidth(3)
 
-	for i=0, winWidth-1 do
+	for i=0, M.num-1 do
 		local brightness
-
-		if i < halfWinWidth then
-			brightness = player0brightness:get()
-			ofSetColor(brightness, brightness, brightness)
-			ofDrawLine(i, M.a0[i], i+1, M.a0[i+1])
-		else
-			local thisY = i - halfWinWidth
-			brightness = player1brightness:get()
-			ofSetColor(brightness, brightness, brightness)
-			ofDrawLine(i, M.a1[thisY], i+1, M.a1[thisY+1])
-		end
 		
+		brightness = player0brightness:get()
+		ofSetColor(brightness, brightness, brightness)
+		ofDrawLine(M.a0[i], i, M.a0[i+1], i+1)
+		
+		brightness = player2brightness:get()
+		ofSetColor(brightness, brightness, brightness)
+		ofDrawLine(M.a2[i], i, M.a2[i+1], i+1)
+
+		brightness = player1brightness:get()
+		ofSetColor(brightness, brightness, brightness)
+		ofDrawLine(M.a1[i], i, M.a1[i+1], i+1)
+
+		brightness = player3brightness:get()
+		ofSetColor(brightness, brightness, brightness)
+		ofDrawLine(M.a3[i], i, M.a3[i+1], i+1)
+
 	end
 
 end

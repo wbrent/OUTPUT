@@ -60,7 +60,7 @@ end
 -- translate the signal data to pixels relative to the window height
 function M.update()
 
-	for i=0, winWidth do
+	for i=0, M.num do
 		-- floor to the nearest valid Pd array index using i and tableIncr
 		local arrayIdx = math.floor(i*tableIncr + 0.5)
 		-- set a scale variable relative to window height
@@ -83,13 +83,11 @@ function M.draw()
 	local halfWinWidth = winWidth * 0.5
 	
 	ofSetLineWidth(3)
---	ofSetColor(255, 255, 255) -- white
---	ofSetColor(192, 192, 192) -- grey
 
-	for i=0, winWidth-1 do
+	for i=0, M.num-1 do
 		local brightness
 		
-		if i < halfWinWidth-1 then
+		if i < halfWinWidth then
 			brightness = player0brightness:get()
 			ofSetColor(brightness, brightness, brightness)
 			ofDrawLine(i, M.a0[i], i+1, M.a0[i+1])
@@ -97,15 +95,6 @@ function M.draw()
 			brightness = player2brightness:get()
 			ofSetColor(brightness, brightness, brightness)
 			ofDrawLine(i, M.a2[i], i+1, M.a2[i+1])
-		elseif i == halfWinWidth-1 then
-			-- this connects plots 01 and 23
-			brightness = player0brightness:get()
-			ofSetColor(brightness, brightness, brightness)
-			ofDrawLine(i, M.a0[i], i+1, M.a1[0])
-			
-			brightness = player2brightness:get()
-			ofSetColor(brightness, brightness, brightness)
-			ofDrawLine(i, M.a2[i], i+1, M.a3[0])
 		else
 			local thisY = i - halfWinWidth
 			

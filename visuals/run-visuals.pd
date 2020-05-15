@@ -1,10 +1,15 @@
-#N canvas 1261 762 345 209 10;
+#N canvas 1261 705 440 233 10;
 #X declare -lib ofelia;
-#X obj 38 160 ofelia;
-#X obj 150 155 declare -lib ofelia;
-#X msg 68 68 read -c ./scripts/plot-players-01.lua;
-#X obj 150 125 clone gain-to-brightness 4;
-#X msg 38 38 read -c ./scripts/plot-players-0123-fades.lua;
-#X floatatom 150 105 5 1 100 0 - - draw-brightness-exp;
+#X obj 38 200 ofelia;
+#X obj 150 195 declare -lib ofelia;
+#X msg 118 98 read -c ./scripts/plot-players-01.lua;
+#X obj 150 165 clone gain-to-brightness 4;
+#X floatatom 150 145 5 1 100 0 - - draw-brightness-exp;
+#X msg 78 58 read -c ./scripts/plot-players-0123-columns-fades.lua
+;
+#X msg 58 38 read -c ./scripts/plot-players-0123-rows-fades.lua;
+#X msg 38 18 read -c ./scripts/plot-players-0123-matrix-fades.lua;
 #X connect 2 0 0 0;
-#X connect 4 0 0 0;
+#X connect 5 0 0 0;
+#X connect 6 0 0 0;
+#X connect 7 0 0 0;
