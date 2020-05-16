@@ -2,8 +2,8 @@
 #X declare -path ./lib;
 #X declare -path ./src;
 #N canvas 618 494 527 395 control-panel 0;
-#N canvas 682 501 686 380 init 0;
-#X obj 31 24 loadbang;
+#N canvas 682 501 718 441 init 0;
+#X obj 31 14 loadbang;
 #X obj 224 33 r lb4;
 #X obj 85 278 declare -path ./lib;
 #X obj 85 298 declare -path ./src;
@@ -29,6 +29,10 @@ a hack.;
 #X msg 224 76 \; pd dsp 1 \; master-volume-set 90 \; master-output-stereo-mode
 1 \;;
 #X msg 464 62 \; master-block-size 2048 \;;
+#X obj 50 334 loadbang;
+#X obj 50 392 print -n;
+#X msg 50 363 OUTPUT-solo-practice.pd dependencies: tof ggee;
+#X obj 109 17 r global-re-init;
 #X connect 0 0 12 0;
 #X connect 1 0 18 0;
 #X connect 4 0 19 0;
@@ -41,6 +45,9 @@ a hack.;
 #X connect 12 4 8 0;
 #X connect 14 0 15 0;
 #X connect 15 0 17 0;
+#X connect 20 0 22 0;
+#X connect 22 0 21 0;
+#X connect 23 0 12 0;
 #X restore 323 72 pd init;
 #N canvas 611 146 371 176 players 0;
 #X obj 32 28 algo-player 0;
@@ -548,6 +555,8 @@ in the master patch, f 17;
 #X msg 188 287 vis 1 1;
 #X obj 107 90 tgl 15 0 master-output-record empty record 17 7 0 12
 -261234 -1 -1 0 1;
+#X obj 257 140 bng 15 250 50 0 global-re-init empty i 4 8 0 10 -262144
+-1 -1;
 #X connect 8 0 11 0;
 #X connect 9 0 12 0;
 #X connect 11 0 10 0;

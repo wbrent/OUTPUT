@@ -877,7 +877,7 @@ gain;
 #X connect 10 0 3 0;
 #X connect 11 0 4 0;
 #X restore 43 184 pd cloning;
-#N canvas 337 246 1117 652 time 0;
+#N canvas 176 320 1117 652 time 0;
 #X obj 55 81 button-bang-map player-\$1-time-reverse-set 56 \$1;
 #X obj 55 121 fadermap player-\$1-time-point 107 \$1 0 1623 player-\$1-time-point-set
 1;
@@ -1053,7 +1053,9 @@ player-\$1-loop-point-end-set 0;
 #X obj 207 78 active-player-abs \$1;
 #X obj 207 48 r lb1;
 #X obj 408 223 clone param-automation-abs 20 \$1;
-#X msg 462 144 vis 4 1;
+#X msg 408 183 vis 4 1;
+#X obj 401 330 button-bang-map player-\$1-automation-killall-set 125
+\$1;
 #X connect 0 0 4 0;
 #X connect 1 0 11 0;
 #X connect 2 0 1 1;
