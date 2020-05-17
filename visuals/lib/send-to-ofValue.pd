@@ -1,0 +1,5 @@
+#N canvas 476 440 394 196 12;
+#X obj 32 34 r \$1;
+#X obj 32 58 value \$1-ofValue;
+#X text 39 103 \$1: full send symbol of data to capture;
+#X connect 0 0 1 0;

@@ -151,10 +151,7 @@ was entered manually, f 36;
 #X obj 416 279 r player-\$1-algo-refresh-params;
 #X obj 371 173 r player-\$1-algo-load-params;
 #X msg 68 182 dir 0 ../;
-#X obj 187 469 delay 2;
 #X obj 280 499 symbol;
-#X text 47 439 must delay by a control cycle in order for preset time
-data to be updated and properly reported from [algo~]., f 18;
 #X obj 187 383 symbol;
 #X obj 613 452 r player-\$1-algo-settings-for-client;
 #N canvas 770 145 574 586 setup-dropdown-menu 0;
@@ -186,29 +183,48 @@ data to be updated and properly reported from [algo~]., f 18;
 #X obj 552 523 send-to-params-table \$1;
 #X obj 187 413 t b a;
 #X text 549 371 preset/cache loading scenario;
+#X obj 280 361 r master-block-size;
+#X obj 280 415 t f b;
+#X obj 280 439 /;
+#X obj 330 415 samplerate~;
+#X obj 330 439 / 1000;
+#X obj 280 385 + 1;
+#X obj 187 469 delay;
+#X text 47 439 must delay by DSP sub-block size + 1 sample in order
+for preset time data to be updated and properly reported from [algo~].
+, f 18;
+#X floatatom 280 463 5 0 0 0 - - -;
 #X connect 0 0 5 0;
 #X connect 1 0 0 0;
 #X connect 2 0 6 0;
 #X connect 3 0 4 0;
-#X connect 4 0 15 0;
+#X connect 4 0 13 0;
 #X connect 5 0 4 0;
 #X connect 6 0 1 0;
 #X connect 7 0 8 0;
 #X connect 8 0 11 0;
 #X connect 8 1 0 0;
 #X connect 8 2 2 0;
-#X connect 9 0 15 0;
-#X connect 10 0 17 0;
+#X connect 9 0 13 0;
+#X connect 10 0 15 0;
 #X connect 11 0 3 0;
-#X connect 12 0 20 0;
-#X connect 13 0 19 0;
-#X connect 15 0 24 0;
-#X connect 16 0 23 0;
-#X connect 17 0 15 0;
-#X connect 18 0 23 0;
-#X connect 23 0 21 0;
-#X connect 24 0 12 0;
-#X connect 24 1 13 0;
+#X connect 12 0 17 0;
+#X connect 13 0 22 0;
+#X connect 14 0 21 0;
+#X connect 15 0 13 0;
+#X connect 16 0 21 0;
+#X connect 21 0 19 0;
+#X connect 22 0 30 0;
+#X connect 22 1 12 0;
+#X connect 24 0 29 0;
+#X connect 25 0 26 0;
+#X connect 25 1 27 0;
+#X connect 26 0 30 1;
+#X connect 26 0 32 0;
+#X connect 27 0 28 0;
+#X connect 28 0 26 1;
+#X connect 29 0 25 0;
+#X connect 30 0 18 0;
 #X restore 670 112 pd recall-parameters;
 #N canvas 330 100 866 621 randomization 0;
 #X obj 159 192 until;
@@ -542,13 +558,13 @@ success, f 38;
 #X text 109 35 \$1: parent player ID number \;;
 #X obj 110 142 clone last-param-changed-abs 10 \$1;
 #X obj 653 318 tgl 15 0 player-\$1-load-params player-\$1-load-params-set
-params 17 7 0 12 -262144 -1 -1 1 1;
+params 17 7 0 12 -262144 -1 -1 0 1;
 #X obj 653 258 tgl 15 0 player-\$1-load-bit-depth player-\$1-load-bit-depth-set
-bit 17 7 0 12 -262144 -1 -1 1 1;
+bit 17 7 0 12 -262144 -1 -1 0 1;
 #X obj 653 278 tgl 15 0 player-\$1-load-time player-\$1-load-time-set
-time 17 7 0 12 -262144 -1 -1 1 1;
+time 17 7 0 12 -262144 -1 -1 0 1;
 #X obj 653 298 tgl 15 0 player-\$1-load-tempo player-\$1-load-tempo-set
-tempo 17 7 0 12 -262144 -1 -1 1 1;
+tempo 17 7 0 12 -262144 -1 -1 0 1;
 #X obj 713 238 bng 15 250 50 0 player-\$1-algo-refresh-params player-\$1-algo-refresh-params-set
 r 4 8 0 12 -262130 -1 -1;
 #X obj 119 232 cnv 15 37 18 empty player-\$1-algo-param-0-canvas-set

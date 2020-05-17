@@ -46,7 +46,9 @@
 #X obj 435 123 netprep player-\$1-dry 1;
 #X obj 435 147 netprep player-\$1-wet 1;
 #X obj 57 379 netprep player-\$1-loop-record 1;
-#X obj 435 575 netprep player-\$1-get-algo-settings;
+#X text 419 562 netprep player-\$1-get-algo-settings;
+#X text 371 595 not needed? we get settings from the local [algo~]
+;
 #X restore 20 241 pd netpreps;
 #N canvas 821 23 516 566 keyboard-commands 0;
 #X obj 105 152 key;
