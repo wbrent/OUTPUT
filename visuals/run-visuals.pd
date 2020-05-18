@@ -9,7 +9,7 @@
 #X obj 150 235 declare -lib ofelia -path ./lib;
 #X msg 38 58 read -c ./scripts/plot-players-0123-matrix-fades-info.lua
 ;
-#N canvas 1496 683 263 262 transfer-data 0;
+#N canvas 1444 584 269 242 transfer-data 1;
 #X obj 24 58 clone gain-to-brightness 4;
 #X obj 24 28 clone player-data-for-plot 4;
 #X obj 24 98 r visuals-show-data;

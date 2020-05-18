@@ -31,21 +31,29 @@ local player0gain = ofValue("player-0-gain-ofValue")
 local player0algo = ofValue("player-0-algo-select-ofValue")
 local player0bitDepth = ofValue("player-0-bit-depth-ofValue")
 local player0tempo = ofValue("player-0-tempo-final-ofValue")
+local player0dryWet = ofValue("player-0-dry-wet-ofValue")
+local player0liveness = ofValue("player-0-rvb-liveness-ofValue")
 
 local player1gain = ofValue("player-1-gain-ofValue")
 local player1algo = ofValue("player-1-algo-select-ofValue")
 local player1bitDepth = ofValue("player-1-bit-depth-ofValue")
 local player1tempo = ofValue("player-1-tempo-final-ofValue")
+local player1dryWet = ofValue("player-1-dry-wet-ofValue")
+local player1liveness = ofValue("player-1-rvb-liveness-ofValue")
 
 local player2gain = ofValue("player-2-gain-ofValue")
 local player2algo = ofValue("player-2-algo-select-ofValue")
 local player2bitDepth = ofValue("player-2-bit-depth-ofValue")
 local player2tempo = ofValue("player-2-tempo-final-ofValue")
+local player2dryWet = ofValue("player-2-dry-wet-ofValue")
+local player2liveness = ofValue("player-2-rvb-liveness-ofValue")
 
 local player3gain = ofValue("player-3-gain-ofValue")
 local player3algo = ofValue("player-3-algo-select-ofValue")
 local player3bitDepth = ofValue("player-3-bit-depth-ofValue")
 local player3tempo = ofValue("player-3-tempo-final-ofValue")
+local player3dryWet = ofValue("player-3-dry-wet-ofValue")
+local player3liveness = ofValue("player-3-rvb-liveness-ofValue")
 
 -- only need to check the size of array0 since they're all the same
 local arraySize = array0:getSize()
@@ -152,42 +160,58 @@ function M.draw()
 		local p0gainString = string.format("gain: %1.0f", player0gain:get())
 		local p0bitDepthString = string.format("bit: %1.0f", player0bitDepth:get())
 		local p0tempoString = string.format("tempo: %0.2f", player0tempo:get())
-	
+		local p0dryWetString = string.format("dry-wet: %1.0f", player0dryWet:get())
+		local p0livenessString = string.format("liveness: %1.0f", player0liveness:get())
+		
 		local p1algoString = string.format("algo: %1.0f", player1algo:get())
 		local p1gainString = string.format("gain: %1.0f", player1gain:get())
 		local p1bitDepthString = string.format("bit: %1.0f", player1bitDepth:get())
 		local p1tempoString = string.format("tempo: %0.2f", player1tempo:get())
-
+		local p1dryWetString = string.format("dry-wet: %1.0f", player1dryWet:get())
+		local p1livenessString = string.format("liveness: %1.0f", player1liveness:get())
+		
 		local p2algoString = string.format("algo: %1.0f", player2algo:get())
 		local p2gainString = string.format("gain: %1.0f", player2gain:get())
 		local p2bitDepthString = string.format("bit: %1.0f", player2bitDepth:get())
 		local p2tempoString = string.format("tempo: %0.2f", player2tempo:get())
-
+		local p2dryWetString = string.format("dry-wet: %1.0f", player2dryWet:get())
+		local p2livenessString = string.format("liveness: %1.0f", player2liveness:get())
+		
 		local p3algoString = string.format("algo: %1.0f", player3algo:get())
 		local p3gainString = string.format("gain: %1.0f", player3gain:get())
 		local p3bitDepthString = string.format("bit: %1.0f", player3bitDepth:get())
 		local p3tempoString = string.format("tempo: %0.2f", player3tempo:get())
-	
+		local p3dryWetString = string.format("dry-wet: %1.0f", player3dryWet:get())
+		local p3livenessString = string.format("liveness: %1.0f", player3liveness:get())
+			
 		arial:drawString(p0algoString, leftMargin, fontSize * lineSpacing * 1)
 		arial:drawString(p0gainString, leftMargin, fontSize * lineSpacing * 2)
-		arial:drawString(p0tempoString, leftMargin + winWidth * 0.16667, fontSize * lineSpacing * 1)
-		arial:drawString(p0bitDepthString, leftMargin + winWidth * 0.16667, fontSize * lineSpacing * 2)
-
+		arial:drawString(p0tempoString, leftMargin + winWidth * 0.1, fontSize * lineSpacing * 1)
+		arial:drawString(p0bitDepthString, leftMargin + winWidth * 0.1, fontSize * lineSpacing * 2)
+		arial:drawString(p0dryWetString, leftMargin + winWidth * 0.25, fontSize * lineSpacing * 1)
+		arial:drawString(p0livenessString, leftMargin + winWidth * 0.25, fontSize * lineSpacing * 2)
+		
 		arial:drawString(p1algoString, leftMargin + halfWinWidth, fontSize * lineSpacing * 1)
 		arial:drawString(p1gainString, leftMargin + halfWinWidth, fontSize * lineSpacing * 2)
-		arial:drawString(p1tempoString, leftMargin + winWidth * 0.66667, fontSize * lineSpacing * 1)
-		arial:drawString(p1bitDepthString, leftMargin + winWidth * 0.66667, fontSize * lineSpacing * 2)
-	
-		arial:drawString(p2algoString, leftMargin, halfWinHeight + fontSize * lineSpacing * 1)
-		arial:drawString(p2gainString, leftMargin, halfWinHeight + fontSize * lineSpacing * 2)
-		arial:drawString(p2tempoString, leftMargin + winWidth * 0.16667, halfWinHeight + fontSize * lineSpacing * 1)
-		arial:drawString(p2bitDepthString, leftMargin + winWidth * 0.16667, halfWinHeight + fontSize * lineSpacing * 2)
-
-		arial:drawString(p3algoString, leftMargin + halfWinWidth, halfWinHeight + fontSize * lineSpacing * 1)
-		arial:drawString(p3gainString, leftMargin + halfWinWidth, halfWinHeight + fontSize * lineSpacing * 2)
-		arial:drawString(p3tempoString, leftMargin + winWidth * 0.66667, halfWinHeight + fontSize * lineSpacing * 1)
-		arial:drawString(p3bitDepthString, leftMargin + winWidth * 0.66667, halfWinHeight + fontSize * lineSpacing * 2)
-  	
+		arial:drawString(p1tempoString, leftMargin + winWidth * 0.6, fontSize * lineSpacing * 1)
+		arial:drawString(p1bitDepthString, leftMargin + winWidth * 0.6, fontSize * lineSpacing * 2)
+		arial:drawString(p1dryWetString, leftMargin + winWidth * 0.75, fontSize * lineSpacing * 1)
+		arial:drawString(p1livenessString, leftMargin + winWidth * 0.75, fontSize * lineSpacing * 2)
+			
+		arial:drawString(p2algoString, leftMargin, winHeight - fontSize * lineSpacing * 2)
+		arial:drawString(p2gainString, leftMargin, winHeight - fontSize * lineSpacing * 1)
+		arial:drawString(p2tempoString, leftMargin + winWidth * 0.1, winHeight - fontSize * lineSpacing * 2)
+		arial:drawString(p2bitDepthString, leftMargin + winWidth * 0.1, winHeight - fontSize * lineSpacing * 1)
+		arial:drawString(p2dryWetString, leftMargin + winWidth * 0.25, winHeight - fontSize * lineSpacing * 1)
+		arial:drawString(p2livenessString, leftMargin + winWidth * 0.25, winHeight - fontSize * lineSpacing * 2)
+		
+		arial:drawString(p3algoString, leftMargin + halfWinWidth, winHeight - fontSize * lineSpacing * 2)
+		arial:drawString(p3gainString, leftMargin + halfWinWidth, winHeight - fontSize * lineSpacing * 1)
+		arial:drawString(p3tempoString, leftMargin + winWidth * 0.6, winHeight - fontSize * lineSpacing * 2)
+		arial:drawString(p3bitDepthString, leftMargin + winWidth * 0.6, winHeight - fontSize * lineSpacing * 1)
+		arial:drawString(p3dryWetString, leftMargin + winWidth * 0.75, winHeight - fontSize * lineSpacing * 1)
+		arial:drawString(p3livenessString, leftMargin + winWidth * 0.75, winHeight - fontSize * lineSpacing * 2)
+		  	
   	end
   	
 end

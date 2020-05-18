@@ -1,6 +1,8 @@
-#N canvas 938 372 371 241 12;
-#X text 113 174 \$1: player ID;
+#N canvas 938 372 371 313 12;
+#X text 113 254 \$1: player ID;
 #X obj 41 29 send-to-ofValue player-\$1-gain;
 #X obj 41 59 send-to-ofValue player-\$1-algo-select;
 #X obj 41 89 send-to-ofValue player-\$1-bit-depth;
 #X obj 41 119 send-to-ofValue player-\$1-tempo-final;
+#X obj 41 149 send-to-ofValue player-\$1-dry-wet;
+#X obj 41 179 send-to-ofValue player-\$1-rvb-liveness;
