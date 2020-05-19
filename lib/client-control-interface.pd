@@ -50,7 +50,7 @@
 #X text 371 595 not needed? we get settings from the local [algo~]
 ;
 #X restore 20 241 pd netpreps;
-#N canvas 821 23 516 566 keyboard-commands 0;
+#N canvas 821 23 516 701 keyboard-commands 0;
 #X obj 105 152 key;
 #X obj 182 176 r player-\$1-kbd-control;
 #N canvas 327 384 615 322 bit-depth 0;
@@ -80,7 +80,7 @@
 #X connect 8 2 9 0;
 #X connect 10 1 11 0;
 #X connect 11 0 6 0;
-#X restore 105 208 pd bit-depth;
+#X restore 105 288 pd bit-depth;
 #N canvas 413 349 615 322 compute 0;
 #X obj 86 168 f;
 #X obj 86 48 inlet;
@@ -98,7 +98,7 @@
 #X connect 5 0 6 0;
 #X connect 6 0 7 0;
 #X connect 7 0 0 1;
-#X restore 105 238 pd compute;
+#X restore 105 318 pd compute;
 #N canvas 343 151 615 322 interp 0;
 #X obj 86 48 inlet;
 #X obj 216 72 outlet;
@@ -116,7 +116,7 @@
 #X connect 5 0 2 0;
 #X connect 5 1 1 0;
 #X connect 6 0 3 0;
-#X restore 105 268 pd interp;
+#X restore 105 348 pd interp;
 #N canvas 343 151 615 322 tempoSync 0;
 #X obj 86 48 inlet;
 #X obj 326 72 outlet;
@@ -139,7 +139,7 @@
 #X connect 5 0 8 0;
 #X connect 6 0 8 0;
 #X connect 7 0 8 0;
-#X restore 105 298 pd tempoSync;
+#X restore 105 378 pd tempoSync;
 #N canvas 343 151 615 322 timeSync 0;
 #X obj 86 48 inlet;
 #X obj 216 72 outlet;
@@ -152,21 +152,27 @@
 #X connect 2 1 1 0;
 #X connect 3 0 4 1;
 #X connect 4 0 5 0;
-#X restore 105 328 pd timeSync;
+#X restore 105 408 pd timeSync;
 #X obj 105 176 spigot;
 #X text 90 31 </>: bit-depth inc/dec \; z: compute toggle \; x: interp
 toggle \; c \, v \, b \, n \, m: tempoSync to 0-4 \; space: time sync
 to most recently tempoSync'd payer \;;
-#X text 91 404 =: randomize all \; [ \, ]: load \, save \; 1/q/a: inc/dec/rand
+#X text 91 484 =: randomize all \; [ \, ]: load \, save \; 1/q/a: inc/dec/rand
 for p0 \; 2/w/s: inc/dec/rand for p1 \; . \; . \; . \; 0/p/semicolon:
 inc/dec/rand for p9 \;;
+#X obj 105 246 spigot;
+#X obj 182 246 active-player-abs \$1;
+#X obj 182 216 r lb1;
 #X connect 0 0 7 0;
 #X connect 1 0 7 1;
 #X connect 2 0 3 0;
 #X connect 3 0 4 0;
 #X connect 4 0 5 0;
 #X connect 5 0 6 0;
-#X connect 7 0 2 0;
+#X connect 7 0 10 0;
+#X connect 10 0 2 0;
+#X connect 11 0 10 1;
+#X connect 12 0 11 0;
 #X restore 20 301 pd keyboard-commands;
 #N canvas 518 157 621 228 MIDI 0;
 #N canvas 1078 389 726 620 keyboard-tempo 0;
