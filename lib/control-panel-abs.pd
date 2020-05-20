@@ -169,7 +169,7 @@ clone 16 8 0 10 -262144 -1 -1 0;
 #X msg 305 268 1;
 #X msg 305 320 \; pd-player-\$2-misc-gui-elements vis \$1;
 #N canvas 177 552 471 136 player-\$1-misc-gui-elements 0;
-#N canvas 836 517 750 301 hidden 0;
+#N canvas 836 517 576 261 hidden 0;
 #X floatatom 208 123 5 40 100 1 dry player-#1-dry-set player-#1-dry
 ;
 #X floatatom 208 143 5 40 100 1 wet player-#1-wet-set player-#1-wet
@@ -178,14 +178,10 @@ clone 16 8 0 10 -262144 -1 -1 0;
 ;
 #X floatatom 68 143 5 0 100 1 damping player-#1-rvb-damping-set player-#1-rvb-damping
 ;
-#X obj 208 193 tgl 15 0 player-\$1-kbd-control player-\$1-kbd-control-set
-k 5 7 0 10 -262144 -1 -1 0 1;
 #X floatatom 68 173 10 0 1623 1 loop-start player-#1-loop-point-start-set
 player-#1-loop-point-start;
 #X floatatom 68 193 10 0 1623 1 loop-end player-#1-loop-point-end-set
 player-#1-loop-point-end;
-#X text 301 213 << for computer keyboard control. may bring back in
-\, but just not needed in a crowded space at this point;
 #X text 66 39 these GUI controls were removed from the main GOP control
 panel in order to save space. they remain in the abstraction so that
 their parameters can be set in the same way. do not remove., f 72
@@ -303,6 +299,8 @@ player-\$1-asr-kbd-set 0 \; player-\$1-asr-time-set 50 \;;
 #X connect 11 0 4 0;
 #X connect 11 0 7 0;
 #X restore 437 218 pd flash-mute;
+#X obj 325 214 tgl 15 0 player-\$1-kbd-control player-\$1-kbd-control-set
+k 5 7 0 10 -262144 -1 -1 0 1;
 #X connect 0 0 48 0;
 #X connect 1 0 13 0;
 #X connect 2 0 1 0;
