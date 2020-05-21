@@ -13,6 +13,9 @@ local fontSize = 14;
 local winWidth = 1000 -- 1000
 local winHeight = 600 -- 600
 
+local halfWinWidth = winWidth * 0.5
+
+
 
 local array0 = ofArray("player-0-raw-output-plot")
 local array1 = ofArray("player-1-raw-output-plot")
@@ -57,11 +60,11 @@ local player3liveness = ofValue("player-3-rvb-liveness-ofValue")
 
 -- only need to check the size of array0 since they're all the same
 local arraySize = array0:getSize()
-local tableIncr = arraySize/winWidth
+local tableIncr = arraySize/halfWinWidth
 
 -- declare data structures?
 -- size of each array is the same as the width of the window. we'll draw one value per pixel
-M.num = winWidth
+M.num = halfWinWidth
 M.a0, M.a1, M.a2, M.a3 = ofTable(), ofTable(), ofTable(), ofTable()
 
 -- window setup constructor
@@ -118,15 +121,13 @@ end
 
 function M.draw()
 	
-	local halfWinWidth = winWidth * 0.5
-	local halfWinHeight = winHeight * 0.5
 	local leftMargin = 10
 	local topMargin = 10
 	local lineSpacing = 1.75
 	
 	ofSetLineWidth(3)
 
-	for i=0, M.num-1 do
+	for i=0, winWidth-1 do
 		local brightness
 		
 		if i < halfWinWidth then
