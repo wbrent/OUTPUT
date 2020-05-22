@@ -49,6 +49,7 @@
 #X text 419 562 netprep player-\$1-get-algo-settings;
 #X text 371 595 not needed? we get settings from the local [algo~]
 ;
+#X obj 435 95 netprep player-\$1-spat-lfo-type 1;
 #X restore 20 241 pd netpreps;
 #N canvas 583 56 748 553 keyboard-commands 0;
 #X obj 54 49 key;
