@@ -203,15 +203,15 @@ function M.draw()
 		arial:drawString(p2gainString, leftMargin, winHeight - fontSize * lineSpacing * 1)
 		arial:drawString(p2tempoString, leftMargin + winWidth * 0.1, winHeight - fontSize * lineSpacing * 2)
 		arial:drawString(p2bitDepthString, leftMargin + winWidth * 0.1, winHeight - fontSize * lineSpacing * 1)
-		arial:drawString(p2dryWetString, leftMargin + winWidth * 0.25, winHeight - fontSize * lineSpacing * 1)
-		arial:drawString(p2livenessString, leftMargin + winWidth * 0.25, winHeight - fontSize * lineSpacing * 2)
+		arial:drawString(p2dryWetString, leftMargin + winWidth * 0.25, winHeight - fontSize * lineSpacing * 2)
+		arial:drawString(p2livenessString, leftMargin + winWidth * 0.25, winHeight - fontSize * lineSpacing * 1)
 		
 		arial:drawString(p3algoString, leftMargin + halfWinWidth, winHeight - fontSize * lineSpacing * 2)
 		arial:drawString(p3gainString, leftMargin + halfWinWidth, winHeight - fontSize * lineSpacing * 1)
 		arial:drawString(p3tempoString, leftMargin + winWidth * 0.6, winHeight - fontSize * lineSpacing * 2)
 		arial:drawString(p3bitDepthString, leftMargin + winWidth * 0.6, winHeight - fontSize * lineSpacing * 1)
-		arial:drawString(p3dryWetString, leftMargin + winWidth * 0.75, winHeight - fontSize * lineSpacing * 1)
-		arial:drawString(p3livenessString, leftMargin + winWidth * 0.75, winHeight - fontSize * lineSpacing * 2)
+		arial:drawString(p3dryWetString, leftMargin + winWidth * 0.75, winHeight - fontSize * lineSpacing * 2)
+		arial:drawString(p3livenessString, leftMargin + winWidth * 0.75, winHeight - fontSize * lineSpacing * 1)
 		  	
   	end
   	
