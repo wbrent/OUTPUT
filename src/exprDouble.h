@@ -230,7 +230,7 @@ static struct {
 };
 
 static enum expr_type expr_op(const char *s, size_t len, int unary) {
-  for (unsigned int i = 0; i < sizeof(OPS) / sizeof(OPS[0]); i++) {
+  for (uint32_t i = 0; i < sizeof(OPS) / sizeof(OPS[0]); i++) {
     if (strlen(OPS[i].s) == len && strncmp(OPS[i].s, s, len) == 0 &&
         (unary == -1 || expr_is_unary(OPS[i].op) == unary)) {
       return OPS[i].op;
@@ -241,9 +241,9 @@ static enum expr_type expr_op(const char *s, size_t len, int unary) {
 
 static double expr_parse_number(const char *s, size_t len) {
   double num = 0;
-  unsigned int frac = 0;
-  unsigned int digits = 0;
-  for (unsigned int i = 0; i < len; i++) {
+  uint32_t frac = 0;
+  uint32_t digits = 0;
+  for (uint32_t i = 0; i < len; i++) {
     if (s[i] == '.' && frac == 0) {
       frac++;
       continue;
@@ -443,7 +443,7 @@ static double expr_eval(struct expr *e) {
 #define EXPR_COMMA (1 << 6)
 
 static int expr_next_token(const char *s, size_t len, int *flags) {
-  unsigned int i = 0;
+  uint32_t i = 0;
   if (len == 0) {
     return 0;
   }
