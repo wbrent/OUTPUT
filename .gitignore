@@ -1,5 +1,6 @@
 .DS_Store
 src/algo~.o
+src/algo~.d_fat
 src/algo~.pd_darwin
 src/algo~.pd_linux
 src/algo~.dll
