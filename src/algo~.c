@@ -10,7 +10,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-version 0.9.6, May 24, 2020
+version 0.9.7, May 29, 2020
 
 */
 
@@ -296,9 +296,9 @@ static void algo_tilde_bitDepth(algo_tilde *x, t_floatarg b)
 
 static void algo_tilde_samplerate(algo_tilde *x, t_floatarg t)
 {
-	// keep bounded within 1 and FLT_MAX
+	// keep bounded within 1 and MAXSAMPLERATE
 	t = (t<1.0)?1.0:t;
-	t = (t>FLT_MAX)?FLT_MAX:t;
+	t = (t>MAXSAMPLERATE)?MAXSAMPLERATE:t;
 	x->x_samplerate = t;
 
 	x->x_incr = x->x_samplerate/x->x_sr;
