@@ -268,18 +268,18 @@ the sampling rate to go from "minutes" to raw time index.;
 #X obj 1 1 cnv 10 10 300 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X text 545 689 William Brent \, 2020;
-#N canvas 816 131 805 612 presets 0;
-#X obj 39 547 outlet;
+#N canvas 816 131 794 751 presets 0;
+#X obj 39 707 outlet;
 #X msg 75 141 save;
 #X text 164 127 If you omit the file name with a save message \, [algo~]
 will generate a unique file name based on the current logical time.
 , f 47;
-#X msg 239 385 getAlgoSettings;
+#X msg 202 387 getAlgoSettings;
 #X msg 119 245 load preset76.txt;
-#X obj 239 441 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 361 597 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj 239 461 openpanel;
-#X msg 239 485 load \$1;
+#X obj 361 617 openpanel;
+#X msg 361 641 load \$1;
 #X msg 39 45 save preset80.txt;
 #X text 322 228 The file loading message expects plain text files containing
 information in the same format. After you have loaded a preset \, you
@@ -287,10 +287,10 @@ can get the object's internal settings via a "getAlgoSettings" message
 \, and use the list coming out of the 4th outlet to populate your GUI
 controls via "set" messages. This keeps your GUI controls in sync with
 loaded preset data.;
-#X obj 419 441 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 481 597 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X msg 419 485 save \$1;
-#X obj 419 461 savepanel;
+#X msg 481 641 save \$1;
+#X obj 481 617 savepanel;
 #X msg 149 335 load preset79.txt;
 #X msg 139 305 load preset78.txt;
 #X msg 109 215 load preset75.txt;
@@ -300,6 +300,23 @@ loaded preset data.;
 points. This is the same information that is reported from the 4th
 outlet in response to an "getAlgoSettings" message. Presets are saved
 as plain text files so they can be easily edited.;
+#X obj 281 429 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 301 459 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 321 489 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 341 519 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 361 549 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X msg 301 429 loadParams \$1;
+#X msg 321 459 loadBitDepth \$1;
+#X msg 341 489 loadSampleRate \$1;
+#X msg 361 519 loadTime \$1;
+#X msg 381 549 loadLoopPoints \$1;
+#X text 523 446 Block/allow loading of particular aspects of presets
+, f 24;
 #X connect 1 0 0 0;
 #X connect 3 0 0 0;
 #X connect 4 0 0 0;
@@ -314,6 +331,16 @@ as plain text files so they can be easily edited.;
 #X connect 14 0 0 0;
 #X connect 15 0 0 0;
 #X connect 16 0 0 0;
+#X connect 18 0 23 0;
+#X connect 19 0 24 0;
+#X connect 20 0 25 0;
+#X connect 21 0 26 0;
+#X connect 22 0 27 0;
+#X connect 23 0 0 0;
+#X connect 24 0 0 0;
+#X connect 25 0 0 0;
+#X connect 26 0 0 0;
+#X connect 27 0 0 0;
 #X restore 210 328 pd presets;
 #X text 371 333 NOTE: because the raw output of bytebeat algorithms
 can have intense DC offsets \, a high-pass filter is recommended.,

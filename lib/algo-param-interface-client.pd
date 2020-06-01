@@ -1,4 +1,4 @@
-#N canvas 816 236 929 486 12;
+#N canvas 806 228 929 486 12;
 #X obj 119 342 bng 15 250 50 0 player-\$1-algo-randomize player-\$1-algo-randomize-set
 randomize 20 7 0 12 -262144 -1 -1;
 #X obj 653 238 bng 15 250 50 0 player-\$1-algo-load-params player-\$1-algo-load-params-set
@@ -298,7 +298,7 @@ for preset time data to be updated and properly reported from [algo~].
 #X connect 30 1 0 0;
 #X connect 30 2 27 0;
 #X restore 670 52 pd randomization;
-#N canvas 333 112 1371 515 init 0;
+#N canvas 323 104 1371 515 init 0;
 #X obj 66 263 t f b;
 #X obj 66 287 until;
 #X obj 66 351 f;
@@ -316,7 +316,6 @@ for preset time data to be updated and properly reported from [algo~].
 #X obj 289 305 pack f \$1;
 #X obj 66 395 pack f \$1;
 #X obj 66 43 t f b;
-#X obj 479 44 r lb1;
 #X obj 479 78 f \$1;
 #X msg 66 419 \; player-\$2-algo-dec-param-\$1-set color 255 -1 -1
 \; player-\$2-algo-inc-param-\$1-set color 255 -1 -1 \;;
@@ -342,6 +341,7 @@ success, f 38;
 #X obj 871 414 s player-\$1-save-preset;
 #X msg 871 373 ../caches/\$2-\$1-cache.txt;
 #X obj 871 185 t f f;
+#X obj 479 44 r lb2;
 #X connect 0 0 1 0;
 #X connect 0 1 4 0;
 #X connect 1 0 2 0;
@@ -358,38 +358,38 @@ success, f 38;
 #X connect 9 0 7 1;
 #X connect 10 0 5 0;
 #X connect 12 0 11 0;
-#X connect 13 0 17 0;
+#X connect 13 0 16 0;
 #X connect 14 0 0 0;
 #X connect 14 1 10 0;
-#X connect 15 0 16 0;
-#X connect 16 0 27 0;
+#X connect 15 0 26 0;
+#X connect 17 0 18 0;
+#X connect 17 1 21 0;
 #X connect 18 0 19 0;
-#X connect 18 1 22 0;
 #X connect 19 0 20 0;
-#X connect 20 0 21 0;
-#X connect 20 0 35 0;
-#X connect 21 0 20 1;
-#X connect 22 0 20 1;
-#X connect 23 0 18 0;
-#X connect 24 0 25 0;
-#X connect 25 0 34 0;
-#X connect 26 0 14 0;
+#X connect 19 0 34 0;
+#X connect 20 0 19 1;
+#X connect 21 0 19 1;
+#X connect 22 0 17 0;
+#X connect 23 0 24 0;
+#X connect 24 0 33 0;
+#X connect 25 0 14 0;
+#X connect 29 0 30 0;
 #X connect 30 0 31 0;
-#X connect 31 0 32 0;
-#X connect 34 0 33 0;
-#X connect 35 0 24 0;
-#X connect 35 1 30 0;
+#X connect 33 0 32 0;
+#X connect 34 0 23 0;
+#X connect 34 1 29 0;
+#X connect 35 0 15 0;
 #X restore 110 62 pd init;
 #X text 109 35 \$1: parent player ID number \;;
 #X obj 110 142 clone last-param-changed-abs 10 \$1;
-#X obj 653 318 tgl 15 0 player-\$1-load-params player-\$1-load-params-set
-params 17 7 0 12 -262144 -1 -1 1 1;
-#X obj 653 258 tgl 15 0 player-\$1-load-bit-depth player-\$1-load-bit-depth-set
-bit 17 7 0 12 -262144 -1 -1 1 1;
-#X obj 653 278 tgl 15 0 player-\$1-load-time player-\$1-load-time-set
-time 17 7 0 12 -262144 -1 -1 1 1;
+#X obj 653 258 tgl 15 0 player-\$1-load-params player-\$1-load-params-set
+params 17 7 0 12 -262144 -1 -1 0 1;
+#X obj 653 278 tgl 15 0 player-\$1-load-bit-depth player-\$1-load-bit-depth-set
+bit 17 7 0 12 -262144 -1 -1 0 1;
+#X obj 653 318 tgl 15 0 player-\$1-load-time player-\$1-load-time-set
+time 17 7 0 12 -262144 -1 -1 0 1;
 #X obj 653 298 tgl 15 0 player-\$1-load-tempo player-\$1-load-tempo-set
-tempo 17 7 0 12 -262144 -1 -1 1 1;
+tempo 17 7 0 12 -262144 -1 -1 0 1;
 #X obj 713 238 bng 15 250 50 0 player-\$1-algo-refresh-params player-\$1-algo-refresh-params-set
 r 4 8 0 12 -262130 -1 -1;
 #X obj 119 232 cnv 15 37 18 empty player-\$1-algo-param-0-canvas-set

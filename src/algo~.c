@@ -10,7 +10,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-version 0.9.7, May 29, 2020
+version 0.9.8, June 1, 2020
 
 */
 
@@ -63,7 +63,14 @@ static void algo_tilde_print(algo_tilde *x)
 	post("%s: interpolation: %s", x->x_objSymbol->s_name, (x->x_interpSwitch > 0) ? "ON" : "OFF");
 	post("%s: compute: %s", x->x_objSymbol->s_name, (x->x_computeSwitch > 0) ? "ON" : "OFF");
 	post("%s: time direction: %s", x->x_objSymbol->s_name, (x->x_timeDirection==forward) ? "forward" : "backward");
-	post("%s: Pd sampling rate: %i", x->x_objSymbol->s_name, (int)x->x_sr);
+
+  post("%s: Load parameters: %s", x->x_objSymbol->s_name, (x->x_presetLoadParams > 0) ? "TRUE" : "FALSE");
+  post("%s: Load bitDepth: %s", x->x_objSymbol->s_name, (x->x_presetLoadBitDepth > 0) ? "TRUE" : "FALSE");
+  post("%s: Load samplerate: %s", x->x_objSymbol->s_name, (x->x_presetLoadSampleRate > 0) ? "TRUE" : "FALSE");
+  post("%s: Load time: %s", x->x_objSymbol->s_name, (x->x_presetLoadTime > 0) ? "TRUE" : "FALSE");
+  post("%s: Load loop points: %s", x->x_objSymbol->s_name, (x->x_presetLoadLoopPoints > 0) ? "TRUE" : "FALSE");
+
+  post("%s: Pd sampling rate: %i", x->x_objSymbol->s_name, (int)x->x_sr);
 	post("%s: block size: %i", x->x_objSymbol->s_name, (int)x->x_n);
 	post("");
 }
@@ -381,9 +388,10 @@ static void algo_tilde_loadPreset(algo_tilde *x, t_symbol *f)
 
  	fscanf(filePtr, "%s", stringIdBuf);
 
+
   // TODO: could keep reading until encountering "bitDepth" string. otherwise, all preset files must have MAXALGOPARAMS parameters listed
   for(i=0; i<MAXALGOPARAMS; i++)
-  	fscanf(filePtr, "%u", params+i);
+    fscanf(filePtr, "%u", params+i);
 
   fscanf(filePtr, "%s", stringIdBuf);
   fscanf(filePtr, "%f", &bitDepth);
@@ -412,8 +420,11 @@ static void algo_tilde_loadPreset(algo_tilde *x, t_symbol *f)
 		SETFLOAT(paramAtoms+i, p);
 	}
 
-	// x_exprArgs will be updated via this function call, as if the params came in as a "parameters" message
-	algo_tilde_parameters(x, gensym("parameters"), MAXALGOPARAMS, paramAtoms);
+  if(x->x_presetLoadParams)
+  {
+  	// x_exprArgs will be updated via this function call, as if the params came in as a "parameters" message
+  	algo_tilde_parameters(x, gensym("parameters"), MAXALGOPARAMS, paramAtoms);
+  }
 
 	// free local memory
 	t_freebytes(paramAtoms, MAXALGOPARAMS * sizeof(t_atom));
@@ -432,15 +443,63 @@ static void algo_tilde_loadPreset(algo_tilde *x, t_symbol *f)
 		tLoopPoints[1] = tmp;
 	}
 
-	x->x_tLoopPoints[0] = tLoopPoints[0];
-	x->x_tLoopPoints[1] = tLoopPoints[1];
-
+  if(x->x_presetLoadLoopPoints)
+  {
+  	x->x_tLoopPoints[0] = tLoopPoints[0];
+  	x->x_tLoopPoints[1] = tLoopPoints[1];
+  }
 	// use existing functions for remaining assignments since they have safety checks
-	algo_tilde_bitDepth(x, bitDepth);
-	algo_tilde_samplerate(x, samplerate);
-	algo_tilde_setTimeIndex(x, t, 0); // set mu to 0
+
+  if(x->x_presetLoadBitDepth)
+    algo_tilde_bitDepth(x, bitDepth);
+
+  if(x->x_presetLoadSampleRate)
+    algo_tilde_samplerate(x, samplerate);
+
+  if(x->x_presetLoadTime)
+    algo_tilde_setTimeIndex(x, t, 0); // set mu to 0
 
   fclose(filePtr);
+}
+
+static void algo_tilde_setPresetLoadParams(algo_tilde *x, t_floatarg flag)
+{
+	if(flag>0)
+    x->x_presetLoadParams = true;
+  else
+    x->x_presetLoadParams = false;
+}
+
+static void algo_tilde_setPresetLoadBitDepth(algo_tilde *x, t_floatarg flag)
+{
+	if(flag>0)
+    x->x_presetLoadBitDepth = true;
+  else
+    x->x_presetLoadBitDepth = false;
+}
+
+static void algo_tilde_setPresetLoadSampleRate(algo_tilde *x, t_floatarg flag)
+{
+	if(flag>0)
+    x->x_presetLoadSampleRate = true;
+  else
+    x->x_presetLoadSampleRate = false;
+}
+
+static void algo_tilde_setPresetLoadTime(algo_tilde *x, t_floatarg flag)
+{
+	if(flag>0)
+    x->x_presetLoadTime = true;
+  else
+    x->x_presetLoadTime = false;
+}
+
+static void algo_tilde_setPresetLoadLoopPoints(algo_tilde *x, t_floatarg flag)
+{
+	if(flag>0)
+    x->x_presetLoadLoopPoints = true;
+  else
+    x->x_presetLoadLoopPoints = false;
 }
 
 static void algo_tilde_initClock(algo_tilde *x)
@@ -477,6 +536,11 @@ static void *algo_tilde_new(t_symbol *s, int argc, t_atom *argv)
 	x->x_interpSwitch = 1;
 	x->x_computeSwitch = 1;
 	x->x_timeDirection = forward;
+  x->x_presetLoadParams = true;
+  x->x_presetLoadBitDepth = true;
+  x->x_presetLoadSampleRate = true;
+  x->x_presetLoadTime = true;
+  x->x_presetLoadLoopPoints = true;
 	x->x_debug = 0;
 
 	x->x_t = 0;
@@ -952,6 +1016,46 @@ void algo_tilde_setup(void)
 		(t_method)algo_tilde_savePreset,
 		gensym("save"),
 		A_DEFSYMBOL,
+		0
+	);
+
+  class_addmethod(
+		algo_tilde_class,
+		(t_method)algo_tilde_setPresetLoadParams,
+		gensym("loadParams"),
+		A_DEFFLOAT,
+		0
+	);
+
+  class_addmethod(
+		algo_tilde_class,
+		(t_method)algo_tilde_setPresetLoadBitDepth,
+		gensym("loadBitDepth"),
+		A_DEFFLOAT,
+		0
+	);
+
+  class_addmethod(
+		algo_tilde_class,
+		(t_method)algo_tilde_setPresetLoadSampleRate,
+		gensym("loadSampleRate"),
+		A_DEFFLOAT,
+		0
+	);
+
+  class_addmethod(
+		algo_tilde_class,
+		(t_method)algo_tilde_setPresetLoadTime,
+		gensym("loadTime"),
+		A_DEFFLOAT,
+		0
+	);
+
+  class_addmethod(
+		algo_tilde_class,
+		(t_method)algo_tilde_setPresetLoadLoopPoints,
+		gensym("loadLoopPoints"),
+		A_DEFFLOAT,
 		0
 	);
 
