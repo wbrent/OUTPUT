@@ -32,7 +32,7 @@ static double algo_tilde_cubicInterpolate(double y0, double y1, double y2, doubl
 
 static void algo_tilde_print(algo_tilde *x)
 {
-	uint32_t i;
+	uint32_t i, samp;
 
 	post("%s version %s", x->x_objSymbol->s_name, ALGOTILDEVERSION);
 
@@ -70,6 +70,8 @@ static void algo_tilde_print(algo_tilde *x)
   post("%s: Load time: %s", x->x_objSymbol->s_name, (x->x_presetLoadTime > 0) ? "TRUE" : "FALSE");
   post("%s: Load loop points: %s", x->x_objSymbol->s_name, (x->x_presetLoadLoopPoints > 0) ? "TRUE" : "FALSE");
 
+  samp = expr_eval(x->x_exprExp);
+  post("%s: expr eval(): %f, %u", x->x_objSymbol->s_name, expr_eval(x->x_exprExp), samp);
   post("%s: Pd sampling rate: %i", x->x_objSymbol->s_name, (int)x->x_sr);
 	post("%s: block size: %i", x->x_objSymbol->s_name, (int)x->x_n);
 	post("");
