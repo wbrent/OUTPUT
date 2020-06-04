@@ -1,5 +1,5 @@
 #include "m_pd.h"
-#include "exprDouble.h" // modified from expr.h at https://github.com/zserge/expr
+#include "expr.h" // from https://github.com/silvioprog/expr
 #include <float.h>
 // #include <math.h> // already included with exprDouble.h
 // #include <limits.h> // already included with exprDouble.h
@@ -13,7 +13,7 @@
 #define MAXBITDEPTH 32
 #define NUMALGOSETTINGS 6 // algo, bit-depth, sample rate, time, time loop start, time loop end
 #define ARRAY36364689SIZE 256
-#define ALGOTILDEVERSION "0.9.8"
+#define ALGOTILDEVERSION "0.9.9"
 
 // this was the output of "36364689"[i] for i=0:255 one day on my computer. it's undefined what comes out past i=7, but I liked the results so I'm recording them here in a specific array that can produce defined behavior.
 static const uint32_t array36364689[ARRAY36364689SIZE] =
