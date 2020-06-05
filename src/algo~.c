@@ -56,7 +56,7 @@ static void algo_tilde_print(algo_tilde *x)
 
 	post("%s: numAlgoParams: %u", x->x_objSymbol->s_name, x->x_numAlgoParams);
 	post("%s: bitDepth: %0.15f", x->x_objSymbol->s_name, x->x_bitDepth);
-	post("%s: samplerate: %0.15f", x->x_objSymbol->s_name, x->x_samplerate);
+	post("%s: sampleRate: %0.15f", x->x_objSymbol->s_name, x->x_samplerate);
 	post("%s: sample increment: %0.15f", x->x_objSymbol->s_name, x->x_incr);
 	post("%s: t: %u", x->x_objSymbol->s_name, x->x_t);
 	post("%s: time loop points: [%u, %u]", x->x_objSymbol->s_name, x->x_tLoopPoints[0], x->x_tLoopPoints[1]);
@@ -71,7 +71,7 @@ static void algo_tilde_print(algo_tilde *x)
   post("%s: Load loop points: %s", x->x_objSymbol->s_name, (x->x_presetLoadLoopPoints > 0) ? "TRUE" : "FALSE");
 
   samp = expr_eval(x->x_exprExp);
-  post("%s: expr eval(): %f, %u", x->x_objSymbol->s_name, expr_eval(x->x_exprExp), samp);
+  post("%s: expr_eval(): %u", x->x_objSymbol->s_name, samp);
   post("%s: Pd sampling rate: %i", x->x_objSymbol->s_name, (int)x->x_sr);
 	post("%s: block size: %i", x->x_objSymbol->s_name, (int)x->x_n);
 	post("");

@@ -1,6 +1,5 @@
 #include "m_pd.h"
 #include "expr.h" // from https://github.com/silvioprog/expr
-#include <float.h>
 // #include <math.h> // already included with exprDouble.h
 // #include <limits.h> // already included with exprDouble.h
 // #include <stdlib.h> // for rand() // already included with exprDouble.h
