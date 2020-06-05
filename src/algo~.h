@@ -1,9 +1,9 @@
 #include "m_pd.h"
 #include "expr.h" // from https://github.com/silvioprog/expr
-// #include <math.h> // already included with exprDouble.h
-// #include <limits.h> // already included with exprDouble.h
-// #include <stdlib.h> // for rand() // already included with exprDouble.h
-// #include <string.h> // for memcpy() // already included with exprDouble.h
+// #include <math.h> // already included with expr.h
+// #include <limits.h> // already included with expr.h
+// #include <stdlib.h> // for rand() // already included with expr.h
+// #include <string.h> // for memcpy() // already included with expr.h
 
 #define EXTRAPOINTS 8 // after careful testing, 8 guard points seems safe
 #define MAXALGOPARAMS 20
@@ -12,7 +12,7 @@
 #define MAXBITDEPTH 32
 #define NUMALGOSETTINGS 6 // algo, bit-depth, sample rate, time, time loop start, time loop end
 #define ARRAY36364689SIZE 256
-#define ALGOTILDEVERSION "0.9.9"
+#define ALGOTILDEVERSION "0.9.10"
 
 // this was the output of "36364689"[i] for i=0:255 one day on my computer. it's undefined what comes out past i=7, but I liked the results so I'm recording them here in a specific array that can produce defined behavior.
 static const uint32_t array36364689[ARRAY36364689SIZE] =
@@ -36,7 +36,7 @@ typedef struct _algo_tilde
 	  t_symbol *x_objSymbol;
     t_canvas *x_canvas;
 	  t_clock *x_clock;
-    unsigned char x_startupFlag;
+    t_bool x_startupFlag;
     double x_sr;
     double x_n;
     double x_bitDepth;

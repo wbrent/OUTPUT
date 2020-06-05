@@ -10,7 +10,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-version 0.9.8, June 1, 2020
+version 0.9.10, June 5, 2020
 
 */
 
@@ -506,7 +506,7 @@ static void algo_tilde_setPresetLoadLoopPoints(algo_tilde *x, t_floatarg flag)
 
 static void algo_tilde_initClock(algo_tilde *x)
 {
-	x->x_startupFlag = 1;
+	x->x_startupFlag = true;
 }
 
 static void *algo_tilde_new(t_symbol *s, int argc, t_atom *argv)
@@ -524,7 +524,7 @@ static void *algo_tilde_new(t_symbol *s, int argc, t_atom *argv)
 
 	// store the pointer to the symbol containing the object name. Can access it for error and post functions via s->s_name
 	x->x_objSymbol = s;
-	x->x_startupFlag = 0; // keep track of whether the object creation process has completed
+	x->x_startupFlag = false; // keep track of whether the object creation process has completed
   x->x_clock = clock_new(x, (t_method)algo_tilde_initClock);
 
 	x->x_sr = DEFAULTSAMPLERATE;
@@ -570,7 +570,7 @@ static void *algo_tilde_new(t_symbol *s, int argc, t_atom *argv)
 	switch(argc)
 	{
 		case 0:
-			exprArg = gensym("t*p0");
+			exprArg = gensym("t");
 			algo_tilde_setAlgo(x, exprArg);
 			algo_tilde_parameters(x, gensym("parameters"), argc, argv);
 			break;
