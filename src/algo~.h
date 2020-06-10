@@ -12,7 +12,7 @@
 #define MAXBITDEPTH 32
 #define NUMALGOSETTINGS 6 // algo, bit-depth, sample rate, time, time loop start, time loop end
 #define ARRAY36364689SIZE 256
-#define ALGOTILDEVERSION "0.9.10"
+#define ALGOTILDEVERSION "0.9.11"
 
 // this was the output of "36364689"[i] for i=0:255 one day on my computer. it's undefined what comes out past i=7, but I liked the results so I'm recording them here in a specific array that can produce defined behavior.
 static const uint32_t array36364689[ARRAY36364689SIZE] =
@@ -23,7 +23,73 @@ static const uint32_t array36364689[ARRAY36364689SIZE] =
 // NOTE: if MAXALGOPARAMS changes, these contents must change accordingly
 const char *paramStrings[MAXALGOPARAMS] = {"p0", "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8", "p9", "p10", "p11", "p12", "p13", "p14", "p15", "p16", "p17", "p18", "p19"};
 
-static struct expr_func exprUserfuncs[] = {{NULL, NULL, NULL, 0}};
+static expr_num_t userFuncFloor(struct expr_func *f, vec_expr_t *args, void *c) {
+  expr_num_t result;
+  uint32_t x = expr_eval(&vec_nth(args, 0));
+  (void) f, (void) c;
+
+  result = x;
+  return result;
+}
+
+static expr_num_t userFuncCeil(struct expr_func *f, vec_expr_t *args, void *c) {
+  expr_num_t result;
+  uint32_t x = expr_eval(&vec_nth(args, 0)) + 1;
+  (void) f, (void) c;
+
+  result = x;
+  return result;
+}
+
+static expr_num_t userFuncRound(struct expr_func *f, vec_expr_t *args, void *c) {
+  expr_num_t result;
+  uint32_t x = expr_eval(&vec_nth(args, 0)) + 0.5;
+  (void) f, (void) c;
+
+  result = x;
+  return result;
+}
+
+static expr_num_t userFuncLookup(struct expr_func *f, vec_expr_t *args, void *c) {
+  expr_num_t result;
+  int len;
+  uint32_t bufLen = 21; // NOTE: the max number of digits of an unsigned long long is 20. buffer must be one byte larger than the number of digits in s, to have space for the terminating null character
+
+  expr_num_t s = expr_eval(&vec_nth(args, 0));
+  uint32_t i = expr_eval(&vec_nth(args, 1));
+  (void) f, (void) c;
+  char buffer[bufLen];
+
+  len = snprintf(buffer, bufLen, "%llu", (unsigned long long)s);
+  i = i%len; // wrap the index at the actual string length
+
+  if(len > 0 && len < bufLen)
+    result = buffer[i];
+  else
+    result = 0;
+
+  return result;
+}
+
+static expr_num_t userFuncIfElse(struct expr_func *f, vec_expr_t *args, void *c) {
+  expr_num_t result;
+  expr_num_t x = expr_eval(&vec_nth(args, 0));
+  expr_num_t y = expr_eval(&vec_nth(args, 1));
+  expr_num_t z = expr_eval(&vec_nth(args, 2));
+  (void) f, (void) c;
+
+  result = (x > 0) ? y : z;
+  return result;
+}
+
+static struct expr_func exprUserfuncs[] = {
+  {"floor", userFuncFloor, NULL, 0},
+  {"ceil", userFuncCeil, NULL, 0},
+  {"round", userFuncRound, NULL, 0},
+  {"lookup", userFuncLookup, NULL, 0},
+  {"ifElse", userFuncIfElse, NULL, 0},
+  {NULL, NULL, NULL, 0}
+};
 
 typedef enum {backward = -1, forward = 1} t_timeDir;
 typedef enum {false = 0, true} t_bool;
@@ -65,7 +131,7 @@ typedef struct _algo_tilde
     uint32_t x_array36364689[ARRAY36364689SIZE];
     double *x_signalBuffer;
 
-    struct expr* x_exprExp;
+    struct expr *x_exprExp;
     char *x_exprStr; // cannot be const char * because the expression string changes
     struct expr_var_list x_exprVars;
 

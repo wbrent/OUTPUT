@@ -10,7 +10,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-version 0.9.10, June 5, 2020
+version 0.9.11, June 10, 2020
 
 */
 
@@ -134,8 +134,8 @@ static void algo_tilde_getNumAlgoParams(algo_tilde *x)
 
 static void algo_tilde_setTimeIndex(algo_tilde *x, t_floatarg t, t_floatarg m)
 {
-	// keep bounded within 1 and UINT_MAX
-	t = (t<1)?1:t;
+	// keep bounded within 0 and UINT_MAX
+	t = (t<0)?0:t;
 	t = (t>UINT_MAX)?UINT_MAX:t;
 	x->x_t = t; // best to set x->x_t directly, because x->x_tBlockStart grabs that at the beginning of the next block
 
@@ -231,19 +231,31 @@ static void algo_tilde_timeDirection(algo_tilde *x, t_floatarg d)
 
 static void algo_tilde_setAlgo(algo_tilde *x, t_symbol *exprArg)
 {
-	int i, count;
-
-	// DEBUG: surprisingly, destroying the expression before creating it again causes crashes
-	// destroy the old expression first
-// 	expr_destroy(x->x_exprExp, &(x->x_exprVars));
+	int i, j, count;
 
 	// get the expression string from this argument
 	x->x_exprStr = exprArg->s_name;
 
 	// find out how many params are in the expression
 	for (i=0, count=0; exprArg->s_name[i]; i++)
-	  count += (exprArg->s_name[i] == 'p');
+  {
+    // first, see if the single char at i is a 'p'
+    if (exprArg->s_name[i] == 'p')
+    {
+      t_bool hit = 0;
+      // if it is, need to see if the next character is a number between 0 and 9. must do this because user defined functions can have 'p' in them, and so could an incoming variable used in a multi-line expression like p=t>>16,t*p
+      for (j=0; j<10 && exprArg->s_name[i+1]; j++)
+      {
+        // the single char for a given digit j is j steps beyond the char for '0'
+        char thisChar = '0' + j;
+        // check if the char following 'p' is a number between 0 and 9. if it is, go ahead and break out and conclude that this is a parameter.
+	      if((hit=(exprArg->s_name[i+1] == thisChar)))
+          break;
+      }
 
+      count += hit;
+    }
+  }
 	// update x_numAlgoParams
 	x->x_numAlgoParams = count;
 
@@ -253,17 +265,18 @@ static void algo_tilde_setAlgo(algo_tilde *x, t_symbol *exprArg)
 	x->x_exprExp = expr_create(x->x_exprStr, strlen(x->x_exprStr), &(x->x_exprVars), exprUserfuncs);
 
 	if(x->x_exprExp == NULL)
+  {
+    t_symbol *e;
 		pd_error(x, "%s: syntax error", x->x_objSymbol->s_name);
 
-	// update the linked list of vars
-	// DEBUG: only do this if we destroy then create again
-// 	for(i=0; i<MAXALGOPARAMS; i++)
-// 	{
-// 		struct expr_var *v;
-//
-// 		v = expr_var(&(x->x_exprVars), x->x_paramStrings[i], strlen(x->x_paramStrings[i]));
-// 		v->value = x->x_params[i];
-// 	}
+    // set algo to the default "t"
+    e = gensym("t");
+    x->x_exprStr = e->s_name;
+  	x->x_numAlgoParams = 0;
+  	// call _getNumAlgoParams so updated value goes out outlet
+  	algo_tilde_getNumAlgoParams(x);
+  	x->x_exprExp = expr_create(x->x_exprStr, strlen(x->x_exprStr), &(x->x_exprVars), exprUserfuncs);
+  }
 }
 
 static void algo_tilde_parameters(algo_tilde *x, t_symbol *s, int argc, t_atom *argv)
