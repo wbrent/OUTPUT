@@ -82,12 +82,32 @@ static expr_num_t userFuncIfElse(struct expr_func *f, vec_expr_t *args, void *c)
   return result;
 }
 
+static expr_num_t userFuncSin(struct expr_func *f, vec_expr_t *args, void *c) {
+  expr_num_t result;
+  expr_num_t x = expr_eval(&vec_nth(args, 0));
+  (void) f, (void) c;
+
+  result = sin(x);
+  return result;
+}
+
+static expr_num_t userFuncAbs(struct expr_func *f, vec_expr_t *args, void *c) {
+  expr_num_t result;
+  expr_num_t x = expr_eval(&vec_nth(args, 0));
+  (void) f, (void) c;
+
+  result = fabs(x);
+  return result;
+}
+
 static struct expr_func exprUserfuncs[] = {
   {"floor", userFuncFloor, NULL, 0},
   {"ceil", userFuncCeil, NULL, 0},
   {"round", userFuncRound, NULL, 0},
   {"lookup", userFuncLookup, NULL, 0},
   {"ifElse", userFuncIfElse, NULL, 0},
+  {"sin", userFuncSin, NULL, 0},
+  {"abs", userFuncAbs, NULL, 0},
   {NULL, NULL, NULL, 0}
 };
 
