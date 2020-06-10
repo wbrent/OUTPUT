@@ -1,4 +1,4 @@
-#N canvas 124 234 899 442 10;
+#N canvas 172 352 899 442 10;
 #X obj 625 81 f \$1;
 #X obj 25 295 pack f \$1;
 #X msg 25 268 1;
@@ -70,7 +70,7 @@ on the keyboard., f 23;
 #X connect 12 0 4 0;
 #X restore 437 68 pd find-MIDI-note;
 #X symbolatom 296 174 7 0 0 1 note player-#1-midi-note-display -;
-#X floatatom 206 124 5 0 500 2 algo-select player-#1-algo-select-set
+#X floatatom 206 124 5 0 9999 2 algo-select player-#1-algo-select-set
 player-#1-algo-select;
 #X obj 296 154 tgl 15 0 player-\$1-asr-kbd player-\$1-asr-kbd-set ASR-kbd
 17 7 0 10 -262144 -1 -1 0 1;
@@ -197,7 +197,7 @@ empty 0 -9 0 10 -262144 -1 -1 0 1;
 r 4 7 0 10 -262130 -1 -1;
 #N canvas 515 401 558 226 algo-selection 0;
 #X obj 42 82 text get outputAlgorithms;
-#X obj 42 61 r player-\$1-algo-select;
+#X obj 42 11 r player-\$1-algo-select;
 #X msg 42 103 set \$1;
 #X obj 42 124 s player-\$1-algo-direct-set;
 #X obj 312 43 r player-\$1-rand-algo;
@@ -208,8 +208,11 @@ r 4 7 0 10 -262130 -1 -1;
 #X obj 227 48 f \$0;
 #X msg 227 72 seed \$1;
 #X obj 227 24 r lb1;
+#X obj 92 37 r num-algos;
+#X obj 42 57 max 0;
+#X obj 42 37 moses;
 #X connect 0 0 2 0;
-#X connect 1 0 0 0;
+#X connect 1 0 14 0;
 #X connect 2 0 3 0;
 #X connect 4 0 5 0;
 #X connect 5 0 8 0;
@@ -219,6 +222,9 @@ r 4 7 0 10 -262130 -1 -1;
 #X connect 9 0 10 0;
 #X connect 10 0 8 0;
 #X connect 11 0 9 0;
+#X connect 12 0 14 1;
+#X connect 13 0 0 0;
+#X connect 14 0 13 0;
 #X restore 437 188 pd algo-selection;
 #X obj 276 214 bng 15 250 50 0 player-\$1-pitch-bend-zero player-\$1-pitch-bend-zero-set
 0 5 8 0 10 -204800 -1 -1;
