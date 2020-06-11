@@ -100,6 +100,15 @@ static expr_num_t userFuncAbs(struct expr_func *f, vec_expr_t *args, void *c) {
   return result;
 }
 
+static expr_num_t userFuncBitwiseNot(struct expr_func *f, vec_expr_t *args, void *c) {
+  expr_num_t result;
+  uint32_t x = expr_eval(&vec_nth(args, 0));
+  (void) f, (void) c;
+
+  result = ~x;
+  return result;
+}
+
 static struct expr_func exprUserfuncs[] = {
   {"floor", userFuncFloor, NULL, 0},
   {"ceil", userFuncCeil, NULL, 0},
@@ -108,6 +117,7 @@ static struct expr_func exprUserfuncs[] = {
   {"ifElse", userFuncIfElse, NULL, 0},
   {"sin", userFuncSin, NULL, 0},
   {"abs", userFuncAbs, NULL, 0},
+  {"bitNot", userFuncBitwiseNot, NULL, 0},
   {NULL, NULL, NULL, 0}
 };
 
