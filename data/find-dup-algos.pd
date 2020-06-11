@@ -33,6 +33,9 @@
 #X obj 73 589 swap;
 #X obj 73 613 pack f f;
 #X obj 73 637 print;
+#X obj 409 446 text get outputAlgorithms;
+#X symbolatom 409 481 80 0 0 0 - - -;
+#X floatatom 396 382 5 0 0 0 - - -;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
 #X connect 2 1 5 0;
@@ -69,3 +72,5 @@
 #X connect 28 0 29 0;
 #X connect 28 1 29 1;
 #X connect 29 0 30 0;
+#X connect 31 0 32 0;
+#X connect 33 0 31 0;
