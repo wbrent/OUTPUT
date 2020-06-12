@@ -1,4 +1,4 @@
-#N canvas 310 329 734 627 12;
+#N canvas 312 329 734 627 12;
 #X declare -path ../src;
 #X obj 559 561 declare -path ../src;
 #N canvas 228 377 365 302 volume 0;
@@ -32,16 +32,16 @@
 #X obj 201 105 f;
 #X obj 271 89 + 1;
 #X obj 201 129 select 0;
-#X obj 201 65 bang~;
 #X obj 201 195 tabwrite~ \$0-plot;
-#X obj 271 113 % 16;
+#X obj 201 68 bang~;
+#X obj 271 113 % 32;
 #X connect 0 0 1 0;
-#X connect 0 0 6 0;
+#X connect 0 0 5 0;
 #X connect 2 0 3 0;
 #X connect 2 0 4 0;
 #X connect 3 0 7 0;
-#X connect 4 0 6 0;
-#X connect 5 0 2 0;
+#X connect 4 0 5 0;
+#X connect 6 0 2 0;
 #X connect 7 0 2 1;
 #X restore 34 435 pd plotting;
 #X floatatom 202 487 10 0 0 1 numParams - -;
@@ -94,7 +94,7 @@ to [algo~]'s current internal state after loading a preset., f 45
 #X connect 23 0 1 0;
 #X connect 23 1 22 0;
 #X restore 228 434 pd current-settings;
-#N canvas 802 118 884 613 sheet-1 0;
+#N canvas 129 244 884 613 sheet-1 0;
 #X obj 43 496 outlet;
 #X msg 43 45 algo (t>>6|t|t>>(t>>16))*10+((t>>11)&7);
 #X msg 73 105 algo v=(v>>1)+(v>>4)+t*(((t>>16)|(t>>6))&(69&(t>>9)))
@@ -169,7 +169,6 @@ to [algo~]'s current internal state after loading a preset., f 45
 #X connect 12 0 0 0;
 #X connect 13 0 12 0;
 #X restore 34 43 pd sheet-1;
-#X obj 184 532 table \$0-plot 512;
 #X obj 34 358 algo~, f 11;
 #N canvas 801 118 884 851 sheet-2 0;
 #X obj 43 666 outlet;
@@ -252,25 +251,27 @@ to [algo~]'s current internal state after loading a preset., f 45
 #X connect 15 0 0 0;
 #X connect 16 0 0 0;
 #X restore 44 73 pd sheet-2;
-#N canvas 1003 370 895 580 check-collection 1;
+#N canvas 907 166 895 580 check-collection 0;
 #X obj 555 160 text define outputAlgorithms;
 #X msg 555 124 read -c outputAlgorithms.txt;
 #X obj 66 153 text search outputAlgorithms;
 #X obj 167 346 text get outputAlgorithms;
 #X symbolatom 167 381 80 0 0 0 - - -;
 #X floatatom 167 313 5 0 0 0 - - -;
-#X floatatom 66 207 5 0 0 0 line - -;
+#X floatatom 66 205 5 0 0 0 line - -;
 #X obj 66 178 + 1;
-#X msg 66 54 symbol a=t-p0\\\,((t&t>>p1)&(t*(t>>((t&p2)>>p3))))+((t*p4/p5&t>>12)&p6)+(t*(a>>p7&a>>8&a>>p8&16)>>t/p9)
+#X msg 66 54 symbol t>>p0|((t>>p1)%p2)|((t>>p3)%p4)|(t*t%p5)|(t*t%p6)|(t>>p7)*(t|t>>p8)
 ;
+#X obj 112 471 outlet;
 #X connect 1 0 0 0;
 #X connect 2 0 7 0;
 #X connect 3 0 4 0;
+#X connect 3 0 9 0;
 #X connect 5 0 3 0;
 #X connect 7 0 6 0;
 #X connect 8 0 2 0;
 #X restore 419 292 pd check-collection;
-#N canvas 801 118 884 851 sheet-3 0;
+#N canvas 204 120 884 851 sheet-3 0;
 #X obj 43 666 outlet;
 #X msg 225 629 setTimeIndex 0;
 #X msg 245 689 getAlgoSettings;
@@ -329,6 +330,7 @@ to [algo~]'s current internal state after loading a preset., f 45
 #X msg 193 345 algo ((-t&4095)*(255&t*(t&t>>13))>>12)+(127&t*(234&t>>8&t>>3)>>(3&t>>14))
 ;
 #X msg 223 405 algo t*(t>>((t>>9|t>>8))&63&t>>4);
+#X text 314 103 very short...;
 #X connect 1 0 0 0;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
@@ -344,7 +346,88 @@ to [algo~]'s current internal state after loading a preset., f 45
 #X connect 13 0 0 0;
 #X connect 14 0 0 0;
 #X restore 54 103 pd sheet-3;
-#N canvas 801 118 884 851 sheet-4 1;
+#N canvas 643 124 884 851 sheet-8 0;
+#X obj 43 666 outlet;
+#X msg 225 629 setTimeIndex 0;
+#X msg 245 689 getAlgoSettings;
+#X msg 235 659 sampleRate 8000 \, bitDepth 8;
+#N canvas 631 252 1050 354 gen-rand 0;
+#X obj 51 115 random 255;
+#X obj 141 115 random 255;
+#X obj 231 115 random 255;
+#X obj 321 115 random 255;
+#X obj 51 80 t b b b b b b b b b b;
+#X obj 411 115 random 255;
+#X obj 501 115 random 255;
+#X obj 591 115 random 255;
+#X obj 681 115 random 255;
+#X obj 771 115 random 255;
+#X obj 861 115 random 255;
+#X obj 51 200 pack f f f f f f f f f f;
+#X obj 51 50 inlet;
+#X obj 51 225 list prepend parameters;
+#X obj 51 250 list trim;
+#X obj 51 275 outlet;
+#X connect 0 0 11 0;
+#X connect 1 0 11 1;
+#X connect 2 0 11 2;
+#X connect 3 0 11 3;
+#X connect 4 0 0 0;
+#X connect 4 1 1 0;
+#X connect 4 2 2 0;
+#X connect 4 3 3 0;
+#X connect 4 4 5 0;
+#X connect 4 5 6 0;
+#X connect 4 6 7 0;
+#X connect 4 7 8 0;
+#X connect 4 8 9 0;
+#X connect 4 9 10 0;
+#X connect 5 0 11 4;
+#X connect 6 0 11 5;
+#X connect 7 0 11 6;
+#X connect 8 0 11 7;
+#X connect 9 0 11 8;
+#X connect 10 0 11 9;
+#X connect 11 0 13 0;
+#X connect 12 0 4 0;
+#X connect 13 0 14 0;
+#X connect 14 0 15 0;
+#X restore 127 758 pd gen-rand;
+#X obj 127 738 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 298 726 sampleRate 44100;
+#X msg 329 759 sampleRate 32000;
+#X msg 43 45 algo ifElse(t>>6&1\\\,t>>5\\\,-t>>4);
+#X msg 73 105 algo (bitNot(t)/100|(t*3))^(t*3&(t>>5))&t;
+#X msg 102 155 algo (^t>>2)*((127&t*(7&t>>10))<(245&t*(2+(5&t>>14))))
+;
+#X msg 127 204 algo (t>>5)|(t>>4)|((t%42)*(t>>4)|357052691-(t>>4))/(t>>16)^(t|(t>>4))
+;
+#X msg 223 404 algo t>>6^t&37|t+(t^t>>11)-t*(ifElse(t%24\\\,2\\\,6)&t>>11)^t<<1&ifElse(t&598\\\,t>>4\\\,t>>10)
+;
+#X msg 194 345 algo t>>16|((t>>4)%16)|((t>>4)%192)|(t*t%64)|(t*t%96)|(t>>16)*(t|t>>5)
+;
+#X msg 173 315 algo ((t%42)*(t>>4)|357052691-(t>>4))/(t>>16)^(t|(t>>4))
+, f 65;
+#X msg 162 281 algo (((t%42)*(t>>4)|357052691-(t>>4))/(t>>16))^(t|(t>>4))
+, f 65;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X connect 4 0 0 0;
+#X connect 5 0 4 0;
+#X connect 6 0 0 0;
+#X connect 7 0 0 0;
+#X connect 8 0 0 0;
+#X connect 9 0 0 0;
+#X connect 10 0 0 0;
+#X connect 11 0 0 0;
+#X connect 12 0 0 0;
+#X connect 13 0 0 0;
+#X connect 14 0 0 0;
+#X connect 15 0 0 0;
+#X restore 94 223 pd sheet-8;
+#N canvas 801 120 884 851 sheet-4A 0;
 #X obj 43 666 outlet;
 #X msg 225 630 setTimeIndex 0;
 #X msg 245 689 getAlgoSettings;
@@ -395,32 +478,238 @@ to [algo~]'s current internal state after loading a preset., f 45
 -1 -1;
 #X msg 298 726 sampleRate 44100;
 #X msg 329 759 sampleRate 32000;
-#X msg 163 325 algo t;
-#X msg 193 385 algo t;
-#X msg 223 445 algo t;
 #X msg 43 45 algo a=t-2048\\\,((t&t>>6)&(t*(t>>((t&65535)>>12))))+((t*3/4&t>>12)&127)+(t*(a>>7&a>>8&a>>9&16)>>t/64)
 ;
 #X msg 73 105 algo i=t&8191\\\,(((t*((t>>9^((t>>9)-1)^1)%13)&255)/2)+((((t>>3|t<<(t>>12&2))*(i<4096)+(t>>4|t*(t^t+t/256))*(i>4095)))&255)/2)*(2+(t>>16))
 ;
 #X msg 304 792 sampleRate 11025;
-#X msg 103 195 algo d=(t*(t&t>>12)*8/11025)|0 \, ((d&16)/8-1)*(d*(d^15)+d+127)
+#X msg 103 185 algo d=(t*(t&t>>12)*8/11025)|0 \, ((d&16)/8-1)*(d*(d^15)+d+127)
 ;
-#X msg 133 265 algo a=t-256\\\,((44*(t/256-28|3)|t*8&t>>11&t>>5|t*(a>>3&a>>4&a>>5&64)>>t/16)/2&127)+(((t^t+t/256)&255)/(5-(t>>17&3))/2&127)
+#X msg 133 235 algo a=t-256\\\,((44*(t/256-28|3)|t*8&t>>11&t>>5|t*(a>>3&a>>4&a>>5&64)>>t/16)/2&127)+(((t^t+t/256)&255)/(5-(t>>17&3))/2&127)
 ;
 #X msg 46 760 print;
 #X obj 103 791 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X msg 80 818 interpolate \$1;
-#X msg 327 556 algo (bitNot(t>>2))*((127&t*(7&t>>10))<(245&t*(2+(5&t>>14))))
+#X msg 163 295 algo d=t>>12&1\\\,h=(t>>9)+4\\\,(t*t*(t&255)*d/156+(t*(t^15)+t)*((h|t/2048+1&127)-h)/64&127-d*((t>>5&127)*2/3+32))
 ;
-#X msg 311 508 algo (^(t>>2))*((127&t*(7&t>>10))<(245&t*(2+(5&t>>14))))
+#X msg 473 648 setTimeRand;
+#X floatatom 530 680 5 1 32 0 - - -;
+#X msg 534 720 bitDepth \$1;
+#X msg 610 676 setTimeIndex \$1;
+#X floatatom 606 598 5 0 0 0 - - -;
+#X obj 603 625 * 60;
+#X obj 603 650 * 44100;
+#X text 614 303 << extremely short;
+#X msg 183 355 algo (t*(((t/10|0)^(t/10|0)-1280)%11)/2&127)+(t*(((t/640|0)^(t/640|0)-2)%13)/2&127)
 ;
-#X msg 276 476 algo (^t>>2)*((127&t*(7&t>>10))<(245&t*(2+(5&t>>14))))
+#X msg 213 415 algo t*((t-2296&t)>>11);
+#X msg 273 525 algo t*(t*287/256&t>>11&31);
+#X msg 243 445 algo j=(t-41024&t+1024)>>11&255\\\,k=t&16383\\\,(t*(j&255)/2&127)+((100000/(t&4095))/4&63)+((floor(k/(k>>7)-136)/8)&((32*(1+(j>7))-1)))
 ;
-#X msg 323 329 algo (^t>>p0)*((p1&t*(p2&t>>p3))<(p4&t*(p5+(p6&t>>p7))))
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X connect 4 0 0 0;
+#X connect 5 0 4 0;
+#X connect 6 0 0 0;
+#X connect 7 0 0 0;
+#X connect 8 0 0 0;
+#X connect 9 0 0 0;
+#X connect 10 0 0 0;
+#X connect 11 0 0 0;
+#X connect 12 0 0 0;
+#X connect 13 0 0 0;
+#X connect 14 0 15 0;
+#X connect 15 0 0 0;
+#X connect 16 0 0 0;
+#X connect 17 0 0 0;
+#X connect 18 0 19 0;
+#X connect 19 0 0 0;
+#X connect 20 0 0 0;
+#X connect 21 0 22 0;
+#X connect 22 0 23 0;
+#X connect 23 0 20 0;
+#X connect 25 0 0 0;
+#X connect 26 0 0 0;
+#X connect 27 0 0 0;
+#X connect 28 0 0 0;
+#X restore 64 133 pd sheet-4A;
+#N canvas 927 112 884 885 sheet-4B 0;
+#X obj 43 696 outlet;
+#X msg 225 660 setTimeIndex 0;
+#X msg 245 719 getAlgoSettings;
+#X msg 235 689 sampleRate 8000 \, bitDepth 8;
+#N canvas 631 252 1050 354 gen-rand 0;
+#X obj 51 115 random 255;
+#X obj 141 115 random 255;
+#X obj 231 115 random 255;
+#X obj 321 115 random 255;
+#X obj 51 80 t b b b b b b b b b b;
+#X obj 411 115 random 255;
+#X obj 501 115 random 255;
+#X obj 591 115 random 255;
+#X obj 681 115 random 255;
+#X obj 771 115 random 255;
+#X obj 861 115 random 255;
+#X obj 51 200 pack f f f f f f f f f f;
+#X obj 51 50 inlet;
+#X obj 51 225 list prepend parameters;
+#X obj 51 250 list trim;
+#X obj 51 275 outlet;
+#X connect 0 0 11 0;
+#X connect 1 0 11 1;
+#X connect 2 0 11 2;
+#X connect 3 0 11 3;
+#X connect 4 0 0 0;
+#X connect 4 1 1 0;
+#X connect 4 2 2 0;
+#X connect 4 3 3 0;
+#X connect 4 4 5 0;
+#X connect 4 5 6 0;
+#X connect 4 6 7 0;
+#X connect 4 7 8 0;
+#X connect 4 8 9 0;
+#X connect 4 9 10 0;
+#X connect 5 0 11 4;
+#X connect 6 0 11 5;
+#X connect 7 0 11 6;
+#X connect 8 0 11 7;
+#X connect 9 0 11 8;
+#X connect 10 0 11 9;
+#X connect 11 0 13 0;
+#X connect 12 0 4 0;
+#X connect 13 0 14 0;
+#X connect 14 0 15 0;
+#X restore 127 788 pd gen-rand;
+#X obj 127 768 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 298 756 sampleRate 44100;
+#X msg 329 789 sampleRate 32000;
+#X msg 304 822 sampleRate 11025;
+#X msg 46 790 print;
+#X obj 103 821 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X msg 80 848 interpolate \$1;
+#X msg 250 453 algo (^t>>2)*((127&t*(7&t>>10))<(245&t*(2+(5&t>>14))))
 ;
-#X msg 363 363 algo (bitNot(t>>p0))*((p1&t*(p2&t>>p3))<(p4&t*(p5+(p6&t>>p7))))
+#X msg 473 678 setTimeRand;
+#X floatatom 531 709 5 1 32 0 - - -;
+#X msg 534 750 bitDepth \$1;
+#X msg 610 706 setTimeIndex \$1;
+#X floatatom 606 628 5 0 0 0 - - -;
+#X obj 603 655 * 60;
+#X obj 603 680 * 44100;
+#X msg 43 44 algo y=t*(t>>10&42)\\\,y*2|y+t/64;
+#X msg 73 105 algo d=t*465/(43+6*(t>>15&3^1))\\\,((d/4&t>>6)+d/2&127)+(d/6&127)
 ;
+#X msg 215 828 save;
+#X msg 103 184 algo (-1-t|t+t/256)-(-(t-(t>>8))|t+(t>>8));
+#X msg 133 235 algo (t&t+t/256)-t*(t>>15)&64;
+#X msg 163 275 algo d=t>>15&t>>11\\\,e=t>>6\\\,t*(d&1&e)+t*(d&4&e)/2+t*(d&8&e)*3/4+t*(1-((d&(t>>13)+1)&1))+t*(t+t^15*t)*(t>>9&t>>11&4)/1024
+;
+#X msg 183 355 algo ((t>>5&t)-(t>>5)+(t>>5&t))+(t*((t>>14)&14));
+#X msg 213 415 algo (t*((3+(1^t>>10&5))*(5+(3&t>>14))))>>(t>>8&3);
+#X msg 300 498 algo t*(t>>ifElse((t&4096)\\\,((t*t)/4096)\\\,(t/4096)))|(t<<(t/256))|(t>>4)
+;
+#X msg 336 553 algo v=lookup(4568\\\,t>>11&3)\\\,w=(t>>5|t>>v^sin(t/8/(v/(((t>>12&t>>14)&8)+((t>>14|t>>11)&1))))*29-100)\\\,w+(v*((t*v/7*4&t>>11)|w))
+;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X connect 4 0 0 0;
+#X connect 5 0 4 0;
+#X connect 6 0 0 0;
+#X connect 7 0 0 0;
+#X connect 8 0 0 0;
+#X connect 9 0 0 0;
+#X connect 10 0 11 0;
+#X connect 11 0 0 0;
+#X connect 12 0 0 0;
+#X connect 13 0 0 0;
+#X connect 14 0 15 0;
+#X connect 15 0 0 0;
+#X connect 16 0 0 0;
+#X connect 17 0 18 0;
+#X connect 18 0 19 0;
+#X connect 19 0 16 0;
+#X connect 20 0 0 0;
+#X connect 21 0 0 0;
+#X connect 22 0 0 0;
+#X connect 23 0 0 0;
+#X connect 24 0 0 0;
+#X connect 25 0 0 0;
+#X connect 26 0 0 0;
+#X connect 27 0 0 0;
+#X connect 28 0 0 0;
+#X connect 29 0 0 0;
+#X restore 154 133 pd sheet-4B;
+#X obj 184 532 table \$0-plot 2048;
+#N canvas 801 117 884 851 sheet-7 0;
+#X obj 43 666 outlet;
+#X msg 225 629 setTimeIndex 0;
+#X msg 245 689 getAlgoSettings;
+#X msg 235 659 sampleRate 8000 \, bitDepth 8;
+#N canvas 631 252 1050 354 gen-rand 0;
+#X obj 51 115 random 255;
+#X obj 141 115 random 255;
+#X obj 231 115 random 255;
+#X obj 321 115 random 255;
+#X obj 51 80 t b b b b b b b b b b;
+#X obj 411 115 random 255;
+#X obj 501 115 random 255;
+#X obj 591 115 random 255;
+#X obj 681 115 random 255;
+#X obj 771 115 random 255;
+#X obj 861 115 random 255;
+#X obj 51 200 pack f f f f f f f f f f;
+#X obj 51 50 inlet;
+#X obj 51 225 list prepend parameters;
+#X obj 51 250 list trim;
+#X obj 51 275 outlet;
+#X connect 0 0 11 0;
+#X connect 1 0 11 1;
+#X connect 2 0 11 2;
+#X connect 3 0 11 3;
+#X connect 4 0 0 0;
+#X connect 4 1 1 0;
+#X connect 4 2 2 0;
+#X connect 4 3 3 0;
+#X connect 4 4 5 0;
+#X connect 4 5 6 0;
+#X connect 4 6 7 0;
+#X connect 4 7 8 0;
+#X connect 4 8 9 0;
+#X connect 4 9 10 0;
+#X connect 5 0 11 4;
+#X connect 6 0 11 5;
+#X connect 7 0 11 6;
+#X connect 8 0 11 7;
+#X connect 9 0 11 8;
+#X connect 10 0 11 9;
+#X connect 11 0 13 0;
+#X connect 12 0 4 0;
+#X connect 13 0 14 0;
+#X connect 14 0 15 0;
+#X restore 127 758 pd gen-rand;
+#X obj 127 738 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 298 726 sampleRate 44100;
+#X msg 329 759 sampleRate 32000;
+#X msg 43 46 algo t/5|t*2&t/20>>1|45*t*-t/666|t/12|t/666>>2;
+#X msg 73 105 algo ((t<<1)^((t<<1)+(t>>7)&t>>12))|t>>(4-(1^7&(t>>19)))|t>>7
+;
+#X msg 323 155 algo t*(t>><<t>>9|t>>8))&63&t>>4);
+#X msg 133 225 algo ((-t&4095)*(255&t*(t&t>>13))>>12)+(127&t*(234&t>>8&t>>3)>>(3&t>>14))
+;
+#X msg 383 285 algo (t*(t>>8*(t>>15|t>>8)&(20|(t>>19)*5>>t|t>>3>>)
+;
+#X msg 194 345 algo t*(t>>11&t>>8&123&t>>3);
+#X msg 443 405 algo t*((t>>9|t>>13)&25&t>>6;
+#X msg 264 465 algo (t*(t>>5|t>>8))>>(t>>16);
+#X msg 513 525 algo t*((t>>12|t>>8)&63&t>>4;
+#X text 505 465 short \, also in another sheet;
+#X text 576 157 SYNTAX ERRORS ON THESE;
 #X connect 1 0 0 0;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
@@ -437,15 +726,8 @@ to [algo~]'s current internal state after loading a preset., f 45
 #X connect 14 0 0 0;
 #X connect 15 0 0 0;
 #X connect 16 0 0 0;
-#X connect 17 0 18 0;
-#X connect 18 0 0 0;
-#X connect 19 0 0 0;
-#X connect 20 0 0 0;
-#X connect 21 0 0 0;
-#X connect 22 0 0 0;
-#X connect 23 0 0 0;
-#X restore 64 133 pd sheet-4;
-#N canvas 801 118 884 851 sheet-5 0;
+#X restore 84 193 pd sheet-7;
+#N canvas 801 118 884 851 sheet-5B 0;
 #X obj 43 666 outlet;
 #X msg 225 629 setTimeIndex 0;
 #X msg 245 689 getAlgoSettings;
@@ -496,14 +778,14 @@ to [algo~]'s current internal state after loading a preset., f 45
 -1 -1;
 #X msg 298 726 sampleRate 44100;
 #X msg 329 759 sampleRate 32000;
-#X msg 43 45 algo t*((t>>12|t>>8)&63&t>>4);
-#X msg 73 105 algo (t*(t>>5|t>>8))>>(t>>16);
-#X msg 103 155 algo t*((t>>9|t>>13)&25&t>>6);
-#X msg 133 225 algo t*(t>>11&t>>13&123&t>>3);
-#X msg 163 285 algo t*(t>>8*(t>>15|t>>8)&(20|(t>>19)*5>>t|t>>3));
-#X msg 193 345 algo ((-t&4095)*(255&t*(t&t>>13))>>12)+(127&t*(234&t>>8&t>>3)>>(3&t>>14))
+#X msg 43 46 algo t*5&(t>>7)|t*3&(t*4>>10);
+#X msg 73 105 algo (t|(t>>9|t>>7))*t&(t>>11|t>>9);
+#X msg 104 155 algo (t>>6|t|t>>(t>>16))*10+((t>>11)&7);
+#X msg 131 224 algo ((t&4096)?((t*(t^t%255)|(t>>4))>>1):(t>>3)|((t&8192)?t<<2:t))
 ;
-#X msg 223 405 algo t*(t>>((t>>9|t>>8))&63&t>>4);
+#X msg 163 315 algo v=(v>>1)+(v>>4)+t*(((t>>16)|(t>>6))&(69&(t>>9)))
+;
+#X text 367 103 very short \, also in sheet-1;
 #X connect 1 0 0 0;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
@@ -516,10 +798,8 @@ to [algo~]'s current internal state after loading a preset., f 45
 #X connect 10 0 0 0;
 #X connect 11 0 0 0;
 #X connect 12 0 0 0;
-#X connect 13 0 0 0;
-#X connect 14 0 0 0;
-#X restore 74 163 pd sheet-5;
-#N canvas 801 118 884 851 sheet-6 0;
+#X restore 164 163 pd sheet-5B;
+#N canvas 801 118 884 851 sheet-5A 0;
 #X obj 43 666 outlet;
 #X msg 225 629 setTimeIndex 0;
 #X msg 245 689 getAlgoSettings;
@@ -570,14 +850,18 @@ to [algo~]'s current internal state after loading a preset., f 45
 -1 -1;
 #X msg 298 726 sampleRate 44100;
 #X msg 329 759 sampleRate 32000;
-#X msg 43 45 algo t*((t>>12|t>>8)&63&t>>4);
-#X msg 73 105 algo (t*(t>>5|t>>8))>>(t>>16);
-#X msg 103 155 algo t*((t>>9|t>>13)&25&t>>6);
-#X msg 133 225 algo t*(t>>11&t>>13&123&t>>3);
-#X msg 163 285 algo t*(t>>8*(t>>15|t>>8)&(20|(t>>19)*5>>t|t>>3));
-#X msg 193 345 algo ((-t&4095)*(255&t*(t&t>>13))>>12)+(127&t*(234&t>>8&t>>3)>>(3&t>>14))
+#X msg 43 45 algo t*(t>>((t>>9|t>>8))&63&t>>4);
+#X msg 73 105 algo ((-t&4095)*(255&t*(t&t>>13))>>12)+(127&t*(234&t>>8&t>>3)>>(3&t>>14))
 ;
-#X msg 223 405 algo t*(t>>((t>>9|t>>8))&63&t>>4);
+#X msg 103 175 algo (t*(t>>8*(t>>15|t>>8)&(20|(t>>19)*5>>t|t>>3)))
+;
+#X msg 133 245 algo t*(t>>11&t>>8&123&t>>3);
+#X msg 163 305 algo t*((t>>9|t>>13)&25&t>>6);
+#X msg 194 365 algo (t*(t>>5|t>>8))>>(t>>16);
+#X msg 223 425 algo ((t>>12|t>>8)&63&t>>4);
+#X msg 253 475 algo ((t*(t>>8|t>>9)&46&t>>8))^(t&t>>13|t>>6);
+#X msg 284 535 algo (t>>7|t|t>>6)*10+4*(t&t>>13|t>>6);
+#X text 444 363 << very short?;
 #X connect 1 0 0 0;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
@@ -592,8 +876,10 @@ to [algo~]'s current internal state after loading a preset., f 45
 #X connect 12 0 0 0;
 #X connect 13 0 0 0;
 #X connect 14 0 0 0;
-#X restore 84 193 pd sheet-6;
-#N canvas 801 118 884 851 sheet-7 0;
+#X connect 15 0 0 0;
+#X connect 16 0 0 0;
+#X restore 74 163 pd sheet-5A;
+#N canvas 801 118 884 851 sheet-7B 0;
 #X obj 43 666 outlet;
 #X msg 225 629 setTimeIndex 0;
 #X msg 245 689 getAlgoSettings;
@@ -644,14 +930,16 @@ to [algo~]'s current internal state after loading a preset., f 45
 -1 -1;
 #X msg 298 726 sampleRate 44100;
 #X msg 329 759 sampleRate 32000;
-#X msg 43 45 algo t*((t>>12|t>>8)&63&t>>4);
-#X msg 73 105 algo (t*(t>>5|t>>8))>>(t>>16);
-#X msg 103 155 algo t*((t>>9|t>>13)&25&t>>6);
-#X msg 133 225 algo t*(t>>11&t>>13&123&t>>3);
-#X msg 163 285 algo t*(t>>8*(t>>15|t>>8)&(20|(t>>19)*5>>t|t>>3));
-#X msg 193 345 algo ((-t&4095)*(255&t*(t&t>>13))>>12)+(127&t*(234&t>>8&t>>3)>>(3&t>>14))
+#X msg 43 45 algo ((t*(t>>8|t>>9)&46&t>>8))^(t&t>>13|t>>6);
+#X msg 103 175 algo (t>>7|t|t>>6)*10*4*(t&t>>13|t>>6);
+#X msg 133 245 algo t*5&(t>>7)|t*3&(t*4>>10);
+#X msg 163 305 algo (t|(t>>9|t>>7))*t&(t>>11|t>>9);
+#X msg 193 365 algo v=(v>>1)+(v>>4)+t*(((t>>16)|(t>>6))&(69&(t>>9)))
 ;
-#X msg 223 405 algo t*(t>>((t>>9|t>>8))&63&t>>4);
+#X msg 223 425 algo (t>>6|t|t>>(t>>(t>>16))*10+((t>>11)&7);
+#X msg 73 105 algo ifElse(t&4096\\\,(t*(t^t%255)|(t>>4))>>1\\\,t>>3)|ifElse(t&8192\\\,t<<2\\\,t)
+;
+#X text 445 304 extremely short. do not add;
 #X connect 1 0 0 0;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
@@ -666,8 +954,8 @@ to [algo~]'s current internal state after loading a preset., f 45
 #X connect 12 0 0 0;
 #X connect 13 0 0 0;
 #X connect 14 0 0 0;
-#X restore 94 223 pd sheet-7;
-#N canvas 801 118 884 851 sheet-8 0;
+#X restore 174 193 pd sheet-7B;
+#N canvas 801 118 884 851 sheet-8B 0;
 #X obj 43 666 outlet;
 #X msg 225 629 setTimeIndex 0;
 #X msg 245 689 getAlgoSettings;
@@ -718,14 +1006,13 @@ to [algo~]'s current internal state after loading a preset., f 45
 -1 -1;
 #X msg 298 726 sampleRate 44100;
 #X msg 329 759 sampleRate 32000;
-#X msg 43 45 algo t*((t>>12|t>>8)&63&t>>4);
-#X msg 73 105 algo (t*(t>>5|t>>8))>>(t>>16);
-#X msg 103 155 algo t*((t>>9|t>>13)&25&t>>6);
-#X msg 133 225 algo t*(t>>11&t>>13&123&t>>3);
-#X msg 163 285 algo t*(t>>8*(t>>15|t>>8)&(20|(t>>19)*5>>t|t>>3));
-#X msg 193 345 algo ((-t&4095)*(255&t*(t&t>>13))>>12)+(127&t*(234&t>>8&t>>3)>>(3&t>>14))
-;
-#X msg 223 405 algo t*(t>>((t>>9|t>>8))&63&t>>4);
+#X msg 43 45 algo t;
+#X msg 73 105 algo t;
+#X msg 103 155 algo t;
+#X msg 133 225 algo t;
+#X msg 163 285 algo t;
+#X msg 193 345 algo t;
+#X msg 223 405 algo t;
 #X connect 1 0 0 0;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
@@ -740,17 +1027,25 @@ to [algo~]'s current internal state after loading a preset., f 45
 #X connect 12 0 0 0;
 #X connect 13 0 0 0;
 #X connect 14 0 0 0;
-#X restore 104 253 pd sheet-8;
+#X restore 184 223 pd sheet-8B;
+#X obj 419 317 list prepend algo;
+#X obj 419 342 list trim;
 #X connect 2 0 1 0;
 #X connect 3 0 2 0;
-#X connect 6 0 8 0;
-#X connect 8 0 3 0;
-#X connect 8 2 4 0;
-#X connect 8 3 5 0;
-#X connect 9 0 8 0;
-#X connect 11 0 8 0;
-#X connect 12 0 8 0;
-#X connect 13 0 8 0;
-#X connect 14 0 8 0;
-#X connect 15 0 8 0;
-#X connect 16 0 8 0;
+#X connect 6 0 7 0;
+#X connect 7 0 3 0;
+#X connect 7 2 4 0;
+#X connect 7 3 5 0;
+#X connect 8 0 7 0;
+#X connect 9 0 20 0;
+#X connect 10 0 7 0;
+#X connect 11 0 7 0;
+#X connect 12 0 7 0;
+#X connect 13 0 7 0;
+#X connect 15 0 7 0;
+#X connect 16 0 7 0;
+#X connect 17 0 7 0;
+#X connect 18 0 7 0;
+#X connect 19 0 7 0;
+#X connect 20 0 21 0;
+#X connect 21 0 7 0;

@@ -23,6 +23,15 @@ static const uint32_t array36364689[ARRAY36364689SIZE] =
 // NOTE: if MAXALGOPARAMS changes, these contents must change accordingly
 const char *paramStrings[MAXALGOPARAMS] = {"p0", "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8", "p9", "p10", "p11", "p12", "p13", "p14", "p15", "p16", "p17", "p18", "p19"};
 
+static expr_num_t userFuncIntCast(struct expr_func *f, vec_expr_t *args, void *c) {
+  expr_num_t result;
+  int x = expr_eval(&vec_nth(args, 0));
+  (void) f, (void) c;
+
+  result = x;
+  return result;
+}
+
 static expr_num_t userFuncFloor(struct expr_func *f, vec_expr_t *args, void *c) {
   expr_num_t result;
   uint32_t x = expr_eval(&vec_nth(args, 0));
@@ -110,6 +119,7 @@ static expr_num_t userFuncBitwiseNot(struct expr_func *f, vec_expr_t *args, void
 }
 
 static struct expr_func exprUserfuncs[] = {
+  {"int", userFuncIntCast, NULL, 0},
   {"floor", userFuncFloor, NULL, 0},
   {"ceil", userFuncCeil, NULL, 0},
   {"round", userFuncRound, NULL, 0},
