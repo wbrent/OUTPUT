@@ -578,5 +578,7 @@ all info via individual parameter methods., f 33;
 #X connect 12 4 13 0;
 #X connect 12 5 7 0;
 #X restore 670 142 pd populate;
+#X obj 119 275 cnv 10 500 10 empty player-\$1-notification-canvas-set
+empty 50 5 0 12 -262144 -66577 0;
 #X connect 45 0 83 0;
 #X coords 0 -1 1 1 650 210 2 100 185;
