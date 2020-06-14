@@ -1,4 +1,4 @@
-#N canvas 806 228 929 486 12;
+#N canvas 722 257 929 486 12;
 #X obj 119 342 bng 15 250 50 0 player-\$1-algo-randomize player-\$1-algo-randomize-set
 randomize 20 7 0 12 -262144 -1 -1;
 #X obj 653 238 bng 15 250 50 0 player-\$1-algo-load-params player-\$1-algo-load-params-set
@@ -148,7 +148,7 @@ was entered manually, f 36;
 #X obj 187 127 makefilename %%%%s/caches/%d-%%d-cache.txt;
 #X obj 68 24 r player-\$1-algo-load-cache;
 #X obj 68 50 t b f b;
-#X obj 416 279 r player-\$1-algo-refresh-params;
+#X obj 536 279 r player-\$1-algo-refresh-params;
 #X obj 371 173 r player-\$1-algo-load-params;
 #X msg 68 182 dir 0 ../;
 #X obj 280 499 symbol;
@@ -194,6 +194,24 @@ was entered manually, f 36;
 for preset time data to be updated and properly reported from [algo~].
 , f 18;
 #X floatatom 280 463 5 0 0 0 - - -;
+#X obj 611 173 r player-\$1-algo-load-dialog;
+#N canvas 770 145 367 397 load-dialog 0;
+#X obj 46 341 outlet;
+#X obj 46 38 inlet;
+#X obj 112 151 pdcontrol;
+#X msg 112 118 dir 0 ../;
+#X obj 46 271 openpanel;
+#X obj 46 231 symbol;
+#X obj 112 85 r lb1;
+#X obj 112 175 makefilename %s/algo-presets;
+#X connect 1 0 5 0;
+#X connect 2 0 7 0;
+#X connect 3 0 2 0;
+#X connect 4 0 0 0;
+#X connect 5 0 4 0;
+#X connect 6 0 3 0;
+#X connect 7 0 5 1;
+#X restore 611 208 pd load-dialog;
 #X connect 0 0 5 0;
 #X connect 1 0 0 0;
 #X connect 2 0 6 0;
@@ -225,6 +243,8 @@ for preset time data to be updated and properly reported from [algo~].
 #X connect 28 0 26 1;
 #X connect 29 0 25 0;
 #X connect 30 0 18 0;
+#X connect 33 0 34 0;
+#X connect 34 0 13 0;
 #X restore 670 112 pd recall-parameters;
 #N canvas 330 100 866 621 randomization 0;
 #X obj 159 192 until;
@@ -390,7 +410,7 @@ bit 17 7 0 12 -262144 -1 -1 0 1;
 time 17 7 0 12 -262144 -1 -1 0 1;
 #X obj 653 298 tgl 15 0 player-\$1-load-tempo player-\$1-load-tempo-set
 tempo 17 7 0 12 -262144 -1 -1 0 1;
-#X obj 713 238 bng 15 250 50 0 player-\$1-algo-refresh-params player-\$1-algo-refresh-params-set
+#X obj 713 218 bng 15 250 50 0 player-\$1-algo-refresh-params player-\$1-algo-refresh-params-set
 r 4 8 0 12 -262130 -1 -1;
 #X obj 119 232 cnv 15 37 18 empty player-\$1-algo-param-0-canvas-set
 empty 20 12 0 14 -262144 -66577 0;
@@ -580,5 +600,7 @@ all info via individual parameter methods., f 33;
 #X restore 670 142 pd populate;
 #X obj 119 275 cnv 10 500 10 empty player-\$1-notification-canvas-set
 empty 50 5 0 12 -262144 -66577 0;
+#X obj 713 238 bng 15 250 50 0 player-\$1-algo-load-dialog player-\$1-algo-load-dialog-set
+ld 17 7 0 12 -204786 -1 -1;
 #X connect 45 0 83 0;
 #X coords 0 -1 1 1 650 210 2 100 185;
