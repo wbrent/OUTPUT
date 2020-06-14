@@ -12,7 +12,7 @@
 #define MAXBITDEPTH 32
 #define NUMALGOSETTINGS 6 // algo, bit-depth, sample rate, time, time loop start, time loop end
 #define ARRAY36364689SIZE 256
-#define ALGOTILDEVERSION "0.9.11"
+#define ALGOTILDEVERSION "0.9.12"
 
 // this was the output of "36364689"[i] for i=0:255 one day on my computer. it's undefined what comes out past i=7, but I liked the results so I'm recording them here in a specific array that can produce defined behavior.
 static const uint32_t array36364689[ARRAY36364689SIZE] =
@@ -156,11 +156,12 @@ static expr_num_t userFuncLookup(struct expr_func *f, vec_expr_t *args, void *c)
   expr_num_t result;
   int len;
   uint32_t bufLen = 21; // NOTE: the max number of digits of an unsigned long long is 20. buffer must be one byte larger than the number of digits in s, to have space for the terminating null character
+  char buffer[bufLen];
 
   expr_num_t s = expr_eval(&vec_nth(args, 0));
   uint32_t i = expr_eval(&vec_nth(args, 1));
+
   (void) f, (void) c;
-  char buffer[bufLen];
 
   len = snprintf(buffer, bufLen, "%llu", (unsigned long long)s);
   i = i%len; // wrap the index at the actual string length
@@ -173,6 +174,56 @@ static expr_num_t userFuncLookup(struct expr_func *f, vec_expr_t *args, void *c)
   return result;
 }
 
+static expr_num_t userFuncSelect(struct expr_func *f, vec_expr_t *args, void *c) {
+  expr_num_t result;
+  uint32_t i;
+  uint32_t count = 0;
+  uint32_t arrayLen = 128; // for now, limit the array size to 128 elements
+  expr_num_t thisArray[arrayLen];
+
+  // this loop should break before the final argument
+  while(count < (args)->len-1 && count < arrayLen)
+  {
+    thisArray[count] = expr_eval(&vec_nth(args, count));
+    count++;
+  }
+
+  // the index is the final argument
+  i = expr_eval(&vec_nth(args, (args)->len-1));
+
+  (void) f, (void) c;
+
+  i = i%arrayLen; // wrap the index by the array length to keep it legal
+
+  result = thisArray[i];
+
+  return result;
+}
+
+static expr_num_t userFuncChoose(struct expr_func *f, vec_expr_t *args, void *c) {
+  expr_num_t result;
+  uint32_t i;
+  uint32_t count = 0;
+  uint32_t arrayLen = 128; // for now, limit the array size to 128 elements
+  expr_num_t thisArray[arrayLen];
+
+  // this loop should break when it runs out of valid arguments
+  while(count < (args)->len && count < arrayLen)
+  {
+    thisArray[count] = expr_eval(&vec_nth(args, count));
+    count++;
+  }
+
+  // choose an index between 0 and arrayLen-1
+  i = rand()%arrayLen;
+
+  (void) f, (void) c;
+
+  result = thisArray[i];
+
+  return result;
+}
+
 static struct expr_func exprUserfuncs[] = {
   {"int", userFuncIntCast, NULL, 0},
   {"floor", userFuncFloor, NULL, 0},
@@ -180,17 +231,17 @@ static struct expr_func exprUserfuncs[] = {
   {"round", userFuncRound, NULL, 0},
   {"abs", userFuncAbs, NULL, 0},
   {"sin", userFuncSin, NULL, 0},
-
   {"sqrt", userFuncSqrt, NULL, 0},
   {"tanh", userFuncTanh, NULL, 0},
   {"exp", userFuncExp, NULL, 0},
   {"log", userFuncLog, NULL, 0},
   {"log10", userFuncLog10, NULL, 0},
   {"fmod", userFuncFmod, NULL, 0},
-
   {"bitNot", userFuncBitwiseNot, NULL, 0},
   {"ifElse", userFuncIfElse, NULL, 0},
   {"lookup", userFuncLookup, NULL, 0},
+  {"select", userFuncSelect, NULL, 0},
+  {"choose", userFuncChoose, NULL, 0},
   {NULL, NULL, NULL, 0}
 };
 

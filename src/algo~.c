@@ -10,7 +10,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-version 0.9.11, June 10, 2020
+version 0.9.12, June 14, 2020
 
 */
 
@@ -670,7 +670,7 @@ static t_int *algo_tilde_perform(t_int *w)
 				thisSample = 0;
 
 			// convert the uint32_t sample into a double precision float sample based on the fractional part that results from dividing by the number of states for the current bit resolution.
-			thisSampleDouble = thisSample/x->x_quantSteps;      
+			thisSampleDouble = thisSample/x->x_quantSteps;
       thisSampleDouble = modf(thisSampleDouble, &thisSampleDoubleIntPart);
 			// thisSample = floor(thisSampleDouble);
 			// thisSampleDouble = thisSampleDouble - thisSample;

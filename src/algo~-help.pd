@@ -259,7 +259,7 @@ the sampling rate to go from "minutes" to raw time index.;
 #X connect 5 0 2 0;
 #X connect 7 0 2 1;
 #X restore 54 561 pd plotting;
-#N canvas 0 22 450 278 (subpatch) 0;
+#N canvas 0 89 450 278 (subpatch) 0;
 #X array \$0-plot 512 float 0;
 #X coords 0 1 512 -1 200 140 1;
 #X restore 479 490 graph;
@@ -382,7 +382,7 @@ keep them in sync with the object's internal state.;
 #X connect 8 0 5 0;
 #X restore 190 298 pd more-messages;
 #X obj 54 394 algo~ t&(t/p0) 255;
-#N canvas 902 149 870 735 algorithms 0;
+#N canvas 752 157 870 735 algorithms 0;
 #X obj 75 687 outlet;
 #X msg 75 22 algo ((t>>10)&42)*t;
 #X msg 155 183 algo (((t%p0)*(t>>p1)|(357052691)-(t>>p2))/(t>>p3))^(t|(t>>p4))
@@ -403,10 +403,10 @@ which represents time., f 83;
 #X msg 194 312 algo \$1;
 #X msg 204 442 algo d=(t*(t&t>>12)*8/11025)|0\\\,((d&16)/8-1)*(d*(d^15)+d+127)
 \, sampleRate 44100 \, setTimeIndex 0;
-#N canvas 967 250 807 571 special-functions 0;
+#N canvas 396 170 1226 760 special-functions 0;
 #X msg 84 243 algo ((t*(lookup(36364689\\\,t>>13&7)&15))/12&128)+(((((t>>12)^(t>>12)-2)%11*t)/4|t>>13)&127)
 \, sampleRate 44100;
-#X obj 19 428 outlet;
+#X obj 19 708 outlet;
 #X text 49 77 Some bytebeat algorithms use the ternary operator for
 an if/else structure \, such as:;
 #X text 59 117 (t&1024)?t<<4:t**2;
@@ -429,10 +429,25 @@ the second argument. Note that this currently only works with numeric
 strings up to 20 digits long \, and that the first argument is given
 as a number \, not a string in quotes. This function may be improved
 in the future to allow arbitrary strings in quotes., f 75;
-#X text 226 509 If more special functions are added in the future \,
-they will be documented here., f 44;
+#X msg 126 519 algo select(0\\\,32\\\,64\\\,96\\\,128\\\,160\\\,192\\\,224\\\,255\\\,t)
+;
+#X msg 156 639 algo choose(0\\\,32\\\,64\\\,96\\\,128\\\,160\\\,192\\\,224\\\,255)
+;
+#X text 153 554 The select() function lets you list up to 128 values
+to select from. The final argument is the index of the value for output.
+Similarly \, choose() lets you list a collection of 128 values \, but
+it randomly chooses one for you., f 75;
+#X text 841 130 bitNot() - use this instead of the unary bitwise NOT
+operator \, ~ \; \; int() \; floor() \; ceil() \; round() \; abs()
+\; sin() \; sqrt() \; tanh() \; exp() \; log() \; log10() \; fmod()
+\; ifElse() \; lookup() \; select() \; choose() \;, f 43;
+#X text 841 30 Special functions that have been implemented are listed
+here \, with a few described in detail at left. If more special functions
+are added in the future \, they will be documented here:, f 44;
 #X connect 0 0 1 0;
 #X connect 4 0 1 0;
+#X connect 9 0 1 0;
+#X connect 10 0 1 0;
 #X restore 170 619 pd special-functions;
 #X text 233 351 Algorithms must be valid expressions and MUST NOT CONTAIN
 SPACES. The standard arithmetic \, bitwise \, and logical operators
@@ -509,7 +524,7 @@ can be updated., f 37;
 \, bit-depths \, and sample rates \, while tuning available parameters.
 Creation arguments are: a symbolic algorithm followed by up to 20 free
 variable values., f 44;
-#X text 545 669 [algo~] v0.9.11;
+#X text 545 669 [algo~] v0.9.12;
 #X connect 4 0 1 0;
 #X connect 4 1 2 0;
 #X connect 7 0 18 0;
