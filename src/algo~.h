@@ -25,7 +25,7 @@ const char *paramStrings[MAXALGOPARAMS] = {"p0", "p1", "p2", "p3", "p4", "p5", "
 
 static expr_num_t userFuncIntCast(struct expr_func *f, vec_expr_t *args, void *c) {
   expr_num_t result;
-  int x = expr_eval(&vec_nth(args, 0));
+  int x = (int)expr_eval(&vec_nth(args, 0));
   (void) f, (void) c;
 
   result = x;
@@ -34,28 +34,121 @@ static expr_num_t userFuncIntCast(struct expr_func *f, vec_expr_t *args, void *c
 
 static expr_num_t userFuncFloor(struct expr_func *f, vec_expr_t *args, void *c) {
   expr_num_t result;
-  uint32_t x = expr_eval(&vec_nth(args, 0));
+  expr_num_t x = expr_eval(&vec_nth(args, 0));
   (void) f, (void) c;
 
-  result = x;
+  result = floor(x);
   return result;
 }
 
 static expr_num_t userFuncCeil(struct expr_func *f, vec_expr_t *args, void *c) {
   expr_num_t result;
-  uint32_t x = expr_eval(&vec_nth(args, 0)) + 1;
+  expr_num_t x = expr_eval(&vec_nth(args, 0));
   (void) f, (void) c;
 
-  result = x;
+  result = ceil(x);
   return result;
 }
 
 static expr_num_t userFuncRound(struct expr_func *f, vec_expr_t *args, void *c) {
   expr_num_t result;
-  uint32_t x = expr_eval(&vec_nth(args, 0)) + 0.5;
+  expr_num_t x = expr_eval(&vec_nth(args, 0));
   (void) f, (void) c;
 
-  result = x;
+  result = round(x);
+  return result;
+}
+
+static expr_num_t userFuncAbs(struct expr_func *f, vec_expr_t *args, void *c) {
+  expr_num_t result;
+  expr_num_t x = expr_eval(&vec_nth(args, 0));
+  (void) f, (void) c;
+
+  result = fabs(x);
+  return result;
+}
+
+static expr_num_t userFuncSin(struct expr_func *f, vec_expr_t *args, void *c) {
+  expr_num_t result;
+  expr_num_t x = expr_eval(&vec_nth(args, 0));
+  (void) f, (void) c;
+
+  result = sin(x);
+  return result;
+}
+
+static expr_num_t userFuncSqrt(struct expr_func *f, vec_expr_t *args, void *c) {
+  expr_num_t result;
+  expr_num_t x = expr_eval(&vec_nth(args, 0));
+  (void) f, (void) c;
+
+  result = sqrt(x);
+  return result;
+}
+
+static expr_num_t userFuncTanh(struct expr_func *f, vec_expr_t *args, void *c) {
+  expr_num_t result;
+  expr_num_t x = expr_eval(&vec_nth(args, 0));
+  (void) f, (void) c;
+
+  result = tanh(x);
+  return result;
+}
+
+static expr_num_t userFuncExp(struct expr_func *f, vec_expr_t *args, void *c) {
+  expr_num_t result;
+  expr_num_t x = expr_eval(&vec_nth(args, 0));
+  (void) f, (void) c;
+
+  result = exp(x);
+  return result;
+}
+
+static expr_num_t userFuncLog(struct expr_func *f, vec_expr_t *args, void *c) {
+  expr_num_t result;
+  expr_num_t x = expr_eval(&vec_nth(args, 0));
+  (void) f, (void) c;
+
+  result = log(x);
+  return result;
+}
+
+static expr_num_t userFuncLog10(struct expr_func *f, vec_expr_t *args, void *c) {
+  expr_num_t result;
+  expr_num_t x = expr_eval(&vec_nth(args, 0));
+  (void) f, (void) c;
+
+  result = log10(x);
+  return result;
+}
+
+static expr_num_t userFuncFmod(struct expr_func *f, vec_expr_t *args, void *c) {
+  expr_num_t result;
+  expr_num_t x = expr_eval(&vec_nth(args, 0));
+  expr_num_t y = expr_eval(&vec_nth(args, 1));
+  (void) f, (void) c;
+
+  result = fmod(x, y);
+  return result;
+}
+
+static expr_num_t userFuncBitwiseNot(struct expr_func *f, vec_expr_t *args, void *c) {
+  expr_num_t result;
+  uint32_t x = expr_eval(&vec_nth(args, 0));
+  (void) f, (void) c;
+
+  result = ~x;
+  return result;
+}
+
+static expr_num_t userFuncIfElse(struct expr_func *f, vec_expr_t *args, void *c) {
+  expr_num_t result;
+  expr_num_t x = expr_eval(&vec_nth(args, 0));
+  expr_num_t y = expr_eval(&vec_nth(args, 1));
+  expr_num_t z = expr_eval(&vec_nth(args, 2));
+  (void) f, (void) c;
+
+  result = (x > 0) ? y : z;
   return result;
 }
 
@@ -80,54 +173,24 @@ static expr_num_t userFuncLookup(struct expr_func *f, vec_expr_t *args, void *c)
   return result;
 }
 
-static expr_num_t userFuncIfElse(struct expr_func *f, vec_expr_t *args, void *c) {
-  expr_num_t result;
-  expr_num_t x = expr_eval(&vec_nth(args, 0));
-  expr_num_t y = expr_eval(&vec_nth(args, 1));
-  expr_num_t z = expr_eval(&vec_nth(args, 2));
-  (void) f, (void) c;
-
-  result = (x > 0) ? y : z;
-  return result;
-}
-
-static expr_num_t userFuncSin(struct expr_func *f, vec_expr_t *args, void *c) {
-  expr_num_t result;
-  expr_num_t x = expr_eval(&vec_nth(args, 0));
-  (void) f, (void) c;
-
-  result = sin(x);
-  return result;
-}
-
-static expr_num_t userFuncAbs(struct expr_func *f, vec_expr_t *args, void *c) {
-  expr_num_t result;
-  expr_num_t x = expr_eval(&vec_nth(args, 0));
-  (void) f, (void) c;
-
-  result = fabs(x);
-  return result;
-}
-
-static expr_num_t userFuncBitwiseNot(struct expr_func *f, vec_expr_t *args, void *c) {
-  expr_num_t result;
-  uint32_t x = expr_eval(&vec_nth(args, 0));
-  (void) f, (void) c;
-
-  result = ~x;
-  return result;
-}
-
 static struct expr_func exprUserfuncs[] = {
   {"int", userFuncIntCast, NULL, 0},
   {"floor", userFuncFloor, NULL, 0},
   {"ceil", userFuncCeil, NULL, 0},
   {"round", userFuncRound, NULL, 0},
-  {"lookup", userFuncLookup, NULL, 0},
-  {"ifElse", userFuncIfElse, NULL, 0},
-  {"sin", userFuncSin, NULL, 0},
   {"abs", userFuncAbs, NULL, 0},
+  {"sin", userFuncSin, NULL, 0},
+
+  {"sqrt", userFuncSqrt, NULL, 0},
+  {"tanh", userFuncTanh, NULL, 0},
+  {"exp", userFuncExp, NULL, 0},
+  {"log", userFuncLog, NULL, 0},
+  {"log10", userFuncLog10, NULL, 0},
+  {"fmod", userFuncFmod, NULL, 0},
+
   {"bitNot", userFuncBitwiseNot, NULL, 0},
+  {"ifElse", userFuncIfElse, NULL, 0},
+  {"lookup", userFuncLookup, NULL, 0},
   {NULL, NULL, NULL, 0}
 };
 

@@ -652,7 +652,7 @@ static t_int *algo_tilde_perform(t_int *w)
 		// calculate this block of the algo signal, plus extra guard points
 		for(i=1; i<m+EXTRAPOINTS; i++)
 		{
-			double thisSampleDouble;
+			double thisSampleDouble, thisSampleDoubleIntPart;
 			uint32_t thisSample;
 			struct expr_var *v;
 
@@ -669,11 +669,12 @@ static t_int *algo_tilde_perform(t_int *w)
 			else
 				thisSample = 0;
 
-			// convert the uint32_t sample into a double precision float sample
-			thisSampleDouble = thisSample/x->x_quantSteps;
-			thisSample = floor(thisSampleDouble);
-			thisSampleDouble = thisSampleDouble - thisSample;
-			thisSampleDouble = thisSampleDouble*2.0-1.0;
+			// convert the uint32_t sample into a double precision float sample based on the fractional part that results from dividing by the number of states for the current bit resolution.
+			thisSampleDouble = thisSample/x->x_quantSteps;      
+      thisSampleDouble = modf(thisSampleDouble, &thisSampleDoubleIntPart);
+			// thisSample = floor(thisSampleDouble);
+			// thisSampleDouble = thisSampleDouble - thisSample;
+      thisSampleDouble = thisSampleDouble*2.0-1.0;
 			x->x_signalBuffer[i] = thisSampleDouble;
 
 			if(x->x_debug)

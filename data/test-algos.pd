@@ -251,7 +251,7 @@ to [algo~]'s current internal state after loading a preset., f 45
 #X connect 15 0 0 0;
 #X connect 16 0 0 0;
 #X restore 44 73 pd sheet-2;
-#N canvas 907 166 918 787 check-collection 0;
+#N canvas 907 166 918 787 check-collection 1;
 #X obj 555 160 text define outputAlgorithms;
 #X msg 555 124 read -c outputAlgorithms.txt;
 #X obj 66 153 text search outputAlgorithms;
