@@ -24,8 +24,8 @@
 #X obj 386 195 min 240;
 #X obj 134 241 symbol;
 #X obj 205 264 r player-\$1-bit-depth;
-#X msg 386 246 sampleRate \$1;
-#X obj 386 216 tempo-to-sr;
+#X msg 386 276 sampleRate \$1;
+#X obj 386 246 tempo-to-sr;
 #X obj 112 90 r player-\$1-algo-select;
 #X obj 112 172 list prepend algo;
 #X obj 112 193 list trim;
@@ -37,6 +37,7 @@
 #X obj 311 69 print -n;
 #X obj 311 29 t b;
 #X msg 311 49 OUTPUT error: algo ID out of bounds;
+#X obj 510 243 s player-\$1-tempo-final;
 #X connect 0 0 1 0;
 #X connect 2 0 1 0;
 #X connect 3 0 1 0;
@@ -55,6 +56,7 @@
 #X connect 15 1 13 1;
 #X connect 16 0 17 0;
 #X connect 17 0 21 0;
+#X connect 17 0 33 0;
 #X connect 18 0 11 0;
 #X connect 19 0 0 0;
 #X connect 20 0 1 0;
