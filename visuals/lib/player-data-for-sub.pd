@@ -1,0 +1,8 @@
+#N canvas 712 630 371 313 12;
+#X text 113 254 \$1: player ID;
+#X obj 41 29 sub-data-prep player-\$1-gain;
+#X obj 41 59 sub-data-prep player-\$1-algo-select;
+#X obj 41 89 sub-data-prep player-\$1-bit-depth;
+#X obj 41 119 sub-data-prep player-\$1-tempo-final;
+#X obj 41 149 sub-data-prep player-\$1-dry-wet;
+#X obj 41 179 sub-data-prep player-\$1-rvb-liveness;

@@ -1,4 +1,4 @@
-#N canvas 63 138 773 829 10;
+#N canvas 63 154 773 829 10;
 #X declare -path ./lib;
 #X declare -path ./src;
 #N canvas 58 89 960 837 control-panel 0;
@@ -749,13 +749,60 @@ the difference between the measured and desired level, f 27;
 #X obj 615 720 nbx 5 28 -1e+37 1e+37 0 0 empty connected-clients clients
 0 -8 0 18 -262144 -1 -1 0 256;
 #X obj 293 771 tgl 30 0 master-output-stereo-mode master-output-stereo-mode-set
-stereo-mode -170 16 0 24 -262144 -1 -1 0 1;
+stereo-mode -170 16 0 24 -262144 -1 -1 1 1;
 #X obj 18 781 tgl 15 0 master-output-record empty record 17 7 0 12
 -261234 -1 -1 0 1;
-#X obj 783 381 ./visuals/run-visuals;
 #X obj 18 751 tgl 15 0 visuals-show-data visuals-show-data-set show-data
 17 7 0 12 -262144 -1 -1 1 1;
 #X floatatom 118 731 5 0 0 0 - visuals-xpos-set visuals-xpos;
+#N canvas 1029 183 610 441 visuals-subprocess 0;
+#X msg 113 150 pd~ stop;
+#N canvas 662 254 902 382 blocking 0;
+#X obj 146 152 tabreceive~ player-0-raw-output-plot;
+#X obj 217 172 tabreceive~ player-1-raw-output-plot;
+#X obj 287 192 tabreceive~ player-2-raw-output-plot;
+#X obj 357 212 tabreceive~ player-3-raw-output-plot;
+#X obj 656 115 block~ 2048 1 1;
+#X obj 146 175 outlet~;
+#X obj 217 195 outlet~;
+#X obj 287 215 outlet~;
+#X obj 357 235 outlet~;
+#X obj 656 66 r master-block-size;
+#X msg 656 89 set \$1 1 1;
+#X connect 0 0 5 0;
+#X connect 1 0 6 0;
+#X connect 2 0 7 0;
+#X connect 3 0 8 0;
+#X connect 9 0 10 0;
+#X connect 10 0 4 0;
+#X restore 304 293 pd blocking;
+#N canvas 555 208 450 300 send-data-transfer 0;
+#X obj 64 106 ./visuals/lib/sub-data-prep visuals-show-data;
+#X obj 64 136 ./visuals/lib/sub-data-prep visuals-xpos;
+#X obj 64 196 clone ./visuals/lib/player-data-for-sub 4;
+#X obj 64 23 r run-master-visuals;
+#X msg 64 46 run-master-visuals bang;
+#X obj 64 69 s pd-subprocess-send;
+#X connect 3 0 4 0;
+#X connect 4 0 5 0;
+#X restore 327 189 pd send-data-transfer;
+#X obj 207 257 r pd-subprocess-send;
+#X msg 56 82 pd~ start -nogui /home/wbrent/dev/OUTPUT/visuals/run-visuals-subprocess.pd
+;
+#X msg 206 133 pd~ start /home/wbrent/dev/OUTPUT/visuals/run-visuals-subprocess.pd
+;
+#X obj 56 27 r lb1;
+#X obj 173 350 pd~ -ninsig 4 -noutsig 0 -fifo 4;
+#X connect 0 0 7 0;
+#X connect 1 0 7 0;
+#X connect 1 1 7 1;
+#X connect 1 2 7 2;
+#X connect 1 3 7 3;
+#X connect 3 0 7 0;
+#X connect 4 0 7 0;
+#X connect 5 0 7 0;
+#X connect 6 0 4 0;
+#X restore 783 371 pd visuals-subprocess;
 #X coords 0 -1 1 1 750 800 1 10 10;
 #X restore 11 12 pd control-panel;
 #X coords 0 829 1 828 1100 600 0;

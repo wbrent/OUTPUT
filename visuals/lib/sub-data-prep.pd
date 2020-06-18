@@ -1,0 +1,8 @@
+#N canvas 646 458 381 197 12;
+#X obj 37 37 r \$1;
+#X obj 37 62 list prepend \$1;
+#X obj 37 112 list trim;
+#X obj 37 137 s pd-subprocess-send;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
