@@ -147,12 +147,8 @@ static void algo_tilde_setTimeIndex(algo_tilde *x, t_floatarg t, t_floatarg m)
 
 static void algo_tilde_setTimeRand(algo_tilde *x)
 {
-	double randDoubleFloat;
-
-	randDoubleFloat = rand()/(double)RAND_MAX;
-
-	// note: on this machine, UINT_MAX is twice the size of RAND_MAX
-	x->x_t = floor(randDoubleFloat * UINT_MAX); // best to set x->x_t directly, because x->x_tBlockStart grabs that at the beginning of the next block
+	// note: UINT_MAX is twice the size of RAND_MAX
+	x->x_t = rand() % UINT_MAX; // best to set x->x_t directly, because x->x_tBlockStart grabs that at the beginning of the next block
 }
 
 static void algo_tilde_setTimeLoopPoints(algo_tilde *x, t_floatarg t0, t_floatarg t1)
