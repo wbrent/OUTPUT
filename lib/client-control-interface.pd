@@ -52,7 +52,7 @@
 #X obj 435 549 netprep player-\$1-load-tempo;
 #X obj 435 573 netprep player-\$1-load-time;
 #X restore 20 241 pd netpreps;
-#N canvas 583 56 748 553 keyboard-commands 0;
+#N canvas 583 89 748 553 keyboard-commands 0;
 #X obj 54 49 key;
 #X obj 131 73 r player-\$1-kbd-control;
 #X obj 54 73 spigot;
@@ -377,7 +377,7 @@ crash., f 31;
 #X connect 15 0 16 0;
 #X restore 20 301 pd keyboard-commands;
 #N canvas 206 715 621 228 MIDI 0;
-#N canvas 1078 389 726 620 keyboard-tempo 0;
+#N canvas 744 260 971 606 keyboard-tempo 0;
 #X obj 110 12 notein;
 #X obj 70 167 stripnote;
 #X obj 373 425 / 127;
@@ -467,9 +467,9 @@ of the current MIDI velocity fade time setting, f 27;
 #X connect 13 1 16 0;
 #X connect 14 1 16 0;
 #X connect 16 0 15 0;
-#X restore 153 118 pd set-ASR-keyboard;
+#X restore 153 178 pd set-ASR-keyboard;
 #X obj 373 353 r player-\$1-pitch-bend-range;
-#X obj 353 15 fadermap player-\$1-pitch-bend-range 1 \$1 0 127 player-\$1-pitch-bend-range-set
+#X obj 459 70 fadermap player-\$1-pitch-bend-range 1 \$1 0 127 player-\$1-pitch-bend-range-set
 ;
 #N canvas 876 413 403 339 map-bend-data-to-fader 0;
 #X obj 52 54 bendin;
@@ -503,7 +503,7 @@ of the current MIDI velocity fade time setting, f 27;
 #X connect 12 0 1 0;
 #X connect 13 0 12 1;
 #X connect 14 0 8 1;
-#X restore 353 95 pd map-bend-data-to-fader;
+#X restore 246 97 pd map-bend-data-to-fader;
 #X obj 329 319 r player-\$1-pitch-bend;
 #N canvas 501 262 395 300 CC-pitch-bend 0;
 #X obj 38 115 spigot;
@@ -523,18 +523,20 @@ Works in parallel with pitch bend wheel if one is present., f 29;
 #X connect 5 0 3 0;
 #X connect 6 0 0 0;
 #X connect 7 0 0 1;
-#X restore 353 125 pd CC-pitch-bend;
+#X restore 246 127 pd CC-pitch-bend;
 #X obj 329 544 s player-\$1-pitch-bend-final;
 #X obj 482 463 r player-\$1-pitch-bend-zero;
 #X msg 482 487 0;
 #X obj 482 511 s player-\$1-pitch-bend-set;
-#X obj 353 65 button-bang-map player-\$1-pitch-bend-zero-set 2 \$1
+#X obj 459 120 button-bang-map player-\$1-pitch-bend-zero-set 2 \$1
 ;
 #X obj 412 222 active-player-abs \$1;
 #X msg 116 249 96;
 #X text 156 248 << chosen so that MIDI notes 16-112 are mapped to tempo
 extremes of 1 to 240 BPM \, using the middle of the keyboard, f 17
 ;
+#X obj 459 30 fadermap player-\$1-tempo 101 \$1 1 239 player-\$1-tempo-set
+1;
 #X connect 0 0 4 0;
 #X connect 0 0 18 0;
 #X connect 0 1 1 1;
@@ -691,7 +693,7 @@ extremes of 1 to 240 BPM \, using the middle of the keyboard, f 17
 #X connect 25 0 27 1;
 #X connect 26 0 2 1;
 #X connect 27 0 26 0;
-#X restore 213 34 pd algoChoice;
+#X restore 212 34 pd algoChoice;
 #N canvas 623 283 807 587 last-param-changed 0;
 #X obj 76 54 r player-\$1-last-param-changed;
 #X obj 76 234 r player-\$1-last-param-changed;
@@ -781,7 +783,7 @@ extremes of 1 to 240 BPM \, using the middle of the keyboard, f 17
 #X connect 10 0 5 0;
 #X connect 11 0 4 0;
 #X connect 12 0 3 0;
-#X restore 43 94 pd tempoSync;
+#X restore 43 124 pd tempoSync;
 #N canvas 447 117 981 517 param-knobs 0;
 #X obj 372 287 f;
 #X obj 412 291 + 1;
@@ -831,7 +833,7 @@ their ranges need to change according to controls in [algo-param-interface-clien
 #X connect 11 0 7 0;
 #X connect 14 1 15 0;
 #X connect 15 0 9 0;
-#X restore 413 34 pd param-knobs;
+#X restore 413 64 pd param-knobs;
 #N canvas 559 236 860 389 bit-depth 0;
 #X obj 113 93 spigot;
 #X obj 113 157 t b;
@@ -852,6 +854,8 @@ their ranges need to change according to controls in [algo-param-interface-clien
 #X obj 113 69 ctlin 32;
 #X obj 373 69 ctlin 42;
 #X obj 515 140 active-player-abs \$1;
+#X obj 517 257 fadermap player-\$1-bit-depth 106 \$1 1 31 player-\$1-bit-depth-set
+1;
 #X connect 0 0 14 0;
 #X connect 1 0 3 0;
 #X connect 2 0 12 0;
@@ -873,14 +877,14 @@ their ranges need to change according to controls in [algo-param-interface-clien
 #X connect 17 0 4 0;
 #X connect 18 0 4 1;
 #X connect 18 0 0 1;
-#X restore 413 94 pd bit-depth;
+#X restore 413 124 pd bit-depth;
 #N canvas 738 392 488 228 compute-interp-rand 0;
 #X obj 36 126 button-toggle-map player-\$1-interpolation 24 \$1 0 1
 player-\$1-interpolation-set;
 #X obj 36 76 button-toggle-map player-\$1-compute 23 \$1 0 1 player-\$1-compute-set
 ;
 #X obj 36 46 button-bang-map player-\$1-algo-randomize-set 9 \$1;
-#X restore 413 124 pd compute-interp-rand;
+#X restore 413 154 pd compute-interp-rand;
 #N canvas 1220 237 542 406 preset-loading 0;
 #X obj 37 97 button-bang-map player-\$1-algo-refresh-params-set 55
 \$1;
@@ -896,7 +900,7 @@ player-\$1-interpolation-set;
 ;
 #X obj 37 197 button-toggle-map player-\$1-load-time 43 \$1 0 1 player-\$1-load-time-set
 ;
-#X restore 413 64 pd preset-loading;
+#X restore 413 94 pd preset-loading;
 #N canvas 723 423 368 415 active-player-sensing 0;
 #N canvas 1216 525 422 385 RGB 0;
 #X obj 32 36 inlet;
@@ -968,37 +972,13 @@ player-\$1-interpolation-set;
 #X connect 7 0 9 0;
 #X connect 8 0 3 0;
 #X connect 9 0 8 0;
-#X restore 212 124 pd active-player-sensing;
-#N canvas 0 23 450 300 keyboard-ASR 0;
+#X restore 413 34 pd active-player-sensing;
+#N canvas 0 89 450 300 keyboard-ASR 0;
 #X obj 36 76 button-toggle-map player-\$1-asr-kbd 15 \$1 0 1 player-\$1-asr-kbd-set
 ;
 #X obj 36 136 fadermap player-\$1-asr-time 13 \$1 0 1000 player-\$1-asr-time-set
 0;
 #X restore 43 64 pd keyboard-ASR;
-#N canvas 450 366 991 375 main-faders 0;
-#X text 38 61 Leave a gap so that fader 103 can be the "other" player
-gain;
-#X obj 41 99 fadermap player-\$1-spat-pos 104 \$1 0 1 player-\$1-spat-pos-set
-0;
-#X obj 41 139 fadermap player-\$1-spat-width 105 \$1 0 1 player-\$1-spat-width-set
-0;
-#X obj 41 189 fadermap player-\$1-bit-depth 106 \$1 1 31 player-\$1-bit-depth-set
-1;
-#X obj 541 209 fadermap player-\$1-rvb-liveness 109 \$1 50 50 player-\$1-rvb-liveness-set
-1;
-#X obj 541 159 fadermap player-\$1-dry-wet 108 \$1 0 100 player-\$1-dry-wet-set
-1;
-#X obj 41 239 fadermap player-\$1-tempo 101 \$1 1 239 player-\$1-tempo-set
-1;
-#X obj 541 289 fadermap player-\$1-rvb-damping 100 \$1 0 100 player-\$1-rvb-damping-set
-1;
-#X obj 541 249 fadermap player-\$1-rvb-xover 99 \$1 500 9500 player-\$1-rvb-xover-set
-1;
-#X obj 541 119 fadermap player-\$1-wet 71 \$1 40 60 player-\$1-wet-set
-1;
-#X obj 541 79 fadermap player-\$1-dry 70 \$1 40 60 player-\$1-dry-set
-1;
-#X restore 212 154 pd main-faders;
 #N canvas 398 386 834 332 cloning 0;
 #X msg 408 93 0;
 #X msg 448 123 1;
@@ -1031,79 +1011,129 @@ gain;
 #X connect 9 0 2 0;
 #X connect 10 0 3 0;
 #X connect 11 0 4 0;
-#X restore 43 184 pd cloning;
-#N canvas 176 320 1117 652 time 0;
+#X restore 43 94 pd cloning;
+#N canvas 422 321 1017 340 time 0;
 #X obj 55 81 button-bang-map player-\$1-time-reverse-set 56 \$1;
 #X obj 55 121 fadermap player-\$1-time-point 107 \$1 0 1623 player-\$1-time-point-set
 1;
-#X obj 533 78 spigot;
-#X obj 533 103 select 127;
-#X obj 533 318 spigot;
-#X obj 533 343 select 127;
-#X obj 828 466 random 2.14748e+09;
-#X obj 533 54 ctlin 34;
-#X obj 533 294 ctlin 44;
-#X text 841 361 Jump to a random time between 0 and INT_MAX. [random]
-can't go higher than this \, even though [outputAlgo~]'s time paramter
-goes to UINT_MAX, f 31;
-#X obj 533 515 s player-\$1-set-time-random;
-#X obj 533 393 s player-\$1-algo-time-rand-set;
-#X obj 533 475 r player-\$1-algo-time-rand;
-#X msg 863 151 0;
-#X text 883 178 Jump to time zero;
-#X obj 533 161 s player-\$1-algo-time-zero-set;
-#X obj 863 115 r player-\$1-algo-time-zero;
-#X obj 863 205 s player-\$1-time-index-set;
-#X obj 828 500 s player-\$1-time-index-set;
-#X obj 142 381 spigot;
-#X obj 225 367 r lb1;
-#X obj 142 410 t b;
-#X obj 142 454 s player-\$1-loop-record-set;
-#X obj 142 357 ctlin 66;
-#X text 274 490 Hold the loop record button and release at desired
+#X obj 473 78 spigot;
+#X obj 473 103 select 127;
+#X obj 473 54 ctlin 34;
+#X msg 763 107 0;
+#X text 783 134 Jump to time zero;
+#X obj 473 161 s player-\$1-algo-time-zero-set;
+#X obj 763 71 r player-\$1-algo-time-zero;
+#X obj 763 161 s player-\$1-time-index-set;
+#X obj 564 75 active-player-abs \$1;
+#X obj 564 45 r lb1;
+#N canvas 129 259 656 366 random-time 0;
+#X obj 55 69 spigot;
+#X obj 55 94 select 127;
+#X obj 350 217 random 2.14748e+09;
+#X obj 55 45 ctlin 44;
+#X obj 55 306 s player-\$1-set-time-random;
+#X obj 55 144 s player-\$1-algo-time-rand-set;
+#X obj 55 266 r player-\$1-algo-time-rand;
+#X obj 350 251 s player-\$1-time-index-set;
+#X obj 146 66 active-player-abs \$1;
+#X obj 146 36 r lb1;
+#X text 52 171 player-\$1-algo-time-rand is the GUI button \, and player-\$1-set-time-random
+is the send name that triggers a random time command for [algo~],
+f 33;
+#X text 363 62 Jump to a random time between 0 and INT_MAX. [random]
+can't go higher than this \, even though [algo~]'s time paramter goes
+to UINT_MAX. So - not using Pd's [random]. Doing the random time internally.
+, f 31;
+#X connect 0 0 1 0;
+#X connect 1 0 5 0;
+#X connect 2 0 7 0;
+#X connect 3 0 0 0;
+#X connect 6 0 4 0;
+#X connect 8 0 0 1;
+#X connect 9 0 8 0;
+#X restore 473 211 pd random-time;
+#N canvas 215 188 591 490 loop-record 0;
+#X obj 148 202 spigot;
+#X obj 231 188 r lb1;
+#X obj 148 231 t b;
+#X obj 148 275 s player-\$1-loop-record-set;
+#X obj 148 178 ctlin 66;
+#X text 280 311 Hold the loop record button and release at desired
 loop end point, f 18;
-#X obj 52 381 spigot;
-#X obj 52 357 ctlin 67;
-#X obj 52 494 s player-\$1-loop-reset-set;
-#X obj 52 410 select 127;
-#X msg 50 563 -1;
-#X obj 50 590 s player-\$1-loop-point-start-set;
-#X obj 50 540 r player-\$1-loop-reset;
-#X obj 225 393 active-player-abs \$1;
-#X obj 624 315 active-player-abs \$1;
-#X obj 624 285 r lb1;
-#X obj 624 75 active-player-abs \$1;
-#X obj 624 45 r lb1;
-#X obj 55 171 fadermap player-\$1-loop-point-start 121 \$1 0 4.2949e+09
+#X obj 58 202 spigot;
+#X obj 58 178 ctlin 67;
+#X obj 58 315 s player-\$1-loop-reset-set;
+#X obj 58 231 select 127;
+#X msg 56 384 -1;
+#X obj 56 411 s player-\$1-loop-point-start-set;
+#X obj 56 361 r player-\$1-loop-reset;
+#X obj 231 214 active-player-abs \$1;
+#X obj 61 52 fadermap player-\$1-loop-point-start 121 \$1 0 4.2949e+09
 player-\$1-loop-point-start-set 0;
-#X obj 55 211 fadermap player-\$1-loop-point-end 122 \$1 0 4.2949e+09
+#X obj 61 92 fadermap player-\$1-loop-point-end 122 \$1 0 4.2949e+09
 player-\$1-loop-point-end-set 0;
+#X connect 0 0 2 0;
+#X connect 1 0 13 0;
 #X connect 2 0 3 0;
-#X connect 3 0 15 0;
-#X connect 4 0 5 0;
-#X connect 5 0 11 0;
-#X connect 6 0 18 0;
-#X connect 7 0 2 0;
-#X connect 8 0 4 0;
+#X connect 4 0 0 0;
+#X connect 6 0 9 0;
+#X connect 7 0 6 0;
+#X connect 9 0 8 0;
+#X connect 10 0 11 0;
 #X connect 12 0 10 0;
-#X connect 13 0 17 0;
-#X connect 16 0 13 0;
-#X connect 19 0 21 0;
-#X connect 20 0 32 0;
-#X connect 21 0 22 0;
-#X connect 23 0 19 0;
-#X connect 25 0 28 0;
-#X connect 26 0 25 0;
-#X connect 28 0 27 0;
-#X connect 29 0 30 0;
-#X connect 31 0 29 0;
-#X connect 32 0 19 1;
-#X connect 32 0 25 1;
-#X connect 33 0 4 1;
-#X connect 34 0 33 0;
-#X connect 35 0 2 1;
-#X connect 36 0 35 0;
-#X restore 43 154 pd time;
+#X connect 13 0 0 1;
+#X connect 13 0 6 1;
+#X restore 473 241 pd loop-record;
+#N canvas 569 304 687 423 time-point-inc-dec 0;
+#X obj 68 83 spigot;
+#X obj 68 147 t b;
+#X obj 328 225 f;
+#X obj 68 225 f;
+#X obj 328 83 spigot;
+#X obj 328 147 t b;
+#X obj 108 229 + 1;
+#X obj 368 229 - 1;
+#X obj 470 104 r lb1;
+#X obj 68 107 select 127;
+#X obj 328 107 select 127;
+#X obj 470 130 active-player-abs \$1;
+#X obj 68 59 ctlin 96;
+#X obj 328 59 ctlin 97;
+#X obj 102 177 r player-\$1-time-point;
+#X obj 362 177 r player-\$1-time-point;
+#X obj 257 323 s player-\$1-time-point-set;
+#X obj 187 287 moses 0;
+#X obj 257 287 moses 1624;
+#X connect 0 0 9 0;
+#X connect 1 0 3 0;
+#X connect 2 0 7 0;
+#X connect 3 0 6 0;
+#X connect 4 0 10 0;
+#X connect 5 0 2 0;
+#X connect 6 0 3 1;
+#X connect 6 0 17 0;
+#X connect 7 0 2 1;
+#X connect 7 0 17 0;
+#X connect 8 0 11 0;
+#X connect 9 0 1 0;
+#X connect 10 0 5 0;
+#X connect 11 0 4 1;
+#X connect 11 0 0 1;
+#X connect 12 0 0 0;
+#X connect 13 0 4 0;
+#X connect 14 0 3 1;
+#X connect 15 0 2 1;
+#X connect 17 1 18 0;
+#X connect 18 0 16 0;
+#X restore 55 201 pd time-point-inc-dec;
+#X connect 2 0 3 0;
+#X connect 3 0 7 0;
+#X connect 4 0 2 0;
+#X connect 5 0 9 0;
+#X connect 8 0 5 0;
+#X connect 10 0 2 1;
+#X connect 11 0 10 0;
+#X restore 212 154 pd time;
 #N canvas 348 243 680 266 timeSync 0;
 #X obj 123 153 r player-\$1-tempo-sync;
 #X obj 83 154 f;
@@ -1112,7 +1142,7 @@ player-\$1-loop-point-end-set 0;
 #X obj 83 103 select 127;
 #X obj 83 127 t b;
 #X obj 83 54 ctlin 52;
-#N canvas 466 63 935 429 time-sync-buttons 0;
+#N canvas 466 89 935 429 time-sync-buttons 0;
 #X obj 83 165 s player-\$1-time-sync-set;
 #X obj 83 78 spigot;
 #X obj 83 103 select 127;
@@ -1187,7 +1217,7 @@ player-\$1-loop-point-end-set 0;
 #X connect 6 0 3 0;
 #X connect 8 0 3 1;
 #X connect 9 0 8 0;
-#X restore 43 124 pd timeSync;
+#X restore 43 154 pd timeSync;
 #N canvas 673 136 943 584 spat-lfo 0;
 #X text 137 14 Have to special-case this because we need logarithmic
 scale from 0 to 4 \, but also log scale going from 0 down to -4;
@@ -1265,6 +1295,24 @@ scale from 0 to 4 \, but also log scale going from 0 down to -4;
 #X connect 32 0 19 0;
 #X connect 33 0 23 0;
 #X restore 212 94 pd spat-lfo;
+#N canvas 450 366 870 374 spat-reverb 0;
+#X obj 25 79 fadermap player-\$1-spat-pos 104 \$1 0 1 player-\$1-spat-pos-set
+0;
+#X obj 25 129 fadermap player-\$1-spat-width 105 \$1 0 1 player-\$1-spat-width-set
+0;
+#X obj 415 189 fadermap player-\$1-rvb-liveness 109 \$1 50 50 player-\$1-rvb-liveness-set
+1;
+#X obj 415 139 fadermap player-\$1-dry-wet 108 \$1 0 100 player-\$1-dry-wet-set
+1;
+#X obj 415 269 fadermap player-\$1-rvb-damping 100 \$1 0 100 player-\$1-rvb-damping-set
+1;
+#X obj 415 229 fadermap player-\$1-rvb-xover 99 \$1 500 9500 player-\$1-rvb-xover-set
+1;
+#X obj 415 99 fadermap player-\$1-wet 71 \$1 40 60 player-\$1-wet-set
+1;
+#X obj 415 59 fadermap player-\$1-dry 70 \$1 40 60 player-\$1-dry-set
+1;
+#X restore 212 124 pd spat-reverb;
 #X restore 20 331 pd MIDI;
 #X obj 380 20 algo-param-interface-client \$1;
 #N canvas 215 210 1010 451 parameter-automation 0;
