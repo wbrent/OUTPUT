@@ -504,21 +504,21 @@ sync message should fix that., f 56;
 #X text 273 334 sending this from the [algo~] instance in algo-player-client.pd
 on the client side now. but we still need to send it locally for the
 solo practice patch case.;
-#N canvas 682 164 459 456 send-complete-settings 0;
+#N canvas 682 164 459 476 send-complete-settings 0;
 #X obj 11 42 inlet;
 #X obj 11 96 list split 1;
-#X obj 111 156 list split 20;
-#X obj 11 268 text search outputAlgorithms;
-#X obj 61 197 list split 10;
-#X obj 11 319 list append;
-#X obj 111 238 list append;
-#X obj 11 360 s player-\$1-complete-algo-settings;
+#X obj 111 196 list split 20;
+#X obj 11 308 text search outputAlgorithms;
+#X obj 61 237 list split 10;
+#X obj 11 359 list append;
+#X obj 111 278 list append;
+#X obj 11 400 s player-\$1-complete-algo-settings;
 #X text 248 231 Convert the algo symbol to its ID# \, grab the first
-10 params only \, send all additional params. This creates a 16 element
+10 params only \, send all additional params. This creates an 18 element
 list, f 27;
-#X text 146 27 The complete list is 26 elements long \; \; algo symbol
+#X text 146 27 The complete list is 28 elements long \; \; algo symbol
 \; 20 params \; bit depth \; sample rate \; time \; time loop start
-\; time loop end \;;
+\; time loop end \; time direction \; interpolation \;;
 #X connect 0 0 1 0;
 #X connect 1 0 3 0;
 #X connect 1 1 2 0;

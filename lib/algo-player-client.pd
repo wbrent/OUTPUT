@@ -255,21 +255,21 @@ for use in preset storage., f 49;
 #X connect 4 0 6 0;
 #X connect 5 0 1 1;
 #X restore 181 377 pd time-transmission;
-#N canvas 682 164 459 456 send-complete-settings 0;
+#N canvas 682 164 459 481 send-complete-settings 0;
 #X obj 11 42 inlet;
 #X obj 11 96 list split 1;
-#X obj 111 156 list split 20;
-#X obj 11 268 text search outputAlgorithms;
-#X obj 61 197 list split 10;
-#X obj 11 319 list append;
-#X obj 111 238 list append;
-#X obj 11 360 s player-\$1-complete-algo-settings;
-#X text 248 231 Convert the algo symbol to its ID# \, grab the first
-10 params only \, send all additional params. This creates a 16 element
+#X obj 111 206 list split 20;
+#X obj 11 318 text search outputAlgorithms;
+#X obj 61 247 list split 10;
+#X obj 11 369 list append;
+#X obj 111 288 list append;
+#X obj 11 410 s player-\$1-complete-algo-settings;
+#X text 268 241 Convert the algo symbol to its ID# \, grab the first
+10 params only \, send all additional params. This creates an 18 element
 list, f 27;
-#X text 146 27 The complete list is 26 elements long \; \; algo symbol
+#X text 166 37 The complete list is 28 elements long \; \; algo symbol
 \; 20 params \; bit depth \; sample rate \; time \; time loop start
-\; time loop end \;;
+\; time loop end \; time direction \; interpolation \;;
 #X connect 0 0 1 0;
 #X connect 1 0 3 0;
 #X connect 1 1 2 0;
