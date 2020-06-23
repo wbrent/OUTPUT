@@ -229,9 +229,9 @@ r 4 7 0 10 -262130 -1 -1;
 #X connect 14 0 13 0;
 #X restore 437 188 pd algo-selection;
 #X obj 276 214 bng 15 250 50 0 player-\$1-pitch-bend-zero player-\$1-pitch-bend-zero-set
-0 5 8 0 10 -204800 -1 -1;
+0 5 8 0 10 -232576 -1 -1;
 #X obj 65 214 tgl 15 0 player-\$1-loop-record player-\$1-loop-record-set
-loop 17 7 0 10 -262144 -1 -1 0 1;
+loopRec 17 7 0 10 -262144 -1 -1 0 1;
 #X obj 132 214 bng 15 250 50 0 player-\$1-loop-reset player-\$1-loop-reset-set
 empty 5 8 0 10 -232576 -1 -1;
 #N canvas 924 91 441 449 flash-ASR-kbd 0;
@@ -299,7 +299,7 @@ empty 5 8 0 10 -232576 -1 -1;
 #X connect 11 0 7 0;
 #X restore 437 218 pd flash-mute;
 #X obj 116 104 tgl 15 0 player-\$1-spat-lfo-type player-\$1-spat-lfo-type-set
-r 4 7 0 10 -262144 -1 -1 0 1;
+r 4 7 0 10 -262130 -1 -1 0 1;
 #X floatatom 296 214 7 1 240 1 - player-#1-tempo-final dummy;
 #X obj 417 363 r dummy;
 #X text 370 388 dummy receive for any GUI element sends needed to remove
