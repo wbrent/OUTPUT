@@ -10,9 +10,9 @@
 #define DEFAULTSAMPLERATE 44100
 #define MAXSAMPLERATE 176400 // to increase this, we would need to increase EXTRAPOINTS from 8, but this causes too much extra overhead.
 #define MAXBITDEPTH 32
-#define NUMALGOSETTINGS 6 // algo, bit-depth, sample rate, time, time loop start, time loop end
+#define NUMALGOSETTINGS 8 // algo, bit-depth, sample rate, time, time loop start, time loop end, time direction, interpolation
 #define ARRAY36364689SIZE 256
-#define ALGOTILDEVERSION "0.9.12"
+#define ALGOTILDEVERSION "1.0.0"
 
 // this was the output of "36364689"[i] for i=0:255 one day on my computer. it's undefined what comes out past i=7, but I liked the results so I'm recording them here in a specific array that can produce defined behavior.
 static const uint32_t array36364689[ARRAY36364689SIZE] =
@@ -180,6 +180,7 @@ static expr_num_t userFuncSelect(struct expr_func *f, vec_expr_t *args, void *c)
   uint32_t count = 0;
   uint32_t arrayLen = 128; // for now, limit the array size to 128 elements
   expr_num_t thisArray[arrayLen];
+  (void) f, (void) c;
 
   // this loop should break before the final argument
   while(count < (args)->len-1 && count < arrayLen)
@@ -190,9 +191,6 @@ static expr_num_t userFuncSelect(struct expr_func *f, vec_expr_t *args, void *c)
 
   // the index is the final argument
   i = expr_eval(&vec_nth(args, (args)->len-1));
-
-  (void) f, (void) c;
-
   i = i%arrayLen; // wrap the index by the array length to keep it legal
 
   result = thisArray[i];
@@ -206,6 +204,7 @@ static expr_num_t userFuncChoose(struct expr_func *f, vec_expr_t *args, void *c)
   uint32_t count = 0;
   uint32_t arrayLen = 128; // for now, limit the array size to 128 elements
   expr_num_t thisArray[arrayLen];
+  (void) f, (void) c;
 
   // this loop should break when it runs out of valid arguments
   while(count < (args)->len && count < arrayLen)
@@ -216,8 +215,6 @@ static expr_num_t userFuncChoose(struct expr_func *f, vec_expr_t *args, void *c)
 
   // choose an index between 0 and arrayLen-1
   i = rand()%arrayLen;
-
-  (void) f, (void) c;
 
   result = thisArray[i];
 
@@ -269,6 +266,8 @@ typedef struct _algo_tilde
     t_bool x_presetLoadSampleRate;
     t_bool x_presetLoadTime;
     t_bool x_presetLoadLoopPoints;
+    t_bool x_presetLoadTimeDir;
+    t_bool x_presetLoadInterp;
     unsigned char x_debug;
 
     uint32_t x_t;

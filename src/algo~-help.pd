@@ -29,7 +29,7 @@
 #X connect 10 0 3 0;
 #X coords 0 -1 1 1 85 45 1 100 100;
 #X restore 54 646 pd volume;
-#N canvas 686 107 821 533 current-settings 0;
+#N canvas 686 107 1054 530 current-settings 0;
 #X obj 11 42 inlet;
 #X obj 111 370 unpack f f f f f f f f f f;
 #X floatatom 111 458 5 0 0 0 - - -;
@@ -54,8 +54,10 @@ to [algo~]'s current internal state after loading a preset., f 45
 #X floatatom 519 281 15 0 0 3 time-loop-start - -;
 #X floatatom 659 281 15 0 0 3 time-loop-end - -;
 #X symbolatom 11 333 80 0 0 3 algorithm - -;
-#X obj 199 217 unpack f f f f f;
 #X obj 111 156 list split 20;
+#X obj 199 217 unpack f f f f f f f;
+#X floatatom 779 281 5 0 0 3 time-direction - -;
+#X floatatom 899 281 5 0 0 3 interpolation - -;
 #X connect 0 0 16 0;
 #X connect 0 0 18 0;
 #X connect 1 0 2 0;
@@ -69,14 +71,16 @@ to [algo~]'s current internal state after loading a preset., f 45
 #X connect 1 8 10 0;
 #X connect 1 9 11 0;
 #X connect 18 0 21 0;
-#X connect 18 1 23 0;
-#X connect 22 0 13 0;
-#X connect 22 1 14 0;
-#X connect 22 2 15 0;
-#X connect 22 3 19 0;
-#X connect 22 4 20 0;
-#X connect 23 0 1 0;
-#X connect 23 1 22 0;
+#X connect 18 1 22 0;
+#X connect 22 0 1 0;
+#X connect 22 1 23 0;
+#X connect 23 0 13 0;
+#X connect 23 1 14 0;
+#X connect 23 2 15 0;
+#X connect 23 3 19 0;
+#X connect 23 4 20 0;
+#X connect 23 5 24 0;
+#X connect 23 6 25 0;
 #X restore 289 490 pd current-settings;
 #N canvas 818 74 851 550 set-parameters 0;
 #X floatatom 110 229 5 0 16384 0 - - -;
@@ -274,12 +278,12 @@ the sampling rate to go from "minutes" to raw time index.;
 #X text 164 127 If you omit the file name with a save message \, [algo~]
 will generate a unique file name based on the current logical time.
 , f 47;
-#X msg 202 387 getAlgoSettings;
+#X msg 179 395 getAlgoSettings;
 #X msg 119 245 load preset76.txt;
-#X obj 361 597 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 240 539 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj 361 617 openpanel;
-#X msg 361 641 load \$1;
+#X obj 240 559 openpanel;
+#X msg 240 583 load \$1;
 #X msg 39 45 save preset80.txt;
 #X text 322 228 The file loading message expects plain text files containing
 information in the same format. After you have loaded a preset \, you
@@ -287,10 +291,10 @@ can get the object's internal settings via a "getAlgoSettings" message
 \, and use the list coming out of the 4th outlet to populate your GUI
 controls via "set" messages. This keeps your GUI controls in sync with
 loaded preset data.;
-#X obj 481 597 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 360 539 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X msg 481 641 save \$1;
-#X obj 481 617 savepanel;
+#X msg 360 583 save \$1;
+#X obj 360 559 savepanel;
 #X msg 149 335 load preset79.txt;
 #X msg 139 305 load preset78.txt;
 #X msg 109 215 load preset75.txt;
@@ -300,23 +304,46 @@ loaded preset data.;
 points. This is the same information that is reported from the 4th
 outlet in response to an "getAlgoSettings" message. Presets are saved
 as plain text files so they can be easily edited.;
-#X obj 281 429 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X obj 301 459 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X obj 321 489 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X obj 341 519 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X obj 361 549 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X msg 301 429 loadParams \$1;
-#X msg 321 459 loadBitDepth \$1;
-#X msg 341 489 loadSampleRate \$1;
-#X msg 361 519 loadTime \$1;
-#X msg 381 549 loadLoopPoints \$1;
-#X text 523 446 Block/allow loading of particular aspects of presets
+#X text 402 437 Block/allow loading of particular aspects of presets
 , f 24;
+#N canvas 182 165 427 329 selective-loading 0;
+#X obj 32 274 outlet;
+#X obj 134 21 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 154 51 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 174 81 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 194 111 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 214 141 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X msg 154 21 loadParams \$1;
+#X msg 174 51 loadBitDepth \$1;
+#X msg 194 81 loadSampleRate \$1;
+#X msg 214 111 loadTime \$1;
+#X msg 234 141 loadLoopPoints \$1;
+#X obj 234 171 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 254 201 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X msg 254 171 loadTimeDir \$1;
+#X msg 274 201 loadInterp \$1;
+#X connect 1 0 6 0;
+#X connect 2 0 7 0;
+#X connect 3 0 8 0;
+#X connect 4 0 9 0;
+#X connect 5 0 10 0;
+#X connect 6 0 0 0;
+#X connect 7 0 0 0;
+#X connect 8 0 0 0;
+#X connect 9 0 0 0;
+#X connect 10 0 0 0;
+#X connect 11 0 13 0;
+#X connect 12 0 14 0;
+#X connect 13 0 0 0;
+#X connect 14 0 0 0;
+#X restore 209 455 pd selective-loading;
 #X connect 1 0 0 0;
 #X connect 3 0 0 0;
 #X connect 4 0 0 0;
@@ -331,23 +358,14 @@ as plain text files so they can be easily edited.;
 #X connect 14 0 0 0;
 #X connect 15 0 0 0;
 #X connect 16 0 0 0;
-#X connect 18 0 23 0;
-#X connect 19 0 24 0;
-#X connect 20 0 25 0;
-#X connect 21 0 26 0;
-#X connect 22 0 27 0;
-#X connect 23 0 0 0;
-#X connect 24 0 0 0;
-#X connect 25 0 0 0;
-#X connect 26 0 0 0;
-#X connect 27 0 0 0;
+#X connect 19 0 0 0;
 #X restore 210 328 pd presets;
 #X text 371 333 NOTE: because the raw output of bytebeat algorithms
 can have intense DC offsets \, a high-pass filter is recommended.,
 f 44;
 #N canvas 575 142 805 558 more-messages 0;
 #X msg 287 419 print;
-#X obj 50 88 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0 1
+#X obj 50 88 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1 1
 ;
 #X msg 50 108 interpolate \$1;
 #X obj 123 155 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
@@ -524,7 +542,7 @@ can be updated., f 37;
 \, bit-depths \, and sample rates \, while tuning available parameters.
 Creation arguments are: a symbolic algorithm followed by up to 20 free
 variable values., f 44;
-#X text 545 669 [algo~] v0.9.12;
+#X text 545 669 [algo~] v1.0.0;
 #X connect 4 0 1 0;
 #X connect 4 1 2 0;
 #X connect 7 0 18 0;

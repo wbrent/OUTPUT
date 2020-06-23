@@ -10,7 +10,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-version 0.9.12, June 14, 2020
+version 1.0.0, June 23, 2020
 
 */
 
@@ -60,15 +60,17 @@ static void algo_tilde_print(algo_tilde *x)
 	post("%s: sample increment: %0.15f", x->x_objSymbol->s_name, x->x_incr);
 	post("%s: t: %u", x->x_objSymbol->s_name, x->x_t);
 	post("%s: time loop points: [%u, %u]", x->x_objSymbol->s_name, x->x_tLoopPoints[0], x->x_tLoopPoints[1]);
-	post("%s: interpolation: %s", x->x_objSymbol->s_name, (x->x_interpSwitch > 0) ? "ON" : "OFF");
-	post("%s: compute: %s", x->x_objSymbol->s_name, (x->x_computeSwitch > 0) ? "ON" : "OFF");
-	post("%s: time direction: %s", x->x_objSymbol->s_name, (x->x_timeDirection==forward) ? "forward" : "backward");
+  post("%s: time direction: %s", x->x_objSymbol->s_name, (x->x_timeDirection==forward) ? "FORWARD" : "BACKWARD");
+	post("%s: interpolation: %s", x->x_objSymbol->s_name, (x->x_interpSwitch > 0) ? "TRUE" : "FALSE");
+	post("%s: compute: %s", x->x_objSymbol->s_name, (x->x_computeSwitch > 0) ? "TRUE" : "FALSE");
 
   post("%s: Load parameters: %s", x->x_objSymbol->s_name, (x->x_presetLoadParams > 0) ? "TRUE" : "FALSE");
   post("%s: Load bitDepth: %s", x->x_objSymbol->s_name, (x->x_presetLoadBitDepth > 0) ? "TRUE" : "FALSE");
   post("%s: Load samplerate: %s", x->x_objSymbol->s_name, (x->x_presetLoadSampleRate > 0) ? "TRUE" : "FALSE");
   post("%s: Load time: %s", x->x_objSymbol->s_name, (x->x_presetLoadTime > 0) ? "TRUE" : "FALSE");
   post("%s: Load loop points: %s", x->x_objSymbol->s_name, (x->x_presetLoadLoopPoints > 0) ? "TRUE" : "FALSE");
+  post("%s: Load time direction: %s", x->x_objSymbol->s_name, (x->x_presetLoadTimeDir > 0) ? "TRUE" : "FALSE");
+  post("%s: Load interpolation: %s", x->x_objSymbol->s_name, (x->x_presetLoadInterp > 0) ? "TRUE" : "FALSE");
 
   samp = expr_eval(x->x_exprExp);
   post("%s: expr_eval(): %u", x->x_objSymbol->s_name, samp);
@@ -90,14 +92,14 @@ static void algo_tilde_getAlgoSettings(algo_tilde *x)
 	for(i=0; i<MAXALGOPARAMS; i++)
 		SETFLOAT(listOut+1+i, x->x_params[i]);
 
-	// i is 20 here
-
 	// using post-for-loop value of i adapts to whatever MAXALGOPARAMS is
 	SETFLOAT(listOut+i+1, x->x_bitDepth);
 	SETFLOAT(listOut+i+2, x->x_samplerate);
 	SETFLOAT(listOut+i+3, x->x_tBlockEnd);
 	SETFLOAT(listOut+i+4, x->x_tLoopPoints[0]);
 	SETFLOAT(listOut+i+5, x->x_tLoopPoints[1]);
+  SETFLOAT(listOut+i+6, x->x_timeDirection);
+	SETFLOAT(listOut+i+7, x->x_interpSwitch);
 
 	outlet_list(x->x_outletAlgoSettings, 0, MAXALGOPARAMS+NUMALGOSETTINGS, listOut);
 
@@ -255,11 +257,14 @@ static void algo_tilde_setAlgo(algo_tilde *x, t_symbol *exprArg)
 	// update x_numAlgoParams
 	x->x_numAlgoParams = count;
 
-	// call _getNumAlgoParams so updated value goes out outlet
-	algo_tilde_getNumAlgoParams(x);
+  // DEBUG: destroying the existing expr causes segfaults. why isn't it safe to do so? don't we need to initialize x_exprVars so that the existing linked list is cleared? as it is, I guess it's ok since we're mainly using p0-p19, with occasional extra variables added to the list when multi-line algos are used. and all that gets freed properly in the algo_tilde_free() routine. but it would be nice to be able to clear x_exprVars every time a new algo is created.
+  // free the existing expression and its vars
+  // expr_destroy(x->x_exprExp, &(x->x_exprVars));
 
+  // create the new expression
 	x->x_exprExp = expr_create(x->x_exprStr, strlen(x->x_exprStr), &(x->x_exprVars), exprUserfuncs);
 
+  // if creation fails, create the default algo, "t"
 	if(x->x_exprExp == NULL)
   {
     t_symbol *e;
@@ -269,10 +274,11 @@ static void algo_tilde_setAlgo(algo_tilde *x, t_symbol *exprArg)
     e = gensym("t");
     x->x_exprStr = e->s_name;
   	x->x_numAlgoParams = 0;
-  	// call _getNumAlgoParams so updated value goes out outlet
-  	algo_tilde_getNumAlgoParams(x);
   	x->x_exprExp = expr_create(x->x_exprStr, strlen(x->x_exprStr), &(x->x_exprVars), exprUserfuncs);
   }
+
+	// finally, call getNumAlgoParams() so updated value goes out outlet
+	algo_tilde_getNumAlgoParams(x);
 }
 
 static void algo_tilde_parameters(algo_tilde *x, t_symbol *s, int argc, t_atom *argv)
@@ -293,14 +299,18 @@ static void algo_tilde_parameters(algo_tilde *x, t_symbol *s, int argc, t_atom *
 	for(; i<MAXALGOPARAMS; i++)
 		x->x_params[i] = 0;
 
-	// now that x_params is filled, update the expr linked list of vars
-	for(i=0; i<MAXALGOPARAMS; i++)
-	{
-		struct expr_var *v;
+  // don't mess with x_exprVars if there's no valid expression present
+  if(x->x_exprExp)
+  {
+  	// now that x_params is filled, update the expr linked list of vars
+  	for(i=0; i<MAXALGOPARAMS; i++)
+  	{
+  		struct expr_var *v;
 
-		v = expr_var(&(x->x_exprVars), x->x_paramStrings[i], strlen(x->x_paramStrings[i]));
-		v->value = x->x_params[i];
-	}
+  		v = expr_var(&(x->x_exprVars), x->x_paramStrings[i], strlen(x->x_paramStrings[i]));
+  		v->value = x->x_params[i];
+  	}
+  }
 }
 
 static void algo_tilde_bitDepth(algo_tilde *x, t_floatarg b)
@@ -371,6 +381,8 @@ static void algo_tilde_savePreset(algo_tilde *x, t_symbol *f)
 	fprintf(filePtr, "samplerate: %0.15f\n", x->x_samplerate);
 	fprintf(filePtr, "time: %u\n", x->x_t);
 	fprintf(filePtr, "loop-points: %u %u\n", x->x_tLoopPoints[0], x->x_tLoopPoints[1]);
+  fprintf(filePtr, "time-direction: %s\n", (x->x_timeDirection == forward) ? "FORWARD" : "BACKWARD");
+  fprintf(filePtr, "interpolation: %s\n", (x->x_interpSwitch == true) ? "TRUE" : "FALSE");
 
   fclose(filePtr);
 }
@@ -378,7 +390,7 @@ static void algo_tilde_savePreset(algo_tilde *x, t_symbol *f)
 static void algo_tilde_loadPreset(algo_tilde *x, t_symbol *f)
 {
 	FILE *filePtr;
-  char fileNameBuf[MAXPDSTRING], stringIdBuf[MAXPDSTRING], algo[MAXPDSTRING];
+  char fileNameBuf[MAXPDSTRING], stringIdBuf[MAXPDSTRING], algo[MAXPDSTRING], timeDirBuf[MAXPDSTRING], interpBuf[MAXPDSTRING];
   t_float bitDepth, samplerate;
   uint32_t t, params[MAXALGOPARAMS], tLoopPoints[2];
   t_atom *paramAtoms;
@@ -394,25 +406,58 @@ static void algo_tilde_loadPreset(algo_tilde *x, t_symbol *f)
     return;
   }
 
-  fscanf(filePtr, "%s", stringIdBuf);
-  fscanf(filePtr, "%s", algo);
+  if(fscanf(filePtr, "%s", stringIdBuf) > 0)
+    fscanf(filePtr, "%s", algo);
+  else
+    snprintf(algo, sizeof(algo), "%s", "t");
 
- 	fscanf(filePtr, "%s", stringIdBuf);
+ 	if(fscanf(filePtr, "%s", stringIdBuf) > 0)
+  {
+    // TODO: could keep reading until encountering "bitDepth" string. otherwise, all preset files must have MAXALGOPARAMS parameters listed
+    for(i=0; i<MAXALGOPARAMS; i++)
+      fscanf(filePtr, "%u", params+i);
+  }
+  else
+  {
+    for(i=0; i<MAXALGOPARAMS; i++)
+      params[i] = 0;
+  }
 
+  if(fscanf(filePtr, "%s", stringIdBuf) > 0)
+    fscanf(filePtr, "%f", &bitDepth);
+  else
+    bitDepth = 8.0;
 
-  // TODO: could keep reading until encountering "bitDepth" string. otherwise, all preset files must have MAXALGOPARAMS parameters listed
-  for(i=0; i<MAXALGOPARAMS; i++)
-    fscanf(filePtr, "%u", params+i);
+  if(fscanf(filePtr, "%s", stringIdBuf) > 0)
+    fscanf(filePtr, "%f", &samplerate);
+  else
+    samplerate = 8000.0;
 
-  fscanf(filePtr, "%s", stringIdBuf);
-  fscanf(filePtr, "%f", &bitDepth);
-  fscanf(filePtr, "%s", stringIdBuf);
-  fscanf(filePtr, "%f", &samplerate);
-  fscanf(filePtr, "%s", stringIdBuf);
-  fscanf(filePtr, "%u", &t);
-  fscanf(filePtr, "%s", stringIdBuf);
-  fscanf(filePtr, "%u", tLoopPoints);
-  fscanf(filePtr, "%u", tLoopPoints+1);
+  if(fscanf(filePtr, "%s", stringIdBuf) > 0)
+    fscanf(filePtr, "%u", &t);
+  else
+    t = 0;
+
+  if(fscanf(filePtr, "%s", stringIdBuf) > 0)
+  {
+    fscanf(filePtr, "%u", tLoopPoints);
+    fscanf(filePtr, "%u", tLoopPoints+1);
+  }
+  else
+  {
+    tLoopPoints[0] = 0;
+    tLoopPoints[1] = UINT_MAX;
+  }
+
+  if(fscanf(filePtr, "%s", stringIdBuf) > 0)
+    fscanf(filePtr, "%s", timeDirBuf);
+  else
+    snprintf(timeDirBuf, sizeof(timeDirBuf), "%s", "FORWARD");
+
+  if(fscanf(filePtr, "%s", stringIdBuf) > 0)
+    fscanf(filePtr, "%s", interpBuf);
+  else
+    snprintf(interpBuf, sizeof(interpBuf), "%s", "TRUE");
 
 	// load the algo. need to convert the string to a symbol
 	algo_tilde_setAlgo(x, gensym(algo));
@@ -470,6 +515,30 @@ static void algo_tilde_loadPreset(algo_tilde *x, t_symbol *f)
   if(x->x_presetLoadTime)
     algo_tilde_setTimeIndex(x, t, 0); // set mu to 0
 
+  if(x->x_presetLoadTimeDir)
+  {
+    t_timeDir timeDir;
+
+    if(!strcmp(timeDirBuf, "FORWARD"))
+      timeDir = forward;
+    else
+      timeDir = backward;
+
+    algo_tilde_timeDirection(x, timeDir);
+  }
+
+  if(x->x_presetLoadInterp)
+  {
+    t_bool interp;
+
+    if(!strcmp(interpBuf, "TRUE"))
+      interp = true;
+    else
+      interp = false;
+
+    algo_tilde_interpSwitch(x, interp);
+  }
+
   fclose(filePtr);
 }
 
@@ -513,6 +582,22 @@ static void algo_tilde_setPresetLoadLoopPoints(algo_tilde *x, t_floatarg flag)
     x->x_presetLoadLoopPoints = false;
 }
 
+static void algo_tilde_setPresetLoadTimeDir(algo_tilde *x, t_floatarg flag)
+{
+	if(flag>0)
+    x->x_presetLoadTimeDir = true;
+  else
+    x->x_presetLoadTimeDir = false;
+}
+
+static void algo_tilde_setPresetLoadInterp(algo_tilde *x, t_floatarg flag)
+{
+	if(flag>0)
+    x->x_presetLoadInterp = true;
+  else
+    x->x_presetLoadInterp = false;
+}
+
 static void algo_tilde_initClock(algo_tilde *x)
 {
 	x->x_startupFlag = true;
@@ -522,7 +607,6 @@ static void *algo_tilde_new(t_symbol *s, int argc, t_atom *argv)
 {
   algo_tilde *x = (algo_tilde *)pd_new(algo_tilde_class);
 	t_symbol *exprArg;
-	struct expr_var *v;
 	int i;
 
 	outlet_new(&x->x_obj, &s_signal);
@@ -552,6 +636,9 @@ static void *algo_tilde_new(t_symbol *s, int argc, t_atom *argv)
   x->x_presetLoadSampleRate = true;
   x->x_presetLoadTime = true;
   x->x_presetLoadLoopPoints = true;
+  x->x_presetLoadTimeDir = true;
+  x->x_presetLoadInterp = true;
+
 	x->x_debug = 0;
 
 	x->x_t = 0;
@@ -575,6 +662,9 @@ static void *algo_tilde_new(t_symbol *s, int argc, t_atom *argv)
 	memcpy(x->x_array36364689, array36364689, sizeof(array36364689));
 	memcpy(x->x_paramStrings, paramStrings, sizeof(paramStrings));
 
+  // init x_exprVars linked list header
+  x->x_exprVars.head = NULL;
+
 	// parse creation arguments
 	switch(argc)
 	{
@@ -596,10 +686,6 @@ static void *algo_tilde_new(t_symbol *s, int argc, t_atom *argv)
 			algo_tilde_parameters(x, gensym("parameters"), argc-1, argv+1);
 			break;
 	}
-
-	// now that expr_create() has been called, initialize "t" in exprVars
-	v = expr_var(&(x->x_exprVars), "t", strlen("t"));
-	v->value = x->x_t;
 
 	// seed randomness via current time
 	srand(clock_getlogicaltime());
@@ -668,8 +754,6 @@ static t_int *algo_tilde_perform(t_int *w)
 			// convert the uint32_t sample into a double precision float sample based on the fractional part that results from dividing by the number of states for the current bit resolution.
 			thisSampleDouble = thisSample/x->x_quantSteps;
       thisSampleDouble = modf(thisSampleDouble, &thisSampleDoubleIntPart);
-			// thisSample = floor(thisSampleDouble);
-			// thisSampleDouble = thisSampleDouble - thisSample;
       thisSampleDouble = thisSampleDouble*2.0-1.0;
 			x->x_signalBuffer[i] = thisSampleDouble;
 
@@ -1067,6 +1151,22 @@ void algo_tilde_setup(void)
 		algo_tilde_class,
 		(t_method)algo_tilde_setPresetLoadLoopPoints,
 		gensym("loadLoopPoints"),
+		A_DEFFLOAT,
+		0
+	);
+
+  class_addmethod(
+		algo_tilde_class,
+		(t_method)algo_tilde_setPresetLoadTimeDir,
+		gensym("loadTimeDir"),
+		A_DEFFLOAT,
+		0
+	);
+
+  class_addmethod(
+		algo_tilde_class,
+		(t_method)algo_tilde_setPresetLoadInterp,
+		gensym("loadInterp"),
 		A_DEFFLOAT,
 		0
 	);
