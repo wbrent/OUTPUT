@@ -48,7 +48,7 @@ a hack.;
 #X connect 20 0 23 0;
 #X connect 22 0 12 0;
 #X connect 23 0 21 0;
-#X restore 323 72 pd init;
+#X restore 323 32 pd init;
 #N canvas 611 146 371 176 players 0;
 #X obj 32 28 algo-player 0;
 #X obj 32 48 algo-player 1;
@@ -320,11 +320,97 @@ the difference between the measured and desired level, f 27;
 #X connect 28 1 26 0;
 #X coords 0 -1 1 1 70 110 1 60 400;
 #X restore 17 90 pd output;
-#N canvas 707 336 653 400 client-init 0;
+#N canvas 707 336 595 293 client-init 0;
 #X obj 71 34 r lb1;
 #X msg 71 58 \; netprep-init bang \;;
 #X text 37 124 This initializes all of the netprep parameter names
 to have -set appended, f 27;
+#X obj 288 54 r lb1;
+#X obj 288 197 s num-algos;
+#X obj 288 75 t b b;
+#X msg 329 108 read -c ./data/outputAlgorithms.txt;
+#X obj 288 166 text size outputAlgorithms;
+#X obj 329 129 text define outputAlgorithms;
+#N canvas 655 225 471 443 list-preset-file-names 0;
+#X obj 48 46 inlet;
+#X msg 274 159 clear;
+#X obj 274 371 s preset-dropdown-items;
+#X obj 129 272 list prepend add;
+#X obj 129 293 list trim;
+#X obj 128 43 r preset-dropdown-update;
+#X obj 48 213 hcs/folder_list;
+#X obj 48 172 pdcontrol;
+#X msg 48 143 dir 0 algo-presets/*;
+#X obj 48 233 hcs/split_path;
+#X obj 48 92 t b b;
+#X connect 0 0 10 0;
+#X connect 1 0 2 0;
+#X connect 3 0 4 0;
+#X connect 4 0 2 0;
+#X connect 5 0 10 0;
+#X connect 6 0 9 0;
+#X connect 7 0 6 0;
+#X connect 8 0 7 0;
+#X connect 9 1 3 0;
+#X connect 10 0 8 0;
+#X connect 10 1 1 0;
+#X restore 91 222 pd list-preset-file-names;
+#X obj 91 194 r lb2;
+#X connect 0 0 1 0;
+#X connect 3 0 5 0;
+#X connect 5 0 7 0;
+#X connect 5 1 6 0;
+#X connect 6 0 8 0;
+#X connect 7 0 4 0;
+#X connect 10 0 9 0;
+#X restore 323 72 pd client-init;
+#N canvas 481 347 607 284 client-side-netreceive 0;
+#X obj 121 23 r client-netsend-data-hub;
+#X obj 168 94 t l l;
+#X obj 280 136 list length;
+#X obj 168 143 list split;
+#X obj 280 165 - 1;
+#X obj 168 172 list trim;
+#X obj 168 201 s;
+#X obj 121 44 list split 1;
+#X text 317 29 This subpatch is necessary to imitate the master-client
+data sending that exists for the main patch. That way \, only this
+OUTPUT-solo-practice.pd patch needs to be edited \, and the core abstractions
+for the main project can be used as-is., f 37;
+#X text 22 77 remove the "send" tag intended for use with [netsend]
+in the master patch, f 17;
+#X connect 0 0 7 0;
+#X connect 1 0 3 0;
+#X connect 1 1 2 0;
+#X connect 2 0 4 0;
+#X connect 3 0 5 0;
+#X connect 3 1 6 1;
+#X connect 4 0 3 1;
+#X connect 5 0 6 0;
+#X connect 7 1 1 0;
+#X restore 323 132 pd client-side-netreceive;
+#X obj 107 150 bng 20 250 50 0 empty empty A 6 10 0 14 -204786 -1 -1
+;
+#X obj 107 180 bng 20 250 50 0 empty empty B 6 10 0 14 -204786 -1 -1
+;
+#X obj 107 327 clone -s 0 client-control-interface 2;
+#X msg 107 287 vis 0 1;
+#X msg 187 287 vis 1 1;
+#X obj 107 90 tgl 15 0 master-output-record empty record 17 7 0 12
+-261234 -1 -1 0 1;
+#X obj 257 140 bng 15 250 50 0 global-re-init empty i 4 8 0 10 -262144
+-1 -1;
+#X obj 237 140 tgl 15 0 global-kbd-control global-kbd-control-set k
+5 7 0 10 -262144 -1 -1 0 1;
+#N canvas 816 290 450 300 interface 0;
+#X obj 74 81 r global-kbd-control;
+#X msg 74 150 \; player-\$2-kbd-control-set \$1 \; player-\$3-kbd-control-set
+\$1 \;;
+#X obj 74 110 pack f 0 1;
+#X connect 0 0 2 0;
+#X connect 2 0 1 0;
+#X restore 323 152 pd interface;
+#N canvas 618 321 527 300 global-player-config 0;
 #N canvas 212 320 783 400 fadermap-player-A-and-B 0;
 #X obj 28 186 / 127;
 #X obj 156 201 * 127;
@@ -401,7 +487,7 @@ physical controls can be moved freely without changing values., f
 #X connect 33 0 35 0;
 #X connect 34 0 2 0;
 #X connect 35 0 14 0;
-#X restore 66 206 pd fadermap-player-A-and-B;
+#X restore 45 58 pd fadermap-player-A-and-B;
 #N canvas 400 155 719 386 muting 0;
 #X obj 28 258 f;
 #X obj 106 249 + 1;
@@ -471,16 +557,10 @@ physical controls can be moved freely without changing values., f
 #X connect 29 1 27 1;
 #X connect 30 0 3 0;
 #X connect 30 1 13 0;
-#X restore 66 236 pd muting;
-#X text 159 235 Map gain faders and muting globally (outside of abstractions)
+#X restore 45 88 pd muting;
+#X text 138 87 Map gain faders and muting globally (outside of abstractions)
 so that 102/103 will always be accessible on controller as player A/B
 gains and mutes, f 33;
-#X obj 288 54 r lb1;
-#X obj 288 197 s num-algos;
-#X obj 288 75 t b b;
-#X msg 329 108 read -c ./data/outputAlgorithms.txt;
-#X obj 288 166 text size outputAlgorithms;
-#X obj 329 129 text define outputAlgorithms;
 #N canvas 451 72 650 368 gain-automation 0;
 #X obj 49 90 t b;
 #X obj 49 235 symbol;
@@ -499,7 +579,7 @@ gains and mutes, f 33;
 #X connect 4 0 3 0;
 #X connect 7 0 1 0;
 #X connect 8 0 1 0;
-#X restore 66 316 pd gain-automation;
+#X restore 45 168 pd gain-automation;
 #N canvas 451 72 650 368 muting-automation 0;
 #X obj 49 90 t b;
 #X obj 49 235 symbol;
@@ -518,32 +598,7 @@ gains and mutes, f 33;
 #X connect 6 0 1 0;
 #X connect 7 0 1 0;
 #X connect 8 0 2 0;
-#X restore 66 346 pd muting-automation;
-#N canvas 655 225 471 443 list-preset-file-names 0;
-#X obj 48 46 inlet;
-#X msg 274 159 clear;
-#X obj 274 371 s preset-dropdown-items;
-#X obj 129 272 list prepend add;
-#X obj 129 293 list trim;
-#X obj 128 43 r preset-dropdown-update;
-#X obj 48 213 hcs/folder_list;
-#X obj 48 172 pdcontrol;
-#X msg 48 143 dir 0 algo-presets/*;
-#X obj 48 233 hcs/split_path;
-#X obj 48 92 t b b;
-#X connect 0 0 10 0;
-#X connect 1 0 2 0;
-#X connect 3 0 4 0;
-#X connect 4 0 2 0;
-#X connect 5 0 10 0;
-#X connect 6 0 9 0;
-#X connect 7 0 6 0;
-#X connect 8 0 7 0;
-#X connect 9 1 3 0;
-#X connect 10 0 8 0;
-#X connect 10 1 1 0;
-#X restore 442 291 pd list-preset-file-names;
-#X obj 442 263 r lb2;
+#X restore 45 198 pd muting-automation;
 #N canvas 343 151 350 197 cpu-kbd-player-ab-control-toggle 0;
 #X obj 36 96 select 32;
 #X obj 36 42 key;
@@ -563,51 +618,8 @@ gains and mutes, f 33;
 #X connect 5 0 6 0;
 #X connect 6 0 4 0;
 #X connect 6 1 4 1;
-#X restore 256 346 pd cpu-kbd-player-ab-control-toggle;
-#X connect 0 0 1 0;
-#X connect 6 0 8 0;
-#X connect 8 0 10 0;
-#X connect 8 1 9 0;
-#X connect 9 0 11 0;
-#X connect 10 0 7 0;
-#X connect 15 0 14 0;
-#X restore 323 52 pd client-init;
-#N canvas 481 347 607 284 client-side-netreceive 0;
-#X obj 121 23 r client-netsend-data-hub;
-#X obj 168 94 t l l;
-#X obj 280 136 list length;
-#X obj 168 143 list split;
-#X obj 280 165 - 1;
-#X obj 168 172 list trim;
-#X obj 168 201 s;
-#X obj 121 44 list split 1;
-#X text 317 29 This subpatch is necessary to imitate the master-client
-data sending that exists for the main patch. That way \, only this
-OUTPUT-solo-practice.pd patch needs to be edited \, and the core abstractions
-for the main project can be used as-is., f 37;
-#X text 22 77 remove the "send" tag intended for use with [netsend]
-in the master patch, f 17;
-#X connect 0 0 7 0;
-#X connect 1 0 3 0;
-#X connect 1 1 2 0;
-#X connect 2 0 4 0;
-#X connect 3 0 5 0;
-#X connect 3 1 6 1;
-#X connect 4 0 3 1;
-#X connect 5 0 6 0;
-#X connect 7 1 1 0;
-#X restore 323 132 pd client-side-netreceive;
-#X obj 107 150 bng 20 250 50 0 empty empty A 6 10 0 14 -204786 -1 -1
-;
-#X obj 107 180 bng 20 250 50 0 empty empty B 6 10 0 14 -204786 -1 -1
-;
-#X obj 108 327 clone -s 0 client-control-interface 2;
-#X msg 108 287 vis 0 1;
-#X msg 188 287 vis 1 1;
-#X obj 107 90 tgl 15 0 master-output-record empty record 17 7 0 12
--261234 -1 -1 0 1;
-#X obj 257 140 bng 15 250 50 0 global-re-init empty i 4 8 0 10 -262144
--1 -1;
+#X restore 235 198 pd cpu-kbd-player-ab-control-toggle;
+#X restore 323 52 pd global-player-config;
 #X connect 8 0 11 0;
 #X connect 9 0 12 0;
 #X connect 11 0 10 0;
