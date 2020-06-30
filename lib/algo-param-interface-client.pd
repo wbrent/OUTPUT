@@ -40,25 +40,25 @@ empty 17 7 0 10 -262130 -1 -1;
 #X floatatom 269 312 5 0 0 0 - player-#1-algo-param-3-range-set player-#1-algo-param-3-range
 ;
 #X obj 319 212 bng 15 250 50 0 player-\$1-algo-dec-param-4 player-\$1-algo-dec-param-4-set
-- 4 8 0 12 -262140 -1 -1;
+- 4 8 0 12 -241291 -1 -1;
 #X obj 339 212 bng 15 250 50 0 player-\$1-algo-inc-param-4 player-\$1-algo-inc-param-4-set
-+ 4 8 0 12 -262140 -1 -1;
++ 4 8 0 12 -241291 -1 -1;
 #X obj 319 292 bng 15 250 50 0 player-\$1-algo-randomize-param-4 player-\$1-algo-randomize-param-4-set
 empty 17 7 0 10 -262130 -1 -1;
 #X floatatom 319 312 5 0 0 0 - player-#1-algo-param-4-range-set player-#1-algo-param-4-range
 ;
 #X obj 369 212 bng 15 250 50 0 player-\$1-algo-dec-param-5 player-\$1-algo-dec-param-5-set
-- 4 8 0 12 -262140 -1 -1;
+- 4 8 0 12 -241291 -1 -1;
 #X obj 389 212 bng 15 250 50 0 player-\$1-algo-inc-param-5 player-\$1-algo-inc-param-5-set
-+ 4 8 0 12 -262140 -1 -1;
++ 4 8 0 12 -241291 -1 -1;
 #X obj 369 292 bng 15 250 50 0 player-\$1-algo-randomize-param-5 player-\$1-algo-randomize-param-5-set
 empty 17 7 0 10 -262130 -1 -1;
 #X floatatom 369 312 5 0 0 0 - player-#1-algo-param-5-range-set player-#1-algo-param-5-range
 ;
 #X obj 419 212 bng 15 250 50 0 player-\$1-algo-dec-param-6 player-\$1-algo-dec-param-6-set
-- 4 8 0 12 -262140 -1 -1;
+- 4 8 0 12 -241291 -1 -1;
 #X obj 439 212 bng 15 250 50 0 player-\$1-algo-inc-param-6 player-\$1-algo-inc-param-6-set
-+ 4 8 0 12 -262140 -1 -1;
++ 4 8 0 12 -241291 -1 -1;
 #X obj 419 292 bng 15 250 50 0 player-\$1-algo-randomize-param-6 player-\$1-algo-randomize-param-6-set
 empty 17 7 0 10 -262130 -1 -1;
 #X floatatom 419 312 5 0 0 0 - player-#1-algo-param-6-range-set player-#1-algo-param-6-range
@@ -278,6 +278,10 @@ for preset time data to be updated and properly reported from [algo~].
 #X msg 138 326 10;
 #X obj 126 469 - 1;
 #X obj 126 125 t f f b;
+#X msg 288 228 seed \$1;
+#X obj 288 180 r lb1;
+#X obj 288 204 timer;
+#X obj 338 204 one-bang 1;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
 #X connect 1 0 3 0;
@@ -317,6 +321,11 @@ for preset time data to be updated and properly reported from [algo~].
 #X connect 30 0 9 0;
 #X connect 30 1 0 0;
 #X connect 30 2 27 0;
+#X connect 30 2 34 0;
+#X connect 31 0 6 0;
+#X connect 32 0 33 0;
+#X connect 33 0 31 0;
+#X connect 34 0 33 1;
 #X restore 670 52 pd randomization;
 #N canvas 323 104 1371 515 init 0;
 #X obj 66 263 t f b;
@@ -401,13 +410,13 @@ success, f 38;
 #X text 109 35 \$1: parent player ID number \;;
 #X obj 110 142 clone last-param-changed-abs 10 \$1;
 #X obj 653 258 tgl 15 0 player-\$1-load-params player-\$1-load-params-set
-params 17 7 0 12 -262144 -1 -1 0 1;
+params 17 7 0 12 -262144 -1 -1 1 1;
 #X obj 653 278 tgl 15 0 player-\$1-load-bit-depth player-\$1-load-bit-depth-set
-bit 17 7 0 12 -262144 -1 -1 0 1;
+bit 17 7 0 12 -262144 -1 -1 1 1;
 #X obj 653 318 tgl 15 0 player-\$1-load-time player-\$1-load-time-set
-time 17 7 0 12 -262144 -1 -1 0 1;
+time 17 7 0 12 -262144 -1 -1 1 1;
 #X obj 653 298 tgl 15 0 player-\$1-load-tempo player-\$1-load-tempo-set
-tempo 17 7 0 12 -262144 -1 -1 0 1;
+tempo 17 7 0 12 -262144 -1 -1 1 1;
 #X obj 713 218 bng 15 250 50 0 player-\$1-algo-refresh-params player-\$1-algo-refresh-params-set
 r 4 8 0 12 -232576 -1 -1;
 #X obj 119 232 cnv 15 37 18 empty player-\$1-algo-param-0-canvas-set
@@ -629,6 +638,6 @@ empty 50 5 0 12 -262144 -66577 0;
 * 4 9 0 12 -204786 -1 -1;
 #X obj 400 112 table player-\$1-algo-params 18;
 #X obj 653 338 tgl 15 0 player-\$1-load-interp player-\$1-load-interp-set
-interp 17 7 0 12 -262144 -1 -1 0 1;
+interp 17 7 0 12 -262144 -1 -1 1 1;
 #X connect 45 0 82 0;
 #X coords 0 -1 1 1 650 210 2 100 185;
