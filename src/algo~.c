@@ -10,7 +10,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-version 1.0.0, June 23, 2020
+version 1.0.1, July 02, 2020
 
 */
 
@@ -149,8 +149,8 @@ static void algo_tilde_setTimeIndex(algo_tilde *x, t_floatarg t, t_floatarg m)
 
 static void algo_tilde_setTimeRand(algo_tilde *x)
 {
-	// note: UINT_MAX is twice the size of RAND_MAX
-	x->x_t = rand() % UINT_MAX; // best to set x->x_t directly, because x->x_tBlockStart grabs that at the beginning of the next block
+	// note: RAND_MAX differs between Linux, Mac, and Windows
+	x->x_t = (rand()/(double)RAND_MAX) * UINT_MAX; // best to set x->x_t directly, because x->x_tBlockStart grabs that at the beginning of the next block
 }
 
 static void algo_tilde_setTimeLoopPoints(algo_tilde *x, t_floatarg t0, t_floatarg t1)
