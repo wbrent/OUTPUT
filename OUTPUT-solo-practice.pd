@@ -620,6 +620,10 @@ gains and mutes, f 33;
 #X connect 6 1 4 1;
 #X restore 235 198 pd cpu-kbd-player-ab-control-toggle;
 #X restore 323 52 pd global-player-config;
+#X obj 157 120 bng 15 250 50 0 load-scene load-scene-set load 17 7
+0 12 -204786 -1 -1;
+#X obj 107 120 bng 15 250 50 0 save-scene save-scene-set save 17 7
+0 12 -261234 -1 -1;
 #X connect 8 0 11 0;
 #X connect 9 0 12 0;
 #X connect 11 0 10 0;
