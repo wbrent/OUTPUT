@@ -1,0 +1,8 @@
+algorithm: (t*((p0+(p1^t>>p2&p3))*(p4+(p5&t>>p6))))>>(t>>p7&p8)
+parameters: 86 0 0 229 135 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+bit-depth: 12.000000000000000
+samplerate: 8000.000000000000000
+time: 24227
+loop-points: 1706 74410
+time-direction: FORWARD
+interpolation: TRUE
