@@ -1,8 +1,0 @@
-algorithm: ((t*(t>>p0)&((p1*t/100))&((p2*t/100)))&(t*(t>>p3)&((t*p4/100))&((t*p5/100))))+((t*(t>>p6)&((t*p7/100))&((t*p8/100)))-(t*(t>>p9)&((t*302/100))&((t*298/100))))
-parameters: 134 54 251 40 195 251 65 48 216 173 0 0 0 0 0 0 0 0 0 0
-bit-depth: 17.000000000000000
-samplerate: 8393.577148437500000
-time: 920711
-loop-points: 0 4294899968
-time-direction: FORWARD
-interpolation: TRUE

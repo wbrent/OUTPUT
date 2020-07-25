@@ -1,4 +1,4 @@
-#N canvas 1146 580 351 215 12;
+#N canvas 1136 572 352 221 12;
 #X text 21 14 Enter sequential player ID numbers (0 1 \, 2 3 \, or
 4 5), f 28;
 #X obj 24 59 ./lib/client-player-abs 2 3;
