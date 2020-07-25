@@ -1,8 +1,0 @@
-algorithm: t*((t>>p0|t>>p1)&p2&t>>p3)
-parameters: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-bit-depth: 8.000000000000000
-samplerate: 8000.000000000000000
-time: 0
-loop-points: 0 4294967295
-time-direction: FORWARD
-interpolation: TRUE
