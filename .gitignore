@@ -6,3 +6,5 @@ src/algo~.pd_linux
 src/algo~.dll
 algo-presets/*
 caches/*
+scenes/*
+scene-data/*
