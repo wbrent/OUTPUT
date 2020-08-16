@@ -1,10 +1,11 @@
 .DS_Store
+algo-presets/*
+automation/*
+caches/*
 src/algo~.o
 src/algo~.d_fat
 src/algo~.pd_darwin
 src/algo~.pd_linux
 src/algo~.dll
-algo-presets/*
-caches/*
 scenes/*
 scene-data/*

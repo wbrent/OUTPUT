@@ -1,4 +1,4 @@
-#N canvas 949 553 786 359 16;
+#N canvas 939 545 786 359 16;
 #X declare -path ../src;
 #N canvas 167 216 1260 596 init 0;
 #X obj 30 52 t b b b b;
@@ -403,7 +403,7 @@ gains and mutes, f 33;
 -204786 -1 -1;
 #X obj 196 133 bng 15 250 50 0 save-scene save-scene-set s 4 7 0 12
 -261234 -1 -1;
-#N canvas 361 286 1094 698 scenes 0;
+#N canvas 351 278 1094 698 scenes 0;
 #X obj 122 157 pdcontrol;
 #X obj 122 84 r lb1;
 #X obj 122 192 makefilename %s/scenes;
@@ -434,17 +434,35 @@ the scene, f 34;
 #X obj 634 445 makefilename notset;
 #X obj 634 527 s player-\$1-load-scene;
 #X obj 654 497 s player-\$2-load-scene;
-#X obj 54 572 button-toggle-map save-scene 7 \$1 0 1 save-scene-set
-;
-#X obj 54 632 button-toggle-map load-scene 8 \$1 0 1 load-scene-set
-;
-#X obj 54 602 button-toggle-map save-scene 7 \$2 0 1 save-scene-set
-;
-#X obj 54 662 button-toggle-map load-scene 8 \$2 0 1 load-scene-set
-;
-#X text 609 589 scene saving/loading is global for players A and B
-\, so need to feed \$1 and \$2 to the abstraction as the player ID
-, f 30;
+#N canvas 271 235 767 221 MIDI-mapping 0;
+#X text 390 57 scene saving/loading is global for players A and B \,
+so need to feed \$1 and \$2 to the abstraction as the player ID, f
+30;
+#X obj 43 46 button-bang-map save-scene 7 \$1;
+#X obj 43 76 button-bang-map save-scene 7 \$2;
+#X obj 43 106 button-bang-map load-scene 8 \$1;
+#X obj 43 136 button-bang-map load-scene 8 \$2;
+#X restore 124 598 pd MIDI-mapping;
+#N canvas 680 172 450 300 cpu-keyboard-mapping 0;
+#X obj 36 42 key;
+#X obj 36 116 spigot;
+#X obj 113 77 ||;
+#X obj 153 98 t b f;
+#X obj 113 26 r player-\$1-kbd-control;
+#X obj 153 67 r player-\$2-kbd-control;
+#X obj 36 146 select 105 111;
+#X obj 36 255 s save-scene-set;
+#X obj 126 205 s load-scene-set;
+#X connect 0 0 1 0;
+#X connect 1 0 6 0;
+#X connect 2 0 1 1;
+#X connect 3 0 2 0;
+#X connect 3 1 2 1;
+#X connect 4 0 2 0;
+#X connect 5 0 3 0;
+#X connect 6 0 7 0;
+#X connect 6 1 8 0;
+#X restore 364 598 pd cpu-keyboard-mapping;
 #X connect 0 0 2 0;
 #X connect 1 0 17 0;
 #X connect 2 0 4 1;
