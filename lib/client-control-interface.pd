@@ -919,7 +919,7 @@ player-\$1-interpolation-set;
 ;
 #X obj 36 46 button-bang-map player-\$1-algo-randomize-set 9 \$1;
 #X restore 413 154 pd compute-interp-rand;
-#N canvas 1220 237 542 406 preset-loading 0;
+#N canvas 1220 237 525 523 preset-loading 0;
 #X obj 37 97 button-bang-map player-\$1-algo-refresh-params-set 55
 \$1;
 #X obj 37 37 button-bang-map player-\$1-algo-save-params-set 35 \$1
@@ -933,6 +933,10 @@ player-\$1-interpolation-set;
 #X obj 37 247 button-toggle-map player-\$1-load-tempo 53 \$1 0 1 player-\$1-load-tempo-set
 ;
 #X obj 37 197 button-toggle-map player-\$1-load-time 43 \$1 0 1 player-\$1-load-time-set
+;
+#X obj 37 377 button-toggle-map player-\$1-save-auto 5 \$1 0 1 player-\$1-save-auto-set
+;
+#X obj 37 427 button-toggle-map player-\$1-load-auto 6 \$1 0 1 player-\$1-load-auto-set
 ;
 #X restore 413 94 pd preset-loading;
 #N canvas 723 423 368 415 active-player-sensing 0;
