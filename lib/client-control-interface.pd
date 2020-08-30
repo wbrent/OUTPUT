@@ -51,6 +51,7 @@
 #X obj 435 525 netprep player-\$1-load-bit-depth;
 #X obj 435 549 netprep player-\$1-load-tempo;
 #X obj 435 573 netprep player-\$1-load-time;
+#X obj 435 597 netprep player-\$1-load-interp;
 #X restore 20 241 pd netpreps;
 #N canvas 583 89 748 553 keyboard-commands 0;
 #X obj 54 49 key;
