@@ -1,6 +1,6 @@
-#N canvas 700 182 1031 221 12;
+#N canvas 690 174 1031 221 12;
 #X obj 978 189 inlet;
-#N canvas 259 288 1222 370 panel 0;
+#N canvas 249 280 1222 370 panel 0;
 #X obj 20 20 control-panel-abs \$1;
 #N canvas 266 248 768 641 netpreps 0;
 #N canvas 852 206 436 431 player-\$1-algo-netpreps 0;
@@ -399,8 +399,8 @@ crash., f 38;
 #X connect 14 0 15 0;
 #X connect 18 0 10 0;
 #X restore 20 301 pd keyboard-commands;
-#N canvas 176 691 621 228 MIDI 0;
-#N canvas 714 236 971 701 keyboard-tempo 0;
+#N canvas 166 683 621 228 MIDI 0;
+#N canvas 704 228 971 701 keyboard-tempo 0;
 #X obj 110 12 notein;
 #X obj 70 167 stripnote;
 #X obj 373 425 / 127;
@@ -494,7 +494,7 @@ of the current MIDI velocity fade time setting, f 27;
 #X obj 373 353 r player-\$1-pitch-bend-range;
 #X obj 459 70 fadermap player-\$1-pitch-bend-range 1 \$1 0 127 player-\$1-pitch-bend-range-set
 ;
-#N canvas 876 413 403 339 map-bend-data-to-fader 0;
+#N canvas 866 405 403 339 map-bend-data-to-fader 0;
 #X obj 52 54 bendin;
 #X obj 52 167 select 8192;
 #X msg 52 191 0;
@@ -528,7 +528,7 @@ of the current MIDI velocity fade time setting, f 27;
 #X connect 14 0 8 1;
 #X restore 246 97 pd map-bend-data-to-fader;
 #X obj 329 319 r player-\$1-pitch-bend;
-#N canvas 501 262 395 300 CC-pitch-bend 0;
+#N canvas 491 254 395 300 CC-pitch-bend 0;
 #X obj 38 115 spigot;
 #X obj 38 163 / 127;
 #X obj 138 92 r lb1;
@@ -567,6 +567,10 @@ extremes of 1 to 240 BPM \, using the middle of the keyboard, f 17
 #X text 478 578 This exists to deal with details of scene/automation
 saving. if suppress==1 \, we want the spigot to be 0 \, so we take
 the complement.;
+#X obj 445 481 r player-\$1-pitch-bend-range-scene-load-special-case
+;
+#X text 447 506 the inactive player's pitch bend range value is suppressed
+in scene loading \, so we send it through in a special case.;
 #X connect 0 0 4 0;
 #X connect 0 0 18 0;
 #X connect 0 1 1 1;
@@ -602,6 +606,7 @@ the complement.;
 #X connect 37 0 38 0;
 #X connect 37 1 38 1;
 #X connect 38 0 35 1;
+#X connect 40 0 2 0;
 #X restore 43 34 pd keyboard-tempo;
 #N canvas 313 208 765 481 algoChoice 0;
 #X obj 86 66 spigot;
@@ -2144,7 +2149,7 @@ bend final value., f 20;
 #X restore 49 149 pd gain;
 #X obj 345 60 table player-\$1-scene-parameters-table 18;
 #X restore 564 254 pd scene-parameters;
-#N canvas 19 251 959 657 load-scene 0;
+#N canvas 9 243 959 657 load-scene 0;
 #X msg 229 393 set \$1;
 #X obj 209 433 makefilename notset;
 #X obj 274 11 r lb1;
@@ -2354,20 +2359,25 @@ setting., f 39;
 #X text 498 77 automation must be killed first \, or the params of
 the algo preset won't be loaded if there's any current automation happening.
 ;
-#N canvas 780 207 502 425 populate-pitch-bend 0;
+#N canvas 770 199 626 484 populate-pitch-bend 0;
 #X obj 60 20 inlet;
-#X obj 60 317 tabread player-\$1-scene-parameters-table;
+#X obj 60 397 tabread player-\$1-scene-parameters-table;
 #X obj 133 239 tabread player-\$1-scene-parameters-table;
-#X msg 60 290 6;
+#X msg 60 370 6;
 #X msg 133 212 7;
-#X obj 60 348 s player-\$1-pitch-bend-set;
+#X obj 60 428 s player-\$1-pitch-bend-set;
 #X obj 133 270 s player-\$1-pitch-bend-range-set;
 #X text 201 142 Range must be set before bend goes through. there's
 a cold/hot inlet situation involved., f 35;
 #X obj 60 45 t b b;
+#X obj 133 300 s player-\$1-pitch-bend-range-scene-load-special-case
+;
+#X text 137 326 Need to send this as a special case \, because otherwise
+the pitch bend range value is blocked on the inactive player.;
 #X connect 0 0 8 0;
 #X connect 1 0 5 0;
 #X connect 2 0 6 0;
+#X connect 2 0 9 0;
 #X connect 3 0 1 0;
 #X connect 4 0 2 0;
 #X connect 8 0 3 0;
