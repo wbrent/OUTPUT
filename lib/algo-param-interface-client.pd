@@ -98,7 +98,7 @@ empty 17 7 0 10 -262130 -1 -1;
 #X obj 533 225 makefilename %%%%s/caches/%d-%%d-cache.txt;
 #X obj 414 44 r player-\$1-algo-save-cache;
 #X obj 147 203 pdcontrol;
-#X obj 147 130 r lb1;
+#X obj 147 130 r lb1-c;
 #X obj 76 92 r player-\$1-algo-save-params;
 #X obj 76 276 symbol;
 #X obj 147 228 makefilename %s/algo-presets;
@@ -160,7 +160,7 @@ was entered manually, f 36;
 #X obj 32 27 inlet;
 #X obj 72 152 r preset-dropdown-items;
 #X obj 300 186 pdcontrol;
-#X obj 300 113 r lb1;
+#X obj 300 113 r lb1-c;
 #X msg 300 153 dir 0 ../;
 #X obj 300 210 makefilename %s/algo-presets/%%s;
 #X obj 174 407 makefilename notset;
@@ -202,7 +202,7 @@ for preset time data to be updated and properly reported from [algo~].
 #X msg 112 118 dir 0 ../;
 #X obj 46 271 openpanel;
 #X obj 46 231 symbol;
-#X obj 112 85 r lb1;
+#X obj 112 85 r lb1-c;
 #X obj 112 175 makefilename %s/algo-presets;
 #X connect 1 0 5 0;
 #X connect 2 0 7 0;
@@ -281,7 +281,7 @@ for preset time data to be updated and properly reported from [algo~].
 #X obj 126 469 - 1;
 #X obj 126 125 t f f b;
 #X msg 288 228 seed \$1;
-#X obj 288 180 r lb1;
+#X obj 288 180 r lb1-c;
 #X obj 288 204 timer;
 #X obj 338 204 one-bang 1;
 #X connect 0 0 1 0;
@@ -368,7 +368,7 @@ success, f 38;
 #X obj 871 414 s player-\$1-save-preset;
 #X msg 871 373 ../caches/\$2-\$1-cache.txt;
 #X obj 871 185 t f f;
-#X obj 479 44 r lb2;
+#X obj 479 44 r lb2-c;
 #X msg 479 102 \; player-\$1-load-params-set 1 \; player-\$1-load-bit-depth-set
 1 \; player-\$1-load-tempo-set 1 \; player-\$1-load-time-set 1 \; player-\$1-load-interp-set
 1 \; player-\$1-algo-param-range-set 256 \;;

@@ -1,4 +1,4 @@
-#N canvas 1003 41 753 546 12;
+#N canvas 1003 89 753 379 12;
 #X obj 122 42 == \$2;
 #X obj 122 66 select 1;
 #X text 380 37 \$1: sync requestor's player ID \; \$2: this player
@@ -10,26 +10,15 @@ ID \;;
 #X text 452 160 Requested data goes to other abstraction instances
 \, but to a cold inlet where it terminates. The exception is this instance
 \, where the data stored in [list ] is banged through, f 32;
-#X obj 122 406 s client-netsend-data-hub;
 #X obj 122 18 r player-\$1-clone;
 #X obj 172 168 s player-\$2-get-algo-settings;
 #X obj 152 213 r player-\$2-complete-algo-settings;
-#X text 119 439 Set everything on the requesting client side so that
-its interface transmits individual parameter changes to the host in
-the normal fashion. This keeps everything in sync between the client
-GUI and master audio. Simple process \, at the expense of round trip
-network delay.;
-#X obj 122 322 list append player-\$1-algo-settings-for-client;
-#X obj 122 346 list prepend send;
-#X obj 122 370 list trim;
+#X obj 122 309 s player-\$1-algo-settings-for-client;
 #X connect 0 0 1 0;
 #X connect 1 0 4 0;
 #X connect 4 0 3 0;
 #X connect 4 0 5 0;
-#X connect 4 1 9 0;
-#X connect 5 0 12 0;
-#X connect 8 0 0 0;
-#X connect 10 0 5 1;
-#X connect 12 0 13 0;
-#X connect 13 0 14 0;
-#X connect 14 0 7 0;
+#X connect 4 1 8 0;
+#X connect 5 0 10 0;
+#X connect 7 0 0 0;
+#X connect 9 0 5 1;

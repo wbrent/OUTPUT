@@ -1,4 +1,4 @@
-#N canvas 1003 41 885 546 12;
+#N canvas 1003 89 726 546 12;
 #X obj 122 18 r player-\$1-time-sync;
 #X obj 122 42 == \$2;
 #X obj 122 66 select 1;
@@ -16,12 +16,6 @@ ID \;;
 \, where the data stored in [list ] is banged through, f 32;
 #X obj 172 168 s player-\$2-get-time-index-and-mu;
 #X obj 122 498 s player-\$1-time-index-set;
-#X text 441 427 Set the interp mu and time index GUI control on the
-master side immediately. Send an additional message just for the client
-side so that the change occurs on that [algo~] instance.;
-#X obj 161 364 s client-netsend-data-hub;
-#X msg 161 340 send \$1 \$2 player-\$3-update-client-time-index;
-#X obj 161 310 list append \$1;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
 #X connect 2 0 7 0;
@@ -31,7 +25,4 @@ side so that the change occurs on that [algo~] instance.;
 #X connect 7 0 8 0;
 #X connect 7 1 11 0;
 #X connect 8 0 5 0;
-#X connect 8 0 16 0;
 #X connect 9 0 8 1;
-#X connect 15 0 14 0;
-#X connect 16 0 15 0;
