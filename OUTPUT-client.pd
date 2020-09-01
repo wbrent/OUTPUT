@@ -797,7 +797,7 @@ processing details.;
 #X obj 43 136 textfile;
 #X obj 43 165 symbol;
 #X obj 43 50 loadbang;
-#X msg 43 88 read ./data/IP-default.txt \, rewind \, bang;
+#X msg 43 88 read ./data/IPdefault.txt \, rewind \, bang;
 #X connect 1 0 2 0;
 #X connect 2 0 0 0;
 #X connect 3 0 4 0;
