@@ -706,7 +706,7 @@ the difference between the measured and desired level, f 27;
 #X connect 64 1 62 0;
 #X coords 0 -1 1 1 65 120 1 60 400;
 #X restore 683 451 pd output;
-#N canvas 364 130 492 440 interface 0;
+#N canvas 364 130 707 460 interface 0;
 #X obj 87 374 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
 #X obj 87 394 s all-player-print;
@@ -726,6 +726,8 @@ the difference between the measured and desired level, f 27;
 #X msg 41 283 \; player-\$1-time-index-set 0 \;;
 #X msg 41 117 4;
 #X msg 261 117 4;
+#X obj 521 86 r sync-time-with-remote;
+#X msg 521 117 \; player-0-time-sync 0 \; player-1-time-sync 1 \;;
 #X connect 0 0 1 0;
 #X connect 2 0 3 0;
 #X connect 2 1 6 0;
@@ -745,6 +747,7 @@ the difference between the measured and desired level, f 27;
 #X connect 14 0 16 0;
 #X connect 16 0 2 0;
 #X connect 17 0 7 0;
+#X connect 18 0 19 0;
 #X restore 783 321 pd interface;
 #X obj 388 543 nbx 5 28 -1e+37 1e+37 0 0 empty connected-clients clients
 0 -8 0 18 -262144 -1 -1 0 256;
@@ -1281,6 +1284,8 @@ cases like this...;
 #X connect 13 0 2 0;
 #X coords 0 -1 1 1 120 60 2 100 100;
 #X restore 388 450 pd local-client;
+#X obj 18 551 bng 15 250 50 0 sync-time-with-remote empty sync-with-remote
+17 7 0 10 -232576 -1 -1;
 #X coords 0 -1 1 1 750 575 2 10 10;
 #X restore 11 12 pd control-panel;
 #X coords 0 609 1 608 1100 600 0;
