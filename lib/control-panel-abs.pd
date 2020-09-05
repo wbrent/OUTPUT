@@ -2,42 +2,42 @@
 #X obj 625 81 f \$1;
 #X obj 25 295 pack f \$1;
 #X msg 25 268 1;
-#X text 293 62 REVERB;
-#X floatatom 296 104 5 50 100 1 liveness player-#1-rvb-liveness-set
+#X text 293 57 REVERB;
+#X floatatom 296 99 5 50 100 1 liveness player-#1-rvb-liveness-set
 player-#1-rvb-liveness;
-#X floatatom 296 194 7 1 240 1 tempo player-#1-tempo-set player-#1-tempo
+#X floatatom 296 189 7 1 240 1 tempo player-#1-tempo-set player-#1-tempo
 ;
-#X obj 296 124 tgl 15 0 player-\$1-compute player-\$1-compute-set comp
+#X obj 296 119 tgl 15 0 player-\$1-compute player-\$1-compute-set comp
 17 7 0 10 -262144 -1 -1 0 1;
-#X obj 175 174 hradio 15 1 0 4 player-\$1-tempo-sync player-\$1-tempo-sync-set
+#X obj 175 169 hradio 15 1 0 4 player-\$1-tempo-sync player-\$1-tempo-sync-set
 tempoSync 16 8 0 10 -262144 -1 -1 4;
-#X obj 175 194 hradio 15 1 0 4 player-\$1-time-sync player-\$1-time-sync-set
+#X obj 175 189 hradio 15 1 0 4 player-\$1-time-sync player-\$1-time-sync-set
 timeSync 16 8 0 10 -262144 -1 -1 0;
-#X obj 346 124 tgl 15 0 player-\$1-interpolation player-\$1-interpolation-set
+#X obj 346 119 tgl 15 0 player-\$1-interpolation player-\$1-interpolation-set
 intrp 17 7 0 10 -262144 -1 -1 0 1;
-#X floatatom 65 194 15 0 0 1 t player-#1-time-index-set player-#1-time-index
+#X floatatom 65 189 15 0 0 1 t player-#1-time-index-set player-#1-time-index
 ;
-#X obj 276 176 vsl 8 30 -1 1 0 0 player-\$1-pitch-bend player-\$1-pitch-bend-set
+#X obj 276 171 vsl 8 30 -1 1 0 0 player-\$1-pitch-bend player-\$1-pitch-bend-set
 empty 0 -9 0 10 -262144 -1 -1 0 1;
 #X msg 25 320 \; pd-player-\$2-raw-output-plot vis \$1 \;;
-#X obj 60 70 cnv 15 230 95 empty player-\$1-active-canvas-set empty
+#X obj 60 65 cnv 15 230 95 empty player-\$1-active-canvas-set empty
 20 12 0 14 -260649 -66577 0;
-#X obj 68 124 hsl 128 15 0 1 0 0 player-\$1-spat-pos player-\$1-spat-pos-set
+#X obj 68 119 hsl 128 15 0 1 0 0 player-\$1-spat-pos player-\$1-spat-pos-set
 player-\$1-spat-pos 4 8 0 10 -262144 -1 -1 0 1;
-#X obj 68 84 hsl 128 15 40 100 0 0 player-\$1-gain player-\$1-gain-set
+#X obj 68 79 hsl 128 15 40 100 0 0 player-\$1-gain player-\$1-gain-set
 player-\$1-gain 4 8 0 10 -262144 -1 -1 0 1;
-#X floatatom 206 84 5 0 0 1 dB player-#1-gain -;
-#X obj 68 144 hsl 128 15 0.01 1 0 0 player-\$1-spat-width player-\$1-spat-width-set
+#X floatatom 206 79 5 0 0 1 dB player-#1-gain -;
+#X obj 68 139 hsl 128 15 0.01 1 0 0 player-\$1-spat-width player-\$1-spat-width-set
 player-\$1-spat-width 4 8 0 10 -262144 -1 -1 0 1;
-#X floatatom 206 144 5 1 32 1 bit player-#1-bit-depth-set player-#1-bit-depth
+#X floatatom 206 139 5 1 32 1 bit player-#1-bit-depth-set player-#1-bit-depth
 ;
-#X obj 65 104 bng 15 250 50 0 empty empty plot 17 7 0 10 -262144 -1
+#X obj 65 99 bng 15 250 50 0 empty empty plot 17 7 0 10 -262144 -1
 -1;
-#X obj 137 104 cnv 15 60 14 empty player-\$1-spat-lfo-ctrl-color empty
+#X obj 137 99 cnv 15 60 14 empty player-\$1-spat-lfo-ctrl-color empty
 20 12 0 14 -259678 -262144 0;
-#X floatatom 136 104 10 -20 20 0 - player-#1-spat-lfo-freq-set player-#1-spat-lfo-freq
+#X floatatom 136 99 10 -20 20 0 - player-#1-spat-lfo-freq-set player-#1-spat-lfo-freq
 ;
-#X obj 266 84 tgl 15 0 player-\$1-mute player-\$1-mute-set m 4 7 0
+#X obj 266 79 tgl 15 0 player-\$1-mute player-\$1-mute-set m 4 7 0
 10 -262144 -1 -1 0 1;
 #N canvas 264 396 499 382 find-MIDI-note 0;
 #X obj 45 46 r player-\$1-tempo;
@@ -68,10 +68,10 @@ on the keyboard., f 23;
 #X connect 11 0 3 0;
 #X connect 12 0 10 0;
 #X restore 437 68 pd find-MIDI-note;
-#X symbolatom 296 174 7 0 0 1 note player-#1-midi-note-display -;
-#X floatatom 206 124 5 0 9999 2 algo-select player-#1-algo-select-set
+#X symbolatom 296 169 7 0 0 1 note player-#1-midi-note-display -;
+#X floatatom 206 119 5 0 9999 2 algo-select player-#1-algo-select-set
 player-#1-algo-select;
-#X obj 296 154 tgl 15 0 player-\$1-asr-kbd player-\$1-asr-kbd-set ASR-kbd
+#X obj 296 149 tgl 15 0 player-\$1-asr-kbd player-\$1-asr-kbd-set ASR-kbd
 17 7 0 10 -262144 -1 -1 0 1;
 #N canvas 897 125 427 283 time-control 0;
 #X obj 67 15 r player-\$1-time-point;
@@ -150,19 +150,19 @@ player-#1-algo-select;
 #X connect 12 0 10 0;
 #X connect 13 0 11 0;
 #X restore 437 158 pd dry-wet;
-#X floatatom 296 84 5 0 100 1 dry-wet player-#1-dry-wet-set player-#1-dry-wet
+#X floatatom 296 79 5 0 100 1 dry-wet player-#1-dry-wet-set player-#1-dry-wet
 ;
-#X floatatom 65 174 7 0 1623 1 m player-#1-time-point-set player-#1-time-point
+#X floatatom 65 169 7 0 1623 1 m player-#1-time-point-set player-#1-time-point
 ;
-#X symbolatom 65 234 55 0 0 0 - player-#1-algo-direct-set player-#1-algo-direct
+#X symbolatom 65 229 55 0 0 0 - player-#1-algo-direct-set player-#1-algo-direct
 ;
-#X obj 132 174 tgl 15 0 player-\$1-time-reverse player-\$1-time-reverse-set
+#X obj 132 169 tgl 15 0 player-\$1-time-reverse player-\$1-time-reverse-set
 t-rev 5 7 0 10 -262144 -1 -1 0 1;
-#X obj 299 144 hsl 60 8 0 1000 0 0 player-\$1-asr-time player-\$1-asr-time-set
+#X obj 299 139 hsl 60 8 0 1000 0 0 player-\$1-asr-time player-\$1-asr-time-set
 empty -2 -8 0 10 -262144 -1 -1 0 1;
-#X obj 175 214 hradio 15 1 0 4 player-\$1-clone player-\$1-clone-set
+#X obj 175 209 hradio 15 1 0 4 player-\$1-clone player-\$1-clone-set
 clone 16 8 0 10 -262144 -1 -1 0;
-#X obj 355 214 bng 15 250 50 0 empty empty misc 17 7 0 10 -262144 -1
+#X obj 355 209 bng 15 250 50 0 empty empty misc 17 7 0 10 -262144 -1
 -1;
 #X obj 305 295 pack f \$1;
 #X msg 305 268 1;
@@ -192,9 +192,9 @@ k 5 7 0 10 -262144 -1 -1 0 1;
 #X coords 0 -1 1 1 210 105 2 60 110;
 #X restore 3 26 pd hidden;
 #X restore 85 399 pd player-\$1-misc-gui-elements;
-#X obj 286 176 vsl 8 30 0 127 0 0 player-\$1-pitch-bend-range player-\$1-pitch-bend-range-set
+#X obj 286 171 vsl 8 30 0 127 0 0 player-\$1-pitch-bend-range player-\$1-pitch-bend-range-set
 empty 0 -9 0 10 -262144 -1 -1 0 1;
-#X obj 246 124 bng 15 250 50 0 player-\$1-rand-algo player-\$1-rand-algo-set
+#X obj 246 119 bng 15 250 50 0 player-\$1-rand-algo player-\$1-rand-algo-set
 r 4 7 0 10 -262130 -1 -1;
 #N canvas 515 401 521 302 algo-selection 0;
 #X obj 42 82 text get outputAlgorithms;
@@ -230,11 +230,11 @@ r 4 7 0 10 -262130 -1 -1;
 #X connect 14 0 13 1;
 #X connect 15 0 13 0;
 #X restore 437 188 pd algo-selection;
-#X obj 276 214 bng 15 250 50 0 player-\$1-pitch-bend-zero player-\$1-pitch-bend-zero-set
+#X obj 276 209 bng 15 250 50 0 player-\$1-pitch-bend-zero player-\$1-pitch-bend-zero-set
 0 5 8 0 10 -232576 -1 -1;
-#X obj 65 214 tgl 15 0 player-\$1-loop-record player-\$1-loop-record-set
+#X obj 65 209 tgl 15 0 player-\$1-loop-record player-\$1-loop-record-set
 loopRec 17 7 0 10 -262144 -1 -1 0 1;
-#X obj 132 214 bng 15 250 50 0 player-\$1-loop-reset player-\$1-loop-reset-set
+#X obj 132 209 bng 15 250 50 0 player-\$1-loop-reset player-\$1-loop-reset-set
 empty 5 8 0 10 -232576 -1 -1;
 #N canvas 924 91 441 449 flash-ASR-kbd 0;
 #X obj 46 25 r player-\$1-asr-kbd;
@@ -300,9 +300,9 @@ empty 5 8 0 10 -232576 -1 -1;
 #X connect 11 0 4 0;
 #X connect 11 0 7 0;
 #X restore 437 218 pd flash-mute;
-#X obj 116 104 tgl 15 0 player-\$1-spat-lfo-type player-\$1-spat-lfo-type-set
+#X obj 116 99 tgl 15 0 player-\$1-spat-lfo-type player-\$1-spat-lfo-type-set
 r 4 7 0 10 -262130 -1 -1 0 1;
-#X floatatom 296 214 7 1 240 1 - player-#1-tempo-final dummy;
+#X floatatom 296 209 7 1 240 1 - player-#1-tempo-final dummy;
 #X obj 417 363 r dummy;
 #X text 370 388 dummy receive for any GUI element sends needed to remove
 outlets, f 26;
@@ -325,4 +325,4 @@ player-\$1-compute-set 1 \; player-\$1-interpolation-set 1 \; player-\$1-algo-se
 #X connect 37 0 39 0;
 #X connect 38 0 37 0;
 #X connect 54 0 0 0;
-#X coords 0 -1 1 1 360 210 1 50 50;
+#X coords 0 -1 1 1 360 210 2 50 50;

@@ -1,9 +1,9 @@
-#N canvas 84 202 773 596 10;
+#N canvas 84 202 1054 597 10;
 #X declare -path ./lib;
 #X declare -path ./src;
 #X declare -path ./src;
 #X declare -lib zexy;
-#N canvas 840 161 951 644 control-panel 0;
+#N canvas 305 93 1240 611 control-panel 0;
 #N canvas 313 221 985 537 init 0;
 #X obj 31 24 loadbang;
 #X obj 123 115 s lb1;
@@ -108,7 +108,7 @@ tof | zexy 2.3.1;
 #X connect 24 0 26 0;
 #X connect 25 0 24 0;
 #X connect 28 0 15 0;
-#X restore 783 261 pd init;
+#X restore 1064 243 pd init;
 #N canvas 611 146 528 213 players 0;
 #X obj 32 28 algo-player 0;
 #X obj 32 48 algo-player 1;
@@ -123,16 +123,12 @@ tof | zexy 2.3.1;
 #X obj 353 99 spat-abs-2 player-2;
 #X obj 353 119 spat-abs-2 player-3;
 #X obj 202 28 clone spat-LFO-abs 4;
-#X restore 783 281 pd players;
+#X restore 1064 263 pd players;
 #X obj 21 450 hsl 300 45 40 100 0 0 master-volume master-volume-set
 master-volume 8 24 0 32 -262144 -1 -1 24917 1;
 #X obj 18 501 bng 15 250 50 0 run-master-visuals empty visuals 17 7
 0 12 -262144 -1 -1;
 #X obj 223 530 cpumeter;
-#X obj 18 230 control-panel-abs 2;
-#X obj 388 20 control-panel-abs 1;
-#X obj 18 20 control-panel-abs 0;
-#X obj 388 230 control-panel-abs 3;
 #N canvas 25 89 1405 612 output 0;
 #X obj 58 141 *~;
 #X obj 1242 194 dbtorms;
@@ -646,7 +642,7 @@ the difference between the measured and desired level, f 27;
 #X connect 64 0 63 0;
 #X connect 64 1 62 0;
 #X coords 0 -1 1 1 65 120 1 60 400;
-#X restore 683 450 pd output;
+#X restore 963 450 pd output;
 #N canvas 364 130 725 440 interface 0;
 #X obj 87 374 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
@@ -689,10 +685,10 @@ the difference between the measured and desired level, f 27;
 #X connect 16 0 2 0;
 #X connect 17 0 7 0;
 #X connect 18 0 19 0;
-#X restore 783 301 pd interface;
-#X obj 663 555 tgl 15 0 master-output-stereo-mode master-output-stereo-mode-set
+#X restore 1064 303 pd interface;
+#X obj 943 555 tgl 15 0 master-output-stereo-mode master-output-stereo-mode-set
 s 4 7 0 12 -262144 -1 -1 1 1;
-#X obj 663 535 tgl 15 0 master-output-record empty r 4 7 0 12 -261234
+#X obj 943 535 tgl 15 0 master-output-record empty r 4 7 0 12 -261234
 -1 -1 0 1;
 #X obj 18 521 tgl 15 0 visuals-show-data visuals-show-data-set show-data
 17 7 0 12 -262144 -1 -1 1 1;
@@ -756,7 +752,7 @@ processing details.;
 #X connect 8 0 9 0;
 #X connect 9 0 10 0;
 #X connect 10 0 5 0;
-#X restore 783 331 pd visuals-subprocess;
+#X restore 1064 333 pd visuals-subprocess;
 #X obj 158 501 bng 15 250 50 0 timer-reset empty timer-reset 17 7 0
 12 -262144 -1 -1;
 #N canvas 849 89 470 332 local-client 0;
@@ -825,11 +821,6 @@ processing details.;
 #X connect 15 0 4 0;
 #X connect 16 0 3 0;
 #X restore 47 209 pd init;
-#X obj 271 106 bng 20 250 50 0 empty empty A 6 10 0 14 -204786 -1 -1
-;
-#X msg 170 231 vis \$1 1;
-#X obj 301 106 bng 20 250 50 0 empty empty B 6 10 0 14 -204786 -1 -1
-;
 #N canvas 349 328 562 411 global-player-config 0;
 #N canvas 212 320 783 506 fadermap-player-A-and-B 0;
 #X obj 28 266 / 127;
@@ -1220,9 +1211,6 @@ cases like this...;
 #X connect 22 0 20 0;
 #X restore 47 269 pd scenes;
 #X text 267 140 scenes;
-#X obj 170 271 clone -s 2 client-control-interface 2;
-#X obj 170 197 f 2;
-#X obj 280 197 f 3;
 #N canvas 133 96 883 711 netsend 0;
 #X obj 368 342 r netsend-data-hub;
 #X msg 351 299 disconnect;
@@ -1302,15 +1290,16 @@ bang \;;
 5 7 0 10 -262144 -1 -1 0 1;
 #X obj 366 141 bng 15 250 50 0 net-connect-init empty i 5 8 0 10 -262144
 -1 -1;
-#X connect 1 0 11 0;
-#X connect 2 0 10 0;
-#X connect 3 0 12 0;
-#X connect 11 0 2 0;
-#X connect 12 0 2 0;
 #X coords 0 -1 1 1 285 60 2 100 100;
 #X restore 388 450 pd local-client;
 #X obj 18 551 bng 15 250 50 0 sync-time-with-remote empty sync-with-remote
 17 7 0 10 -232576 -1 -1;
-#X coords 0 -1 1 1 750 575 2 10 10;
-#X restore 11 9 pd control-panel;
-#X coords 0 596 1 595 1100 600 0;
+#N canvas 314 68 398 458 master-control-panels 0;
+#X obj 18 230 control-panel-abs 1;
+#X obj 18 20 control-panel-abs 0;
+#X restore 1064 283 pd master-control-panels;
+#X obj 19 23 client-control-interface 2;
+#X obj 19 233 client-control-interface 3;
+#X coords 0 -1 1 1 1030 575 2 10 10;
+#X restore 11 10 pd control-panel;
+#X coords 0 597 1 596 1100 600 0;
