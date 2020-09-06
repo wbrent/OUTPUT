@@ -2,16 +2,19 @@ if type(window) ~= "userdata" then
   window = ofWindow()
 end
 
+local xPos = ofValue("visuals-xpos-ofValue")
+local winScale = ofValue("visuals-winScale-ofValue")
+
 local clock = ofClock(this, "setup")
 local canvas = ofCanvas(this)
 local fontDir = canvas:getDir() .. "/fonts/"
 local arial = ofTrueTypeFont()
-local fontSize = 14;
+local fontSize = 14 * winScale:get();
 
 
--- Pd [table] array is 500x300. using that as the default size
-local winWidth = 1000 -- 1000
-local winHeight = 600 -- 600
+-- Pd [table] array is 500x300. using that to determine aspect ratio
+local winWidth = math.floor(1000 * winScale:get() + 0.5) -- 1000
+local winHeight = math.floor(600 * winScale:get() + 0.5) -- 600
 
 local halfWinWidth = winWidth * 0.5
 
@@ -29,7 +32,6 @@ local player2brightness = ofValue("player-2-draw-brightness")
 local player3brightness = ofValue("player-3-draw-brightness")
 
 local showData = ofValue("visuals-show-data-ofValue")
-local xPos = ofValue("visuals-xpos-ofValue")
 
 local player0gain = ofValue("player-0-gain-ofValue")
 local player0algo = ofValue("player-0-algo-select-ofValue")
