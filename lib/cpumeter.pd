@@ -1,5 +1,5 @@
 #N canvas 220 321 538 424 16;
-#X floatatom 108 109 0 0 0 1 %-CPU - -;
+#X floatatom 108 109 5 0 0 1 %-CPU - -;
 #X obj 255 170 cputime;
 #X obj 255 30 loadbang;
 #X obj 255 114 metro 1000;
@@ -7,15 +7,15 @@
 #X floatatom 255 86 0 0 0 0 - - -;
 #X obj 255 142 t b b;
 #X obj 255 230 * 0.1;
-#X obj 255 199 int;
 #X text 300 86 <-- on/off;
-#X connect 1 0 8 0;
+#X obj 255 259 int;
+#X connect 1 0 7 0;
 #X connect 2 0 4 0;
 #X connect 3 0 6 0;
 #X connect 4 0 5 0;
 #X connect 5 0 3 0;
 #X connect 6 0 1 0;
 #X connect 6 1 1 1;
-#X connect 7 0 0 0;
-#X connect 8 0 7 0;
-#X coords 0 -1 1 1 100 40 2 100 100;
+#X connect 7 0 9 0;
+#X connect 9 0 0 0;
+#X coords 0 -1 1 1 115 40 2 100 100;

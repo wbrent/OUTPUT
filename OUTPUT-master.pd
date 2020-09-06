@@ -127,7 +127,7 @@ tof | zexy;
 #X restore 385 107 pd players;
 #X obj 21 18 hsl 300 45 40 100 0 0 master-volume master-volume-set
 master-volume 8 24 0 32 -262144 -1 -1 24917 1;
-#X obj 223 178 cpumeter;
+#X obj 208 178 cpumeter;
 #N canvas 483 589 531 419 netreceive 0;
 #X obj 64 199 netreceive 57120;
 #X obj 213 242 s connected-clients;

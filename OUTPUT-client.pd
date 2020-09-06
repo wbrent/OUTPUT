@@ -6,7 +6,7 @@
 #N canvas 217 119 612 357 control-panel 0;
 #X obj 21 18 hsl 300 45 40 100 0 0 master-volume master-volume-set
 master-volume 8 24 0 32 -262144 -1 -1 24917 1;
-#X obj 223 178 cpumeter;
+#X obj 208 178 cpumeter;
 #N canvas 35 89 1405 612 levels 0;
 #X obj 58 141 *~;
 #X obj 1242 194 dbtorms;
