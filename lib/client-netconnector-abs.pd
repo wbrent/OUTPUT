@@ -1,0 +1,76 @@
+#N canvas 531 90 899 695 16;
+#X obj 348 342 r netsend-data-hub;
+#X msg 331 299 disconnect;
+#X obj 286 406 netsend;
+#X obj 283 103 cnv 15 159 74 empty netsend-connected-canvas empty 20
+12 0 14 -258053 -262144 0;
+#X obj 286 139 tgl 15 0 empty empty connect 17 7 0 12 -262144 -1 -1
+0 1;
+#X obj 286 460 select 0 1;
+#X msg 286 576 \; netsend-connected-canvas color -1.67117e+07 0 0 \;
+;
+#X symbolatom 286 110 15 0 0 0 - master-ip-address-set master-ip-address
+;
+#X msg 286 264 connect \$1 57120;
+#X obj 286 233 symbol;
+#X obj 286 199 select 1 0;
+#X msg 336 503 \; netsend-connected-canvas color -65281 0 0 \; net-connect-init
+bang \;;
+#X obj 154 479 loadbang;
+#N canvas 683 354 528 546 parsing-and-transmission 0;
+#X obj 184 42 inlet;
+#X obj 184 118 t l l;
+#X obj 296 160 list length;
+#X obj 184 227 list split;
+#X obj 296 189 - 1;
+#X obj 184 256 list trim;
+#X obj 184 455 s;
+#X obj 184 71 list;
+#X obj 184 324 list prepend color;
+#X obj 184 416 list trim;
+#X obj 398 355 list;
+#X obj 184 289 route color set;
+#X obj 227 354 list prepend set;
+#X obj 47 187 spigot;
+#X obj 47 220 print;
+#X obj 117 187 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X connect 0 0 7 0;
+#X connect 1 0 3 0;
+#X connect 1 1 2 0;
+#X connect 2 0 4 0;
+#X connect 3 0 5 0;
+#X connect 3 1 6 1;
+#X connect 4 0 3 1;
+#X connect 5 0 11 0;
+#X connect 7 0 1 0;
+#X connect 7 0 13 0;
+#X connect 8 0 9 0;
+#X connect 9 0 6 0;
+#X connect 10 0 6 0;
+#X connect 11 0 8 0;
+#X connect 11 1 12 0;
+#X connect 11 2 10 0;
+#X connect 12 0 9 0;
+#X connect 13 0 14 0;
+#X connect 15 0 13 1;
+#X restore 441 409 pd parsing-and-transmission;
+#X obj 386 233 r master-ip-address;
+#X obj 39 385 s connected-ip-address;
+#X obj 286 159 bng 15 250 50 0 sync-time-with-remote empty sync-with-remote
+17 7 0 12 -232576 -1 -1;
+#X connect 0 0 2 0;
+#X connect 1 0 2 0;
+#X connect 2 0 5 0;
+#X connect 2 1 13 0;
+#X connect 4 0 10 0;
+#X connect 5 0 6 0;
+#X connect 5 1 11 0;
+#X connect 8 0 2 0;
+#X connect 9 0 8 0;
+#X connect 9 0 15 0;
+#X connect 10 0 9 0;
+#X connect 10 1 1 0;
+#X connect 12 0 6 0;
+#X connect 14 0 9 1;
+#X coords 0 -1 1 1 165 80 2 280 100;

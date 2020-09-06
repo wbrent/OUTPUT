@@ -2,7 +2,7 @@
 #X obj 625 81 f \$1;
 #X obj 25 295 pack f \$1;
 #X msg 25 268 1;
-#X text 293 57 REVERB;
+#X text 294 61 REVERB;
 #X floatatom 296 99 5 50 100 1 liveness player-#1-rvb-liveness-set
 player-#1-rvb-liveness;
 #X floatatom 296 189 7 1 240 1 tempo player-#1-tempo-set player-#1-tempo
