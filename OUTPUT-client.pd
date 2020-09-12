@@ -3,7 +3,7 @@
 #X declare -path ./src;
 #X declare -path ./src;
 #X declare -lib zexy;
-#N canvas 217 119 612 357 control-panel 0;
+#N canvas 424 274 612 357 control-panel 0;
 #X obj 21 18 hsl 300 45 40 100 0 0 master-volume master-volume-set
 master-volume 8 24 0 32 -262144 -1 -1 24917 1;
 #X obj 208 178 cpumeter;
@@ -710,6 +710,8 @@ tof | zexy;
 #X connect 4 0 1 0;
 #X restore 373 227 pd set-default-IP;
 #X obj 34 332 declare -lib zexy;
+#X obj 162 252 r lb3-c;
+#X msg 162 273 \; global-kbd-control-set 0 \;;
 #X connect 0 0 13 0;
 #X connect 0 1 12 0;
 #X connect 0 2 11 0;
@@ -721,6 +723,7 @@ tof | zexy;
 #X connect 9 0 2 0;
 #X connect 15 0 4 0;
 #X connect 16 0 3 0;
+#X connect 19 0 20 0;
 #X restore 385 67 pd netconnect-init;
 #N canvas 538 384 562 411 global-player-config 0;
 #N canvas 212 320 783 506 fadermap-player-A-and-B 0;

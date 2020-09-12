@@ -722,6 +722,8 @@ cases like this...;
 #X obj 322 56 f 0;
 #X obj 34 362 declare -path ./src;
 #X obj 34 332 declare -lib zexy;
+#X obj 162 252 r lb3-c;
+#X msg 162 273 \; global-kbd-control-set 0 \;;
 #X connect 0 0 13 0;
 #X connect 0 1 12 0;
 #X connect 0 2 11 0;
@@ -733,6 +735,7 @@ cases like this...;
 #X connect 9 0 2 0;
 #X connect 14 0 3 0;
 #X connect 15 0 4 0;
+#X connect 18 0 19 0;
 #X restore 385 67 pd netconnect-init;
 #X obj 18 199 tgl 15 0 empty connected-clients client-connection 17
 7 0 12 -262144 -1 -1 0 1;
