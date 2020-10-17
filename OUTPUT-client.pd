@@ -531,8 +531,6 @@ s 4 8 0 12 -262144 -1 -1 1 1;
 -262144 -1 -1;
 #X obj 28 129 tgl 15 0 visuals-show-data visuals-show-data-set show-data
 17 7 0 12 -262144 -1 -1 1 1;
-#X obj 28 109 bng 15 250 50 0 timer-reset empty timer-reset 17 7 0
-12 -262144 -1 -1;
 #X obj 142 68 cnv 15 87 45 empty empty scenes 5 10 0 12 -233017 -1
 0;
 #X obj 172 89 bng 15 250 50 0 load-scene load-scene-set l 4 8 0 12
@@ -1234,10 +1232,10 @@ processing details.;
 #X floatatom 88 149 5 0.1 5 1 s visuals-winScale-set visuals-winScale
 ;
 #X floatatom 28 149 5 0 0 1 x visuals-xpos-set visuals-xpos;
+#X connect 12 0 14 0;
 #X connect 13 0 15 0;
-#X connect 14 0 16 0;
-#X connect 15 0 18 0;
-#X connect 16 0 18 0;
+#X connect 14 0 17 0;
+#X connect 15 0 17 0;
 #X coords 0 -1 1 1 321 250 2 10 10;
 #X restore 13 13 pd control-panel;
 #X coords 0 279 1 278 1100 600 0;

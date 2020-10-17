@@ -178,6 +178,7 @@ object, f 23;
 #X obj 333 108 s net-connect-init;
 #X text 301 138 When the client connects \, initialize the lb1-c loadbangs
 locally \, here on the master side., f 29;
+#X obj 145 39 netprep timer-reset;
 #X connect 0 0 2 0;
 #X connect 0 0 5 0;
 #X connect 0 1 1 0;
