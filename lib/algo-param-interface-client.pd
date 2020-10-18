@@ -472,9 +472,9 @@ empty 20 12 0 14 -262144 -66577 0;
 ;
 #X obj 339 362 bng 15 250 50 0 player-\$1-algo-time-zero player-\$1-algo-time-zero-set
 0 4 8 0 12 -232576 -1 -1;
-#X obj 369 362 bng 15 250 50 0 player-\$1-algo-time-rand player-\$1-algo-time-rand-set
+#X obj 359 362 bng 15 250 50 0 player-\$1-algo-time-rand player-\$1-algo-time-rand-set
 r 4 8 0 12 -262130 -1 -1;
-#X text 336 342 zero/random time;
+#X text 306 342 zero/random time;
 #X obj 539 362 bng 15 250 50 0 player-\$1-automation-killall player-\$1-automation-killall-set
 killall 20 7 0 12 -262144 -1 -1;
 #X obj 110 112 clone param-changer 10 \$1;
@@ -649,10 +649,12 @@ interp 17 7 0 12 -262144 -1 -1 0 1;
 l 4 8 0 12 -204786 -1 -1;
 #X obj 499 362 bng 15 250 50 0 player-\$1-save-auto player-\$1-save-auto-set
 s 4 8 0 12 -261234 -1 -1;
-#X text 498 342 automation;
+#X text 483 342 automation;
 #X obj 653 358 cnv 15 95 35 empty empty empty 20 12 0 14 -262144 -66577
 0;
 #X text 656 404 ^ white canvas to mask [inlet] in parent patch, f
 26;
+#X obj 479 362 bng 15 250 50 0 player-\$1-dup-alt player-\$1-dup-alt-set
+dup -28 7 0 12 -204786 -1 -1;
 #X connect 45 0 80 0;
 #X coords 0 -1 1 1 650 210 2 100 185;
