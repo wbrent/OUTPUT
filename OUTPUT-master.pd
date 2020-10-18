@@ -1286,6 +1286,13 @@ s 4 8 0 12 -262144 -1 -1 1 1;
 #X floatatom 78 149 5 0.1 50 1 s visuals-winScale-set visuals-winScale
 ;
 #X floatatom 28 149 5 0 0 1 x visuals-xpos-set visuals-xpos;
+#N canvas 201 76 265 191 monitor-signals 0;
+#X obj 48 31 r~ player-0-monitor;
+#X obj 108 71 r~ player-1-monitor;
+#X obj 48 121 dac~ 9 10;
+#X connect 0 0 2 0;
+#X connect 1 0 2 1;
+#X restore 385 247 pd monitor-signals;
 #X connect 24 0 26 0;
 #X connect 25 0 28 0;
 #X connect 26 0 27 0;
