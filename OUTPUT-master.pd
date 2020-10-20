@@ -68,8 +68,8 @@
 #X restore 783 301 pd players;
 #X obj 21 680 hsl 300 45 40 100 0 0 master-volume master-volume-set
 master-volume 8 24 0 32 -262144 -1 -1 24917 1;
-#X obj 18 731 bng 15 250 50 0 run-master-visuals empty visuals 17 7
-0 12 -262144 -1 -1;
+#X obj 18 731 bng 15 250 50 0 run-master-visuals empty plots 17 7 0
+12 -262144 -1 -1;
 #X obj 615 761 cpumeter;
 #X obj 18 250 control-panel-abs 2;
 #X obj 388 40 control-panel-abs 1;
@@ -749,7 +749,7 @@ the difference between the measured and desired level, f 27;
 #X obj 615 720 nbx 5 28 -1e+37 1e+37 0 0 empty connected-clients clients
 0 -8 0 18 -262144 -1 -1 0 256;
 #X obj 293 771 tgl 30 0 master-output-stereo-mode master-output-stereo-mode-set
-stereo-mode -170 16 0 24 -262144 -1 -1 0 1;
+stereo-mode -170 16 0 24 -262144 -1 -1 1 1;
 #X obj 18 781 tgl 15 0 master-output-record empty record 17 7 0 12
 -261234 -1 -1 0 1;
 #X obj 18 751 tgl 15 0 visuals-show-data visuals-show-data-set show-data
