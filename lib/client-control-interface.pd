@@ -1357,6 +1357,10 @@ scale from 0 to 4 \, but also log scale going from 0 down to -4;
 #X obj 415 59 fadermap player-\$1-dry 70 \$1 40 60 player-\$1-dry-set
 1;
 #X restore 212 124 pd spat-reverb;
+#N canvas 398 386 510 167 auto-scene-dup 0;
+#X obj 37 37 button-bang-map player-\$1-dup-auto-alt-set 126 \$1;
+#X obj 37 67 button-bang-map player-\$1-dup-scene-alt-set 127 \$1;
+#X restore 43 184 pd auto-scene-dup;
 #X restore 20 331 pd MIDI;
 #X obj 380 20 algo-param-interface-client \$1;
 #N canvas 25 89 1010 451 parameter-automation 0;
