@@ -543,8 +543,8 @@ s 4 8 0 12 -262144 -1 -1 1 1;
 -1 -1;
 #X obj 210 147 tgl 15 0 global-kbd-control global-kbd-control-set k
 4 8 0 12 -262144 -1 -1 0 1;
-#X obj 152 147 bng 15 250 50 0 empty empty A 4 8 0 12 -4032 -1 -1;
-#X obj 172 147 bng 15 250 50 0 empty empty B 4 8 0 12 -4032 -1 -1;
+#X obj 152 136 bng 15 250 50 0 empty empty A 4 8 0 12 -4032 -1 -1;
+#X obj 172 136 bng 15 250 50 0 empty empty B 4 8 0 12 -4032 -1 -1;
 #X msg 110 273 vis 2 1;
 #X msg 180 273 vis 3 1;
 #X obj 18 174 client-netconnector-abs;
@@ -960,7 +960,7 @@ gains and mutes, f 33;
 #X obj 18 230 control-panel-abs 1;
 #X obj 18 20 control-panel-abs 0;
 #X restore 385 127 pd master-control-panels;
-#N canvas 364 130 753 379 interface 0;
+#N canvas 364 130 753 502 interface 0;
 #X obj 382 166 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 382 186 s all-player-print;
@@ -986,6 +986,16 @@ gains and mutes, f 33;
 #X msg 521 265 \; player-\$2-kbd-control-set \$1 \; player-\$3-kbd-control-set
 \$1 \;;
 #X obj 521 225 pack f 2 3;
+#X obj 41 407 == 127;
+#X obj 41 383 ctlin 3;
+#X obj 471 383 ctlin 4;
+#X text 541 381 CC 4 gates out MIDI messages while depressed so that
+physical controls can be moved freely without changing values., f
+32;
+#X obj 471 413 == 127;
+#X text 121 381 << broadcast MIDI to both players while depressed;
+#X obj 41 427 s midi-broadcast-set;
+#X obj 471 433 s midi-suppress-set;
 #X connect 0 0 1 0;
 #X connect 2 0 3 0;
 #X connect 2 1 6 0;
@@ -1008,6 +1018,10 @@ gains and mutes, f 33;
 #X connect 18 0 19 0;
 #X connect 20 0 22 0;
 #X connect 22 0 21 0;
+#X connect 23 0 29 0;
+#X connect 24 0 23 0;
+#X connect 25 0 27 0;
+#X connect 27 0 30 0;
 #X restore 385 147 pd interface;
 #N canvas 341 270 703 665 scenes 0;
 #X obj 122 157 pdcontrol;
@@ -1239,6 +1253,12 @@ processing details.;
 #X connect 1 0 0 0;
 #X connect 2 0 0 1;
 #X restore 385 227 pd monitor-signals;
+#X obj 188 198 tgl 15 0 midi-suppress midi-suppress-set ms 1 8 0 12
+-262144 -1 -1 0 1;
+#X obj 188 178 tgl 15 0 midi-broadcast midi-broadcast-set mb 1 8 0
+12 -262144 -1 -1 0 1;
+#X obj 152 154 hradio 10 1 0 2 player-toggle-gui player-toggle-gui-set
+empty 0 -8 0 10 -262144 -1 -1 0;
 #X connect 12 0 14 0;
 #X connect 13 0 15 0;
 #X connect 14 0 17 0;

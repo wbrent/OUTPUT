@@ -9,7 +9,7 @@
 #X msg 109 103 0;
 #X obj 109 25 inlet;
 #X text 167 25 << initialization bang;
-#X text 324 86 \$1: player ID;
+#X text 324 115 \$1: player ID;
 #X obj 37 533 outlet;
 #X text 100 533 << flag for spigot;
 #X text 415 203 This abstraction produces a suppress/allow flag for
@@ -17,10 +17,7 @@ use with spigots to block MIDI data based on whether player A or B
 is the "active player". Upon initialization with a bang via its inlet
 \, it produces an allow flag for player A and a suppress flag for player
 B. Works for player IDs 0-5, f 41;
-#X obj 211 75 == 127;
 #X obj 211 99 select 0;
-#X text 291 49 << global change while depressed;
-#X obj 211 51 ctlin 3;
 #X obj 211 123 t b b;
 #X msg 248 152 0;
 #X obj 177 317 r player-\$1-cpu-kbd-player-ab-toggle;
@@ -28,17 +25,16 @@ B. Works for player IDs 0-5, f 41;
 #X obj 217 342 + 1;
 #X obj 217 366 % 2;
 #X floatatom 177 379 5 0 0 0 - - -;
-#X obj 296 398 swap 127;
-#X obj 296 421 -;
-#X obj 296 375 ctlin 4;
-#X text 366 373 CC 4 gates out MIDI messages while depressed so that
-physical controls can be moved freely without changing values., f
-32;
-#X obj 296 444 == 127;
 #X obj 296 470 t b f;
 #X obj 37 440 && 1;
-#X connect 0 0 22 0;
-#X connect 0 0 31 0;
+#X obj 211 75 r midi-broadcast;
+#X obj 296 394 r midi-suppress;
+#X obj 296 417 swap 1;
+#X obj 296 440 -;
+#X text 380 428 take the complement \, because if suppress == 1 \,
+we need a 0 for the logical test so it fails., f 25;
+#X connect 0 0 19 0;
+#X connect 0 0 23 0;
 #X connect 1 0 0 1;
 #X connect 2 0 0 0;
 #X connect 3 0 4 0;
@@ -54,23 +50,21 @@ physical controls can be moved freely without changing values., f
 #X connect 7 0 0 0;
 #X connect 8 0 6 0;
 #X connect 14 0 15 0;
-#X connect 15 0 18 0;
-#X connect 15 1 31 0;
-#X connect 17 0 14 0;
-#X connect 18 0 0 0;
-#X connect 18 1 19 0;
-#X connect 19 0 31 0;
-#X connect 20 0 21 0;
-#X connect 21 0 22 0;
-#X connect 21 0 24 0;
-#X connect 21 0 31 0;
+#X connect 14 1 23 0;
+#X connect 15 0 0 0;
+#X connect 15 1 16 0;
+#X connect 16 0 23 0;
+#X connect 17 0 18 0;
+#X connect 18 0 19 0;
+#X connect 18 0 21 0;
+#X connect 18 0 23 0;
+#X connect 19 0 20 0;
+#X connect 20 0 18 1;
 #X connect 22 0 23 0;
-#X connect 23 0 21 1;
+#X connect 22 1 23 1;
+#X connect 23 0 11 0;
+#X connect 24 0 14 0;
 #X connect 25 0 26 0;
-#X connect 25 1 26 1;
-#X connect 26 0 29 0;
-#X connect 27 0 25 0;
-#X connect 29 0 30 0;
-#X connect 30 0 31 0;
-#X connect 30 1 31 1;
-#X connect 31 0 11 0;
+#X connect 26 0 27 0;
+#X connect 26 1 27 1;
+#X connect 27 0 22 0;
