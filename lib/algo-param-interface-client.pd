@@ -629,13 +629,13 @@ empty 50 5 0 12 -262144 -66577 0;
 #X obj 653 228 bng 15 250 50 0 player-\$1-algo-save-params player-\$1-algo-save-params-set
 save 17 7 0 12 -261234 -1 -1;
 #X obj 653 268 tgl 15 0 player-\$1-load-params player-\$1-load-params-set
-params 17 7 0 12 -262144 -1 -1 0 1;
+params 17 7 0 12 -262144 -1 -1 1 1;
 #X obj 653 288 tgl 15 0 player-\$1-load-bit-depth player-\$1-load-bit-depth-set
-bit 17 7 0 12 -262144 -1 -1 0 1;
+bit 17 7 0 12 -262144 -1 -1 1 1;
 #X obj 653 328 tgl 15 0 player-\$1-load-time player-\$1-load-time-set
-time 17 7 0 12 -262144 -1 -1 0 1;
+time 17 7 0 12 -262144 -1 -1 1 1;
 #X obj 653 308 tgl 15 0 player-\$1-load-tempo player-\$1-load-tempo-set
-tempo 17 7 0 12 -262144 -1 -1 0 1;
+tempo 17 7 0 12 -262144 -1 -1 1 1;
 #X obj 713 228 bng 15 250 50 0 player-\$1-algo-refresh-params player-\$1-algo-refresh-params-set
 r 4 8 0 12 -232576 -1 -1;
 #X obj 339 362 bng 15 250 50 0 player-\$1-algo-time-zero player-\$1-algo-time-zero-set
@@ -643,20 +643,22 @@ r 4 8 0 12 -232576 -1 -1;
 #X obj 359 362 bng 15 250 50 0 player-\$1-algo-time-rand player-\$1-algo-time-rand-set
 r 4 8 0 12 -262130 -1 -1;
 #X text 306 342 zero/random time;
-#X obj 539 362 bng 15 250 50 0 player-\$1-automation-killall player-\$1-automation-killall-set
+#X obj 559 362 bng 15 250 50 0 player-\$1-automation-killall player-\$1-automation-killall-set
 killall 20 7 0 12 -262144 -1 -1;
 #X obj 653 248 bng 15 250 50 0 player-\$1-algo-load-dialog player-\$1-algo-load-dialog-set
 load 17 7 0 12 -204786 -1 -1;
 #X obj 653 348 tgl 15 0 player-\$1-load-interp player-\$1-load-interp-set
-interp 17 7 0 12 -262144 -1 -1 0 1;
+interp 17 7 0 12 -262144 -1 -1 1 1;
 #X obj 519 362 bng 15 250 50 0 player-\$1-load-auto player-\$1-load-auto-set
 l 4 9 0 12 -204786 -1 -1;
 #X obj 499 362 bng 15 250 50 0 player-\$1-save-auto player-\$1-save-auto-set
 s 4 7 0 12 -261234 -1 -1;
-#X text 483 342 automation;
+#X text 493 342 automation;
 #X obj 479 362 bng 15 250 50 0 player-\$1-dup-auto-alt player-\$1-dup-auto-alt-set
 dup -28 7 0 12 -204786 -1 -1;
 #X obj 653 198 bng 15 250 50 0 player-\$1-dup-scene-alt player-\$1-dup-scene-alt-set
 dup-scene 18 7 0 12 -204786 -1 -1;
+#X obj 539 362 tgl 15 0 player-\$1-auto-rec player-\$1-auto-rec-set
+r 4 8 0 12 -258113 -1 -1 0 1;
 #X connect 43 0 69 0;
 #X coords 0 -1 1 1 650 210 2 100 185;
