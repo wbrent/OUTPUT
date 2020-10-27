@@ -17,8 +17,6 @@
 #X obj 444 193 text define midiNoteNames;
 #X obj 31 56 t b b b b;
 #X msg 444 62 \; master-block-size 2048 \;;
-#X msg 204 76 \; pd dsp 1 \; master-volume-set 90 \; master-output-stereo-mode-set
-0 \; visuals-xpos-set 100 \; visuals-show-data-set 1 \;;
 #X obj 85 338 loadbang;
 #X obj 85 396 print -n;
 #X msg 85 367 OUTPUT-master.pd dependencies: ofelia;
@@ -28,8 +26,10 @@
 #X msg 417 283 read -c ../data/outputAlgorithms.txt;
 #X obj 417 314 text define outputAlgorithms;
 #X obj 357 372 text size outputAlgorithms;
+#X msg 204 76 \; pd dsp 1 \; master-volume-set 90 \; master-output-stereo-mode-set
+0 \; plots-xpos-set 100 \; plots-show-data-set 1 \;;
 #X connect 0 0 12 0;
-#X connect 5 0 14 0;
+#X connect 5 0 23 0;
 #X connect 8 0 13 0;
 #X connect 9 0 10 0;
 #X connect 10 0 11 0;
@@ -37,13 +37,13 @@
 #X connect 12 1 3 0;
 #X connect 12 2 2 0;
 #X connect 12 3 1 0;
-#X connect 15 0 17 0;
-#X connect 17 0 16 0;
-#X connect 18 0 19 0;
-#X connect 19 0 23 0;
-#X connect 19 1 21 0;
-#X connect 21 0 22 0;
-#X connect 23 0 20 0;
+#X connect 14 0 16 0;
+#X connect 16 0 15 0;
+#X connect 17 0 18 0;
+#X connect 18 0 22 0;
+#X connect 18 1 20 0;
+#X connect 20 0 21 0;
+#X connect 22 0 19 0;
 #X restore 783 281 pd init;
 #N canvas 611 146 528 213 players 0;
 #X obj 32 28 algo-player 0;
@@ -68,8 +68,8 @@
 #X restore 783 301 pd players;
 #X obj 21 680 hsl 300 45 40 100 0 0 master-volume master-volume-set
 master-volume 8 24 0 32 -262144 -1 -1 24917 1;
-#X obj 18 731 bng 15 250 50 0 run-master-visuals empty plots 17 7 0
-12 -262144 -1 -1;
+#X obj 18 731 bng 15 250 50 0 run-master-plots empty plots 17 7 0 12
+-262144 -1 -1;
 #X obj 615 761 cpumeter;
 #X obj 18 250 control-panel-abs 2;
 #X obj 388 40 control-panel-abs 1;
@@ -749,15 +749,15 @@ the difference between the measured and desired level, f 27;
 #X obj 615 720 nbx 5 28 -1e+37 1e+37 0 0 empty connected-clients clients
 0 -8 0 18 -262144 -1 -1 0 256;
 #X obj 293 771 tgl 30 0 master-output-stereo-mode master-output-stereo-mode-set
-stereo-mode -170 16 0 24 -262144 -1 -1 0 1;
+stereo-mode -170 16 0 24 -262144 -1 -1 1 1;
 #X obj 18 781 tgl 15 0 master-output-record empty record 17 7 0 12
 -261234 -1 -1 0 1;
-#X obj 18 751 tgl 15 0 visuals-show-data visuals-show-data-set show-data
+#X obj 18 751 tgl 15 0 plots-show-data plots-show-data-set show-data
 17 7 0 12 -262144 -1 -1 1 1;
-#X floatatom 118 731 5 0 0 0 - visuals-xpos-set visuals-xpos;
+#X floatatom 118 731 5 0 0 0 - plots-xpos-set plots-xpos;
 #X obj 158 731 bng 15 250 50 0 timer-reset empty timer-reset 17 7 0
 12 -262144 -1 -1;
-#N canvas 1028 183 610 441 plotting-subprocess 0;
+#N canvas 964 167 610 441 plotting-subprocess 0;
 #X msg 113 150 pd~ stop;
 #N canvas 662 254 902 382 blocking 0;
 #X obj 146 152 tabreceive~ player-0-raw-output-plot;
@@ -779,11 +779,6 @@ stereo-mode -170 16 0 24 -262144 -1 -1 0 1;
 #X connect 10 0 4 0;
 #X restore 304 293 pd blocking;
 #N canvas 555 208 463 300 send-data-transfer 0;
-#X obj 64 166 ./visuals/lib/sub-data-prep visuals-show-data;
-#X obj 64 196 ./visuals/lib/sub-data-prep visuals-xpos;
-#X obj 64 256 clone ./visuals/lib/player-data-for-sub 4;
-#X obj 64 23 r run-master-visuals;
-#X msg 64 46 run-master-visuals bang;
 #X obj 64 69 s pd-subprocess-send;
 #X obj 274 69 s pd-subprocess-send;
 #X msg 274 46 timer-reset bang;
@@ -791,23 +786,29 @@ stereo-mode -170 16 0 24 -262144 -1 -1 0 1;
 #X text 64 99 Sending a bang to the subprocess should be done this
 way. The sub-data-prep.pd abstraction won't send bangs because of list
 processing details.;
-#X connect 3 0 4 0;
-#X connect 4 0 5 0;
-#X connect 7 0 6 0;
-#X connect 8 0 7 0;
+#X obj 64 166 ./plotting/lib/sub-data-prep plots-show-data;
+#X obj 64 196 ./plotting/lib/sub-data-prep plots-xpos;
+#X obj 64 23 r run-master-plots;
+#X msg 64 46 run-master-plots bang;
+#X obj 64 256 clone ./plotting/lib/player-data-for-sub 4;
+#X connect 2 0 1 0;
+#X connect 3 0 2 0;
+#X connect 7 0 8 0;
+#X connect 8 0 0 0;
 #X restore 327 189 pd send-data-transfer;
 #X obj 207 257 r pd-subprocess-send;
 #X obj 56 27 r lb1;
 #X obj 173 350 pd~ -ninsig 4 -noutsig 0 -fifo 4;
-#X msg 56 82 pd~ start -nogui ./visuals/run-visuals-subprocess.pd;
-#X msg 206 133 pd~ start ./visuals/run-visuals-subprocess.pd;
+#X msg 206 133 pd~ start ./plotting/run-plotting-subprocess.pd;
+#X msg 56 82 pd~ start -nogui ./plotting/run-plotting-subprocess.pd
+;
 #X connect 0 0 5 0;
 #X connect 1 0 5 0;
 #X connect 1 1 5 1;
 #X connect 1 2 5 2;
 #X connect 1 3 5 3;
 #X connect 3 0 5 0;
-#X connect 4 0 6 0;
+#X connect 4 0 7 0;
 #X connect 6 0 5 0;
 #X connect 7 0 5 0;
 #X restore 783 371 pd plotting-subprocess;

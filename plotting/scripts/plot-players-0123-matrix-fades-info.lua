@@ -28,8 +28,8 @@ local player1brightness = ofValue("player-1-draw-brightness")
 local player2brightness = ofValue("player-2-draw-brightness")
 local player3brightness = ofValue("player-3-draw-brightness")
 
-local showData = ofValue("visuals-show-data-ofValue")
-local xPos = ofValue("visuals-xpos-ofValue")
+local showData = ofValue("plots-show-data-ofValue")
+local xPos = ofValue("plots-xpos-ofValue")
 
 local player0gain = ofValue("player-0-gain-ofValue")
 local player0algo = ofValue("player-0-algo-select-ofValue")
