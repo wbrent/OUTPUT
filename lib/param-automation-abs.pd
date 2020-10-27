@@ -1,4 +1,4 @@
-#N canvas 477 123 840 592 12;
+#N canvas 477 123 840 640 12;
 #X obj 56 233 select rec play stop;
 #X obj 101 275 t b b;
 #X text 154 57 auto voice ID \, command symbol;
@@ -345,12 +345,12 @@ player-\$2-pitch-bend-range-set player-\$2-dry-wet-set player-\$2-rvb-liveness-s
 ;
 #X obj 131 443 r player-\$2-last-MIDI-trig-send-name;
 #X obj 663 63 inlet;
-#X obj 92 498 s \$0-sampled-send-name;
+#X obj 92 548 s \$0-sampled-send-name;
 #X obj 112 410 s \$0-rec-init;
 #X obj 161 303 s \$0-play-init;
 #X obj 101 332 s \$0-play-start;
 #X obj 165 264 s \$0-stop;
-#X obj 56 528 s \$0-rec-start;
+#X obj 56 578 s \$0-rec-start;
 #N canvas 103 180 557 670 data-writing 0;
 #X obj 121 535 f;
 #X obj 239 527 + 1;
@@ -693,6 +693,13 @@ player-\$1- \, and this process stops at the first sight of numbers
 #X obj 500 414 r \$0-is-playing;
 #X obj 500 441 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
+#X obj 112 513 s player-\$2-last-MIDI-trig-send-name;
+#X text 384 513 re-transmit the most recent MIDI-trig-send-name when
+recording starts. this will break automation for any other voices that
+are controlling the respective parameter. this solves a bug where automation
+is recorded for a parameter \, no other MIDI controls are touched \,
+and then auto record is activated again. that scenario caused two voices
+to automate the same parameter.;
 #X connect 0 0 7 0;
 #X connect 0 1 1 0;
 #X connect 0 2 20 0;
@@ -700,6 +707,7 @@ player-\$1- \, and this process stops at the first sight of numbers
 #X connect 1 1 18 0;
 #X connect 3 0 0 0;
 #X connect 4 0 16 0;
+#X connect 4 0 30 0;
 #X connect 7 0 21 0;
 #X connect 7 1 4 0;
 #X connect 7 2 17 0;
