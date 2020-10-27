@@ -2616,7 +2616,7 @@ outlet 1 \; 1 1 1: outlet 1 \;;
 #X msg 307 345 label recording-automation-data...;
 #X msg 112 345 255 160 160;
 #X obj 449 217 table \$0-player-notice-states 3;
-#N canvas 306 117 533 266 clear-auto-rec 0;
+#N canvas 306 117 784 297 clear-auto-rec 0;
 #X obj 46 62 inlet;
 #X text 275 54 just in case the MIDI suppress function suppressed the
 release of the automation recording button \, we should force auto
@@ -2625,11 +2625,17 @@ rec to OFF as a special case., f 25;
 #X msg 136 168 \; player-\$1-auto-rec-set 0 \;;
 #X obj 46 85 t b b;
 #X obj 46 158 outlet;
+#X text 346 175 this didn't work out because it triggered re-start
+of automation playback for the most recent auto voice every time MIDI
+suppress is activated or de-activated. if we really want this \, we
+should test that it's a release of MIDI suppress && that auto rec is
+currently active. in that case \, it's probably safe to force auto
+rec to OFF.;
 #X connect 0 0 4 0;
 #X connect 2 0 3 0;
 #X connect 4 0 5 0;
 #X connect 4 1 2 0;
-#X restore 32 122 pd clear-auto-rec;
+#X restore 12 122 pd clear-auto-rec;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
 #X connect 2 0 6 0;
@@ -2646,7 +2652,7 @@ rec to OFF as a special case., f 25;
 #X connect 13 2 14 0;
 #X connect 14 0 18 1;
 #X connect 15 0 18 1;
-#X connect 16 0 25 0;
+#X connect 16 0 17 0;
 #X connect 16 1 18 0;
 #X connect 16 2 15 0;
 #X connect 17 0 3 0;
@@ -2664,7 +2670,6 @@ rec to OFF as a special case., f 25;
 #X connect 21 0 20 0;
 #X connect 22 0 5 0;
 #X connect 23 0 0 0;
-#X connect 25 0 17 0;
 #X restore 264 314 pd player-notifications;
 #X coords 0 -1 1 1 1010 210 2 20 20;
 #X restore 10 18 pd panel;
