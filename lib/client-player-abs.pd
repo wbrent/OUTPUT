@@ -1,4 +1,4 @@
-#N canvas 845 522 786 405 16;
+#N canvas 870 492 786 405 16;
 #X declare -path ../src;
 #X declare -lib zexy;
 #N canvas 167 216 1371 596 init 0;
@@ -344,7 +344,7 @@ physical controls can be moved freely without changing values., f
 #X obj 31 60 > 0;
 #X obj 461 196 > 0;
 #N canvas 1168 201 611 466 global-player-config 0;
-#N canvas 467 252 782 243 scene-save-load 0;
+#N canvas 912 218 782 243 scene-save-load 0;
 #X text 390 57 scene saving/loading is global for players A and B \,
 so need to feed \$1 and \$2 to the abstraction as the player ID, f
 30;
@@ -383,7 +383,6 @@ so need to feed \$1 and \$2 to the abstraction as the player ID, f
 #X obj 181 49 swap 1;
 #X obj 28 121 ctlin 11;
 #X obj 308 121 ctlin 14;
-#X connect 0 0 1 0;
 #X connect 0 0 7 0;
 #X connect 1 0 2 0;
 #X connect 2 0 0 1;
@@ -394,8 +393,8 @@ so need to feed \$1 and \$2 to the abstraction as the player ID, f
 #X connect 6 0 1 0;
 #X connect 7 0 5 0;
 #X connect 7 1 19 0;
+#X connect 7 1 1 0;
 #X connect 8 0 3 0;
-#X connect 9 0 10 0;
 #X connect 9 0 16 0;
 #X connect 10 0 11 0;
 #X connect 11 0 9 1;
@@ -406,6 +405,7 @@ so need to feed \$1 and \$2 to the abstraction as the player ID, f
 #X connect 15 0 10 0;
 #X connect 16 0 14 0;
 #X connect 16 1 20 0;
+#X connect 16 1 10 0;
 #X connect 17 0 12 0;
 #X connect 18 0 6 0;
 #X connect 21 0 15 0;
@@ -468,7 +468,7 @@ gains and mutes, f 33;
 #X connect 9 0 7 0;
 #X connect 10 0 8 0;
 #X restore 38 319 pd muting-automation;
-#N canvas 284 354 783 506 gain 0;
+#N canvas 159 311 783 506 gain 0;
 #X obj 28 266 / 127;
 #X obj 156 281 * 127;
 #X obj 28 226 t f b;
