@@ -527,9 +527,9 @@ s 4 8 0 12 -262144 -1 -1 1 1;
 #X restore 233 68 pd levels;
 #X obj 18 68 cnv 15 120 100 empty empty plots 5 10 0 12 -228856 -1
 0;
-#X obj 28 89 bng 15 250 50 0 run-master-visuals empty open 17 7 0 12
+#X obj 28 89 bng 15 250 50 0 run-master-plots empty open 17 7 0 12
 -262144 -1 -1;
-#X obj 28 129 tgl 15 0 visuals-show-data visuals-show-data-set show-data
+#X obj 28 129 tgl 15 0 plots-show-data plots-show-data-set show-data
 17 7 0 12 -262144 -1 -1 1 1;
 #X obj 142 68 cnv 15 87 45 empty empty scenes 5 10 0 12 -233017 -1
 0;
@@ -630,13 +630,13 @@ color \$1 \;;
 #X text 681 166 Here's a hack that will set the master's control-panel-abs
 active player canvas color to white. That way we can focus on just
 the control panels that are relevant to the client, f 42;
-#X msg 204 76 \; pd dsp 1 \; master-volume-set 90 \; master-output-stereo-mode-set
-1 \; visuals-xpos-set 100 \; visuals-winScale-set 1 \; visuals-show-data-set
-1 \;;
 #X msg 85 457 OUTPUT-client.pd dependencies: hcs | motex | ofelia |
 tof | zexy;
+#X msg 204 76 \; pd dsp 1 \; master-volume-set 90 \; master-output-stereo-mode-set
+1 \; plots-xpos-set 100 \; plots-winScale-set 1 \; plots-show-data-set
+1 \;;
 #X connect 0 0 12 0;
-#X connect 5 0 27 0;
+#X connect 5 0 28 0;
 #X connect 8 0 13 0;
 #X connect 9 0 10 0;
 #X connect 10 0 11 0;
@@ -644,7 +644,7 @@ tof | zexy;
 #X connect 12 1 3 0;
 #X connect 12 2 2 0;
 #X connect 12 3 1 0;
-#X connect 14 0 28 0;
+#X connect 14 0 27 0;
 #X connect 16 0 17 0;
 #X connect 17 0 21 0;
 #X connect 17 1 19 0;
@@ -653,7 +653,7 @@ tof | zexy;
 #X connect 22 0 24 0;
 #X connect 23 0 25 0;
 #X connect 24 0 23 0;
-#X connect 28 0 15 0;
+#X connect 27 0 15 0;
 #X restore 385 67 pd init;
 #N canvas 1051 340 599 452 netconnect-init 0;
 #X obj 30 52 t b b b b;
@@ -872,9 +872,8 @@ cases like this...;
 #X connect 19 2 23 0;
 #X connect 20 0 18 0;
 #X restore 385 227 pd scenes;
-#X floatatom 88 149 5 0.1 5 1 s visuals-winScale-set visuals-winScale
-;
-#X floatatom 28 149 5 0 0 1 x visuals-xpos-set visuals-xpos;
+#X floatatom 88 149 5 0.1 5 1 s plots-winScale-set plots-winScale;
+#X floatatom 28 149 5 0 0 1 x plots-xpos-set plots-xpos;
 #N canvas 201 76 265 191 monitor-signals 0;
 #X obj 48 121 dac~ 9 10;
 #X obj 48 31 r~ player-2-monitor;
@@ -910,11 +909,6 @@ empty 0 -8 0 10 -262144 -1 -1 0;
 #X connect 10 0 4 0;
 #X restore 304 293 pd blocking;
 #N canvas 555 208 463 300 send-data-transfer 0;
-#X obj 64 166 ./visuals/lib/sub-data-prep visuals-show-data;
-#X obj 64 196 ./visuals/lib/sub-data-prep visuals-xpos;
-#X obj 64 256 clone ./visuals/lib/player-data-for-sub 4;
-#X obj 64 23 r run-master-visuals;
-#X msg 64 46 run-master-visuals bang;
 #X obj 64 69 s pd-subprocess-send;
 #X obj 274 69 s pd-subprocess-send;
 #X msg 274 46 timer-reset bang;
@@ -922,32 +916,37 @@ empty 0 -8 0 10 -262144 -1 -1 0;
 #X text 64 99 Sending a bang to the subprocess should be done this
 way. The sub-data-prep.pd abstraction won't send bangs because of list
 processing details.;
-#X obj 64 226 ./visuals/lib/sub-data-prep visuals-winScale;
-#X connect 3 0 4 0;
-#X connect 4 0 5 0;
-#X connect 7 0 6 0;
-#X connect 8 0 7 0;
+#X obj 64 166 ./plotting/lib/sub-data-prep plots-show-data;
+#X obj 64 196 ./plotting/lib/sub-data-prep plots-xpos;
+#X obj 64 226 ./plotting/lib/sub-data-prep plots-winScale;
+#X obj 64 256 clone ./plotting/lib/player-data-for-sub 4;
+#X obj 64 23 r run-master-plots;
+#X msg 64 46 run-master-plots bang;
+#X connect 2 0 1 0;
+#X connect 3 0 2 0;
+#X connect 9 0 10 0;
+#X connect 10 0 0 0;
 #X restore 327 189 pd send-data-transfer;
 #X obj 207 257 r pd-subprocess-send;
 #X obj 56 27 r lb1;
 #X obj 173 350 pd~ -ninsig 4 -noutsig 0 -fifo 4;
-#X msg 206 133 pd~ start ./visuals/run-visuals-subprocess.pd;
 #X msg 56 49 dir;
 #X obj 56 69 pdcontrol;
-#X obj 56 89 makefilename %s/visuals/run-visuals-subprocess.pd;
 #X msg 56 122 pd~ start -nogui \$1;
+#X msg 206 133 pd~ start ./plotting/run-plotting-subprocess.pd;
+#X obj 56 89 makefilename %s/plotting/run-plotting-subprocess.pd;
 #X connect 0 0 5 0;
 #X connect 1 0 5 0;
 #X connect 1 1 5 1;
 #X connect 1 2 5 2;
 #X connect 1 3 5 3;
 #X connect 3 0 5 0;
-#X connect 4 0 7 0;
-#X connect 6 0 5 0;
-#X connect 7 0 8 0;
-#X connect 8 0 9 0;
-#X connect 9 0 10 0;
-#X connect 10 0 5 0;
+#X connect 4 0 6 0;
+#X connect 6 0 7 0;
+#X connect 7 0 10 0;
+#X connect 8 0 5 0;
+#X connect 9 0 5 0;
+#X connect 10 0 8 0;
 #X restore 385 247 pd plotting-subprocess;
 #N canvas 364 130 753 369 interface-misc 0;
 #X obj 382 166 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
