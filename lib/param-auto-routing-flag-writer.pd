@@ -1,0 +1,8 @@
+#N canvas 1181 251 450 300 12;
+#X obj 71 93 inlet;
+#X obj 71 116 pack \$1 \$2;
+#X text 254 37 \$1: auto param ID \; \$2: parent \$0 value \;;
+#X msg 71 139 \; \$2-routing-flags const 0 \; \$2-routing-flags \$1
+1 \;;
+#X connect 0 0 1 0;
+#X connect 1 0 3 0;
