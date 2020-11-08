@@ -192,8 +192,8 @@ locally \, here on the master side., f 29;
 #X obj 18 179 bng 15 250 50 0 sync-time-with-remote empty sync-with-remote
 17 7 0 12 -232576 -1 -1;
 #N canvas 243 214 379 443 client-control-panels 0;
-#X obj 8 8 control-panel-abs 2;
-#X obj 8 218 control-panel-abs 3;
+#X obj 8 8 control-panel-abs 2 1;
+#X obj 8 218 control-panel-abs 3 1;
 #X restore 385 107 pd client-control-panels;
 #N canvas 341 270 735 672 scenes 0;
 #X obj 122 157 pdcontrol;

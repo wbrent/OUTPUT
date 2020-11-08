@@ -1,5 +1,4 @@
-#N canvas 172 352 899 442 10;
-#X obj 625 81 f \$1;
+#N canvas 172 352 727 442 10;
 #X obj 25 295 pack f \$1;
 #X msg 25 268 1;
 #X text 294 61 REVERB;
@@ -306,7 +305,9 @@ r 4 7 0 10 -262130 -1 -1 0 1;
 #X obj 417 363 r dummy;
 #X text 370 388 dummy receive for any GUI element sends needed to remove
 outlets, f 26;
-#X msg 625 112 \; player-\$1-gain-set 40 \; player-\$1-mute-set 0 \;
+#N canvas 408 162 432 609 init-gui-panel 0;
+#X obj 47 295 f \$1;
+#X msg 47 326 \; player-\$1-gain-set 40 \; player-\$1-mute-set 0 \;
 player-\$1-bit-depth-set 8 \; player-\$1-dry-wet-set 50 \; player-\$1-rvb-liveness-set
 80 \; player-\$1-rvb-xover-set 3000 \; player-\$1-rvb-damping-set 30
 \; player-\$1-spat-width-set 0.85 \; player-\$1-spat-pos-set 0.5 \;
@@ -316,13 +317,41 @@ player-\$1-compute-set 1 \; player-\$1-interpolation-set 1 \; player-\$1-algo-se
 0 \; player-\$1-tempo-set 10.8844 \; player-\$1-time-reverse-set 0
 \; player-\$1-time-index-set 0 \; player-\$1-kbd-control-set 0 \; player-\$1-asr-kbd-set
 0 \; player-\$1-asr-time-set 50 \;;
-#X obj 625 56 r lb4-c;
-#X connect 0 0 53 0;
-#X connect 1 0 12 0;
-#X connect 2 0 1 0;
-#X connect 19 0 2 0;
+#X obj 47 120 r lb4-c;
+#X obj 245 38 loadbang;
+#X obj 245 58 f \$2;
+#X obj 245 78 swap 1;
+#X obj 245 98 -;
+#X obj 47 220 spigot;
+#X obj 107 190 one-bang;
+#X obj 107 220 spigot;
+#X obj 225 58 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 157 220 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 27 220 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X connect 0 0 1 0;
+#X connect 2 0 7 0;
+#X connect 2 0 8 0;
+#X connect 3 0 4 0;
+#X connect 4 0 5 0;
+#X connect 4 0 9 1;
+#X connect 4 0 11 0;
+#X connect 4 0 10 0;
+#X connect 5 0 6 0;
+#X connect 5 1 6 1;
+#X connect 6 0 7 1;
+#X connect 6 0 12 0;
+#X connect 7 0 0 0;
+#X connect 8 0 9 0;
+#X connect 9 0 0 0;
+#X restore 437 38 pd init-gui-panel;
+#X text 578 56 \$1: player ID \; \$2: init suppress flag;
+#X connect 0 0 11 0;
+#X connect 1 0 0 0;
+#X connect 18 0 1 0;
+#X connect 35 0 37 0;
 #X connect 36 0 38 0;
-#X connect 37 0 39 0;
-#X connect 38 0 37 0;
-#X connect 54 0 0 0;
+#X connect 37 0 36 0;
 #X coords 0 -1 1 1 360 210 2 50 50;
