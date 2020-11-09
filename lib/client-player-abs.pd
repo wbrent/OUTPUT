@@ -1,7 +1,8 @@
 #N canvas 870 492 786 405 16;
 #X declare -path ../src;
 #X declare -lib zexy;
-#N canvas 167 216 1371 596 init 0;
+#X declare -path ./audio-over-ip;
+#N canvas 167 216 1371 679 init 0;
 #X obj 30 52 t b b b b;
 #X obj 30 186 s lb4;
 #X obj 120 96 s lb1;
@@ -85,6 +86,10 @@
 #X obj 766 458 declare -lib zexy;
 #X msg 698 245 client-player-abs.pd dependencies: hcs | motex | tof
 | zexy 2.3.1;
+#X obj 766 518 declare -path ./audio-over-ip;
+#X obj 629 522 r lb1;
+#X obj 629 551 f \$0;
+#X msg 629 591 \; quack-panel-\$1 delay 50 \;;
 #X connect 0 0 1 0;
 #X connect 0 1 4 0;
 #X connect 0 2 3 0;
@@ -106,6 +111,8 @@
 #X connect 27 0 30 0;
 #X connect 28 0 33 0;
 #X connect 33 0 29 0;
+#X connect 35 0 36 0;
+#X connect 36 0 37 0;
 #X restore 47 209 pd init;
 #N canvas 153 112 883 711 netsend 0;
 #X obj 368 342 r netsend-data-hub;
@@ -147,8 +154,12 @@ bang \;;
 #X restore 461 409 pd parsing-and-transmission;
 #X obj 406 233 r master-ip-address;
 #X obj 59 385 s connected-ip-address;
-#X obj 443 138 bng 15 250 50 0 net-connect-init empty i 5 8 0 10 -262144
+#X obj 443 139 bng 15 250 50 0 net-connect-init empty i 5 8 0 10 -262144
 -1 -1;
+#X obj 403 139 bng 15 250 50 0 empty empty empty 17 7 0 12 -4032 -1
+-1;
+#X obj 559 85 f \$0;
+#X msg 559 115 \; pd-\$1-aoip vis 1 \;;
 #X connect 0 0 2 0;
 #X connect 1 0 2 0;
 #X connect 2 0 5 0;
@@ -163,6 +174,8 @@ bang \;;
 #X connect 10 1 1 0;
 #X connect 12 0 6 0;
 #X connect 14 0 9 1;
+#X connect 17 0 18 0;
+#X connect 18 0 19 0;
 #X coords 0 -1 1 1 165 60 2 300 100;
 #X restore 46 66 pd netsend;
 #X obj 216 66 bng 20 250 50 0 empty empty A 6 10 0 14 -204786 -1 -1
@@ -174,7 +187,7 @@ bang \;;
 #X obj 332 208 clone -s \$1 client-control-interface 2;
 #X obj 442 134 f \$2;
 #X obj 347 324 clone -s \$1 algo-player-client 2;
-#X obj 169 104 tgl 15 0 global-kbd-control global-kbd-control-set k
+#X obj 169 105 tgl 15 0 global-kbd-control global-kbd-control-set k
 5 7 0 10 -262144 -1 -1 0 1;
 #N canvas 816 290 450 300 interface 0;
 #X obj 74 81 r global-kbd-control;
@@ -685,6 +698,12 @@ gains and mutes, f 33;
 #X connect 17 0 1 1;
 #X restore 50 89 pd player-muting;
 #X restore 47 269 pd cpu-keyboard-mapping;
+#N canvas 1228 87 417 524 \$0-aoip 0;
+#X obj 54 372 out-panel;
+#X obj 54 38 quack-panel \$0;
+#X connect 1 0 0 0;
+#X connect 1 1 0 1;
+#X restore 47 359 pd \$0-aoip;
 #X connect 2 0 4 0;
 #X connect 3 0 6 0;
 #X connect 4 0 3 0;

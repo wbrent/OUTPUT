@@ -1,6 +1,7 @@
 #N canvas 63 154 773 829 10;
 #X declare -path ./lib;
 #X declare -path ./src;
+#X declare -path ./lib/audio-over-ip;
 #N canvas 58 89 957 837 control-panel 0;
 #N canvas 323 229 686 448 init 0;
 #X obj 31 24 loadbang;
@@ -9,8 +10,8 @@
 #X obj 65 175 s lb3;
 #X obj 31 205 s lb4;
 #X obj 204 33 r lb4;
-#X obj 85 278 declare -path ./lib;
-#X obj 85 298 declare -path ./src;
+#X obj 85 248 declare -path ./lib;
+#X obj 85 268 declare -path ./src;
 #X obj 444 33 r lb1;
 #X obj 444 143 r lb1;
 #X msg 444 172 read -c ./data/midiNoteNames.txt;
@@ -28,6 +29,7 @@
 #X obj 357 372 text size outputAlgorithms;
 #X msg 204 76 \; pd dsp 1 \; master-volume-set 90 \; master-output-stereo-mode-set
 0 \; plots-xpos-set 100 \; plots-show-data-set 1 \;;
+#X obj 85 288 declare -path ./lib/audio-over-ip;
 #X connect 0 0 12 0;
 #X connect 5 0 23 0;
 #X connect 8 0 13 0;
@@ -630,6 +632,16 @@ the difference between the measured and desired level, f 27;
 #X msg 567 541 open \$1;
 #X msg 517 568 start;
 #X obj 517 521 t b a;
+#N canvas 1029 181 768 460 aoIP 0;
+#X obj 54 39 inlet~;
+#X obj 164 39 inlet~;
+#X obj 54 109 quack-panel 23;
+#X obj 404 109 quack-panel 45;
+#X connect 0 0 2 0;
+#X connect 0 0 3 0;
+#X connect 1 0 2 1;
+#X connect 1 0 3 1;
+#X restore 240 290 pd aoIP;
 #X connect 0 0 18 0;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
@@ -674,6 +686,7 @@ the difference between the measured and desired level, f 27;
 #X connect 43 0 25 0;
 #X connect 43 0 0 0;
 #X connect 43 0 57 0;
+#X connect 43 0 65 0;
 #X connect 44 0 51 0;
 #X connect 45 0 52 0;
 #X connect 46 0 53 0;
@@ -683,6 +696,7 @@ the difference between the measured and desired level, f 27;
 #X connect 50 0 4 0;
 #X connect 50 0 27 0;
 #X connect 50 0 57 1;
+#X connect 50 0 65 1;
 #X connect 51 0 19 0;
 #X connect 51 0 29 0;
 #X connect 52 0 20 0;
@@ -706,10 +720,10 @@ the difference between the measured and desired level, f 27;
 #X connect 64 1 62 0;
 #X coords 0 -1 1 1 250 120 1 60 400;
 #X restore 345 681 pd output;
-#N canvas 364 130 492 440 interface 0;
-#X obj 87 374 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X obj 87 394 s all-player-print;
+#N canvas 364 130 541 673 interface 0;
+#X obj 374 159 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 374 179 s all-player-print;
 #X msg 41 117 6;
 #X obj 41 146 t f b;
 #X obj 41 175 until;
@@ -726,6 +740,16 @@ the difference between the measured and desired level, f 27;
 #X obj 261 86 r get-all-player-times;
 #X obj 41 86 r reset-all-player-clocks;
 #X msg 41 283 \; player-\$1-time-index-set 0 \;;
+#X msg 41 433 \; quack-panel-23 call-name \$2 \, server foo.ucsd.edu
+\, on-off \$1 \;;
+#X obj 91 373 r aoip-23-call-name;
+#X obj 41 343 r aoip-23-call-on-off;
+#X obj 41 403 pack f s;
+#X obj 41 553 pack f s;
+#X obj 41 493 r aoip-45-call-on-off;
+#X obj 91 523 r aoip-45-call-name;
+#X msg 41 583 \; quack-panel-45 call-name \$2 \, server foo.ucsd.edu
+\, on-off \$1 \;;
 #X connect 0 0 1 0;
 #X connect 2 0 3 0;
 #X connect 3 0 4 0;
@@ -745,14 +769,20 @@ the difference between the measured and desired level, f 27;
 #X connect 13 0 11 1;
 #X connect 15 0 8 0;
 #X connect 16 0 2 0;
+#X connect 19 0 21 1;
+#X connect 20 0 21 0;
+#X connect 21 0 18 0;
+#X connect 22 0 25 0;
+#X connect 23 0 22 0;
+#X connect 24 0 22 1;
 #X restore 783 341 pd interface;
 #X obj 615 720 nbx 5 28 -1e+37 1e+37 0 0 empty connected-clients clients
 0 -8 0 18 -262144 -1 -1 0 256;
-#X obj 293 771 tgl 30 0 master-output-stereo-mode master-output-stereo-mode-set
-stereo-mode -170 16 0 24 -262144 -1 -1 1 1;
-#X obj 18 781 tgl 15 0 master-output-record empty record 17 7 0 12
+#X obj 18 767 tgl 15 0 master-output-stereo-mode master-output-stereo-mode-set
+stereo 20 8 0 12 -262144 -1 -1 0 1;
+#X obj 18 787 tgl 15 0 master-output-record empty record 17 7 0 12
 -261234 -1 -1 0 1;
-#X obj 18 751 tgl 15 0 plots-show-data plots-show-data-set show-data
+#X obj 258 731 tgl 15 0 plots-show-data plots-show-data-set show-data
 17 7 0 12 -262144 -1 -1 1 1;
 #X floatatom 118 731 5 0 0 0 - plots-xpos-set plots-xpos;
 #X obj 158 731 bng 15 250 50 0 timer-reset empty timer-reset 17 7 0
@@ -812,6 +842,14 @@ processing details.;
 #X connect 6 0 5 0;
 #X connect 7 0 5 0;
 #X restore 783 371 pd plotting-subprocess;
+#X symbolatom 148 767 20 0 0 1 aoIP-23 aoip-23-call-name-set aoip-23-call-name
+;
+#X obj 118 767 tgl 15 0 aoip-23-call-on-off empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X symbolatom 148 787 20 0 0 1 aoIP-45 aoip-45-call-name-set aoip-45-call-name
+;
+#X obj 118 787 tgl 15 0 aoip-45-call-on-off empty empty 17 7 0 10 -262144
+-1 -1 0 1;
 #X coords 0 -1 1 1 750 800 1 10 10;
 #X restore 11 12 pd control-panel;
 #X coords 0 829 1 828 1100 600 0;
