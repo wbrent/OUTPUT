@@ -1,8 +1,8 @@
-#N canvas 63 154 773 829 10;
+#N canvas 53 146 773 829 10;
 #X declare -path ./lib;
 #X declare -path ./src;
 #X declare -path ./lib/audio-over-ip;
-#N canvas 58 89 957 837 control-panel 0;
+#N canvas 48 89 957 837 control-panel 0;
 #N canvas 323 229 686 448 init 0;
 #X obj 31 24 loadbang;
 #X obj 123 115 s lb1;
@@ -69,7 +69,7 @@
 #X obj 353 159 spat-abs-2 player-5;
 #X restore 783 301 pd players;
 #X obj 21 680 hsl 300 45 40 100 0 0 master-volume master-volume-set
-master-volume 8 24 0 32 -262144 -1 -1 24917 1;
+master-volume 8 24 0 32 -262144 -1 -1 23817 1;
 #X obj 18 731 bng 15 250 50 0 run-master-plots empty plots 17 7 0 12
 -262144 -1 -1;
 #X obj 615 761 cpumeter;
@@ -194,7 +194,7 @@ object, f 23;
 #X connect 15 0 10 0;
 #X connect 16 0 9 1;
 #X restore 783 321 pd netreceive;
-#N canvas 35 50 1405 612 output 0;
+#N canvas 25 89 1357 614 output 0;
 #X obj 58 141 *~;
 #X obj 1242 194 dbtorms;
 #X obj 1242 223 pack f 40;
@@ -642,6 +642,33 @@ the difference between the measured and desired level, f 27;
 #X connect 1 0 2 1;
 #X connect 1 0 3 1;
 #X restore 240 290 pd aoIP;
+#N canvas 560 367 910 430 multitrack-recording 0;
+#X obj 48 35 r~ player-0-L;
+#X obj 148 35 r~ player-0-R;
+#X obj 248 35 r~ player-1-L;
+#X obj 348 35 r~ player-1-R;
+#X obj 458 35 r~ player-2-L;
+#X obj 558 35 r~ player-2-R;
+#X obj 658 35 r~ player-3-L;
+#X obj 48 388 dac~ 9 10 11 12 13 14 15 16 17 18 19 20;
+#X obj 758 35 r~ player-3-R;
+#X obj 700 109 r~ player-0-prefader-output;
+#X obj 710 129 r~ player-1-prefader-output;
+#X obj 720 149 r~ player-2-prefader-output;
+#X obj 730 169 r~ player-3-prefader-output;
+#X connect 0 0 7 0;
+#X connect 1 0 7 1;
+#X connect 2 0 7 2;
+#X connect 3 0 7 3;
+#X connect 4 0 7 4;
+#X connect 5 0 7 5;
+#X connect 6 0 7 6;
+#X connect 8 0 7 7;
+#X connect 9 0 7 8;
+#X connect 10 0 7 9;
+#X connect 11 0 7 10;
+#X connect 12 0 7 11;
+#X restore 666 521 pd multitrack-recording;
 #X connect 0 0 18 0;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
@@ -779,7 +806,7 @@ the difference between the measured and desired level, f 27;
 #X obj 615 720 nbx 5 28 -1e+37 1e+37 0 0 empty connected-clients clients
 0 -8 0 18 -262144 -1 -1 0 256;
 #X obj 18 767 tgl 15 0 master-output-stereo-mode master-output-stereo-mode-set
-stereo 20 8 0 12 -262144 -1 -1 0 1;
+stereo 20 8 0 12 -262144 -1 -1 1 1;
 #X obj 18 787 tgl 15 0 master-output-record empty record 17 7 0 12
 -261234 -1 -1 0 1;
 #X obj 258 731 tgl 15 0 plots-show-data plots-show-data-set show-data

@@ -1,9 +1,9 @@
-#N canvas 983 234 715 674 10;
+#N canvas 973 226 715 674 10;
 #X obj 75 236 +~ 1;
 #X obj 60 357 *~;
 #X obj 160 357 *~;
-#X obj 60 386 throw~ out-1;
-#X obj 160 386 throw~ out-2;
+#X obj 60 406 throw~ out-1;
+#X obj 160 406 throw~ out-2;
 #N canvas 0 22 450 300 (subpatch) 0;
 #X array \$0-spat-curve 200 float 2;
 #X coords 0 100 200 0 200 140 1 0 0;
@@ -113,9 +113,13 @@ width, f 32;
 the stereo case. this means that 0 is hard left \, 0.5 is hard right
 \, and transitioning toward 1 from there moves toward hard left again.
 ;
+#X obj 70 386 s~ \$1-L;
+#X obj 170 386 s~ \$1-R;
 #X connect 0 0 21 0;
 #X connect 1 0 3 0;
+#X connect 1 0 29 0;
 #X connect 2 0 4 0;
+#X connect 2 0 30 0;
 #X connect 7 0 0 0;
 #X connect 9 0 1 1;
 #X connect 10 0 7 0;
